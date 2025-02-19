@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/SaidiTakwa1/pom.xml" />
+        <option value="$PROJECT_DIR$/springProject2/pom.xml" />
+        <option value="$PROJECT_DIR$/services/SaidiTakwa1/pom.xml" />
+        <option value="$PROJECT_DIR$/services/springProject2/pom.xml" />
+        <option value="$PROJECT_DIR$/services/config-server/pom.xml" />
+        <option value="$PROJECT_DIR$/services/discovery/pom.xml" />
+        <option value="$PROJECT_DIR$/services/order/pom.xml" />
+        <option value="$PROJECT_DIR$/services/gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/services/gatew/pom.xml" />
+        <option value="$PROJECT_DIR$/services/intershipproccess/pom.xml" />
+      </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/services/gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/services/intershipproccess/pom.xml" />
+        <option value="$PROJECT_DIR$/services/order/pom.xml" />
+      </set>
+    </option>
+    <option name="workspaceImportForciblyTurnedOn" value="true" />
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

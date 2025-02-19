@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="config-server" />
+        <module name="gatew" />
+        <module name="discovery" />
+        <module name="springProject2" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="gateway" target="17" />
+      <module name="intershipproccess" target="17" />
+      <module name="order" target="17" />
+      <module name="SaidiTakwa1" target="17" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="SaidiTakwa1" options="-parameters" />
+      <module name="config-server" options="-parameters" />
+      <module name="discovery" options="-parameters" />
+      <module name="gatew" options="-parameters" />
+      <module name="gateway" options="-parameters" />
+      <module name="intershipproccess" options="-parameters" />
+      <module name="order" options="-parameters" />
+      <module name="springProject2" options="-parameters" />
+    </option>
+  </component>
+</project>
