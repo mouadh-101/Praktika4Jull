@@ -1,0 +1,97 @@
+<div class="cv-container">
+    <div class="cv-header">
+      <h1>{{ cvData.name }}</h1>
+      <p>{{ cvData.email }} | {{ cvData.phone }} | {{ cvData.address }}</p>
+    </div>
+  
+    <!-- Career Objective -->
+    <section *ngIf="cvData.careerObjective" class="cv-section">
+      <h2>CAREER OBJECTIVE</h2>
+      <p>{{ cvData.careerObjective }}</p>
+    </section>
+  
+    <!-- Education -->
+    <section *ngIf="cvData.education.length > 0" class="cv-section">
+      <h2>EDUCATION</h2>
+      <ul>
+        <li *ngFor="let edu of cvData.education">
+          <strong>{{ edu.degree }}, {{ edu.field }}</strong><br>
+          {{ edu.institution }}<br>
+          {{ edu.startDate }} - {{ edu.endDate }}
+        </li>
+      </ul>
+    </section>
+  
+    <!-- Work Experience -->
+    <section *ngIf="cvData.workExperience.length > 0" class="cv-section">
+      <h2>WORK EXPERIENCE</h2>
+      <ul>
+        <li *ngFor="let exp of cvData.workExperience">
+          <strong>{{ exp.position }}, {{ exp.company }}</strong><br>
+          {{ exp.startDate }} - {{ exp.endDate }}<br>
+          {{ exp.description }}
+        </li>
+      </ul>
+    </section>
+  
+    <!-- Extra-Curricular Activities -->
+    <section *ngIf="cvData.extraCurricular.length > 0" class="cv-section">
+      <h2>EXTRA-CURRICULAR ACTIVITIES</h2>
+      <ul>
+        <li *ngFor="let activity of cvData.extraCurricular">
+          {{ activity }}
+        </li>
+      </ul>
+    </section>
+  
+    <!-- Trainings/Courses -->
+    <section *ngIf="cvData.trainings.length > 0" class="cv-section">
+      <h2>TRAININGS/COURSES</h2>
+      <ul>
+        <li *ngFor="let training of cvData.trainings">
+          {{ training }}
+        </li>
+      </ul>
+    </section>
+  
+    <!-- Academics/Personal Projects -->
+    <section *ngIf="cvData.projects.length > 0" class="cv-section">
+      <h2>ACADEMICS/PERSONAL PROJECTS</h2>
+      <ul>
+        <li *ngFor="let project of cvData.projects">
+          <strong>{{ project.title }}</strong><br>
+          {{ project.description }}
+        </li>
+      </ul>
+    </section>
+  
+    <!-- Skills -->
+    <section *ngIf="cvData.skills.length > 0" class="cv-section">
+      <h2>SKILLS</h2>
+      <ul>
+        <li *ngFor="let skill of cvData.skills">
+          {{ skill }}
+        </li>
+      </ul>
+    </section>
+  
+    <!-- Portfolio/Work Samples -->
+    <section *ngIf="cvData.portfolio.length > 0" class="cv-section">
+      <h2>PORTFOLIO/WORK SAMPLES</h2>
+      <ul>
+        <li *ngFor="let item of cvData.portfolio">
+          <a [href]="item.link" target="_blank">{{ item.name }}</a>
+        </li>
+      </ul>
+    </section>
+  
+    <!-- Accomplishments/Additional Details -->
+    <section *ngIf="cvData.accomplishments.length > 0" class="cv-section">
+      <h2>ACCOMPLISHMENTS/ADDITIONAL DETAILS</h2>
+      <ul>
+        <li *ngFor="let detail of cvData.accomplishments">
+          {{ detail }}
+        </li>
+      </ul>
+    </section>
+  </div>
