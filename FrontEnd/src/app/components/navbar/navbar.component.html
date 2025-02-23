@@ -1,0 +1,47 @@
+<header id="header" class="header d-flex align-items-center fixed-top">
+  <div class="container-fluid container-xl position-relative d-flex align-items-center">
+    
+    <a href="index.html" class="logo d-flex align-items-center me-auto">
+      <img src="assets/img/logo.png" alt="">
+      <h1 class="sitename">Praktika</h1>
+    </a>
+
+    <nav id="navmenu" class="navmenu">
+      <ul>
+        <li><a routerLink="" class="active">Home</a></li>
+        <li><a routerLink="">About</a></li>
+        <li><a routerLink="">Features</a></li>
+        <li><a routerLink="">Services</a></li>
+        <li><a routerLink="">Pricing</a></li>
+        <li><a routerLink="">Contact</a></li>
+      </ul>
+      <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+    </nav>
+
+    <!-- Show Profile & Notifications when logged in -->
+    <div *ngIf="isLoggedIn" class="user-actions d-flex align-items-center">
+      
+      <!-- Notification Bell -->
+      <div class="notification-icon">
+        <i class="bi bi-bell"></i>
+      </div>
+
+      <!-- Profile Circle & Dropdown -->
+      <div class="profile-container" (mouseenter)="toggleDropdown()" (mouseleave)="toggleDropdown()">
+        <img *ngIf="user?.profilePicture" [src]="user.profilePicture" alt="Profile" class="profile-circle">
+        <img *ngIf="!user?.profilePicture" src="../../../assets/img/pdp.jpg" alt="Profile" class="profile-circle">
+
+        <!-- Dropdown -->
+        <div *ngIf="showDropdown" class="profile-dropdown">
+          <p class="username">{{ user?.name}}</p>
+          <p class="username">{{ user?.role}}</p>
+          <button class="logout-btn" (click)="onLogout()">Logout</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Show "Join Us" when not logged in -->
+    <a *ngIf="!isLoggedIn" class="btn-getstarted" routerLink="/sign-up">Join Us</a>
+
+  </div>
+</header>
