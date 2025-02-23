@@ -1,0 +1,40 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+export interface Interview {
+  interviewId?: number;
+  dateInterview: string;
+  location: string;
+  notes: string;
+  status: string;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class InterviewService {
+  getInterviewById(id: number): Observable<Interview> {
+    return this.http.get<Interview>(`${this.apiUrl}/Interview/${id}`);
+  }
+  
+  private apiUrl = 'http://localhost:8081/Interview';
+
+  constructor(private http: HttpClient) {}
+
+  getAllInterviews(): Observable<Interview[]> {
+    return this.http.get<Interview[]>(`${this.apiUrl}/list`);
+  }
+
+  addInterview(interview: Interview): Observable<Interview> {
+    return this.http.post<Interview>(`${this.apiUrl}/AddInterview`, interview);
+  }
+
+  deleteInterview(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/Interview/${id}`);
+  }
+
+  updateInterview(interview: Interview): Observable<Interview> {
+    return this.http.put<Interview>(`${this.apiUrl}/Interview/update`, interview);
+  }
+}

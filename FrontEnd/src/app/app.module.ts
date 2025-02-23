@@ -12,6 +12,18 @@ import { UseTabComponent } from './components/use-tab/use-tab.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { LogoutComponent } from './components/logout/logout.component';
 import { CvComponent } from './components/cv/cv.component';
+import { InterviewComponent } from './components/interview/interview.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
+import { InterviewListComponent } from './components/interview/interview-list/interview-list.component';
+import { InterviewAddComponent } from './components/interview/interview-add/interview-add.component';
+import { InterviewEditComponent } from './components/interview/interview-edit/interview-edit.component';
+import { FilterPipe } from './pipes/filter.pipe';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+
+
+
 
 @NgModule({
   declarations: [
@@ -23,19 +35,32 @@ import { CvComponent } from './components/cv/cv.component';
     UseTabComponent,
     LogoutComponent,
     CvComponent,
+    InterviewComponent,
+    InterviewListComponent,
+    InterviewAddComponent,
+    InterviewEditComponent,
+    FilterPipe,
+
+
+
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    NgbModule,
+
   ],
   providers: [
     {
        provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true // Use multiple interceptors if needed
-      
+
     }
 
   ],

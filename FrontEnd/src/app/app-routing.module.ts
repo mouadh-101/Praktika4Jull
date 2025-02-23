@@ -6,6 +6,10 @@ import { UseTabComponent } from './components/use-tab/use-tab.component';
 import { AuthGuard } from './guards/auth.guard';
 import { LogoutComponent } from './components/logout/logout.component';
 import { CvComponent } from './components/cv/cv.component';
+import { InterviewListComponent } from './components/interview/interview-list/interview-list.component';
+import { InterviewAddComponent } from './components/interview/interview-add/interview-add.component';
+import { InterviewEditComponent } from './components/interview/interview-edit/interview-edit.component';
+
 
 const routes: Routes = [
   { path: 'users', component: UseTabComponent , canActivate: [AuthGuard] },
@@ -13,7 +17,12 @@ const routes: Routes = [
   { path: 'sign-up', component: SignUpComponent },
   { path:'logout',component:LogoutComponent,canActivate: [AuthGuard]},
   {path :'cv',component:CvComponent,canActivate: [AuthGuard]},
-  { path: '', redirectTo: '/', pathMatch: 'full' }
+
+  { path: 'interviews', component: InterviewListComponent },
+  { path: 'interviews/add', component: InterviewAddComponent },
+  { path: 'interviews/edit/:id', component: InterviewEditComponent },
+
+  { path: '', redirectTo: '/interviews', pathMatch: 'full' }
 ];
 
 @NgModule({

@@ -1,0 +1,46 @@
+<div class="container mt-4">
+  <div class="card shadow p-4">
+    <h2 class="text-center mb-4">📋 Liste des Interviews</h2>
+
+    <!-- Barre de recherche -->
+    <div class="mb-3">
+      <input type="text" class="form-control" [(ngModel)]="searchTerm" placeholder="🔍 Rechercher une interview..." />
+    </div>
+
+    <!-- Tableau des interviews -->
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Lieu</th>
+            <th>Notes</th>
+            <th>Statut</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let interview of interviews | filter: searchTerm">
+            <td>{{ interview.interviewId }}</td>
+            <td>{{ interview.dateInterview | date }}</td>
+            <td>{{ interview.location }}</td>
+            <td>{{ interview.notes }}</td>
+            <td>
+              <span [ngClass]="getStatusClass(interview.status)">{{ interview.status }}</span>
+            </td>
+            <td>
+              <button class="btn btn-primary btn-sm me-2" (click)="navigateToEdit(interview.interviewId)">✏️ Modifier</button>
+              <button class="btn btn-danger btn-sm" (click)="deleteInterview(interview.interviewId)">❌ Supprimer</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Bouton Ajouter -->
+    <div class="text-end mt-3">
+      <button class="btn btn-success" (click)="navigateToAdd()">➕ Ajouter une Interview</button>
+    </div>
+  </div>
+</div>

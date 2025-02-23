@@ -1,0 +1,41 @@
+<div class="container mt-4">
+  <div class="card shadow p-4">
+    <h2 class="text-center mb-4">✏️ Modifier une Interview</h2>
+
+    <form (ngSubmit)="updateInterview()">
+      <!-- Date -->
+      <div class="mb-3">
+        <label class="form-label">📅 Date :</label>
+        <input type="date" class="form-control" [(ngModel)]="interview.dateInterview" name="date" required />
+      </div>
+
+      <!-- Lieu -->
+      <div class="mb-3">
+        <label class="form-label">📍 Lieu :</label>
+        <input type="text" class="form-control" [(ngModel)]="interview.location" name="location" required />
+      </div>
+
+      <!-- Notes -->
+      <div class="mb-3">
+        <label class="form-label">📝 Notes :</label>
+        <input type="text" class="form-control" [(ngModel)]="interview.notes" name="notes" required />
+      </div>
+
+      <!-- Statut -->
+      <div class="mb-3">
+        <label class="form-label">📌 Statut :</label>
+        <select class="form-select" [(ngModel)]="interview.status" name="status">
+          <option value="SCHEDULED">SCHEDULED</option>
+          <option value="COMPLETED">COMPLETED</option>
+          <option value="CANCELED">CANCELED</option>
+        </select>
+      </div>
+
+      <!-- Boutons -->
+      <div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-primary">✅ Modifier</button>
+        <button type="button" class="btn btn-danger" (click)="cancel()">❌ Annuler</button>
+      </div>
+    </form>
+  </div>
+</div>
