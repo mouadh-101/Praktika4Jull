@@ -14,19 +14,22 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Interview {
+public class DemandeInterview {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    int InterviewId ;
-    Date DateInterview;
-    String Location;
-    String Notes;
+    int DemandeInterviewId ;
     @Enumerated(EnumType.STRING)
-    StatusInterv Status;
+    StatusDemandeInterview statuss;
+    Date Date1;
+    Date Date2;
+    Date Date3;
+    boolean IsRemote;
+    String Description;
+    String Location;
 
     @OneToOne
-    DemandeInterview demandeInerview;
+    Interview interview;
+
+
 }
-
-
