@@ -10,7 +10,7 @@ import java.util.Map;
 
 public interface IStudentService {
     Student addStudent(Student student);
-    Student updateStudent(Long id, Student student);
-    void deleteStudent(Long id);
+    Student updateStudent(String id, Student student);
+    void deleteStudent(String id);
     ResponseEntity<Student> getStudent(String id);
 }

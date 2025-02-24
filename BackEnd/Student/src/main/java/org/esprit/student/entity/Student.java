@@ -12,8 +12,7 @@ import java.util.List;
 
 public class Student {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    String userId;
     String profilePic;
     String fieldOfStudy;
     LocalDate dateOfBirth;
@@ -26,8 +25,14 @@ public class Student {
     List<Education> educations;
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
     List<WorkExperience> workExperiences;
-    String userId;
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setId(String id) {
+        this.userId = id;
+    }
 
     public String getProfilePic() {
         return profilePic;
@@ -93,11 +98,5 @@ public class Student {
         this.workExperiences = workExperiences;
     }
 
-    public String getUserId() {
-        return userId;
-    }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 }

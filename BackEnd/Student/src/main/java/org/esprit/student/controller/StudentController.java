@@ -18,17 +18,17 @@ public class StudentController {
     {
         return studentService.addStudent(student);
     }
-    @GetMapping("/{id}")
-    public ResponseEntity<Student> getStudent(@PathVariable("id") String id)
+    @GetMapping
+    public ResponseEntity<Student> getStudent(@RequestHeader("userId") String id)
     {
         return studentService.getStudent(id);
     }
-    @DeleteMapping("/delete/{id}")
-    public void deleteStudent(@PathVariable("id")Long id) {
+    @DeleteMapping("/delete")
+    public void deleteStudent(@RequestHeader("userId")String id) {
         studentService.deleteStudent(id);
     }
-    @PutMapping("/update/{id}")
-    public Student updateStudent(@RequestBody Student student ,@PathVariable("id") Long id) {
+    @PutMapping("/update")
+    public Student updateStudent(@RequestBody Student student ,@RequestHeader("userId") String id) {
         return studentService.updateStudent(id,student);
     }
 

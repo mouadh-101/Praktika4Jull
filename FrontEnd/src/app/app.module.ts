@@ -18,6 +18,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { UseTabComponent } from './components/use-tab/use-tab.component';
+import { StudentProfileComponent } from './components/studentProfile/studentProfile.component';
+import { SkillComponent } from './components/skill/skill.component';
+import { EducationComponent } from './components/education/education.component';
 
 
 @NgModule({
@@ -27,7 +30,10 @@ import { UseTabComponent } from './components/use-tab/use-tab.component';
     SignUpComponent,
     NavbarComponent,
     FooterComponent,
-    UseTabComponent
+    UseTabComponent,
+    StudentProfileComponent,
+    SkillComponent,
+    EducationComponent,
     
   ],
   imports: [

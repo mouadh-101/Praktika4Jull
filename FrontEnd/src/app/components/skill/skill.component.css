@@ -1,0 +1,17 @@
+form {
+    padding: 20px;
+  }
+  
+  mat-form-field {
+    margin-bottom: 15px;
+    width: 100%;
+  }
+  
+  .dialog-actions {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  button {
+    width: 48%;
+  }

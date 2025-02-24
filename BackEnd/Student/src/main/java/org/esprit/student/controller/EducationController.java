@@ -22,9 +22,9 @@ public class EducationController {
         return educationService.addEducation(education);
     }
     @PreAuthorize("isAuthenticated()")
-    @PostMapping("/{userId}")
-    public Education addeducation(@RequestBody Education education, @PathVariable("userId") String id) {
-        Student s=studentRepository.findStudentByUserId(id);
+    @PostMapping("/affect")
+    public Education addeducation(@RequestBody Education education, @RequestHeader("userId") String id) {
+        Student s=studentRepository.findById(id).orElse(null);
         education.setStudent(s);
         return educationService.addEducation(education);
     }

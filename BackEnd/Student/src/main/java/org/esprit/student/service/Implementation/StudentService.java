@@ -22,7 +22,7 @@ public class StudentService implements IStudentService {
     }
 
     @Override
-    public Student updateStudent(Long id, Student student) {
+    public Student updateStudent(String id, Student student) {
         Student exstudent = studentRepository.findById(id).orElse(null);
         if (exstudent!=null) {
             if (student.getProfilePic() != null) {
@@ -55,14 +55,14 @@ public class StudentService implements IStudentService {
     }
 
     @Override
-    public void deleteStudent(Long id) {
+    public void deleteStudent(String id) {
         studentRepository.deleteById(id);
     }
 
     @Override
     public ResponseEntity<Student> getStudent(String id) {
-        if(studentRepository.existsStudentByUserId(id))
-            return ResponseEntity.ok(studentRepository.findStudentByUserId(id));
+        if(studentRepository.existsById(id))
+            return ResponseEntity.ok(studentRepository.findById(id).orElse(null));
         return ResponseEntity.ok(null);
     }
 

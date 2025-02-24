@@ -30,7 +30,7 @@ server:
 # Keycloak Configuration
 keycloak:
   enabled: true
-  auth-server-url: http://localhost:8080/auth
+  auth-server-url: http://localhost:8180/auth
   realm: Auth
   resource: praktika-Auth
   public-client: true

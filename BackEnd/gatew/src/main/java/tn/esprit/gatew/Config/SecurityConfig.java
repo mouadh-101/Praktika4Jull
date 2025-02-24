@@ -51,7 +51,7 @@ public class SecurityConfig {
     @Bean
     public ReactiveJwtDecoder keycloakJwtDecoder() {
         return NimbusReactiveJwtDecoder.withJwkSetUri(
-                "http://localhost:8080/realms/Auth/protocol/openid-connect/certs"
+                "http://localhost:8180/realms/Auth/protocol/openid-connect/certs"
         ).build();
     }
     @Bean

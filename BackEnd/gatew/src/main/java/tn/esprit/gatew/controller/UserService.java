@@ -19,15 +19,15 @@ public class UserService {
 
     private final Keycloak keycloak;
     PasswordEncoder passwordEncoder;
-    private static final String KEYCLOAK_TOKEN_URL = "http://localhost:8080/realms/Auth/protocol/openid-connect/token";
+    private static final String KEYCLOAK_TOKEN_URL = "http://localhost:8180/realms/Auth/protocol/openid-connect/token";
     private static final String CLIENT_ID = "praktika-Auth";
-    private static final String KEYCLOAK_LOGOUT_URL = "http://localhost:8080/realms/Auth/protocol/openid-connect/logout";
+    private static final String KEYCLOAK_LOGOUT_URL = "http://localhost:8180/realms/Auth/protocol/openid-connect/logout";
     private static final String url = "http://localhost:8222/api";
 
 
     public UserService() {
         this.keycloak = Keycloak.getInstance(
-                "http://localhost:8080/", // Keycloak server URL
+                "http://localhost:8180/", // Keycloak server URL
                 "master", // Realm name (use 'master' for admin access)
                 "admin1", // Admin username
                 "admin1", // Admin password

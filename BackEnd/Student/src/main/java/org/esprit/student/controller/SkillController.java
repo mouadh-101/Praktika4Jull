@@ -21,11 +21,11 @@ public class SkillController{
         return skillService.addSkill(skill);
     }
 
-    @PostMapping("/{userId}")
-    public Skill addskillandAffect(@RequestBody Skill skill ,@PathVariable("userId")String userId) {
-        if(studentRepository.existsStudentByUserId(userId) && studentRepository.findStudentByUserId(userId)!=null) {
+    @PostMapping("/affect")
+    public Skill addskillandAffect(@RequestBody Skill skill ,@RequestHeader("userId")String userId) {
+        if(studentRepository.existsById(userId) && studentRepository.findById(userId)!=null) {
             skill.setStudents(new ArrayList<>());
-            Student s =studentRepository.findStudentByUserId(userId);
+            Student s =studentRepository.findById(userId).orElse(null);
             System.out.println(s.toString());
             skill.getStudents().add(s);
             s.getSkills().add(skill);
