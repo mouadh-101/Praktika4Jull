@@ -10,6 +10,17 @@ export interface Interview {
   status: string;
 }
 
+export interface DemandeInterview {
+  DemandeInterviewId?: number;
+   statuss: string;
+     Date1:Date;
+     Date2:Date;
+     Date3:Date;
+     IsRemote:boolean;
+     Description:String;
+     Location:String
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -17,7 +28,7 @@ export class InterviewService {
   getInterviewById(id: number): Observable<Interview> {
     return this.http.get<Interview>(`${this.apiUrl}/Interview/${id}`);
   }
-  
+
   private apiUrl = 'http://localhost:8081/Interview';
 
   constructor(private http: HttpClient) {}

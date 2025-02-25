@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+<<<<<<< Updated upstream
 import { Interview, InterviewService } from 'src/app/service/interview.service';
+=======
+import { Interview, InterviewService } from 'src/app/services/interview.service';
+>>>>>>> Stashed changes
 import { Router } from '@angular/router';
 
 

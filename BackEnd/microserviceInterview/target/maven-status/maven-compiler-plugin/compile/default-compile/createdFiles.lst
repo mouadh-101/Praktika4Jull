@@ -1,0 +1,7 @@
+esprit\microserviceinterview\MicroserviceInterviewApplication.class
+esprit\microserviceinterview\repositories\InterviewRepo.class
+esprit\microserviceinterview\entities\Interview.class
+esprit\microserviceinterview\services\InterviewService.class
+esprit\microserviceinterview\entities\StatusInterv.class
+esprit\microserviceinterview\services\IServiceInterview.class
+esprit\microserviceinterview\restcontroller\InterviewRestApi.class

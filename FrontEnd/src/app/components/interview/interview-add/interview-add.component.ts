@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+<<<<<<< Updated upstream
 import { InterviewService } from 'src/app/service/interview.service';
+=======
+import { InterviewService, DemandeInterview } from 'src/app/services/interview.service';
+>>>>>>> Stashed changes
 
 @Component({
   selector: 'app-interview-add',
@@ -11,7 +15,10 @@ import { InterviewService } from 'src/app/service/interview.service';
 export class InterviewAddComponent implements OnInit {
   interviewForm!: FormGroup;
   minDate: string = '';
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
   constructor(
     private fb: FormBuilder,
     private interviewService: InterviewService,
@@ -29,7 +36,12 @@ export class InterviewAddComponent implements OnInit {
       dateInterview: ['', [Validators.required, this.futureDateValidator]], // Ajout du validateur personnalisé
       location: ['', [Validators.required, Validators.minLength(3)]],
       notes: ['', [Validators.required, Validators.minLength(5)]],
+<<<<<<< Updated upstream
       status: ['', Validators.required]
+=======
+      status: ['', Validators.required],
+
+>>>>>>> Stashed changes
     });
   }
 
