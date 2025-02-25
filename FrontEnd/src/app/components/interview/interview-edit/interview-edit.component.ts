@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-<<<<<<< Updated upstream
 import { InterviewService } from 'src/app/service/interview.service';
-=======
-import { InterviewService } from 'src/app/services/interview.service';
->>>>>>> Stashed changes
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
