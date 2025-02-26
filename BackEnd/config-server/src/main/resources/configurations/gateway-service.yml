@@ -17,6 +17,12 @@ spring:
           uri: lb://student-service
           predicates:
             - Path=/api/Student/**
+        - id: forum-service
+          uri: lb://forum-service
+          predicates:
+            - Path=/api/forum/**
+
+
 
 eureka:
   instance:

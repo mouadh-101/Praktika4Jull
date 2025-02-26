@@ -1,0 +1,102 @@
+<p>posts works!</p>
+<div class="feed-container">
+  <h2>Fil d'actualité</h2>
+
+  <!-- Bouton d'ajout de post -->
+  <button (click)="openPostModal()" class="add-post-btn"> ➕ </button>
+
+  <div style="height: 500px; overflow-y: scroll;">
+    <div class="post-card" *ngFor="let post of posts">
+      <div class="post-header">
+        <img src="{{ post.image || 'assets/default-avatar.png' }}" class="profile-pic" alt="Photo de profil">
+
+        <div class="post-info">
+          <h3 class="post-user">{{ post.user?.name || 'Utilisateur inconnu' }}</h3>
+          <p class="post-date">{{ post.datePost | date: 'medium' }}</p>
+        </div>
+
+        <!-- Bouton de suppression du post -->
+        <button class="btn btn-danger" (click)="del(post.idPost)" style="margin-left: 360px;">❌</button>
+      </div>
+
+      <!-- Bouton de modification du post -->
+      <button class="btn btn-warning" (click)="openEditModal(post.idPost,post)" style="margin-left: 508px; margin-top: -30px;">❔</button>
+
+      <p class="post-description">{{ post.description }}</p>
+      <img src="{{ post.image || 'assets/default-avatar.png' }}" class="ima-pic" alt="Image du post">
+      <p style="margin-left: 450px; font-size: small; color: grey;">{{ post.datePost }}</p>
+
+      <div class="comments-section">
+        <h4>Commentaires</h4>
+        <ul>
+          <li *ngFor="let comment of post.comments">
+            <button class="btn btn-danger" (click)="deleteComment(comment.idComment)" style="margin-right: 10px; width: 50px; margin-left: 450px;">❌</button>
+            <strong>{{ comment.user?.name || 'Anonyme' }} :</strong>
+            <p>{{ comment.descriptionComment }}</p>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Formulaire d'ajout de commentaire -->
+      <div class="comment-form" style="height: 100px; overflow-y: hidden;">
+        <input class="form-control" type="text" [(ngModel)]="newComment" placeholder="Ajouter un commentaire..." />
+        <button (click)="addComment(post.idPost)">Envoyer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- La modal pour créer un post -->
+  <div class="modal" *ngIf="isModalOpen">
+    <div class="modal-content">
+      <span class="close" (click)="closePostModal()">&times;</span>
+      <h2>Créer un post</h2>
+
+      <!-- Formulaire de création de post avec validation -->
+      <form #postForm="ngForm" (ngSubmit)="submitPost(postForm)" novalidate>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea id="description" [(ngModel)]="newPost.description" name="description" required minlength="5" #descCtrl="ngModel" class="form-control"></textarea>
+          <div class="error" *ngIf="descCtrl.invalid && descCtrl.touched">
+            La description doit contenir au moins 5 caractères.
+          </div><br>
+
+          <label for="image">Image</label>
+          <input class="form-control" id="image" type="text" [(ngModel)]="newPost.image" name="image" placeholder="URL de l'image" #dcCtrl="ngModel">
+          <div class="error" *ngIf="dcCtrl.invalid && dcCtrl.touched">
+            L'URL de l'image est invalide.
+          </div>
+
+          <button class="submit-btn" type="submit" [disabled]="postForm.invalid">Publier</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal pour modifier un post -->
+  <div class="modal" *ngIf="isEditModalOpen">
+    <div class="modal-content">
+      <span class="close" (click)="closeEditModal()">&times;</span>
+      <h2>Modifier le post</h2>
+
+      <!-- Formulaire de modification du post -->
+      <form #editPostForm="ngForm" (ngSubmit)="submitEditPost(editPostForm)" novalidate>
+        <div class="form-group">
+          <label for="editDescription">Description</label>
+          <textarea id="editDescription" [(ngModel)]="editedPost.description" name="description" required minlength="5" #editDescCtrl="ngModel" class="form-control"></textarea>
+          <div class="error" *ngIf="editDescCtrl.invalid && editDescCtrl.touched">
+            La description doit contenir au moins 5 caractères.
+          </div><br>
+
+          <label for="editImage">Image</label>
+          <input class="form-control" id="editImage" type="text" [(ngModel)]="editedPost.image" name="image" placeholder="URL de l'image" #editImageCtrl="ngModel">
+          <div class="error" *ngIf="editImageCtrl.invalid && editImageCtrl.touched">
+            L'URL de l'image est invalide.
+          </div>
+
+          <button class="submit-btn" type="submit" [disabled]="editPostForm.invalid">Mettre à jour</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

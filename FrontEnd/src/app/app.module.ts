@@ -6,7 +6,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 // Import Angular Material Modules
@@ -21,6 +21,7 @@ import { UseTabComponent } from './components/use-tab/use-tab.component';
 import { StudentProfileComponent } from './components/studentProfile/studentProfile.component';
 import { SkillComponent } from './components/skill/skill.component';
 import { EducationComponent } from './components/education/education.component';
+import { PostsComponent } from './components/posts/posts.component';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { EducationComponent } from './components/education/education.component';
     StudentProfileComponent,
     SkillComponent,
     EducationComponent,
-    
+    PostsComponent,
+
   ],
   imports: [
     ReactiveFormsModule,
@@ -47,14 +49,15 @@ import { EducationComponent } from './components/education/education.component';
     MatInputModule,
     MatIconModule,
     MatDialogModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
      useClass: AuthInterceptor,
      multi: true // Use multiple interceptors if needed
-     
+
    }
   ],
   bootstrap: [AppComponent]
