@@ -21,10 +21,9 @@ import org.springframework.web.servlet.function.EntityResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @AllArgsConstructor
-@RequestMapping("/Interview")
+@RequestMapping("/api/interview")
 public class InterviewRestApi {
     @Autowired
     InterviewService serviceInterview;
