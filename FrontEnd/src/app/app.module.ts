@@ -6,7 +6,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 // Import Angular Material Modules
@@ -21,6 +21,13 @@ import { UseTabComponent } from './components/use-tab/use-tab.component';
 import { StudentProfileComponent } from './components/studentProfile/studentProfile.component';
 import { SkillComponent } from './components/skill/skill.component';
 import { EducationComponent } from './components/education/education.component';
+import { InterviewComponent } from './components/interview/interview.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FilterPipe } from './pipes/filter.pipe';
+import { InterviewAddComponent } from './components/interview/interview-add/interview-add.component';
+import { InterviewListComponent } from './components/interview/interview-list/interview-list.component';
+import { InterviewEditComponent } from './components/interview/interview-edit/interview-edit.component';
+
 
 
 @NgModule({
@@ -34,7 +41,13 @@ import { EducationComponent } from './components/education/education.component';
     StudentProfileComponent,
     SkillComponent,
     EducationComponent,
-    
+    InterviewComponent,
+    FilterPipe,
+    InterviewAddComponent,
+    InterviewListComponent,
+    InterviewEditComponent,
+
+
   ],
   imports: [
     ReactiveFormsModule,
@@ -47,14 +60,16 @@ import { EducationComponent } from './components/education/education.component';
     MatInputModule,
     MatIconModule,
     MatDialogModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule,
+    FormsModule,
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
      useClass: AuthInterceptor,
      multi: true // Use multiple interceptors if needed
-     
+
    }
   ],
   bootstrap: [AppComponent]
