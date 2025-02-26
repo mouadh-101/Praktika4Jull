@@ -1,0 +1,74 @@
+/* auth.component.css */
+
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom right, #f0fbfc, #ffffff); /* Soft gradient */
+  }
+  
+  .auth-card {
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  .auth-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .auth-subtitle {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 30px;
+  }
+  
+  .auth-form .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .form-control:focus {
+    border-color: #06bbcc; /* Accent color */
+    box-shadow: 0 0 5px rgba(6, 187, 204, 0.3);
+  }
+  
+  .error-text {
+    font-size: 12px;
+    color: red;
+    margin-top: 5px;
+  }
+  
+  .forgot-password-link,
+  .signup-link {
+    color: #06bbcc; /* Accent color */
+    text-decoration: none;
+    font-weight: 600;
+  }
+  
+  .forgot-password-link:hover,
+  .signup-link:hover {
+    text-decoration: underline;
+  }

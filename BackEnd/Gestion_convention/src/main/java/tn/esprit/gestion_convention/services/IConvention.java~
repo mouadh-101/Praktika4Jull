@@ -1,0 +1,8 @@
+package tn.esprit.gestion_convention.services;
+
+import tn.esprit.gestion_convention.entities.Convention;
+
+public interface IConvention {
+
+
+}

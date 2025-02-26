@@ -1,0 +1,34 @@
+<div *ngIf="convention; else noData">
+    <h2>Détails de la Convention</h2>
+    <table class="table table-bordered">
+        <tr>
+            <th>ID</th>
+            <td>{{ convention.conId }}</td>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <td>{{ convention.dateConv | date:'dd/MM/yyyy' }}</td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>{{ convention.description }}</td>
+        </tr>
+        <tr>
+            <th>Signée</th>
+            <td>{{ convention.signed ? 'Oui' : 'Non' }}</td>
+        </tr>
+        <tr>
+            <th>ID Stage</th>
+            <td>{{ convention.internshipId }}</td>
+        </tr>
+    </table>
+
+    <!-- Bouton Retour -->
+    <button class="btn btn-secondary" (click)="returnToList()">
+        <i class="bi bi-arrow-left"></i> Retour
+    </button>
+</div>
+
+<ng-template #noData>
+    <p>Aucune convention trouvée.</p>
+</ng-template>
