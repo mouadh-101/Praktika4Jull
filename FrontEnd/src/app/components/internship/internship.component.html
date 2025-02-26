@@ -1,0 +1,71 @@
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Internship Listings</h2>
+  
+    <div class="d-flex justify-content-end mb-3">
+      <button class="btn btn-primary" [routerLink]="['/internships/add']">
+        <i class="fas fa-plus"></i> Add Internship
+      </button>
+    </div>
+  
+    <div class="d-flex flex-column align-items-center"> <!-- Centrer les cartes -->
+      <div *ngFor="let internship of internships">
+        <!-- Lien enveloppant la carte pour la redirection vers les détails -->
+        <div class="card shadow-sm border-0 mb-3 p-3 bg-white" style="max-width: 800px; width: 100%; cursor: pointer;" 
+             (click)="goToDetails(internship.id)">
+          <div class="d-flex align-items-center">
+            <div class="flex-grow-1">
+              <h5 class="fw-bold">{{ internship.titre }}</h5>
+              
+              <!-- Aligner la description et le bouton sur la même ligne -->
+              <div class="d-flex align-items-center">
+                <h6 class="text-muted mb-0 me-2">{{ internship.company?.description }}</h6>
+               
+                <button class="btn btn-sm rounded-pill bg-white fs-7 fw-medium" 
+            style="border: 1px solid #76abee; color: #4383d6; padding: 2px 8px;">
+            Actively hiring
+          </button>
+              </div>
+  
+              <div class="d-flex align-items-center text-muted">
+                <i class="fas fa-map-marker-alt me-2"></i> {{ internship.location }}
+                <i class="fas fa-calendar-alt ms-3 me-2"></i> {{ internship.duration }} months
+                <i class="fas fa-money-bill-wave ms-3 me-2"></i> {{ internship.compensation }} €/month
+              </div>
+             
+              <div class="d-flex align-items-center mt-2">
+                <span class="badge bg-light text-dark">
+                  <i class="fas fa-clock me-1 text-success"></i>  {{ internship.relativeTime }}
+                </span>
+                <span class="badge bg-light text-dark ms-2">
+                  <i class="fas fa-bolt me-1 text-warning"></i> Be an early applicant
+                </span>
+              </div>
+            </div>
+  
+            <div class="ms-auto align-self-start">
+              <img [src]="'assets/img/esprit.png'" 
+                   alt="Company Logo" 
+                   class="img-fluid" 
+                   style="max-width: 50px;">
+            </div>
+          </div>
+         
+          <!-- Ligne fine avant les actions -->
+          <hr style="border-top: 1px solid #ddd; margin: 10px 0;">
+  
+          <!-- Footer des actions -->
+          <div class="d-flex justify-content-end mt-3">
+            <!-- Bouton Edit (Stylé avec une icône de stylo en gris) -->
+            <button class="btn btn-link text-muted" (click)="editInternship(internship.id, $event)">
+              <i class="fas fa-pen"></i>
+            </button>
+            <!-- Bouton Delete (Stylé avec une icône de poubelle en gris) -->
+            <button class="btn btn-link text-muted" (click)="deleteInternship(internship.id, $event)">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
