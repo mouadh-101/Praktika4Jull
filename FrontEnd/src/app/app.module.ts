@@ -21,6 +21,10 @@ import { UseTabComponent } from './components/use-tab/use-tab.component';
 import { StudentProfileComponent } from './components/studentProfile/studentProfile.component';
 import { SkillComponent } from './components/skill/skill.component';
 import { EducationComponent } from './components/education/education.component';
+import { ExtraActComponent } from './components/extra-act/extra-act.component';
+import { WorkExpComponent } from './components/work-exp/work-exp.component';
+import { ProfileUpdateComponent } from './components/profile-update/profile-update.component';
+import { AuthGuard } from './guards/auth.guard';
 
 
 @NgModule({
@@ -34,6 +38,9 @@ import { EducationComponent } from './components/education/education.component';
     StudentProfileComponent,
     SkillComponent,
     EducationComponent,
+    ExtraActComponent,
+    WorkExpComponent,
+    ProfileUpdateComponent,
     
   ],
   imports: [

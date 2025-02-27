@@ -20,7 +20,7 @@
             <img *ngIf="!user?.profilePicture" src="../../../assets/img/pdp.jpg" alt="Profile" class="profile-circle">
           </span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
           <ul>
-            <li><a routerLink="">My Resume</a></li>
+            <li><a routerLink="/student">My Resume</a></li>
             <li><a href="#">Dropdown 2</a></li>
             <li><a href="#">Dropdown 3</a></li>
             <li><a (click)="onLogout()">Logout</a></li>
@@ -31,25 +31,6 @@
       
     </nav>
 
-    <!-- Show Profile & Notifications when logged in -->
-    <div *ngIf="isLoggedIn" class="user-actions d-flex align-items-center">
-      
-      <!-- Notification Bell -->
-      
-
-      <!-- Profile Circle & Dropdown -->
-      <div class="profile-container" (mouseenter)="toggleDropdown()" (mouseleave)="toggleDropdown()">
-        <img *ngIf="user?.profilePicture" [src]="user.profilePicture" alt="Profile" class="profile-circle">
-        <img *ngIf="!user?.profilePicture" src="../../../assets/img/pdp.jpg" alt="Profile" class="profile-circle">
-
-        <!-- Dropdown -->
-        <div *ngIf="showDropdown" class="profile-dropdown">
-          <p class="username">{{ user?.name}}</p>
-          <p class="username">{{ user?.role}}</p>
-          <button class="logout-btn" (click)="onLogout()">Logout</button>
-        </div>
-      </div>
-    </div>
 
 
     <!-- Show "Join Us" when not logged in -->

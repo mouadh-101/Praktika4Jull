@@ -25,33 +25,13 @@ public class StudentService implements IStudentService {
     public Student updateStudent(String id, Student student) {
         Student exstudent = studentRepository.findById(id).orElse(null);
         if (exstudent!=null) {
-            if (student.getProfilePic() != null) {
-                exstudent.setProfilePic(student.getProfilePic());
-            }
-            if (student.getFieldOfStudy() != null) {
-                exstudent.setFieldOfStudy(student.getFieldOfStudy());
-            }
-            if (student.getFieldOfStudy() != null) {
-                exstudent.setDateOfBirth(student.getDateOfBirth());
-            }
-            if (student.getBio() != null) {
-                exstudent.setBio(student.getBio());
-            }
-            if (student.getSkills() != null) {
-                exstudent.setSkills(student.getSkills());
-            }
-            if (student.getExtraActivities() != null) {
-                exstudent.setExtraActivities(student.getExtraActivities());
-            }
-            if (student.getEducations() != null) {
-                exstudent.setEducations(student.getEducations());
-            }
-            if (student.getExtraActivities() != null) {
-                exstudent.setExtraActivities(student.getExtraActivities());
-            }
+            exstudent.setProfilePic(student.getProfilePic());
+            exstudent.setFieldOfStudy(student.getFieldOfStudy());
+            exstudent.setDateOfBirth(student.getDateOfBirth());
+            exstudent.setBio(student.getBio());
             return studentRepository.save(exstudent);
         }
-        return student;
+        return null;
     }
 
     @Override

@@ -18,6 +18,7 @@ spring:
           predicates:
             - Path=/api/Student/**
 
+
 eureka:
   instance:
     hostname: localhost
