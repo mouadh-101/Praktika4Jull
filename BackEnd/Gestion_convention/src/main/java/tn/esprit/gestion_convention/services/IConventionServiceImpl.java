@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tn.esprit.gestion_convention.entities.Convention;
 import tn.esprit.gestion_convention.entities.Terms;
 import tn.esprit.gestion_convention.repositories.IConventionRepo;
@@ -15,21 +16,22 @@ import tn.esprit.gestion_convention.repositories.ITermsRepo;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
- public class IConventionServiceImpl implements IConventionService{
-    private final tn.esprit.gestion_convention.repositories.ITermsRepo ITermsRepo;
+public class IConventionServiceImpl implements IConventionService{
+    @Autowired
     IConventionRepo conventionRepo;
     @Autowired
     ITermsRepo ItermsRepo;
-
+    private final ITermsService ITermsService; // Injection du service
     @Override
     public List<Convention> getAllConventions() {
-         return conventionRepo.findAll();
+        return conventionRepo.findAll();
     }
 
 
@@ -40,13 +42,14 @@ import java.util.Optional;
 
     @Override
     public Convention saveConvention(Convention convention) {
-        convention.setDateConv(new Date());
-        if (convention.getTerms() != null) {
-            for (Terms term : convention.getTerms()) {
-                term.setConvention(convention); // Associer le terme à la convention
-            }
+        convention.setDateConv(new Date()); // Définir la date actuelle
+
+        // Vérifier si la convention contient des termes et les associer
+        if (convention.getTerms() != null && !convention.getTerms().isEmpty()) {
+            convention.getTerms().forEach(term -> term.setConvention(convention));
         }
-        return conventionRepo.save(convention);
+
+        return conventionRepo.save(convention); // Sauvegarde en cascade (grâce à @OneToMany)
     }
 
 
@@ -55,11 +58,41 @@ import java.util.Optional;
         conventionRepo.deleteById(id);
     }
 
-    @Override
-    public Convention updateConvention(Convention convention) {
-        return conventionRepo.save(convention);
-    }
 
+    @Override
+    @Transactional
+    public Convention updateConvention(Integer id, Convention convention) {
+        return conventionRepo.findById(id).map(existing -> {
+            // Mise à jour des champs simples
+            existing.setDateConv(new Date()); // Définit la date actuelle au format java.util.Date
+            existing.setDescription(convention.getDescription());
+            existing.setSigned(convention.getSigned());
+            existing.setInternshipId(convention.getInternshipId());
+
+            // Gestion des termes
+            List<Terms> incomingTerms = convention.getTerms();
+            List<Terms> existingTerms = existing.getTerms();
+
+            // Suppression des termes non présents
+            existingTerms.removeIf(existingTerm ->
+                    incomingTerms.stream().noneMatch(t -> t.getTermId().equals(existingTerm.getTermId()))
+            );
+
+            // Mise à jour/ajout des termes
+            incomingTerms.forEach(term -> {
+                if(term.getTermId() != null) {
+                    // Appel correct au service avec les deux paramètres
+                    Terms updatedTerm = ITermsService.updateTerms(term.getTermId(), term);
+                    existing.getTerms().add(updatedTerm);
+                } else {
+                    term.setConvention(existing);
+                    existing.getTerms().add(term);
+                }
+            });
+
+            return conventionRepo.save(existing);
+        }).orElseThrow(() -> new RuntimeException("Convention introuvable avec l'ID: " + id));
+    }
 
     @Override
     public Convention affecterTerm(Integer id, Integer idTerm) {

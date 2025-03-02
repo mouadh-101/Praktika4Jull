@@ -28,7 +28,7 @@ public class Convention {
     Boolean signed;
     int InternshipId;
 
-    @OneToMany(mappedBy = "convention", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "convention",cascade = CascadeType.ALL)
     private List<Terms> terms;
 
     public Integer getConId() {

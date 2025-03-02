@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/conventions/terms")
+@RequestMapping("/api/convention/terms")
 
 public class TermsController {
     @Autowired

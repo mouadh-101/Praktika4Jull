@@ -11,13 +11,12 @@ public interface IConventionService {
     Convention getConventionById(Integer id);
     Convention saveConvention(Convention convention);
     void deleteConvention(Integer id);
-    Convention updateConvention(Convention convention);
-    
+    public Convention updateConvention(Integer id, Convention convention);
+
 
     Convention affecterTerm(Integer id, Integer idTerm);
 
     List<Convention> filterConventionsByDate(Date startDate, Date endDate);
     // Méthode pour récupérer le nombre de conventions dans une période donnée
-    // Méthode pour obtenir le nombre de conventions par mois et année
     Long countConventionsByMonthAndYear(int month, int year);
 }

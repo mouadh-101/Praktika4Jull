@@ -9,34 +9,38 @@ import {ConventionService} from "../../services/convention.service";
   styleUrls: ['./convention-detail.component.css']
 })
 export class ConventionDetailComponent {
-  convention: Convention | null = null;
+  convention!: Convention;
+  loading = true;
+  errorMessage = '';
 
   constructor(
-      private route: ActivatedRoute,
-      private router: Router,
-      private conventionService: ConventionService
+    private router: Router,
+    private route: ActivatedRoute,
+    private conventionService: ConventionService
   ) {}
 
-  ngOnInit(): void {
-    this.loadConvention();
-  }
+  ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('id');
 
-  loadConvention(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id) {
-      this.conventionService.getConventionById(id).subscribe(
-          (data) => {
-            this.convention = data;
-          },
-          (error) => {
-            console.error('Erreur lors du chargement de la convention', error);
-          }
-      );
+      this.conventionService.getConventionById(+id).subscribe({
+        next: (data) => {
+          this.convention = data;
+          this.loading = false;
+        },
+        error: (err) => {
+          this.errorMessage = 'Erreur lors du chargement des données';
+          this.loading = false;
+          console.error(err);
+        }
+      });
+    } else {
+      this.errorMessage = 'Identifiant de convention invalide';
+      this.loading = false;
     }
   }
 
-  // Méthode pour revenir à la liste des conventions
-  returnToList(): void {
+  returnToList() {
     this.router.navigate(['/conventions']);
   }
 }

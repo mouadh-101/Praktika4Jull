@@ -11,6 +11,7 @@ import tn.esprit.gestion_convention.repositories.IConventionRepo;
 import tn.esprit.gestion_convention.repositories.ITermsRepo;
 import tn.esprit.gestion_convention.services.IConventionService;
 import tn.esprit.gestion_convention.services.ITermsService;
+import tn.esprit.gestion_convention.services.PDFGenerationService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,48 +30,49 @@ public class ConventionController {
     ITermsService ITermsService;
     @Autowired
     ITermsRepo termsRepo;
-// lister les conventions
+    @Autowired
+    PDFGenerationService pdfGenerationService;
+    // lister les conventions
     @GetMapping
     public List<Convention> getAllConventions() {
         return IconventionService.getAllConventions();
     }
-// getById
-@GetMapping("/{id}")
-public Convention getConventionById(@PathVariable Integer id) {
-    return IconventionService.getConventionById(id);
-}
-// ajouter une convention
-@PostMapping("/add")
-public Convention addConvention(@RequestBody Convention convention) {
-    // Pour chaque terme dans la liste des termes, associez-le à la convention
-    return IconventionService.saveConvention(convention);
-}
+    // getById
+    @GetMapping("/{id}")
+    public Convention getConventionById(@PathVariable Integer id) {
+        return IconventionService.getConventionById(id);
+    }
+    // ajouter une convention
+    @PostMapping("/add")
+    public Convention addConvention(@RequestBody Convention convention) {
+        for (Terms term : convention.getTerms()) {
+            term.setConvention(convention);
+        }
+        return IconventionService.saveConvention(convention);
+    }
+
 
     // supprimer une convention
     @DeleteMapping("/delete/{id}")
     public void deleteConvention(@PathVariable Integer id) {
+        System.out.println("Suppression de la convention avec ID: " + id);
         IconventionService.deleteConvention(id);
     }
 
+
     // modifier une convention
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Convention> updateConvention(@PathVariable Integer id, @RequestBody Convention convention) {
-        // Vérifier si la convention existe
-        Convention existingConvention = IconventionService.getConventionById(id);
 
-        if (existingConvention != null) {
-            // Mettre à jour les champs nécessaires
-            existingConvention.setSigned(convention.getSigned());
-            existingConvention.setDescription(convention.getDescription());
-            existingConvention.setTerms(convention.getTerms());
-            existingConvention.setDateConv(convention.getDateConv());
-            existingConvention.setInternshipId(convention.getInternshipId());
 
-            // Sauvegarde et retour de l'objet mis à jour
-            Convention savedConvention = IconventionService.saveConvention(existingConvention);
-            return ResponseEntity.ok(savedConvention);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateConvention(@PathVariable Integer id, @RequestBody Convention convention) {
+        try {
+            Convention updated = IconventionService.updateConvention(id, convention);
+            return ResponseEntity.ok(updated);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Erreur serveur: " + e.getMessage());
         }
     }
 
@@ -117,6 +119,9 @@ public Convention addConvention(@RequestBody Convention convention) {
             @PathVariable int year) {
         return IconventionService.countConventionsByMonthAndYear(month, year);  // Appel à la méthode du service
     }
-    }
+
+    // Endpoint pour générer et envoyer un PDF
+
+}
 
 

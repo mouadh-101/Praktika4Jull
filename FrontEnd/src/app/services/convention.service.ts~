@@ -7,7 +7,7 @@ import {Convention, Terms} from '../core/model/db';
   providedIn: 'root'
 })
 export class ConventionService {
-  private apiUrl = 'http://localhost:8222/api/conventions';
+  private apiUrl = 'http://localhost:8222/conventions';
   private termsUrl = 'http://localhost:8222/api/conventions/terms';
 
   constructor(private http: HttpClient) {}

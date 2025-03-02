@@ -1,15 +1,16 @@
-import { Component } from '@angular/core';
-import {Convention, Terms} from "../../core/model/db";
-import {NgForm} from "@angular/forms";
-import {TermsService} from "../../services/terms.service";
-import {Router} from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import {Convention, Terms} from 'src/app/core/model/db';
+import { TermsService } from "../../services/terms.service";
+import { Router } from '@angular/router';
+import { NgForm } from "@angular/forms"; // Import pour la gestion des formulaires
+// Assurez-vous que le modèle Convention est bien importé
 
 @Component({
   selector: 'app-terms',
   templateUrl: './terms.component.html',
   styleUrls: ['./terms.component.css']
 })
-export class TermsComponent {
+export class TermsComponent implements OnInit {
   termsList: Terms[] = [];
   conventionsList: Convention[] = []; // Liste des conventions à afficher dans le formulaire
 
@@ -100,4 +101,6 @@ export class TermsComponent {
       console.error('ID du terme non défini');
     }
   }
+
+
 }

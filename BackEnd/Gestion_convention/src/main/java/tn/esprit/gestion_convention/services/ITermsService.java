@@ -12,7 +12,7 @@ public interface ITermsService {
   Terms getTermsById(Integer id);
   Terms saveTerms(Terms terms);
   void deleteTerms(Integer id);
-  Terms updateTerms(Terms terms);
 
 
+  Terms updateTerms(Integer id, Terms term);
 }

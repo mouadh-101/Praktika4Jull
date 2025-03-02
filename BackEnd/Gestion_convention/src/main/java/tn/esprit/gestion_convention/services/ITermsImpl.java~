@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import tn.esprit.gestion_convention.entities.Convention;
 import tn.esprit.gestion_convention.entities.Terms;
@@ -49,18 +48,24 @@ public class ITermsImpl implements ITermsService {
         ItermsRepo.deleteById(id);
     }
 
-
     @Override
-    @Transactional
-    public Terms updateTerms(Integer id, Terms term) {
-        return ItermsRepo.findById(id)
-                .map(existing -> {
-                    existing.setTitle(term.getTitle());
-                    existing.setDescription(term.getDescription());
-                    return ItermsRepo.save(existing);
-                })
-                .orElseThrow(() -> new RuntimeException("Terme non trouvé avec l'ID: " + id));
+    public Terms updateTerms(Terms terms) {
+        // Vérifier si le Term existe dans la base de données
+        return ItermsRepo.findById(terms.getTermId()).map(existingTerm -> {
+            // Mise à jour des champs du Term
+            existingTerm.setTitle(terms.getTitle());
+            existingTerm.setDescription(terms.getDescription());
+
+            // Vérifier si la Convention associée existe
+            if (terms.getConvention() != null && terms.getConvention().getConId() != null) {
+                conventionRepo.findById(terms.getConvention().getConId()).ifPresent(existingTerm::setConvention);
+            }
+
+            return ItermsRepo.save(existingTerm);
+        }).orElse(null);
     }
+
+
 
 
 

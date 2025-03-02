@@ -1,70 +1,108 @@
 <div class="container text-center mt-5">
   <h3>Liste des Conventions</h3>
 
-  <!-- Bouton Ajouter une Convention -->
   <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addConventionModal">
     <i class="bi bi-plus-circle"></i> Ajouter une Convention
   </button>
 </div>
 
-<!-- Tableau des Conventions -->
-<table class="table table-striped table-hover table-bordered mt-3 text-start">
-  <thead>
-  <tr>
-    <th>Description</th>
-    <th>Date de la convention</th>
-    <th>Signée</th>
-    <th>Actions</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let convention of conventions">
-    <td>{{ convention.description }}</td>
-    <td>{{ convention.dateConv | date: 'shortDate' }}</td>
-    <td>{{ convention.signed ? 'Oui' : 'Non' }}</td>
-    <td>
-      <button class="btn btn-warning btn-sm me-2">
-        <i class="bi bi-pencil"></i> Modifier
-      </button>
+<div class="table-responsive">
+  <table class="table table-striped table-hover table-bordered mt-3">
+    <thead class="table-dark align-middle">
+    <tr>
+      <th class="col-3">Description</th> <!-- Colonne élargie -->
+      <th class="col-1">Date</th> <!-- Colonne réduite -->
+      <th class="col-1">Statut</th>
+      <th class="col-3">Termes</th>
+      <th class="col-5 text-center ">Actions</th> <!-- Alignement à droite -->
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let convention of conventions">
+      <td class="col-2">{{ convention.description }}</td>
+      <td class="col-1">{{ convention.dateConv | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
+      <td class="col-1">
+          <span class="badge" [ngClass]="convention.signed ? 'bg-success' : 'bg-danger'">
+            {{ convention.signed ? 'Signée' : 'Non signée' }}
+          </span>
+      </td>
+      <td class="col-2">
+        <div class="row g-1">
+          <div *ngFor="let term of convention.terms" class="col-12">
+            <div class="row small">
+              <div class="col-5 fw-bold">Titre:</div>
+              <div class="col-7">{{ term.title }}</div>
+            </div>
+            <div class="row small">
+              <div class="col-5 fw-bold">Description:</div>
+              <div class="col-7">{{ term.description }}</div>
+            </div>
+          </div>
+        </div>
+      </td>
+      <td class="col-5">
+        <div class="d-flex gap-2 justify-content-end">
+          <button class="btn btn-info btn-sm"
+                  data-bs-toggle="modal"
+                  data-bs-target="#detailsConventionModal"
+                  (click)="getConventionDetails(convention.conId)">
+            <i class="bi bi-eye">Voir</i>
+          </button>
+          <button class="btn btn-warning btn-sm"
+                  data-bs-toggle="modal"
+                  data-bs-target="#editConventionModal"
+                  (click)="loadConventionData(convention)">
+            <i class="bi bi-pencil">Modifier</i>
+          </button>
 
-      <button *ngIf="convention.conId" class="btn btn-danger" (click)="deleteConvention(convention.conId)">
-        <i class="bi bi-trash"></i> Supprimer
-      </button>
+          <button class="btn btn-danger btn-m"
+                  (click)="deleteConvention(convention.conId)">
+            <i class="bi bi-trash">Supprimer</i>
+          </button>
+          <button class="btn btn-success btn-m" (click)="generatePDF(convention.conId)" >
+            📄 Télécharger PDF
+          </button>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
 
-      <button class="btn btn-primary" (click)="viewConvention(convention.conId)">Voir</button>
 
-    </td>
-  </tr>
-
-
-  </tbody>
-</table>
-
-<!-- Modal Formulaire d'ajout -->
-<div class="modal fade" id="addConventionModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+<!-- Modal Ajout -->
+<!-- Modal Ajout -->
+<div class="modal fade" id="addConventionModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalLabel">Ajouter une Convention</h5>
+        <h5 class="modal-title">Ajouter une Convention</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form (ngSubmit)="addConvention()">
+        <form [formGroup]="conventionForm" (ngSubmit)="submitForm()">
+
           <div class="mb-3">
             <label for="description" class="form-label">Description</label>
-            <input type="text" class="form-control" id="description" [(ngModel)]="newConvention.description" name="description" required>
+            <input type="text" class="form-control" id="description" formControlName="description">
+            <div class="text-danger" *ngIf="conventionForm.get('description')?.invalid && conventionForm.get('description')?.touched">
+              <small *ngIf="conventionForm.get('description')?.errors?.['required']">Ce champ est requis.</small>
+              <small *ngIf="conventionForm.get('description')?.errors?.['minlength']">Minimum 3 caractères.</small>
+            </div>
           </div>
+
           <div class="mb-3">
             <label for="internshipId" class="form-label">ID Stage</label>
-            <input type="number" class="form-control" id="internshipId" [(ngModel)]="newConvention.internshipId" name="internshipId" required>
+            <input type="number" class="form-control" id="internshipId" formControlName="internshipId">
+            <div class="text-danger" *ngIf="conventionForm.get('internshipId')?.invalid && conventionForm.get('internshipId')?.touched">
+              <small *ngIf="conventionForm.get('internshipId')?.errors?.['required']">Ce champ est requis.</small>
+              <small *ngIf="conventionForm.get('internshipId')?.errors?.['min']">L'ID doit être supérieur à 0.</small>
+            </div>
           </div>
-          <div class="mb-3">
-            <label for="dateConv" class="form-label">Date de la Convention</label>
-            <input type="date" class="form-control" id="dateConv" [(ngModel)]="newConvention.dateConv" name="dateConv" required>
-          </div>
+
           <div class="mb-3">
             <label class="form-label">Signée</label>
-            <select class="form-select" [(ngModel)]="newConvention.signed" name="signed" required>
+            <select class="form-select" formControlName="signed">
               <option [value]="true">Oui</option>
               <option [value]="false">Non</option>
             </select>
@@ -72,23 +110,115 @@
 
           <div class="mb-3">
             <label class="form-label">Termes de la Convention</label>
-            <div *ngFor="let term of newConvention.terms; let i = index">
-              <div class="row mb-2">
+            <div formArrayName="terms">
+              <div *ngFor="let term of getTerms.controls; let i = index" [formGroupName]="i" class="row mb-2">
                 <div class="col">
-                  <input type="text" class="form-control" [(ngModel)]="term.title" name="termTitle{{i}}" placeholder="Titre du terme" required>
+                  <input type="text" class="form-control" formControlName="title" placeholder="Titre du terme">
+                  <div class="text-danger" *ngIf="term.get('title')?.invalid && term.get('title')?.touched">
+                    <small *ngIf="term.get('title')?.errors?.['required']">Ce champ est requis.</small>
+                  </div>
                 </div>
                 <div class="col">
-                  <input type="text" class="form-control" [(ngModel)]="term.description" name="termDescription{{i}}" placeholder="Description du terme" required>
+                  <input type="text" class="form-control" formControlName="description" placeholder="Description du terme">
+                  <div class="text-danger" *ngIf="term.get('description')?.invalid && term.get('description')?.touched">
+                    <small *ngIf="term.get('description')?.errors?.['required']">Ce champ est requis.</small>
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <button type="button" class="btn btn-danger" (click)="removeTerm(i)">✖</button>
                 </div>
               </div>
             </div>
-            <button type="button" class="btn btn-secondary" (click)="addTerm()">Ajouter un terme</button>
+            <button type="button" class="btn btn-secondary mt-2" (click)="addTerm()">Ajouter un terme</button>
           </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            <button type="submit" class="btn btn-primary" [disabled]="conventionForm.invalid">Enregistrer</button>
+          </div>
+
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-        <button type="submit" class="btn btn-primary">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Nouveau Modal Modification -->
+<!-- Nouveau Modal Modification -->
+<div class="modal fade" id="editConventionModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Modifier la Convention</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="conventionForm" (ngSubmit)="updateConvention()">
+
+          <!-- Champ Description -->
+          <div class="mb-3">
+            <label>Description</label>
+            <input type="text" class="form-control" formControlName="description" required>
+            <div *ngIf="conventionForm.get('description')?.invalid && conventionForm.get('description')?.touched" class="text-danger">
+              <small *ngIf="conventionForm.get('description')?.errors?.['required']">La description est requise.</small>
+              <small *ngIf="conventionForm.get('description')?.errors?.['minlength']">Minimum 5 caractères.</small>
+            </div>
+          </div>
+
+          <!-- Champ ID Stage -->
+          <div class="mb-3">
+            <label>ID Stage</label>
+            <input type="number" class="form-control" formControlName="internshipId" required>
+            <div *ngIf="conventionForm.get('internshipId')?.invalid && conventionForm.get('internshipId')?.touched" class="text-danger">
+              <small *ngIf="conventionForm.get('internshipId')?.errors?.['required']">L'ID du stage est requis.</small>
+              <small *ngIf="conventionForm.get('internshipId')?.errors?.['min']">L'ID doit être positif.</small>
+            </div>
+          </div>
+
+          <!-- Champ Signée -->
+          <div class="mb-3">
+            <label>Signée</label>
+            <select class="form-select" formControlName="signed" required>
+              <option [value]="true">Oui</option>
+              <option [value]="false">Non</option>
+            </select>
+            <div *ngIf="conventionForm.get('signed')?.invalid && conventionForm.get('signed')?.touched" class="text-danger">
+              <small>Veuillez sélectionner une option.</small>
+            </div>
+          </div>
+
+          <!-- Champ Termes de la Convention -->
+          <div class="mb-3">
+            <label>Termes de la Convention</label>
+            <div formArrayName="terms">
+              <div *ngFor="let term of getTerms.controls; let i = index" [formGroupName]="i" class="row mb-2">
+                <div class="col">
+                  <input type="text" class="form-control" formControlName="title" placeholder="Titre du terme" required>
+                  <div *ngIf="term.get('title')?.invalid && term.get('title')?.touched" class="text-danger">
+                    <small>Le titre est requis.</small>
+                    <div *ngIf="term.get('title')?.errors?.['minlength']">Minimum 3 caractères.</div>
+                  </div>
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control" formControlName="description" placeholder="Description du terme" required>
+                  <div *ngIf="term.get('description')?.invalid && term.get('description')?.touched" class="text-danger">
+                    <small>La description est requise.</small>
+                    <div *ngIf="term.get('description')?.errors?.['minlength']">Minimum 3 caractères.</div>
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <button type="button" class="btn btn-danger" (click)="removeTerm(i)">✖</button>
+                </div>
+              </div>
+            </div>
+            <button type="button" class="btn btn-secondary mt-2" (click)="addTerm()">Ajouter un terme</button>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            <button type="submit" class="btn btn-primary" [disabled]="conventionForm.invalid">Mettre à jour</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
