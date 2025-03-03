@@ -151,6 +151,11 @@ export class StudentProfileService {
       catchError(this.handleError)
     );
   }
+  skillEnhancer():Observable<any>{
+    return this.http.get(`${this.apiUrl}/Skills/enhancer`).pipe(
+      catchError(this.handleError)
+    );
+  }
 
 
 

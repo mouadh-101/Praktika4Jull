@@ -2,6 +2,7 @@ package org.esprit.student.repository;
 
 import org.esprit.student.entity.Education;
 import org.esprit.student.entity.Skill;
+import org.esprit.student.entity.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,5 +16,7 @@ public interface SkillRepository extends JpaRepository<Skill,Long> {
     Skill findByName(String name);
     @Query("SELECT s FROM Skill s WHERE s.id NOT IN (SELECT us.id FROM Student s JOIN s.skills us WHERE s.userId = :userId) ORDER BY s.id DESC")
     List<Skill> findTop10UnassignedSkills(@Param("userId") String userId);
+    @Query("SELECT s FROM Skill s WHERE s.id IN (SELECT us.id FROM Student st JOIN st.skills us WHERE st.userId = :userId)")
+    List<Skill> findSkillsByUserId(@Param("userId") String userId);
 
 }

@@ -17,6 +17,10 @@ export class StudentProfileComponent implements OnInit {
   userData: any = {};
   studentData:any={};
   f10:any={};
+  enhancer:any={};
+  pageSize = 3;
+  currentPage = 0;
+  totalPages = Math.ceil(this.enhancer.length / this.pageSize);
   constructor(private studentProfileService: StudentProfileService, private userService: UserService,public dialog: MatDialog) {}
 
   ngOnInit(): void {
@@ -25,6 +29,11 @@ export class StudentProfileComponent implements OnInit {
       this.f10 = skills; // Assign the API response to the variable
       console.log(this.f10); // Check if the data is received correctly
     });
+    this.studentProfileService.skillEnhancer().subscribe((enhancer) => {
+      this.enhancer = enhancer; // Assign the API response to the variable
+      console.log(this.enhancer); // Check if the data is received correctly
+    });
+
   }
 
   fetchUserDataAndInitializeCV(): void {
@@ -240,6 +249,17 @@ export class StudentProfileComponent implements OnInit {
         this.fetchUserDataAndInitializeCV();
       }
     });
+  }
+  nextPage() {
+    if (this.currentPage < this.totalPages - 1) {
+      this.currentPage++;
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 0) {
+      this.currentPage--;
+    }
   }
   
 

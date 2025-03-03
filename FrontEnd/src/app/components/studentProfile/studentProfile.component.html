@@ -99,5 +99,12 @@
         <span class="skill-tag" (click)="onAddSkill()">Add other skills +</span>
       </div>
     </div>
+    <div class="warning-banner">
+      ⚠️ This is Skill enhancer you can find usfull links to enhance your skills.
+    </div>
+    <div *ngFor="let enhance of enhancer" class="activity-entry">
+      <h3>{{ enhance.title}}</h3>
+      <div class="description"><a href="{{ enhance.url}}">{{ enhance.url}}</a></div>
+    </div>
   </div>
 </div>

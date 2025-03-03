@@ -1,10 +1,12 @@
 package org.esprit.student.controller;
 
+import org.esprit.student.controller.dto.CourseDto;
 import org.esprit.student.entity.Skill;
 import org.esprit.student.entity.Student;
 import org.esprit.student.repository.StudentRepository;
 import org.esprit.student.service.Interface.ISkillService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -50,6 +52,10 @@ public class SkillController{
     public List<Skill> find10First(@RequestHeader("userId") String id)
     {
         return skillService.find10Skill(id);
+    }
+    @GetMapping("/enhancer")
+    public ResponseEntity<List<CourseDto>> getCourses(@RequestHeader String userId) {
+        return ResponseEntity.ok(skillService.searchUdemyCourses(userId));
     }
 
 
