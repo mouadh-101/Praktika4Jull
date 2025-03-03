@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { InterviewService } from 'src/app/services/interview.service';
+import { InterviewService, Interview } from 'src/app/services/interview.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -11,6 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class InterviewEditComponent implements OnInit {
   interviewForm!: FormGroup;
   minDate: string = '';
+  interviewId!: number; // Stocker l'ID de l'interview à mettre à jour
 
   constructor(
     private fb: FormBuilder,
@@ -22,7 +23,7 @@ export class InterviewEditComponent implements OnInit {
   ngOnInit(): void {
     // 🔹 Définir la date minimale (demain)
     const today = new Date();
-    today.setDate(today.getDate() + 1); // Demain
+    today.setDate(today.getDate() + 1);
     this.minDate = today.toISOString().split('T')[0];
 
     // 🔹 Initialisation du formulaire avec validation
@@ -33,13 +34,23 @@ export class InterviewEditComponent implements OnInit {
       status: ['SCHEDULED', Validators.required]
     });
 
-    // 🔹 Charger les données de l'interview existante
+    // 🔹 Récupérer l'ID de l'interview depuis l'URL
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.interviewService.getInterviewById(+id).subscribe(data => {
-        this.interviewForm.patchValue(data); // Remplir le formulaire avec les données actuelles
+      this.interviewId = +id;
+      this.interviewService.getInterviewById(this.interviewId).subscribe(data => {
+        if (data.dateInterview) {
+          data.dateInterview = this.formatDateForInput(data.dateInterview); // ✅ Correction ici
+        }
+        this.interviewForm.patchValue(data);
       });
     }
+  }
+
+  // ✅ Fonction pour convertir la date au bon format pour <input type="date">
+  private formatDateForInput(dateString: string): string {
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0]; // Convertir en format YYYY-MM-DD
   }
 
   // ✅ VALIDATEUR PERSONNALISÉ POUR LA DATE
@@ -56,7 +67,14 @@ export class InterviewEditComponent implements OnInit {
     if (this.interviewForm.invalid) {
       return;
     }
-    this.interviewService.updateInterview(this.interviewForm.value).subscribe(() => {
+
+    // Ajout de l'ID avant d'envoyer les données au backend
+    const updatedInterview: Interview = {
+      interviewId: this.interviewId,
+      ...this.interviewForm.value
+    };
+
+    this.interviewService.updateInterview(updatedInterview).subscribe(() => {
       this.router.navigate(['/interviews']);
     });
   }
