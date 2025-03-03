@@ -8,6 +8,8 @@ import { InternshipComponent } from './components/internship/internship.componen
 import { AddInternshipComponent } from './components/add-internship/add-internship.component';
 import { UpdateInternshipComponent } from './components/update-internship/update-internship.component';
 import { InternshipDetailsComponent } from './components/internship-details/internship-details.component';
+import { FavorisComponent } from './components/favoris/favoris.component';
+
 
 const routes: Routes = [
   { path: 'sign-in', component: SignInComponent },
@@ -18,6 +20,7 @@ const routes: Routes = [
   { path: 'internships/add', component: AddInternshipComponent },
   { path: 'internships/edit/:id', component: UpdateInternshipComponent },
   { path: 'internships/details/:id', component: InternshipDetailsComponent },
+  { path: 'favoris', component: FavorisComponent },
   { path: '', redirectTo: '/', pathMatch: 'full' }
 ];
 

@@ -1,5 +1,5 @@
 export class Company {
-    idCompany!: number
+    idCompany!: string
     industry!: string
     website!: string
     description!: string

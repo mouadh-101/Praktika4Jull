@@ -20,13 +20,13 @@ public class CompanyService {
         return companyRepository.save(company);
     }
 
-    public void deleteCompany(int idCompany){
+    public void deleteCompany(String idCompany){
         companyRepository.deleteById(idCompany);
     }
     public List<Company> GetAllCompany(){
         return  companyRepository.findAll();
     }
-    public Optional<Company> getCompanyById(int idCompany) {
+    public Optional<Company> getCompanyById(String idCompany) {
         return companyRepository.findById(idCompany);
     }
 

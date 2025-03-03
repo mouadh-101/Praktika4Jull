@@ -16,8 +16,7 @@ import java.util.List;
 @Setter
 public class Company {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int idCompany;
+    String userId;
     String industry;
     String website;
     String description;

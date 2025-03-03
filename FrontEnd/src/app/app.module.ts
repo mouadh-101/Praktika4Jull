@@ -25,6 +25,8 @@ import { UpdateInternshipComponent } from './components/update-internship/update
 import { AddInternshipComponent } from './components/add-internship/add-internship.component';
 import { InternshipDetailsComponent } from './components/internship-details/internship-details.component';
 import { InternshipComponent } from './components/internship/internship.component';
+import { FavorisComponent } from './components/favoris/favoris.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @NgModule({
@@ -42,7 +44,7 @@ import { InternshipComponent } from './components/internship/internship.componen
     AddInternshipComponent,
     InternshipDetailsComponent,
     InternshipComponent,
-    
+    FavorisComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -56,7 +58,8 @@ import { InternshipComponent } from './components/internship/internship.componen
     MatIconModule,
     MatDialogModule,
     HttpClientModule,
-   FormsModule
+    FormsModule,
+    NgxPaginationModule
   ],
   providers: [
     {

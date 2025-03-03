@@ -52,4 +52,5 @@ public class Internship {
     List<Requirement> requirements = new ArrayList<>();;
     @ManyToOne
     Company company;
+
 }

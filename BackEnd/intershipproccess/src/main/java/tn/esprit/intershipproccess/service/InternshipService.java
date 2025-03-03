@@ -12,6 +12,7 @@ import tn.esprit.intershipproccess.repository.CompanyRepository;
 import tn.esprit.intershipproccess.repository.InternshipRepository;
 import tn.esprit.intershipproccess.repository.RequirementRepository;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +37,7 @@ public class InternshipService {
         internship.setLastModifiedDate(LocalDateTime.now());
         return internshipRepository.save(internship);
     }
-    public Internship addInternshipWithRequirements(Internship internship, List<String> requirementNames, int companyId) {
+    public Internship addInternshipWithRequirements(Internship internship, List<String> requirementNames, String companyId) {
         // Récupérer la company par son ID
         Company company = companyRepository.findById(companyId)
                 .orElseThrow(() -> new IllegalArgumentException("La société avec l'ID " + companyId + " n'existe pas"));
@@ -94,4 +95,9 @@ internship.setStatus(Status.OPEN);
     public List<Requirement> getAvailableRequirements(){
         return requirementRepository.findAll();
     }
+
+    public List<Internship> getInternshipsWithFilters(String location, Integer duration, BigDecimal compensation, String field, Boolean remote) {
+        return internshipRepository.findByFilters(location, duration, compensation, field, remote);
+    }
+
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { InternshipService } from 'src/app/services/internship.service';
 import * as bootstrap from 'bootstrap'
@@ -14,7 +14,7 @@ export class AddInternshipComponent implements OnInit {
   tempDescription: string = ''; // Temp variable for modal
   descriptionModal: any;
   requirementNames: string[] = []; // Array to hold requirement names
-  companyId: number = 1; // Example companyId, this should come from a dynamic source
+  companyId: string = "5cbb93e9-80f8-47be-9e0c-0df196520a51"; // Example companyId, this should come from a dynamic source
   availableRequirements: { name: string, selected: boolean }[] = []; // Liste d'exigences avec un état sélectionné
  
 
@@ -31,15 +31,48 @@ export class AddInternshipComponent implements OnInit {
       location: ['', Validators.required],
       remote: [false],
       field: ['', Validators.required],
-      duration: [0, Validators.required],
-      startDate: ['', Validators.required],
+      duration: ['', [Validators.required, Validators.min(1)]],
+      startDate: ['', [Validators.required, this.futureDateValidator]],
       endDate: ['', Validators.required],
       compensation: [0],
       applicationDeadline: ['', Validators.required],
       status: ['OPEN']
     });
+    this.setupAutoEndDateCalculation();
   }
 
+futureDateValidator(control: FormControl) {
+  const selectedDate = new Date(control.value);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  return selectedDate && selectedDate > today ? null : { futureDate: true };
+}
+// Fonction pour mettre à jour la endDate automatiquement
+setupAutoEndDateCalculation() {
+  this.internshipForm.get('startDate')?.valueChanges.subscribe((startDate) => {
+    this.updateEndDate();
+  });
+
+  this.internshipForm.get('duration')?.valueChanges.subscribe((duration) => {
+    this.updateEndDate();
+  });
+}
+
+// Fonction pour calculer la nouvelle endDate et mettre à jour le formulaire
+updateEndDate() {
+  const startDate = this.internshipForm.get('startDate')?.value;
+  const duration = this.internshipForm.get('duration')?.value;
+
+  if (startDate && duration) {
+    const start = new Date(startDate);
+    // Ajouter la durée (en mois) à la date de début
+    const end = new Date(start.setMonth(start.getMonth() + Number(duration)));
+
+    // Mettre à jour le champ endDate
+    this.internshipForm.get('endDate')?.setValue(end.toISOString().substring(0, 10)); // format YYYY-MM-DD
+  }
+}
   ngOnInit(): void {
     const modalElement = document.getElementById('descriptionModal');
     if (modalElement) {

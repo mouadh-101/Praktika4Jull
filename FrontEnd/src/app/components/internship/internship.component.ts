@@ -11,8 +11,38 @@ import { Router } from '@angular/router';
 })
 export class InternshipComponent implements OnInit {
   internships: Internship[] = [];
-
+  p: number = 1; // Page initiale
+  filters = { // Object des critères de filtrage
+    location: '',
+    duration: null,
+    compensation: null,
+    field: '',
+    remote: false
+  };
   constructor(private router: Router,private internshipService: InternshipService) {}
+
+
+
+
+  // Méthode pour récupérer les stages en fonction des filtres
+  getInternships() {
+    this.internshipService.getFilteredInternships(this.filters).subscribe(
+      (data) => {
+        this.internships = data; // Mettre à jour la liste des stages
+      },
+      (error) => {
+        console.error('Error fetching internships', error);
+      }
+    );
+  }
+
+   // Méthode qui applique les filtres
+   applyFilters() {
+    // Utilise les filtres pour faire une requête GET
+    this.internshipService.getFilteredInternships(this.filters).subscribe(data => {
+      this.internships = data; // Mettez à jour la liste des internships
+    });
+  }
 
 
   // Charger les internships

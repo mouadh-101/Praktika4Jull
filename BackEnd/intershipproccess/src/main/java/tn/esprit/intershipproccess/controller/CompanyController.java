@@ -19,13 +19,12 @@ public class CompanyController{
     @Autowired
     private CompanyService companyService;
     @PostMapping("/add")
-    public ResponseEntity<?> addInternship(@RequestBody Company company){
-
+    public ResponseEntity<?> addCompany(@RequestBody Company company){
         Company savedCompany = companyService.addCompany(company);
         return new ResponseEntity<>(savedCompany, HttpStatus.CREATED);
     }
     @GetMapping("/getById/{idCompany}")
-    public ResponseEntity<Company> getCompanyById(@PathVariable("idCompany") int idCompany) {
+    public ResponseEntity<Company> getCompanyById(@PathVariable("idCompany") String idCompany) {
         Optional<Company> company = companyService.getCompanyById(idCompany);
         if (company.isPresent()) {
             return new ResponseEntity<>(company.get(), HttpStatus.OK);

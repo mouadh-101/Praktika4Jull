@@ -1,0 +1,92 @@
+.container {
+    max-width: 800px;
+    margin: auto;
+    
+  }
+  .internship-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 600;
+  }
+  
+ 
+/* Style de la card */
+.card {
+    border: 1px solid #ddd; /* Bordure grise très fine */
+   
+  }
+  
+  /* Badge "Actively hiring" */
+  .badge-custom {
+    /* display: inline-block;
+    padding: 5px 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #6c757d;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px; */
+    /* border: 1px solid #ddd;
+    padding: 4px 8px;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    gap: 4px;
+    color: #495055; */
+    display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #6c757d;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  background-color: transparent;
+  position: absolute;
+    top: 25px;
+    left: 15px;
+  }
+  
+  /* .badge-custom {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: transparent;
+    color: gray;
+    border: 1px solid gray;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+  } */
+  
+  h2 {
+    margin-top: 30px;
+  }
+  
+  p {
+    font-size: 16px;
+  }
+  
+  .gray-line {
+    border: none;
+    height: 1px;
+    background: lightgray;
+    margin: 10px 0;
+  }
+  
+
+  .custom-btn {
+    background-color: #388da8;
+    border-color: #388da8;
+    color: white;
+  }
+  
+  .custom-btn:hover {
+    background-color: #2a6f8f;
+    border-color: #2a6f8f;
+  }
+  

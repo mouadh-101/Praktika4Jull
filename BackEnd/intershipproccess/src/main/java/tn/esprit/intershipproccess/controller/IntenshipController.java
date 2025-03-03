@@ -11,6 +11,7 @@ import tn.esprit.intershipproccess.entity.InternshipRequest;
 import tn.esprit.intershipproccess.entity.Requirement;
 import tn.esprit.intershipproccess.service.InternshipService;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -18,6 +19,19 @@ import java.util.List;
 public class IntenshipController {
     @Autowired
     private InternshipService internshipService;
+
+
+    // Endpoint pour récupérer les stages avec les filtres
+    @GetMapping
+    public List<Internship> getInternships(
+            @RequestParam(required = false) String location,
+            @RequestParam(required = false) Integer duration,
+            @RequestParam(required = false) BigDecimal compensation,
+            @RequestParam(required = false) String field,
+            @RequestParam(required = false) Boolean remote) {
+
+        return internshipService.getInternshipsWithFilters(location, duration, compensation, field, remote);
+    }
 
     @PostMapping("/addIntership")
     public ResponseEntity<?> addInternship(@RequestBody Internship internship){
@@ -27,7 +41,7 @@ public class IntenshipController {
     @PostMapping("/addIntership1/{companyId}")
     public ResponseEntity<?> addInternshipWithRequirements(
             @RequestBody @Valid InternshipRequest internshipRequest,
-            @PathVariable int companyId){
+            @PathVariable String companyId){
         Internship internship = new Internship();
         internship.setTitre(internshipRequest.getTitre());
         internship.setDescription(internshipRequest.getDescription());

@@ -1,3 +1,9 @@
+
+<br>
+<br>
+<br>
+<br>
+
 <div class="container mt-5 d-flex justify-content-center">
     <div class="card shadow p-4" style="max-width: 600px; width: 100%;">
       <h2 class="text-center mb-4">Add an Internship</h2>
@@ -9,12 +15,13 @@
         
           <div *ngIf="internshipForm.get('titre')?.invalid && internshipForm.get('titre')?.touched">
          
-          <small *ngIf="internshipForm.get('titre')?.hasError('required')" class="text-danger">
-              Le titre est obligatoire.
+            <small *ngIf="internshipForm.get('titre')?.hasError('required')" class="text-danger">
+              The title is required.
             </small> 
-             <small *ngIf="internshipForm.get('titre')?.hasError('minlength')" class="text-danger">
-              Le titre doit avoir au moins 3 caractères.
-            </small> 
+            <small *ngIf="internshipForm.get('titre')?.hasError('minlength')" class="text-danger">
+              The title must be at least 3 characters long.
+            </small>
+            
             <small *ngIf="internshipForm.get('titre')?.hasError('serverError')" class="text-danger">
               {{ internshipForm.get('titre')?.errors?.['serverError'] }}
             </small>
@@ -36,38 +43,60 @@
         <div class="mb-3">
           <label class="form-label">Location:</label>
           <input type="text" class="form-control" formControlName="location" required>
+          <div *ngIf="internshipForm.get('Location')?.invalid && internshipForm.get('Location')?.touched">
+         
+            <small *ngIf="internshipForm.get('Location')?.hasError('required')" class="text-danger">
+              The Location is required.
+            </small> 
+        
+          </div>
         </div>
   
         <div class="mb-3">
           <label class="form-label">Field:</label>
           <input type="text" class="form-control" formControlName="field" required>
+          <div *ngIf="internshipForm.get('field')?.invalid && internshipForm.get('field')?.touched">
+         
+            <small *ngIf="internshipForm.get('field')?.hasError('required')" class="text-danger">
+              The field is required.
+            </small> 
+        
+          </div>
         </div>
         <div class="mb-3">
           <label class="form-label">Duration:</label>
           <input type="number" class="form-control" formControlName="duration" required>
-        
-          <small *ngIf="internshipForm.get('duration')?.hasError('serverError')" class="text-danger">
-            {{ internshipForm.get('duration')?.errors?.['serverError'] }}
+          <div *ngIf="internshipForm.get('duration')?.invalid && internshipForm.get('duration')?.touched">
+          <small *ngIf="internshipForm.errors?.['durationMismatch']" class="text-danger">
+            La durée ne correspond pas à la différence entre la date de début et la date de fin.
           </small>
         
           <small *ngIf="internshipForm.get('duration')?.hasError('required')" class="text-danger">
-            La durée est requise.
+            The duration is required.
           </small>
+        </div>
         </div>
   
         <div class="row">
           <div class="col-md-6 mb-3">
             <label class="form-label">Start Date:</label>
             <input type="date" class="form-control" formControlName="startDate" required>
+            <small *ngIf="internshipForm.get('startDate')?.hasError('futureDate') && internshipForm.get('startDate')?.touched" class="text-danger">
+              The start date must be in the future.
+            </small>
           </div>
+          
           <div class="col-md-6 mb-3">
             <label class="form-label">End Date:</label>
             <input type="date" class="form-control" formControlName="endDate" required>
+            <small *ngIf="internshipForm.get('endDate')?.hasError('endDateInvalid') && internshipForm.get('endDate')?.touched" class="text-danger">
+              La date de fin doit être après la date de début.
+            </small>
           </div>
         </div>
   
         <div class="mb-3">
-          <label class="form-label">Compensation (€):</label>
+          <label class="form-label">Compensation:</label>
           <input type="number" class="form-control" formControlName="compensation">
         </div>
   

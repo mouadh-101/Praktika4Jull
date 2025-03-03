@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { Internship } from '../models/internship';
 
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root' 
 })
 export class InternshipService {
 
@@ -21,7 +21,7 @@ export class InternshipService {
   addInternship(internship: Internship): Observable<Internship> {
     return this.http.post<Internship>(`${this.apiUrl}/addIntership`, internship);
   }
-  addInternshipWithRequirements(internship: any, requirementNames: string[], companyId: number): Observable<any> {
+  addInternshipWithRequirements(internship: any, requirementNames: string[], companyId: string): Observable<any> {
     // Crée un objet pour envoyer les données nécessaires
     const internshipData = {
       ...internship,
@@ -43,8 +43,22 @@ export class InternshipService {
   updateInternship(id: number, internship: Internship): Observable<Internship> {
     return this.http.put<Internship>(`${this.apiUrl}/updateIntership/${id}`,internship);
   }
-
+ 
   deleteInternship(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/deleteInternship/${id}`);
   }
+
+// Méthode pour obtenir les internships filtrés
+getFilteredInternships(filters: any): Observable<any[]> {
+  let params = new HttpParams();
+
+  // Ajoute tous les filtres à la requête HTTP
+  if (filters.location) params = params.set('location', filters.location);
+  if (filters.duration) params = params.set('duration', filters.duration.toString());
+  if (filters.compensation) params = params.set('compensation', filters.compensation.toString());
+  if (filters.field) params = params.set('field', filters.field);
+  if (filters.remote !== undefined) params = params.set('remote', filters.remote.toString()); // Ajoute le filtre remote
+
+  return this.http.get<any[]>(this.apiUrl, { params });
+}
 }
