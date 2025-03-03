@@ -8,18 +8,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./interview-list.component.css']
 })
 export class InterviewListComponent implements OnInit {
-  getStatusClass(status: string): string {
-    switch (status) {
-      case 'SCHEDULED': return 'status-scheduled';
-      case 'COMPLETED': return 'status-completed';
-      case 'CANCELED': return 'status-canceled';
-      default: return '';
-    }
-  }
-
-
   interviews: Interview[] = [];
   searchTerm: string = '';
+  p: number = 1; // Page actuelle pour la pagination
 
   constructor(private interviewService: InterviewService, private router: Router) {}
 
@@ -47,5 +38,14 @@ export class InterviewListComponent implements OnInit {
 
   navigateToEdit(id: number): void {
     this.router.navigate(['/interviews/edit', id]);
+  }
+
+  getStatusClass(status: string): string {
+    switch (status) {
+      case 'SCHEDULED': return 'status-scheduled';
+      case 'COMPLETED': return 'status-completed';
+      case 'CANCELED': return 'status-canceled';
+      default: return '';
+    }
   }
 }

@@ -34,10 +34,10 @@ public class InterviewRestApi {
     {
         serviceInterview.supprimerInterview(id);
     }
-    @PutMapping(path = "/Interview/update")
-    Interview updateInterview(@RequestBody Interview interview)
+    @PutMapping(path = "/Interview/update/{id}")
+    Interview updateInterview(@PathVariable Long id,@RequestBody Interview interview)
     {
-        return serviceInterview.updateInterview(interview);
+        return serviceInterview.updateInterview(id,interview);
     }
     @GetMapping(path = "/Interview/{id}")
     Optional<Interview> chercherInterview(@PathVariable Long id)

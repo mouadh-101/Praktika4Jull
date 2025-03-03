@@ -11,7 +11,7 @@ public interface IServiceInterview {
     Interview ajouterInterview(Interview interview) ;
 
     void supprimerInterview(Long id);
-    Interview updateInterview(Interview interview);
+    Interview updateInterview(Long id,Interview interview);
     Optional<Interview> chercherInterview(Long id);
     List<Interview> getAll();
 

@@ -29,7 +29,7 @@ export class InterviewService {
     return this.http.get<Interview>(`${this.apiUrl}/Interview/${id}`);
   }
 
-  private apiUrl = 'http://localhost:8081/Interview';
+  private apiUrl = 'http://localhost:8222/api/interview';
 
   constructor(private http: HttpClient) {}
 

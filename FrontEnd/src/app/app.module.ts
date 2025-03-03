@@ -27,6 +27,7 @@ import { FilterPipe } from './pipes/filter.pipe';
 import { InterviewAddComponent } from './components/interview/interview-add/interview-add.component';
 import { InterviewListComponent } from './components/interview/interview-list/interview-list.component';
 import { InterviewEditComponent } from './components/interview/interview-edit/interview-edit.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 
@@ -48,6 +49,7 @@ import { InterviewEditComponent } from './components/interview/interview-edit/in
     InterviewEditComponent,
 
 
+
   ],
   imports: [
     ReactiveFormsModule,
@@ -63,6 +65,7 @@ import { InterviewEditComponent } from './components/interview/interview-edit/in
     HttpClientModule,
     NgbModule,
     FormsModule,
+    NgxPaginationModule,
   ],
   providers: [
     {

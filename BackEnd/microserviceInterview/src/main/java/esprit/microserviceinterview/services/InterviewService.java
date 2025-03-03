@@ -29,9 +29,14 @@ public class InterviewService implements IServiceInterview{
     }
 
     @Override
-    public Interview updateInterview(Interview interview)
+    public Interview updateInterview(Long id,Interview interview)
     {
-        return interviewRepo.save(interview);
+        Interview i=interviewRepo.findById(id).orElse(null);
+        i.setDateInterview(interview.getDateInterview());
+        i.setLocation(interview.getLocation());
+        i.setNotes(interview.getNotes());
+        i.setStatus(interview.getStatus());
+        return interviewRepo.save(i);
     }
 
     @Override
