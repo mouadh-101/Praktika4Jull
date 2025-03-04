@@ -19,6 +19,7 @@ public class Requirement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id ;
     String name;
+    String field;
     @JsonIgnore
     @ManyToMany(mappedBy = "requirements")
     List<Internship> internships ;

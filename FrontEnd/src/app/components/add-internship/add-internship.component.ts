@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { InternshipService } from 'src/app/services/internship.service';
 import * as bootstrap from 'bootstrap'
+import { RequirementService } from 'src/app/services/requirement.service';
 
 @Component({
   selector: 'app-add-internship',
@@ -15,8 +16,8 @@ export class AddInternshipComponent implements OnInit {
   descriptionModal: any;
   requirementNames: string[] = []; // Array to hold requirement names
   companyId: string = "5cbb93e9-80f8-47be-9e0c-0df196520a51"; // Example companyId, this should come from a dynamic source
-  availableRequirements: { name: string, selected: boolean }[] = []; // Liste d'exigences avec un état sélectionné
- 
+  availableRequirements: { name: string, selected: boolean }[] = []; 
+  availableRequirementsTop5: { name: string, selected: boolean }[] = [];
 
   requirmentModal: any;
   showAddRequirementModal = false; // Gérer l'affichage de la modale
@@ -24,7 +25,17 @@ export class AddInternshipComponent implements OnInit {
   selectedRequirements: string[] = []; // Stocke les requirements sélectionnés
 
   serverErrors: any = {};
-  constructor(private fb: FormBuilder, private internshipService: InternshipService, private router: Router) {
+
+
+
+  field: string = '';
+  requirements: any[] = [];
+  selectedRequirementId: string | null = null;
+
+  filteredRequirements: { name: string, selected: boolean }[] = []; // Liste des exigences filtrées
+
+  
+  constructor(private fb: FormBuilder, private internshipService: InternshipService, private router: Router,private requirementService:RequirementService) {
     this.internshipForm = this.fb.group({
       titre: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', Validators.required],
@@ -86,17 +97,19 @@ updateEndDate() {
     } else {
       console.error('Modal element not found');
     }
-    this.internshipService.getAvailableRequirements().subscribe(
-      (requirements: string[]) => {
-        this.availableRequirements = requirements.map(requirement => ({
-          name: requirement, // Utilise directement la chaîne comme nom
-          selected: false // Initialiser comme non sélectionnée
-        }));
-      },
-      (error) => {
-        console.error('Erreur lors de la récupération des exigences disponibles', error);
+    
+    this.internshipForm.get('field')?.valueChanges.subscribe(value => {
+      if (value.length > 1) {  // Si la valeur est suffisamment longue
+        this.requirementService.getRequirementsByField(value).subscribe(data => {
+          // Ajouter les exigences récupérées dans availableRequirements
+          this.availableRequirements = data.map(requirement => ({
+            name: requirement.name,  // Assurer que 'name' est le bon champ pour l'exigence
+            selected: false  // Initialiser comme non sélectionnée
+          }));
+      this.availableRequirementsTop5 = this.availableRequirements.slice(0, 5);
+        });
       }
-    );
+    });
     
   }
   // Ouvre la modale pour ajouter un requirement
@@ -110,23 +123,128 @@ closeAddRequirementModal() {
 }
 
 // Fonction pour sauvegarder la nouvelle exigence
-saveNewRequirement() {
-  if (this.newRequirementName.trim()) {
-    const newRequirement = { name: this.newRequirementName.trim(), selected: false };
+// saveNewRequirement() {
+//   if (this.newRequirementName.trim()) {
+//     const newRequirement = { 
+//       name: this.newRequirementName.trim(),
+//       field: this.internshipForm.get('field')?.value // Récupérer automatiquement le field sélectionné
+//       , selected: false };
 
-    // Vérifier si l'exigence existe déjà
-    const exists = this.availableRequirements.some(req => req.name === newRequirement.name);
-    if (!exists) {
-      // Ajouter la nouvelle exigence à la liste
-      this.availableRequirements.push(newRequirement);
+//     // Vérifier si l'exigence existe déjà
+//     const exists = this.availableRequirements.some(req => req.name === newRequirement.name);
+//     if (!exists) {
+//       // Ajouter la nouvelle exigence à la liste
+//       this.availableRequirements.push(newRequirement);
+//       this.newRequirementName = '';
+//     }
+
+//     // Fermer la modale après ajout
+//     this.closeAddRequirementModal();
+//   } else {
+//     alert('Please enter a valid requirement name.');
+//   }
+// }
+
+
+  // Fonction appelée à chaque saisie dans le champ de recherche
+  onRequirementSearch() {
+    // Si la saisie est vide, réinitialiser la liste filtrée
+    if (this.newRequirementName.trim() === '') {
+      this.filteredRequirements = [];
+    } else {
+      // Filtrer les exigences disponibles en fonction de la saisie
+      this.filteredRequirements = this.availableRequirements.filter(req =>
+        req.name.toLowerCase().includes(this.newRequirementName.toLowerCase())
+      );
+    }
+  }
+
+  // Fonction appelée lorsqu'une exigence est sélectionnée
+  onRequirementSelect(requirement: { name: string, selected: boolean }) {
+    // Ajouter l'exigence sélectionnée à la liste des exigences disponibles (Top 5)
+    if (!this.availableRequirementsTop5.some(req => req.name === requirement.name)) {
+      this.availableRequirementsTop5.push(requirement); // Ajoute l'exigence à Top 5
+    }
+
+    this.newRequirementName = requirement.name; // Remplir le champ avec le nom de l'exigence sélectionnée
+    this.selectedRequirementId = requirement.name; // Mettre à jour l'ID de l'exigence sélectionnée
+    this.filteredRequirements = []; // Réinitialiser la liste filtrée
+  }
+
+  // Fonction pour sauvegarder la nouvelle exigence
+  saveNewRequirement() {
+    if (this.selectedRequirementId) {
+      // Si une exigence existante est sélectionnée
+      const selectedRequirement = this.availableRequirements.find(req => req.name === this.selectedRequirementId);
+      if (selectedRequirement) {
+        selectedRequirement.selected = true; // Mettre à jour l'état de l'exigence sélectionnée
+      }
+
+      // Ajouter l'exigence sélectionnée à la liste des Top 5
+      if (!this.availableRequirementsTop5.some(req => req.name === selectedRequirement?.name)) {
+        this.availableRequirementsTop5.push(selectedRequirement!);
+      }
+    } else if (this.newRequirementName.trim()) {
+      // Si l'utilisateur a entré une nouvelle exigence
+      const newRequirement = { 
+        name: this.newRequirementName.trim(),
+        selected: false 
+      };
+
+      // Vérifier si l'exigence existe déjà
+      const exists = this.availableRequirements.some(req => req.name === newRequirement.name);
+      if (!exists) {
+        // Ajouter la nouvelle exigence à la liste
+        this.availableRequirements.push(newRequirement);
+        this.availableRequirementsTop5.push(newRequirement);  // Ajouter directement dans le Top 5
+        this.newRequirementName = '';  // Réinitialiser le champ de texte
+      }
+    } else {
+      alert('Please enter a valid requirement name or select an existing one.');
     }
 
     // Fermer la modale après ajout
     this.closeAddRequirementModal();
-  } else {
-    alert('Please enter a valid requirement name.');
   }
-}
+// saveNewRequirement() {
+//   // Vérifier si une exigence a été sélectionnée ou si une nouvelle exigence est entrée
+//   if (this.selectedRequirementId) {
+//     // Si une exigence existante est sélectionnée
+//     const selectedRequirement = this.availableRequirementsTop5.find(req => req.name === this.selectedRequirementId);
+    
+//     if (!selectedRequirement) {
+//       // Si l'exigence n'existe pas déjà dans availableRequirementsTop5, on l'ajoute
+//       const requirementToAdd = this.availableRequirements.find(req => req.name === this.selectedRequirementId);
+//       if (requirementToAdd) {
+//         // Ajout de l'exigence à availableRequirementsTop5
+//         this.availableRequirementsTop5.push({ 
+//           name: requirementToAdd.name, 
+//           selected: true 
+//         });
+//       }
+//     }
+//   } else if (this.newRequirementName.trim()) {
+//     // Si l'utilisateur a entré une nouvelle exigence
+//     const newRequirement = { 
+//       name: this.newRequirementName.trim(),
+//       field: this.internshipForm.get('field')?.value, 
+//       selected: false 
+//     };
+
+//     // Vérifier si l'exigence existe déjà
+//     const exists = this.availableRequirementsTop5.some(req => req.name === newRequirement.name);
+//     if (!exists) {
+//       // Ajouter la nouvelle exigence à la liste
+//       this.availableRequirementsTop5.push(newRequirement);
+//       this.newRequirementName = '';  // Réinitialiser le champ de texte
+//     }
+//   } else {
+//     alert('Please enter a valid requirement name or select an existing one.');
+//   }
+
+//   // Fermer la modale après ajout
+//   this.closeAddRequirementModal();
+// }
 
 
 
@@ -164,6 +282,7 @@ saveNewRequirement() {
       if (!this.selectedRequirements.includes(requirement.name)) {
         this.selectedRequirements.push(requirement.name);
       }
+      console.log('Exigences sélectionnées:', this.selectedRequirements);
     }
   
     // Supprimer une exigence de la liste sélectionnée
@@ -212,6 +331,10 @@ saveNewRequirement() {
         this.internshipForm.markAllAsTouched(); // Pour marquer tous les champs comme touchés
       }
     }
+
+   
+    
+    
     
 }
 

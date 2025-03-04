@@ -20,12 +20,12 @@ public class FavoriController {
     @Autowired
     private FavoriService favoriService;
     @PostMapping("/addFavori/{idInternship}")
-    public ResponseEntity<?> addFavoris(@RequestBody Favoris favoris,@PathVariable("idInternship") int idInternship){
-        Favoris savedFavoris = favoriService.addFavoris(favoris,idInternship);
+    public ResponseEntity<?> addFavoris(@RequestBody Favoris favoris,@PathVariable("idInternship") int idInternship,@RequestHeader("userId") String userId){
+        Favoris savedFavoris = favoriService.addFavoris(favoris,idInternship,userId);
         return new ResponseEntity<>(savedFavoris, HttpStatus.CREATED);
     }
-    @DeleteMapping("/removeFavori/{idInternship}/{userId}")
-    public ResponseEntity<?> removeFavori(@PathVariable("idInternship") int idInternship, @PathVariable("userId") String userId){
+    @DeleteMapping("/removeFavori/{idInternship}")
+    public ResponseEntity<?> removeFavori(@PathVariable("idInternship") int idInternship, @RequestHeader("userId") String userId){
         boolean isRemoved = favoriService.removeFavori(idInternship, userId);
         if (isRemoved) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);  // No content to return, just indicate successful deletion

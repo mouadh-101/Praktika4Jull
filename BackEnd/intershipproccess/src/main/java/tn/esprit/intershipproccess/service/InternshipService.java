@@ -50,6 +50,7 @@ public class InternshipService {
                 // Si le requirement n'existe pas, on le crée
                 requirement = new Requirement();
                 requirement.setName(requirementName);
+                requirement.setField(internship.getField());
                 requirementRepository.save(requirement);  // Sauvegarde dans la table Requirement
             }
 

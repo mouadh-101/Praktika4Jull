@@ -20,7 +20,7 @@ export class InternshipDetailsComponent implements OnInit {
     this.internship = data;
   });
    // Vérifier si l'internship est déjà un favori à l'initialisation
-   const userId = 'd129e5cc-f0d8-43f8-96d6-65b29952f233';  // Mettre ici l'ID de l'utilisateur connecté
+   const userId = '884a3a85-cc96-4294-9036-536905683478';  // Mettre ici l'ID de l'utilisateur connecté
    this.checkFavori(userId, this.internship.id);
 }
 // Fonction pour vérifier si l'internship est déjà un favori
@@ -40,11 +40,11 @@ checkFavori(userId: string, internshipId: number): void {
 }
  // Ajouter ou supprimer un favori
  toggleFavori(): void {
-  const userId = 'd129e5cc-f0d8-43f8-96d6-65b29952f233';  // ID de l'utilisateur connecté
+  const userId = '884a3a85-cc96-4294-9036-536905683478';  // ID de l'utilisateur connecté
 
   if (this.isFavori) {
       console.log("🔍 ID envoyé pour suppression :", Number(this.route.snapshot.paramMap.get('id')));
-this.favorisService.removeFavori(userId,Number(this.route.snapshot.paramMap.get('id'))).subscribe(
+this.favorisService.removeFavori(Number(this.route.snapshot.paramMap.get('id'))).subscribe(
   response => {
   console.log("✅ Favori supprimé avec succès");
 }, error => {
@@ -54,7 +54,7 @@ this.favorisService.removeFavori(userId,Number(this.route.snapshot.paramMap.get(
      
   } else {
     // Ajouter le favori
-    this.favorisService.addFavoris(userId, this.internship.id).subscribe(
+    this.favorisService.addFavoris(this.internship.id).subscribe(
       (response) => {
         this.isFavori = true;  // Mettre à jour l'état du favori
         console.log('Favori ajouté:', response);
@@ -68,10 +68,8 @@ this.favorisService.removeFavori(userId,Number(this.route.snapshot.paramMap.get(
 
 
 addFavori() {
-  const userId = 'd129e5cc-f0d8-43f8-96d6-65b29952f233'; // Remplacer par l'ID de l'utilisateur connecté
-
   // Appel au service pour ajouter ou supprimer un favori
-  this.favorisService.addFavoris(userId, this.internship.id).subscribe(
+  this.favorisService.addFavoris(this.internship.id).subscribe(
     (response) => {
       console.log('Favori ajouté:', response);
       this.isFavori = !this.isFavori; // Basculer l'état du favori

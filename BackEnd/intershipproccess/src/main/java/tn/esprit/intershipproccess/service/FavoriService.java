@@ -41,13 +41,15 @@ public class FavoriService {
     private SimpMessagingTemplate messagingTemplate;
 
 
-    public Favoris addFavoris(Favoris favoris,int idInternship){
+    public Favoris addFavoris(Favoris favoris,int idInternship,String userId){
         Internship internship = internshipRepository.findById(idInternship).orElse(null);
         favoris.setInternship(internship);
+        favoris.setUserId(userId);
         return favoriRepository.save(favoris);
     }
     public boolean removeFavori(int idInternship, String userId) {
         Optional<Favoris> favoris = favoriRepository.findByUserIdAndInternshipId(userId, idInternship);
+        logger.info(userId);
         if (favoris.isPresent()) {
             favoriRepository.delete(favoris.get());
             return true;
