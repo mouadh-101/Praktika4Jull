@@ -18,7 +18,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/api")
-
+@CrossOrigin(origins = "http://localhost:4200")
 public class PDFGenerationController {
 
     @Autowired

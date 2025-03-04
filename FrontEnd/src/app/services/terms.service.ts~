@@ -7,13 +7,12 @@ import {Convention, Terms} from "../core/model/db";
   providedIn: 'root'
 })
 export class TermsService {
-  private apiUrl = 'http://localhost:8222/terms'; // Vérifiez l'URL correcte pour vos API
-  private conventionsUrl = 'http://localhost:8222/conventions/'; // URL pour les conventions
-
+  private apiUrl = 'http://localhost:8222/api/conventions';
+  private termsUrl = 'http://localhost:8222/api/conventions/terms'
   constructor(private http: HttpClient) {}
 
   getAllTerms(): Observable<Terms[]> {
-    return this.http.get<Terms[]>(`${this.apiUrl}/all`);
+    return this.http.get<Terms[]>(`${this.termsUrl}/all`);
   }
 
   addTerms(terms: Terms): Observable<Terms> {
@@ -29,7 +28,7 @@ export class TermsService {
   }
   // Méthode pour récupérer toutes les conventions
   getAllConventions(): Observable<Convention[]> {
-    return this.http.get<Convention[]>(this.conventionsUrl);
+    return this.http.get<Convention[]>(this.apiUrl);
   }
   updateTerm(term: Terms): Observable<Terms> {
     return this.http.put<Terms>(`${this.apiUrl}/update/${term.termId}`, term);

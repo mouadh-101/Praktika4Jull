@@ -6,6 +6,9 @@ import {HttpClient} from "@angular/common/http";
   providedIn: 'root'
 })
 export class PdfGenerationService {
+
+
+  // pdf-generation.service.ts
   private apiUrl = 'http://localhost:8222/api/generate-pdf';  // Remplacez par l'URL de votre backend
 
   constructor(private http: HttpClient) { }
@@ -14,5 +17,4 @@ export class PdfGenerationService {
       responseType: 'blob'
     });
   }
-
 }

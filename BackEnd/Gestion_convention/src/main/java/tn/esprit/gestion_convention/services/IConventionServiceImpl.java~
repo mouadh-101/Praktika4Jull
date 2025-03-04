@@ -120,9 +120,5 @@ public class IConventionServiceImpl implements IConventionService{
         return conventionRepo.countConventionsByMonthAndYear(month, year);
     }
 
-    @Override
-    public List<Convention> intelligentSearch(String keyword, Boolean signedStatus) {
-        if (keyword == null) keyword = "";
-        return conventionRepo.intelligentSearch(keyword.trim(), signedStatus);
-    }
+
 }

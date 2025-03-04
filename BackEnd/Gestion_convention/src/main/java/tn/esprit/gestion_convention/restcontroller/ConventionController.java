@@ -120,7 +120,13 @@ public class ConventionController {
         return IconventionService.countConventionsByMonthAndYear(month, year);  // Appel à la méthode du service
     }
 
-    // Endpoint pour générer et envoyer un PDF
+    @GetMapping("/search")
+    public ResponseEntity<List<Convention>> intelligentSearch(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) Boolean signed) {
+
+        return ResponseEntity.ok(IconventionService.intelligentSearch(keyword, signed));
+    }
 
 }
 

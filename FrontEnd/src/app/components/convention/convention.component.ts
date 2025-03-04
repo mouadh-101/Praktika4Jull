@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ConventionService } from '../../services/convention.service';
-import { Convention, Terms } from '../../core/model/db';
+
 import {
   AbstractControl,
   FormArray,
@@ -9,7 +9,8 @@ import {
   FormGroup,
   ValidationErrors,
   Validators
-} from "@angular/forms";
+} from '@angular/forms';
+import {Convention} from "../../core/model/db";
 import {Router} from "@angular/router";
 import {PdfGenerationService} from "../../services/pdf-generation.service";
 
@@ -27,6 +28,11 @@ export class ConventionComponent implements OnInit {
   // Ajouter cette propriété
   showFormError = false;
   conId: number | undefined;  // This will store the convention ID
+// Variables de composant
+// Ajouter ces variables
+  searchKeyword: string = '';
+  searchSigned: boolean | null = null;
+
 
   constructor(private fb: FormBuilder, private conventionService: ConventionService, private router: Router,private pdfService: PdfGenerationService) {
     this.conventionForm = this.fb.group({
@@ -36,6 +42,12 @@ export class ConventionComponent implements OnInit {
       terms: this.fb.array([], [this.atLeastOneTermValidator]) // Validateur personnalisé
     });
   }
+
+
+  // Méthode de filtrage
+  // Méthode modifiée
+
+
 
   // Ajouter ce validateur personnalisé
   private atLeastOneTermValidator(control: AbstractControl): ValidationErrors | null {
@@ -199,9 +211,6 @@ export class ConventionComponent implements OnInit {
       }
     });
   }
-
-
-  // Modification de la méthode generatePDF
   generatePDF(conId: number | undefined) {
     if (!conId) return;
 
@@ -214,4 +223,21 @@ export class ConventionComponent implements OnInit {
       window.URL.revokeObjectURL(downloadURL);
     });
   }
+
+
+// Méthode de recherche
+  performSearch() {
+    this.conventionService.intelligentSearch(this.searchKeyword, this.searchSigned)
+      .subscribe(results => {
+        this.conventions = results;
+      });
+  }
+
+// Réinitialiser la recherche
+  resetSearch() {
+    this.searchKeyword = '';
+    this.searchSigned = null;
+    this.getAllConventions();
+  }
+
 }

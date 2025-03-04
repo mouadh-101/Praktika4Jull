@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {catchError, Observable} from 'rxjs';
 import {Convention, Terms} from '../core/model/db';
 
@@ -51,5 +51,14 @@ export class ConventionService {
   // ConventionService
   updateConvention(id: number, convention: Convention): Observable<Convention> {
     return this.http.put<Convention>(`${this.apiUrl}/${id}`, convention); // Modifier selon votre endpoint
+  }
+
+
+  intelligentSearch(keyword: string, signed: boolean | null): Observable<Convention[]> {
+    const params = new HttpParams()
+      .set('keyword', keyword)
+      .set('signed', signed !== null ? signed.toString() : '');
+
+    return this.http.get<Convention[]>(`${this.apiUrl}/search`, { params });
   }
 }
