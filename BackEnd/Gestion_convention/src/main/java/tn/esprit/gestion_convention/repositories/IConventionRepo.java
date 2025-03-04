@@ -20,7 +20,7 @@ public interface IConventionRepo extends JpaRepository<Convention, Integer>, Jpa
             "WHERE MONTH(c.DateConv) = :month AND YEAR(c.DateConv) = :year")
     Long countConventionsByMonthAndYear(int month, int year);
 
-    // Recherche intelligente avec jointure
+    // Recherche intelligente avec jointure entre le deux entite
     @Query("SELECT DISTINCT c FROM Convention c " +
             "LEFT JOIN c.terms t " +
             "WHERE (:signed IS NULL OR c.signed = :signed) " +
