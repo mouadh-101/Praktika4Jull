@@ -2,8 +2,7 @@ package tn.esprit.gestion_convention.restcontroller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.gestion_convention.entities.Convention;
 import tn.esprit.gestion_convention.entities.Terms;
@@ -126,6 +125,19 @@ public class ConventionController {
             @RequestParam(required = false) Boolean signed) {
 
         return ResponseEntity.ok(IconventionService.intelligentSearch(keyword, signed));
+    }
+
+
+    @GetMapping("/{ConId}/pdf") // Bon chemin : /api/conventions/{id}/pdf
+    public ResponseEntity<byte[]> generatePdf(@PathVariable Integer ConId) throws Exception {
+        byte[] pdfBytes = IconventionService.generatePdf(ConId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDisposition(ContentDisposition.builder("attachment")
+                .filename("convention_" + ConId + ".pdf").build());
+
+        return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
     }
 
 }

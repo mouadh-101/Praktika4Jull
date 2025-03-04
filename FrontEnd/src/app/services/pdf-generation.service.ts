@@ -7,13 +7,12 @@ import {HttpClient} from "@angular/common/http";
 })
 export class PdfGenerationService {
 
+  private apiUrl = 'http://localhost:8222/api/conventions';
+  private termsUrl = 'http://localhost:8222/api/conventions/terms';
 
-  // pdf-generation.service.ts
-  private apiUrl = 'http://localhost:8222/api/generate-pdf';  // Remplacez par l'URL de votre backend
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
   generatePdf(conId: number): Observable<Blob> {
-    return this.http.get(`${this.apiUrl}/${conId}`, {
+    return this.http.get(`${this.apiUrl}/${conId}/pdf`, {
       responseType: 'blob'
     });
   }

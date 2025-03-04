@@ -84,8 +84,14 @@
                   (click)="deleteConvention(convention.conId)">
             <i class="bi bi-trash">Supprimer</i>
           </button>
-          <button class="btn btn-success btn-m" (click)="generatePDF(convention.conId)" >
-            📄 Télécharger PDF
+          <button class="btn btn-success btn-m"
+                  (click)="generatePdf(convention.conId)"
+                  [disabled]="isGeneratingPDF === convention.conId">
+            <span *ngIf="isGeneratingPDF !== convention.conId">📄 Télécharger PDF</span>
+            <span *ngIf="isGeneratingPDF === convention.conId">
+        <span class="spinner-border spinner-border-sm" role="status"></span>
+        Génération...
+    </span>
           </button>
         </div>
       </td>

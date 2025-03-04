@@ -1,10 +1,15 @@
 package tn.esprit.gestion_convention.services;
 
+import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.pdf.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.AllArgsConstructor;
+import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -14,6 +19,8 @@ import tn.esprit.gestion_convention.entities.Terms;
 import tn.esprit.gestion_convention.repositories.IConventionRepo;
 import tn.esprit.gestion_convention.repositories.ITermsRepo;
 
+import java.awt.*;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -124,5 +131,146 @@ public class IConventionServiceImpl implements IConventionService{
     public List<Convention> intelligentSearch(String keyword, Boolean signedStatus) {
         if (keyword == null) keyword = "";
         return conventionRepo.intelligentSearch(keyword.trim(), signedStatus);
+    }
+
+    @Override
+    public byte[] generatePdf(Integer id) throws Exception {
+        Convention convention = conventionRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Convention non trouvée"));
+
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            Document document = new Document(PageSize.A4, 40, 40, 100, 70);
+            PdfWriter writer = PdfWriter.getInstance(document, baos);
+
+            // Ajout du header/footer personnalisé
+            HeaderFooter event = new HeaderFooter();
+            writer.setPageEvent(event);
+
+            document.open();
+
+            // Style amélioré
+            Font titleFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD, BaseColor.DARK_GRAY);
+            Font sectionFont = new Font(Font.FontFamily.HELVETICA, 14, Font.BOLD, new BaseColor(0, 51, 153));
+            Font contentFont = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.BLACK);
+
+            // Cadre bleu autour du contenu
+            PdfContentByte canvas = writer.getDirectContentUnder();
+            canvas.setColorStroke(BaseColor.BLUE);
+            canvas.rectangle(30, 30, document.getPageSize().getWidth() - 60, document.getPageSize().getHeight() - 60);
+            canvas.stroke();
+
+            // Entête avec logos
+            Paragraph header = new Paragraph();
+            header.setSpacingAfter(20f);
+
+            // Logo gauche
+            Image logoLeft = Image.getInstance("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIz35xRMeDZwRhvFLDuLK_-AG8SkBsDsx_bg&s");
+            logoLeft.scaleToFit(80, 80);
+            header.add(logoLeft);
+
+            // Titre centré
+            Paragraph title = new Paragraph("CONVENTION DE STAGE", titleFont);
+            title.setAlignment(Element.ALIGN_CENTER);
+            header.add(title);
+
+            // Logo droit
+            Image logoRight = Image.getInstance("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIz35xRMeDZwRhvFLDuLK_-AG8SkBsDsx_bg&s");
+            logoRight.scaleToFit(80, 80);
+            logoRight.setAbsolutePosition(document.getPageSize().getWidth() - 100, document.getPageSize().getHeight() - 70);
+            canvas.addImage(logoRight);
+
+            document.add(header);
+
+            // Section informations
+            Paragraph infoSection = new Paragraph("Informations Générales", sectionFont);
+            infoSection.setSpacingBefore(20f);
+            infoSection.setSpacingAfter(15f);
+            document.add(infoSection);
+
+            // Métadonnées sous forme de tableau
+            PdfPTable table = new PdfPTable(2);
+            table.setWidthPercentage(100);
+
+            addTableHeader(table, "Champ", "Valeur", sectionFont);
+            addTableRow(table, "Numéro Convention", convention.getConId().toString(), contentFont);
+            addTableRow(table, "Date création", new SimpleDateFormat("dd/MM/yyyy:HH:mm:ss").format(convention.getDateConv()), contentFont);
+            addTableRow(table, "Statut", convention.getSigned() ? "Signée" : "Non signée", contentFont);
+
+
+            document.add(table);
+
+            // Section description
+            Paragraph descSection = new Paragraph("Description de la Convention", sectionFont);
+            descSection.setSpacingBefore(20f);
+            document.add(descSection);
+
+            Paragraph description = new Paragraph(convention.getDescription(), contentFont);
+            description.setIndentationLeft(20);
+            document.add(description);
+
+            // Section termes
+            Paragraph termsSection = new Paragraph("Clauses Contractuelles", sectionFont);
+            termsSection.setSpacingBefore(20f);
+            termsSection.setSpacingAfter(15f);
+            document.add(termsSection);
+
+            List<Terms> terms = convention.getTerms();
+            for (int i = 0; i < terms.size(); i++) {
+                Terms term = terms.get(i);
+
+                Paragraph clause = new Paragraph();
+                clause.setFont(contentFont);
+                clause.add(new Chunk("Article " + (i+1) + " - ", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD)));
+                clause.add(new Chunk(term.getTitle() + "\n", sectionFont));
+                clause.add(new Chunk(term.getDescription() + "\n\n", contentFont));
+
+                document.add(clause);
+            }
+
+            document.close();
+            return baos.toByteArray();
+        } catch (DocumentException | IOException e) {
+            throw new Exception("Erreur lors de la génération du PDF", e);
+        }
+    }
+
+    // Méthodes utilitaires
+    private void addTableHeader(PdfPTable table, String header1, String header2, Font font) {
+        table.addCell(createCell(header1, font, BaseColor.LIGHT_GRAY));
+        table.addCell(createCell(header2, font, BaseColor.LIGHT_GRAY));
+    }
+
+    private void addTableRow(PdfPTable table, String label, String value, Font font) {
+        table.addCell(createCell(label, font, BaseColor.WHITE));
+        table.addCell(createCell(value, font, BaseColor.WHITE));
+    }
+
+    private PdfPCell createCell(String text, Font font, BaseColor bgColor) {
+        PdfPCell cell = new PdfPCell(new Phrase(text, font));
+        cell.setBackgroundColor(bgColor);
+        cell.setPadding(5);
+        cell.setBorderColor(BaseColor.GRAY);
+        return cell;
+    }
+
+    // Classe interne pour header/footer
+    class HeaderFooter extends PdfPageEventHelper {
+        public void onEndPage(PdfWriter writer, Document document) {
+            PdfContentByte cb = writer.getDirectContent();
+
+            // Header
+            cb.setColorFill(BaseColor.DARK_GRAY);
+            cb.rectangle(30, document.getPageSize().getHeight() - 50, document.getPageSize().getWidth() - 60, 2);
+            cb.fill();
+
+            // Footer
+            ColumnText.showTextAligned(cb, Element.ALIGN_CENTER,
+                    new Phrase("Page " + document.getPageNumber(), new Font(Font.FontFamily.HELVETICA, 10)),
+                    (document.right() - document.left()) / 2 + document.leftMargin(),
+                    document.bottom() - 20, 0);
+
+            cb.rectangle(30, 50, document.getPageSize().getWidth() - 60, 2);
+            cb.fill();
+        }
     }
 }

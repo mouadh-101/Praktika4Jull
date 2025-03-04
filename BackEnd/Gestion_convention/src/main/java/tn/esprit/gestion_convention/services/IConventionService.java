@@ -21,4 +21,5 @@ public interface IConventionService {
     Long countConventionsByMonthAndYear(int month, int year);
 
     List<Convention> intelligentSearch(String keyword, Boolean signedStatus);
+    byte[] generatePdf(Integer id) throws Exception;
 }

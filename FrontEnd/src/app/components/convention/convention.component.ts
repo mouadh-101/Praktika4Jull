@@ -32,9 +32,13 @@ export class ConventionComponent implements OnInit {
 // Ajouter ces variables
   searchKeyword: string = '';
   searchSigned: boolean | null = null;
+// Ajouter ces variables
+  currentPage: number = 0;
+  pageSize: number = 5;
+  totalItems: number = 0;
+  totalPages: number = 0;
 
-
-  constructor(private fb: FormBuilder, private conventionService: ConventionService, private router: Router,private pdfService: PdfGenerationService) {
+  constructor(private fb: FormBuilder, private conventionService: ConventionService, private router: Router, private pdfGenerationService: PdfGenerationService) {
     this.conventionForm = this.fb.group({
       description: ['', [Validators.required, Validators.minLength(3)]],
       internshipId: ['', [Validators.required, Validators.min(1)]],
@@ -211,18 +215,7 @@ export class ConventionComponent implements OnInit {
       }
     });
   }
-  generatePDF(conId: number | undefined) {
-    if (!conId) return;
 
-    this.pdfService.generatePdf(conId).subscribe((data: Blob) => {
-      const downloadURL = window.URL.createObjectURL(data);
-      const link = document.createElement('a');
-      link.href = downloadURL;
-      link.download = `convention_${conId}.pdf`;
-      link.click();
-      window.URL.revokeObjectURL(downloadURL);
-    });
-  }
 
 
 // Méthode de recherche
@@ -238,6 +231,32 @@ export class ConventionComponent implements OnInit {
     this.searchKeyword = '';
     this.searchSigned = null;
     this.getAllConventions();
+  }
+  isGeneratingPDF: number | null = null;
+
+
+// Corriger le nom de la méthode (PDF en minuscules)
+  generatePdf(conId: number | undefined) {
+    if (!conId) return;
+
+    this.isGeneratingPDF = conId;
+
+    this.pdfGenerationService.generatePdf(conId).subscribe({
+      next: (data: Blob) => {
+        const downloadURL = window.URL.createObjectURL(data);
+        const link = document.createElement('a');
+        link.href = downloadURL;
+        link.download = `convention_${conId}.pdf`;
+        link.click();
+        window.URL.revokeObjectURL(downloadURL);
+        this.isGeneratingPDF = null;
+      },
+      error: (error: any) => { // Ajouter le type explicitement
+        console.error('Erreur de téléchargement', error);
+        alert('Échec du téléchargement');
+        this.isGeneratingPDF = null;
+      }
+    });
   }
 
 }
