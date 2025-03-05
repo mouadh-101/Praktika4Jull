@@ -12,5 +12,8 @@ export class ExportCvComponent {
   selectTemplate(template: string): void {
     this.dialogRef.close(template); // Close the dialog and return the selected template
   }
+  closeDialog(): void {
+    this.dialogRef.close(); // Close the dialog without returning any data
+  }
 
 }
