@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Interview, InterviewService } from 'src/app/services/interview.service';
 import { Router } from '@angular/router';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import * as XLSX from 'xlsx';
+import autoTable from 'jspdf-autotable';
+
+
 
 @Component({
   selector: 'app-interview-list',
@@ -48,4 +54,42 @@ export class InterviewListComponent implements OnInit {
       default: return '';
     }
   }
+
+  exportToPDF(): void {
+    const doc = new jsPDF();
+
+    // Ajouter un titre
+    doc.setFontSize(18);
+    doc.text("Liste des Interviews", 10, 10);
+
+    // Définir les colonnes et les lignes du tableau
+    const colHeaders = ["ID", "Date", "Lieu", "Notes", "Statut"];
+    const rowData = this.interviews.map(interview => [
+      interview.interviewId || "-", // Gérer le cas où l'ID est undefined
+      interview.dateInterview || "-",
+      interview.location || "-",
+      interview.notes || "-",
+      interview.status || "-"
+    ]);
+
+    // Générer le tableau
+    autoTable(doc, {
+      head: [colHeaders],
+      body: rowData,
+      startY: 20
+    });
+
+    // Télécharger le fichier PDF
+    doc.save("Interviews.pdf");
+  }
+
+
+  exportToExcel(): void {
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.interviews);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Interviews");
+
+    XLSX.writeFile(wb, "Interviews.xlsx");
+  }
+
 }

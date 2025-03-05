@@ -8,6 +8,8 @@ import { InterviewEditComponent } from './components/interview/interview-edit/in
 import { InterviewAddComponent } from './components/interview/interview-add/interview-add.component';
 import { InterviewListComponent } from './components/interview/interview-list/interview-list.component';
 
+import { CalenderComponent } from './components/calender/calender.component';
+
 const routes: Routes = [
   { path: 'sign-in', component: SignInComponent },
   { path: 'sign-up', component: SignUpComponent },
@@ -17,6 +19,7 @@ const routes: Routes = [
   { path: 'interviews', component: InterviewListComponent },
   { path: 'interviews/add', component: InterviewAddComponent },
   { path: 'interviews/edit/:id', component: InterviewEditComponent },
+  { path: 'calendar', component:CalenderComponent },
 
 
   { path: '', redirectTo: '/', pathMatch: 'full' }

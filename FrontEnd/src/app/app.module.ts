@@ -28,6 +28,12 @@ import { InterviewAddComponent } from './components/interview/interview-add/inte
 import { InterviewListComponent } from './components/interview/interview-list/interview-list.component';
 import { InterviewEditComponent } from './components/interview/interview-edit/interview-edit.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
+import { CalendarModule } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { CalenderComponent } from './components/calender/calender.component';
+
 
 
 
@@ -48,6 +54,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     InterviewListComponent,
     InterviewEditComponent,
 
+    CalenderComponent,
+
 
 
   ],
@@ -66,6 +74,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
     NgbModule,
     FormsModule,
     NgxPaginationModule,
+    FullCalendarModule,
+    MatNativeDateModule,
+    CalendarModule.forRoot({ provide: DateAdapter, useClass: MatNativeDateModule }),
   ],
   providers: [
     {

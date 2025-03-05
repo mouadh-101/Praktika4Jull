@@ -1,0 +1,9 @@
+.full-calendar-container {
+  width: 80%; /* Ajuste la largeur du calendrier (80% de la largeur de la page) */
+  max-width: 1200px; /* Limiter la largeur maximale */
+  margin: 0 auto; /* Centrer horizontalement */
+  height: 600px; /* Définir la hauteur du calendrier */
+  display: flex;
+  justify-content: center; /* Centrer le calendrier dans la page */
+  align-items: center; /* Centrer verticalement si nécessaire */
+}

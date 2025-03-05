@@ -10,6 +10,17 @@ export interface Interview {
   status: string;
 }
 
+export interface DemandeInterview {
+  DemandeInterviewId?: number;
+   statuss: string;
+     Date1:Date;
+     Date2:Date;
+     Date3:Date;
+     IsRemote:boolean;
+     Description:String;
+     Location:String
+}
+
 @Injectable({
   providedIn: 'root'
 })
