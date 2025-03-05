@@ -22,6 +22,7 @@ public class Post {
     @GeneratedValue
     private int idPost;
     private String image;
+    private String name;
     private String description;
     private LocalDate datePost;
 

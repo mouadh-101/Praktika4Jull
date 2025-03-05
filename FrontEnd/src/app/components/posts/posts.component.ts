@@ -11,27 +11,26 @@ export class PostsComponent implements OnInit {
   posts: any[] = [];
   isModalOpen = false;
   isEditModalOpen = false;  // Nouvelle variable pour gérer la modal de modification
-  newPost = { description: '', datePost: '', image: '' };
-  editedPost = { idPost: null, description: '', image: '' };  // Variables pour modifier un post
+  newPost = { description: '', datePost: '', image: '',name:'' };
+  editedPost = { idPost: null, description: '', image: '',name:'',datePost: '' };  // Variables pour modifier un post
   idme:number=0;
+isChatVisible: any;
+
   constructor(private service: PostService, private commentService: CommentService) {}
 
   ngOnInit(): void {
-    this.getAllPosts();
+    this.loadPosts()
+  }
+  name: string = '';
+  date: string = '';
+
+
+  searchPosts(): void {
+    this.service.filterPosts(this.name, this.date).subscribe(response => {
+      this.posts = response;
+    });
   }
 
-  // Récupérer tous les posts
-  getAllPosts() {
-    this.service.getPosts().subscribe(
-      data => {
-        console.log('Posts récupérés:', data);
-        this.posts = data;
-      },
-      error => {
-        console.error('Erreur lors de la récupération des posts:', error);
-      }
-    );
-  }
 
   // Ouvrir la modal pour créer un post
   openPostModal() {
@@ -60,7 +59,9 @@ export class PostsComponent implements OnInit {
   submitPost(postForm: any) {
     if (postForm.valid) {
       this.service.addPost(this.newPost).subscribe(() => {
-        this.getAllPosts();  // Recharge les posts après l'ajout
+        this.newPost = { description: '', datePost: '', image: '',name:'' };
+
+        this.loadPosts();  // Recharge les posts après l'ajout
         this.closePostModal();
       });
     }
@@ -70,7 +71,8 @@ export class PostsComponent implements OnInit {
   submitEditPost(editPostForm: any) {
     if (editPostForm.valid) {
       this.service.updatePost(this.idme,this.editedPost).subscribe(() => {
-        this.getAllPosts();  // Recharge les posts après la mise à jour
+        this.editedPost={description:'',name:'',image:'',idPost:null,datePost:''}
+        this.loadPosts();  // Recharge les posts après la mise à jour
         this.closeEditModal();
       });
     }
@@ -79,10 +81,9 @@ export class PostsComponent implements OnInit {
   // Supprimer un post
   del(id: number) {
     this.service.deletePost(id).subscribe(() => {
-      this.getAllPosts();
+      this.loadPosts();
     });
   }
-  isChatVisible: boolean = false;
 
   // Fonction pour basculer la visibilité de l'iframe
   toggleChat() {
@@ -100,8 +101,9 @@ export class PostsComponent implements OnInit {
       };
       this.commentService.addComment(postId, newComment).subscribe(
         (data) => {
-          console.log('Comment added successfully', data);
-          this.getAllPosts();  // Recharge les posts après l'ajout
+        alert('Comment added successfully');
+        this.newComment=""
+          this.loadPosts();  // Recharge les posts après l'ajout
         },
         (error) => {
           console.error('Error adding comment:', error);
@@ -114,12 +116,40 @@ export class PostsComponent implements OnInit {
   deleteComment(commentId: number): void {
     this.commentService.deleteComment(commentId).subscribe(
       () => {
-        console.log('Comment deleted successfully');
-        this.getAllPosts();
+        alert('Comment deleted successfully');
+        this.newComment=""
+        this.loadPosts();
       },
       (error) => {
         console.error('Error deleting comment:', error);
       }
     );
+  }
+  currentPage: number = 0;
+  pageSize: number = 5; // Nombre de posts par page
+  totalPages: number = 0;
+  loadPosts(): void {
+    this.service.getPostspage(this.currentPage, this.pageSize).subscribe((response:any) => {
+      console.log(response);
+      
+      this.posts = response.content; // Récupère les posts de la page actuelle
+      this.totalPages = response.totalPages; // Nombre total de pages
+    });
+  }
+
+  // Passer à la page suivante
+  nextPage(): void {
+    if (this.currentPage < this.totalPages - 1) {
+      this.currentPage++;
+      this.loadPosts();
+    }
+  }
+
+  // Revenir à la page précédente
+  prevPage(): void {
+    if (this.currentPage > 0) {
+      this.currentPage--;
+      this.loadPosts();
+    }
   }
 }

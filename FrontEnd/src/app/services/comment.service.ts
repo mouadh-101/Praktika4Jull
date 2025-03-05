@@ -23,8 +23,8 @@ export class CommentService {
   }
 
   // Supprimer un commentaire
-  deleteComment(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/deleteComment/${id}`);
+  deleteComment(id: number): Observable<any> {
+    return this.http.delete<void>(`${this.apiUrl}/deleteComment/${id}`,{responseType:'text' as 'json'});
   }
 
   // Mettre à jour un commentaire

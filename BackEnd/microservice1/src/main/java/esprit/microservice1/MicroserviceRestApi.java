@@ -5,8 +5,11 @@ import esprit.microservice1.entities.Post;
 import esprit.microservice1.services.IService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -15,16 +18,27 @@ import java.util.List;
 public class MicroserviceRestApi {
     @Autowired
     IService service;
-////////////////*********CRUD POST*********////////////
+    ////////////////*********CRUD POST*********////////////
     @PostMapping("/ajouterPost")
     Post addPost(@RequestBody Post post) {
         return  service.addPost(post);
     }
 
+    @GetMapping("/search")
+    public List<Post> searchPosts(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String date) {
 
+        LocalDate localDate = (date != null) ? LocalDate.parse(date) : null;
+        return service.filterPosts(name, localDate);
+    }
     @GetMapping("/post_list")
-    public List<Post> findAllPost() {
-        return service.findAllPost();
+    public ResponseEntity<Page<Post>> getAllPosts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        Page<Post> posts = service.findAllPost(page, size);
+        return ResponseEntity.ok(posts);
     }
 
 
@@ -40,7 +54,7 @@ public class MicroserviceRestApi {
         return  service.updatePost(id, post);
     }
 
-///////////////*****crud comment*****////////////
+    ///////////////*****crud comment*****////////////
     @PostMapping("/ajouterComment/{id}")
     Comment addCommentandAffectToPost(@PathVariable Integer id,@RequestBody Comment comment) {
         return  service.addCommentandAffectToPost(id,comment);

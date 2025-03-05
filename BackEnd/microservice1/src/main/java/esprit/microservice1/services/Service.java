@@ -9,8 +9,12 @@ import esprit.microservice1.repositories.UserRepo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @org.springframework.stereotype.Service
@@ -18,9 +22,9 @@ import java.util.List;
 @AllArgsConstructor
 public class Service implements IService{
 
-PostRepo postRepo;
-CommentRepo commentRepo;
-UserRepo userRepo;
+    PostRepo postRepo;
+    CommentRepo commentRepo;
+    UserRepo userRepo;
 
 
     @Override
@@ -55,17 +59,21 @@ UserRepo userRepo;
 
 
 
-/////////////******Post*****////////////
+    /////////////******Post*****////////////
     @Override
     public Post addPost(Post post) {
         return postRepo.save(post);
     }
 
     @Override
-    public List<Post> findAllPost() {
-        return postRepo.findAll(Sort.by(Sort.Direction.ASC, "datePost"));
+    public Page<Post> findAllPost(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "datePost"));
+        return postRepo.findAll(pageable);
     }
-
+    @Override
+    public List<Post> filterPosts(String name, LocalDate date) {
+        return postRepo.searchByNameAndDate(name, date);
+    }
     @Override
     public void deletePost(Integer id) {
         postRepo.deleteById(id);
@@ -78,6 +86,7 @@ UserRepo userRepo;
                 .orElseThrow(() -> new RuntimeException("Post not found with ID: " + id));
         post.setImage(postDetails.getImage());
         post.setDescription(postDetails.getDescription());
+        post.setName(postDetails.getName());
         post.setDatePost(postDetails.getDatePost());
         return postRepo.save(post);
     }
