@@ -10,6 +10,7 @@ import tn.esprit.intershipproccess.entity.Internship;
 import tn.esprit.intershipproccess.entity.InternshipRequest;
 import tn.esprit.intershipproccess.entity.Requirement;
 import tn.esprit.intershipproccess.service.InternshipService;
+import tn.esprit.intershipproccess.service.MatchmakingService;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -19,7 +20,8 @@ import java.util.List;
 public class IntenshipController {
     @Autowired
     private InternshipService internshipService;
-
+    @Autowired
+    private MatchmakingService matchmakingService;
 
     // Endpoint pour récupérer les stages avec les filtres
     @GetMapping
@@ -81,6 +83,11 @@ public class IntenshipController {
     @GetMapping("/findInternshipById/{id}")
     public ResponseEntity<Internship> getInternshipById(@PathVariable("id") int id){
         return new ResponseEntity<>(internshipService.getInternshipById(id), HttpStatus.OK);
+    }
+    // Exposer une API REST pour récupérer le stage le mieux adapté pour un étudiant
+    @GetMapping("/matchInternship")
+    public Internship matchInternship(@RequestParam String userId, @RequestBody List<Internship> internships) {
+        return matchmakingService.matchInternship(userId, internships);
     }
 }
 

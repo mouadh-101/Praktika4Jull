@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -64,6 +65,11 @@ public class StudentService implements IStudentService {
         if(studentRepository.existsById(id))
             return ResponseEntity.ok(studentRepository.findById(id).orElse(null));
         return ResponseEntity.ok(null);
+    }
+
+    @Override
+    public List<String> getAllSkillsNames(String userId) {
+        return studentRepository.findSkillNamesByStudentId(userId);
     }
 
 }
