@@ -25,6 +25,8 @@ import { ExtraActComponent } from './components/extra-act/extra-act.component';
 import { WorkExpComponent } from './components/work-exp/work-exp.component';
 import { ProfileUpdateComponent } from './components/profile-update/profile-update.component';
 import { AuthGuard } from './guards/auth.guard';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { ExportCvComponent } from './components/export-cv/export-cv.component';
 
 
 @NgModule({
@@ -41,6 +43,7 @@ import { AuthGuard } from './guards/auth.guard';
     ExtraActComponent,
     WorkExpComponent,
     ProfileUpdateComponent,
+    ExportCvComponent,
     
   ],
   imports: [
@@ -54,7 +57,8 @@ import { AuthGuard } from './guards/auth.guard';
     MatInputModule,
     MatIconModule,
     MatDialogModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxPaginationModule,
   ],
   providers: [
     {

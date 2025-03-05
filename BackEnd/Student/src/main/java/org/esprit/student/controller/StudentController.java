@@ -1,5 +1,7 @@
 package org.esprit.student.controller;
 
+import jakarta.servlet.http.HttpServletResponse;
+import org.esprit.student.controller.dto.UserDto;
 import org.esprit.student.entity.Student;
 import org.esprit.student.service.Interface.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +66,10 @@ public class StudentController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Collections.singletonMap("error", "File upload failed!"));
         }
+    }
+    @PostMapping("/export-pdf/{template}")
+    public void exportPdf(@RequestBody UserDto user, @RequestHeader("userId") String userId, HttpServletResponse response,@PathVariable("template") String template) {
+        studentService.exportPdf(response, user, userId,template);
     }
 }
 

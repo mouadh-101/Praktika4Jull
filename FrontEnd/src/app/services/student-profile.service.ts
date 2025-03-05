@@ -3,6 +3,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, forkJoin, Observable, throwError } from 'rxjs';
+import { saveAs } from 'file-saver'
 
 @Injectable({
   providedIn: 'root'
@@ -155,6 +156,18 @@ export class StudentProfileService {
     return this.http.get(`${this.apiUrl}/Skills/enhancer`).pipe(
       catchError(this.handleError)
     );
+  }
+  exportPdf(user: any,templat:string): void {
+    this.http.post(`${this.apiUrl}/export-pdf/${templat}`, user, { responseType: 'blob' })
+      .subscribe({
+        next: (response: Blob) => {
+          // Save the PDF file
+          saveAs(response, 'resume.pdf');
+        },
+        error: (error) => {
+          console.error('Error exporting PDF:', error);
+        }
+      });
   }
 
 

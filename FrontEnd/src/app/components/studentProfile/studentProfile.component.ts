@@ -7,6 +7,7 @@ import { EducationComponent } from '../education/education.component';
 import { ExtraActComponent } from '../extra-act/extra-act.component';
 import { WorkExpComponent } from '../work-exp/work-exp.component';
 import { ProfileUpdateComponent } from '../profile-update/profile-update.component';
+import { ExportCvComponent } from '../export-cv/export-cv.component';
 
 @Component({
   selector: 'app-studentProfile',
@@ -18,9 +19,7 @@ export class StudentProfileComponent implements OnInit {
   studentData:any={};
   f10:any={};
   enhancer:any={};
-  pageSize = 3;
-  currentPage = 0;
-  totalPages = Math.ceil(this.enhancer.length / this.pageSize);
+  p: number = 1;
   constructor(private studentProfileService: StudentProfileService, private userService: UserService,public dialog: MatDialog) {}
 
   ngOnInit(): void {
@@ -250,16 +249,17 @@ export class StudentProfileComponent implements OnInit {
       }
     });
   }
-  nextPage() {
-    if (this.currentPage < this.totalPages - 1) {
-      this.currentPage++;
-    }
-  }
+  onExportPdf(): void {
+    const dialogRef = this.dialog.open(ExportCvComponent, {
+      width: '600px',
+      disableClose: true
+    });
 
-  previousPage() {
-    if (this.currentPage > 0) {
-      this.currentPage--;
-    }
+    dialogRef.afterClosed().subscribe((selectedTemplate: string) => {
+      if (selectedTemplate) {
+        this.studentProfileService.exportPdf(this.userData, selectedTemplate);
+      }
+    });
   }
   
 

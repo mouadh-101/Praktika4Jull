@@ -100,11 +100,18 @@
       </div>
     </div>
     <div class="warning-banner">
-      ⚠️ This is Skill enhancer you can find usfull links to enhance your skills.
+      ⚠️ This is Skill Enhancer. You can find useful links to enhance your skills.
     </div>
-    <div *ngFor="let enhance of enhancer" class="activity-entry">
-      <h3>{{ enhance.title}}</h3>
-      <div class="description"><a href="{{ enhance.url}}">{{ enhance.url}}</a></div>
+    
+    <div *ngFor="let enhance of enhancer | paginate: { itemsPerPage: 5, currentPage: p }" class="activity-entry">
+      <h3>{{ enhance.title }}</h3>
+      <div class="description">
+        <a [href]="enhance.url" target="_blank">{{ enhance.url }}</a>
+      </div>
     </div>
+    
+    <!-- Pagination Controls -->
+    <pagination-controls  (pageChange)="p = $event"></pagination-controls>
   </div>
+  <button class="add-button" (click)="onExportPdf()">Export your Resum</button>
 </div>

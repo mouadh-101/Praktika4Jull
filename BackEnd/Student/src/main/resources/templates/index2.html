@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Student Resum</title>
+    <style type="text/css">
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+        }
+
+        /* Main container */
+        .cv-container {
+            width: 210mm; /* A4 width */
+            min-height: 297mm; /* A4 height */
+            margin: 0 auto;
+            background: #fff;
+            position: relative;
+        }
+
+        /* Header section with wave */
+        .header {
+            position: relative;
+            height: 200px;
+            background-color: #2F5C54;
+            overflow: hidden;
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background-color: #E5F0EE;
+        }
+
+        .wave::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background-color: #2F5C54;
+            border-radius: 0 0 50% 0;
+        }
+
+        .header-content {
+            position: relative;
+            padding: 30px;
+            color: #fff;
+        }
+
+        .name {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .surname {
+            font-size: 36px;
+            font-weight: normal;
+        }
+
+        .title {
+            font-size: 16px;
+            margin-top: 5px;
+        }
+
+        .profile-image {
+            position: absolute;
+            top: 20px;
+            right: 50px;
+            width: 150px;
+            height: 150px;
+            border-radius: 75px;
+            border: 5px solid #fff;
+        }
+
+        .intro {
+            width: 60%;
+            color: #E5F0EE;
+            font-size: 14px;
+            margin-top: 15px;
+            line-height: 1.4;
+        }
+
+        /* Main content */
+        .content {
+            display: table;
+            width: 100%;
+        }
+
+        .left-column {
+            display: table-cell;
+            width: 50%;
+            background-color: #E5F0EE;
+            padding: 30px;
+            vertical-align: top;
+        }
+
+        .right-column {
+            display: table-cell;
+            width: 50%;
+            padding: 30px;
+            vertical-align: top;
+        }
+
+        /* Section styles */
+        .section {
+            margin-bottom: 30px;
+            page-break-inside: avoid;
+        }
+
+        .section-title {
+            font-size: 20px;
+            color: #2F5C54;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        /* Experience items */
+        .experience-item {
+            margin-bottom: 25px;
+        }
+
+        .experience-date {
+            font-size: 14px;
+            color: #2F5C54;
+            margin-bottom: 5px;
+        }
+
+        .experience-role {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .experience-company {
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+        .experience-duties {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .experience-duty {
+            font-size: 14px;
+            margin-bottom: 5px;
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .experience-duty:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+        }
+
+        /* Contact section */
+        .contact-item {
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .contact-icon {
+            display: inline-block;
+            width: 20px;
+            margin-right: 10px;
+            text-align: center;
+        }
+
+        /* Education items */
+        .education-item {
+            margin-bottom: 25px;
+        }
+
+        .education-date {
+            font-size: 14px;
+            color: #2F5C54;
+            margin-bottom: 5px;
+        }
+
+        .education-school {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .education-degree {
+            font-size: 15px;
+        }
+
+        /* Skills section */
+        .skill-item {
+            margin-bottom: 15px;
+        }
+
+        .skill-name {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .skill-bar {
+            height: 8px;
+            background-color: #E5F0EE;
+            position: relative;
+        }
+
+        .skill-level {
+            height: 100%;
+            background-color: #2F5C54;
+        }
+
+
+        .footer {
+            text-align: center;
+            color: #777777;
+            font-size: 12px;
+            margin-top: 30px;
+            page-break-before: avoid;
+        }
+    </style>
+</head>
+<body>
+<div class="cv-container">
+    <div class="header">
+        <div class="header-content">
+            <h1>
+                <span class="name" th:text="${user.name}">DANI</span></h1>
+            <div class="title" th:text="${student.fieldOfStudy}">REAL ESTATE SALES MANAGER</div>
+            <p class="intro" th:text="${student.bio}">I'm Property Agent with considerable experience in selling property such as apartment, real estate, and residential</p>
+        </div>
+        <img th:src="'file:///G:/project/praktika/FrontEnd/src/assets'+(${student.profilePic != null ? student.profilePic : 'default-profile.png'})"
+             alt="Profile Photo"
+             class="profile-image"/>
+        <div class="wave"></div>
+    </div>
+
+    <div class="content">
+        <div class="left-column">
+            <div class="section">
+                <h2 class="section-title">EXPERIENCE</h2>
+                <div th:if="${not #lists.isEmpty(student.workExperiences)}">
+                    <div class="experience-item" th:each="work : ${student.workExperiences}">
+                        <div class="experience-date" th:text="${(work.startDate != null ? #temporals.format(work.startDate, 'yyyy') : '') + ' - ' + (work.endDate != null ? #temporals.format(work.endDate, 'yyyy') : 'present')}">2019 - present</div>
+                        <div class="experience-role" th:text="${work.position}">MARKETING MANAGER</div>
+                        <div class="experience-company" th:text="${work.companyName}">Handover and Take Company</div>
+                        <ul class="experience-duties">
+                            <li class="experience-duty" th:text="${work.description}">Collaborating with the wider development team to develop properties</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">CONTACT</h2>
+                <div class="contact-item">
+                    <span class="contact-icon">📞</span>
+                    <span th:text="${user.phone}">+123-456-7890</span>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">📧</span>
+                    <span th:text="${user.email}">hello@reallygreatsite.com</span>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">📍</span>
+                    <span th:text="${user.address}">123 Anywhere St., Any City</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-column">
+            <div class="section">
+                <h2 class="section-title">EDUCATION</h2>
+                <div th:if="${not #lists.isEmpty(student.educations)}">
+                    <div class="education-item" th:each="edu : ${student.educations}">
+                        <div class="education-date" th:text="${(edu.startDate != null ? #temporals.format(edu.startDate, 'yyyy') : '') + ' - ' + (edu.endDate != null ? #temporals.format(edu.endDate, 'yyyy') : 'Present')}">2011 - 2014</div>
+                        <div class="education-school" th:text="${edu.schoolName}">Wardiere University</div>
+                        <div class="education-degree" th:text="${edu.degree}">Bachelor Degree of Marketing</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">SKILLS</h2>
+                <div th:if="${not #lists.isEmpty(student.skills)}">
+                    <div class="skill-item" th:each="skill : ${student.skills}">
+                        <div class="skill-name" th:text="${skill.name}">Good communication</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            This resume is created using Praktika - the intelligent internship Platform
+        </div>
+    </div>
+</div>
+</body>
+</html>
