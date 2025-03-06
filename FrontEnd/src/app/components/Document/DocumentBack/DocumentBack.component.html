@@ -1,0 +1,74 @@
+<div class="container">
+  <h2 class="text-center">Liste des Documents</h2>
+  <br>
+
+  <!-- Filtrer par durée -->
+  <div class="form-group d-flex align-items-center gap-3">
+    <label for="typeFilter" class="font-weight-bold mb-0">📅 Filtrer par durée :</label>
+    <select id="typeFilter" [(ngModel)]="selectedDuree" (change)="filterDocuments()" class="form-control w-auto px-3 py-2 rounded shadow-sm border-primary">
+      <option value="" class="fw-bold">📂 Toutes les Durées</option>
+      <option *ngFor="let Duree of Duree | keyvalue" [value]="Duree.value" class="text-dark">
+        🔹 {{ Duree.key }}
+      </option>
+    </select>
+  </div>
+<br>
+  <!-- Filtrer par statut -->
+  <div class="form-group d-flex align-items-center gap-3">
+    <label for="statusFilter" class="font-weight-bold mb-0">📑 Filtrer par statut :</label>
+    <select id="statusFilter" [(ngModel)]="selectedStatus" (change)="filterDocuments()" class="form-control w-auto px-3 py-2 rounded shadow-sm border-primary">
+      <option value="" class="fw-bold">📂 Tous les Statuts</option>
+      <option *ngFor="let status of StatusDoc | keyvalue" [value]="status.value" class="text-dark">
+        🔹 {{ status.key }}
+      </option>
+    </select>
+  </div>
+  <br>
+
+  <!-- Tableau des documents -->
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Société</th>
+        <th>Date Début</th>
+        <th>Date Fin</th>
+        <th>Durée</th>
+        <th>Status Document</th>
+        <th>Demande de stage</th>
+        <th>Lettre d'Affectation</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let document of filteredDocuments | paginate: { itemsPerPage: itemsPerPage, currentPage: page }">
+        <td>{{ document.societe }}</td>
+        <td>{{ document.dateDebut | date: 'shortDate' }}</td>
+        <td>{{ document.dateFin | date: 'shortDate' }}</td>
+        <td>{{ document.duree }}</td>
+        <td>{{ document.statusDoc }}</td>
+        <td>
+          <button class="btn btn-primary" (click)="telechargerDemandeStage(document.docid)" [disabled]="estDesactive(document.statusDoc)">
+            Télécharger
+          </button>
+        </td>
+        <td>
+          <button class="btn btn-secondary" (click)="telechargerLettreAffectation(document.docid)" [disabled]="estDesactive(document.statusDoc)">
+            Télécharger
+          </button>
+        </td>
+        <td>
+          <button (click)="validerDocument(document.docid)" class="btn btn-secondary" [disabled]="estDesactiveee(document.statusDoc)">
+            Valider
+          </button>
+          <button (click)="refuserDocument(document.docid)" class="btn btn-secondary" [disabled]="estDesactiveee(document.statusDoc)">
+            Refuser
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Pagination Controls -->
+  <pagination-controls (pageChange)="page = $event"></pagination-controls>
+
+</div>
