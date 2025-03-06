@@ -22,6 +22,7 @@ spring:
           predicates:
             - Path=/api/internships/**
 
+
 eureka:
   instance:
     hostname: localhost

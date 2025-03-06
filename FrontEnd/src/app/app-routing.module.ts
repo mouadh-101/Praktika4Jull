@@ -10,12 +10,12 @@ import { UpdateInternshipComponent } from './components/update-internship/update
 import { InternshipDetailsComponent } from './components/internship-details/internship-details.component';
 import { FavorisComponent } from './components/favoris/favoris.component';
 
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   { path: 'sign-in', component: SignInComponent },
   { path: 'sign-up', component: SignUpComponent },
-  {path:'users',component:UseTabComponent},
-  {path:'student',component:StudentProfileComponent},
+  {path:'student',component:StudentProfileComponent,canActivate: [AuthGuard] },
   { path: 'internships', component: InternshipComponent},
   { path: 'internships/add', component: AddInternshipComponent },
   { path: 'internships/edit/:id', component: UpdateInternshipComponent },

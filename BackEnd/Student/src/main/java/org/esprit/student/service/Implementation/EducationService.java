@@ -18,9 +18,13 @@ import java.util.Map;
 public class EducationService implements IEducationService {
     @Autowired
     EducationRepository educationRepository;
+    @Autowired
+    StudentRepository studentRepository;
 
     @Override
-    public Education addEducation(Education education) {
+    public Education addEducation(Education education,String id) {
+        Student s=studentRepository.findById(id).orElse(null);
+        education.setStudent(s);
         return educationRepository.save(education);
     }
 
@@ -47,4 +51,5 @@ public class EducationService implements IEducationService {
     public Education getEducation(Long id) {
         return educationRepository.findById(id).orElse(null);
     }
+
 }

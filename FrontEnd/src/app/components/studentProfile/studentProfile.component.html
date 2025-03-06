@@ -1,116 +1,117 @@
-<div class="profile-container">
+<div class="container">
+  <!-- Warning Banner -->
+  <div class="warning-banner">
+    ⚠️ This is the resume employers will see when you apply. Please make sure it is up to date.
+  </div>
+
+  <a href="#" class="download-button">↓ Download</a>
+
   <!-- Profile Header -->
-  <div class="profile-header">
-    <img [src]="studentData.profilePic ? ('../../../assets/' + studentData.profilePic) : 'C:/Users/mouad/Desktop/micro/FrontEnd/praktika/src/assets/img/team-1.jpg'" alt="Profile Picture" class="profile-pic">
-    <h1>{{ userData.name }}</h1>
-    <p>{{ userData.email }} | {{ userData.phone }} | {{ userData.address }}</p>
-    <button (click)="onUpdateProfile()" class="btn btn-primary">Update Profile</button>
+  <div class="header">
+    <div class="profile-picture">
+      <img [src]="'./assets/'+studentData.profilePic" alt="Profile Picture" />
+    </div>
+    <div class="profile-info">
+      <h1>
+        {{ userData.name }}
+        <span class="edit-icon" (click)="onUpdateProfile()">✎</span>
+      </h1>
+      <div class="contact-info">
+        <p><strong>Email:</strong> {{ userData.email }}</p>
+        <p><strong>Phone:</strong> {{ userData.phone }}</p>
+        <p><strong>Field of study:</strong> {{ studentData.fieldOfStudy }}</p>
+        <p><strong>Date of birth:</strong> {{ studentData.dateOfBirth | date:'mediumDate' }}</p>
+        <p><strong>Address:</strong> {{ userData.address }}</p>
+      </div>
+    </div>
   </div>
 
-  <!-- Bio Section -->
-  <section class="profile-section">
-    <h2>Bio</h2>
-    <p>{{ studentData.Bio || 'Add your bio here' }}</p>
-    <div *ngIf="studentData.Bio" class="action-buttons">
-      <button (click)="onUpdateBio(studentData.id)" class="btn btn-secondary">Update</button>
-    </div>
-  </section>
-
-  <!-- Field of Study Section -->
-  <section class="profile-section">
-    <h2>Field of Study</h2>
-    <p>{{ studentData.fieldOfStudy || 'Add your field of study' }}</p>
-    <div *ngIf="studentData.fieldOfStudy" class="action-buttons">
-      <button (click)="onUpdateFieldOfStudy(studentData.id)" class="btn btn-secondary">Update</button>
-    </div>
-  </section>
-
-  <!-- Date of Birth Section -->
-  <section class="profile-section">
-    <h2>Date of Birth</h2>
-    <p>{{ studentData.dateOfBirth ? studentData.dateOfBirth : 'Add your date of birth' }}</p>
-    <div *ngIf="studentData.dateOfBirth" class="action-buttons">
-      <button (click)="onUpdateDateOfBirth(studentData.id)" class="btn btn-secondary">Update</button>
-    </div>
-  </section>
-
-  <!-- Skills Section -->
-  <section class="profile-section skills-section">
-    <h2>Skills</h2>
-    <ul *ngIf="studentData.skills?.length > 0; else noSkills">
-      <li *ngFor="let skill of studentData.skills" class="skill-item">
-        <span>{{ skill.name }}</span>
-        <div class="action-buttons">
-          <button (click)="onUpdateSkill(skill.id)" class="btn btn-secondary btn-sm">Update</button>
-          <button (click)="onDeleteSkill(skill.id)" class="btn btn-danger btn-sm">Delete</button>
-        </div>
-      </li>
-    </ul>
-    <ng-template #noSkills>
-      <p>Add your skills</p>
-    </ng-template>
-    <button (click)="onAddSkill()" class="btn btn-success">Add Skill</button>
-  </section>
-
-  <!-- Extra Activities Section -->
-  <section class="profile-section">
-    <h2>Extra-Curricular Activities</h2>
-    <ul *ngIf="studentData.extraActivities?.length > 0; else noExtraActivities">
-      <li *ngFor="let activity of studentData.extraActivities">
-        {{ activity.description }}
-        <div class="action-buttons">
-          <button (click)="onUpdateActivity(activity.id)" class="btn btn-secondary btn-sm">Update</button>
-          <button (click)="onDeleteActivity(activity.id)" class="btn btn-danger btn-sm">Delete</button>
-        </div>
-      </li>
-    </ul>
-    <ng-template #noExtraActivities>
-      <p>Add extra-curricular activities</p>
-    </ng-template>
-    <button (click)="onAddActivity()" class="btn btn-success">Add Activity</button>
-  </section>
-
-  <!-- Education Section -->
-  <section class="profile-section">
-    <h2>Education</h2>
-    <ul *ngIf="studentData.educations?.length > 0; else noEducation">
-      <li *ngFor="let education of studentData.educations">
-        <strong>{{ education.degree }}</strong><br>
-        {{ education.schoolName }}<br>
-        {{ education.startDate }} - {{ education.endDate }}
-        <div class="action-buttons">
-          <button (click)="onUpdateEducation(education.id)" class="btn btn-secondary btn-sm">Update</button>
-          <button (click)="onDeleteEducation(education.id)" class="btn btn-danger btn-sm">Delete</button>
-        </div>
-      </li>
-    </ul>
-    <ng-template #noEducation>
-      <p>Add your education details</p>
-    </ng-template>
-    <div class="add_more_item_container ">
-      <i class="ic-16-plus" ></i>
-      <a (click)="onAddEducation()">Add Education</a>
+  <!-- Career Objective -->
+  <div class="section">
+    <div class="section-title">Career Objective</div>
+    <p *ngIf="studentData.bio">{{ studentData.bio }}</p>
+    <button *ngIf="!studentData.bio" class="add-button" > Add your career objective</button>
   </div>
-    <button  class="btn btn-success">Add Education</button>
-  </section>
 
-  <!-- Work Experience Section -->
-  <section class="profile-section">
-    <h2>Work Experience</h2>
-    <ul *ngIf="studentData.workExperiences?.length > 0; else noWorkExperience">
-      <li *ngFor="let experience of studentData.workExperiences">
-        <strong>{{ experience.position }}, {{ experience.company }}</strong><br>
-        {{ experience.startDate}} - {{ experience.endDate }}<br>
-        {{ experience.description }}
-        <div class="action-buttons">
-          <button (click)="onUpdateWorkExperience(experience.id)" class="btn btn-secondary btn-sm">Update</button>
-          <button (click)="onDeleteWorkExperience(experience.id)" class="btn btn-danger btn-sm">Delete</button>
-        </div>
-      </li>
-    </ul>
-    <ng-template #noWorkExperience>
-      <p>Add your work experience</p>
-    </ng-template>
-    <button (click)="onAddWorkExperience()" class="btn btn-success">Add Work Experience</button>
-  </section>
+  <!-- Education -->
+  <div class="section">
+    <div class="section-title">Education</div>
+    <div *ngFor="let education of studentData.educations" class="education-entry">
+      <div class="education-actions">
+        <button class="action-button edit" (click)="onUpdateEducation(education.id)">✎</button>
+        <button class="action-button delete" (click)="onDeleteEducation(education.id)">🗑️</button>
+      </div>
+      <h3>{{ education.degree }}</h3>
+      <div class="degree">{{ education.schoolName }}</div>
+      <div class="date">{{ education.startDate }} - {{ education.endDate }}</div>
+    </div>
+    <button class="add-button" (click)="onAddEducation()">+ Add education</button>
+  </div>
+
+  <!-- Work Experience -->
+  <div class="section">
+    <div class="section-title">Work Experience</div>
+    <div *ngFor="let experience of studentData.workExperiences" class="experience-entry">
+      <div class="experience-actions">
+        <button class="action-button edit" (click)="onUpdateWorkExperience(experience.id)">✎</button>
+        <button class="action-button delete" (click)="onDeleteWorkExperience(experience.id)">🗑️</button>
+      </div>
+      <h3>{{ experience.position }}</h3>
+      <div class="position">{{ experience.companyName }}</div>
+      <div class="address">{{ experience.address }}</div>
+      <div class="date">{{ experience.startDate }} - {{ experience.endDate }}</div>
+      <div class="description">{{ experience.description }}</div>
+    </div>
+    <button class="add-button" (click)="onAddWorkExperience()">+ Add job</button>
+  </div>
+
+  <!-- Extra Curricular Activities -->
+  <div class="section">
+    <div class="section-title">Extra Curricular Activities</div>
+    <div *ngFor="let activity of studentData.extraActivities" class="activity-entry">
+      <div class="activity-actions">
+        <button class="action-button edit" (click)="onUpdateActivity(activity.id)">✎</button>
+        <button class="action-button delete" (click)="onDeleteActivity(activity.id)">🗑️</button>
+      </div>
+      <h3>{{ activity.title}}</h3>
+      <div class="description">{{ activity.description }}</div>
+    </div>
+    <button class="add-button" (click)="onAddActivity()">+ Add extra curricular activities</button>
+  </div>
+
+  <!-- Skills -->
+  <div class="section">
+    <div class="section-title">Skills</div>
+    <div class="skills-container">
+      <span *ngFor="let skill of studentData.skills" class="skill-tag"  (click)="onDisAffectSkill(skill.id)" >
+       - {{ skill.name }}
+      </span>
+      
+    </div>
+    <div class="skills-section">
+      <div class="skills-hint">
+        Add skills you have to stand out to the employer. Top skills for your field:
+      </div>
+      <div class="skills-container">
+        <span *ngFor="let skill of f10" class="skill-tag" (click)="onAffectSkill(skill.id)">
+          + {{ skill.name }}
+        </span>
+        <span class="skill-tag" (click)="onAddSkill()">Add other skills +</span>
+      </div>
+    </div>
+    <div class="warning-banner">
+      ⚠️ This is Skill Enhancer. You can find useful links to enhance your skills.
+    </div>
+    
+    <div *ngFor="let enhance of enhancer | paginate: { itemsPerPage: 5, currentPage: p }" class="activity-entry">
+      <h3>{{ enhance.title }}</h3>
+      <div class="description">
+        <a [href]="enhance.url" target="_blank">{{ enhance.url }}</a>
+      </div>
+    </div>
+    
+    <!-- Pagination Controls -->
+    <pagination-controls  (pageChange)="p = $event"></pagination-controls>
+  </div>
+  <button class="add-button" (click)="onExportPdf()">Export your Resum</button>
 </div>

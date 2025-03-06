@@ -1,0 +1,40 @@
+<div class="form-container">
+  <h2 class="form-title">{{ editMode ? 'Edit' : 'Add' }} Work Experience</h2>
+
+  <form [formGroup]="workExperienceForm" (ngSubmit)="submit()">
+    <div class="form-field">
+      <label for="companyName">Company Name</label>
+      <input id="companyName" type="text" formControlName="companyName" required>
+    </div>
+
+    <div class="form-field">
+      <label for="position">Position</label>
+      <input id="position" type="text" formControlName="position" required>
+    </div>
+
+    <div class="form-field">
+      <label for="address">Address</label>
+      <input id="address" type="text" formControlName="address" required>
+    </div>
+
+    <div class="form-field">
+      <label for="startDate">Start Date</label>
+      <input id="startDate" type="date" formControlName="startDate" required>
+    </div>
+
+    <div class="form-field">
+      <label for="endDate">End Date</label>
+      <input id="endDate" type="date" formControlName="endDate">
+    </div>
+
+    <div class="form-field">
+      <label for="description">Description</label>
+      <textarea id="description" formControlName="description" rows="4"></textarea>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" (click)="cancel()">Cancel</button>
+      <button type="submit">Save</button>
+    </div>
+  </form>
+</div>
