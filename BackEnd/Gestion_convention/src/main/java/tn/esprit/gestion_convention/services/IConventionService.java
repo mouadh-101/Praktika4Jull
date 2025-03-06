@@ -4,6 +4,7 @@ import tn.esprit.gestion_convention.entities.Convention;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface IConventionService {
 
@@ -22,4 +23,6 @@ public interface IConventionService {
 
     List<Convention> intelligentSearch(String keyword, Boolean signedStatus);
     byte[] generatePdf(Integer id) throws Exception;
+    // Nouvelle méthode pour les statistiques
+    Map<Date, Map<String, Long>> getConventionStatisticsByDate(Date startDate, Date endDate);
 }

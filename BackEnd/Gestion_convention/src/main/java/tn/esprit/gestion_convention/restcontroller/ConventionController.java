@@ -16,6 +16,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -112,11 +113,20 @@ public class ConventionController {
     }
 
     // Endpoint pour obtenir le nombre de conventions pour un mois et une année donnés
-    @GetMapping("/stats/count/{month}/{year}")
-    public Long getConventionCountByMonthAndYear(
-            @PathVariable int month,
-            @PathVariable int year) {
-        return IconventionService.countConventionsByMonthAndYear(month, year);  // Appel à la méthode du service
+    @GetMapping("/statistics/{startDate}/{endDate}")
+    public ResponseEntity<Map<Date, Map<String, Long>>> getConventionStatistics(
+            @PathVariable String startDate,
+            @PathVariable String endDate) {
+
+        Date start = convertToDate(startDate);
+        Date end = convertToDate(endDate);
+
+        if (start == null || end == null) {
+            throw new IllegalArgumentException("Les dates fournies ne sont pas valides.");
+        }
+
+        Map<Date, Map<String, Long>> statistics = IconventionService.getConventionStatisticsByDate(start, end);
+        return ResponseEntity.ok(statistics);
     }
 
     @GetMapping("/search")
@@ -139,6 +149,8 @@ public class ConventionController {
 
         return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
     }
+
+
 
 }
 

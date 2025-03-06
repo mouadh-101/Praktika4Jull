@@ -1,14 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ConventionService } from '../../services/convention.service';
-import {
-  AbstractControl,
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ValidationErrors,
-  Validators
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray, AbstractControl, ValidationErrors, FormControl } from '@angular/forms';
 import { Convention } from "../../core/model/db";
 import { Router } from "@angular/router";
 import { PdfGenerationService } from "../../services/pdf-generation.service";
@@ -20,7 +12,9 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
   styleUrls: ['./convention.component.css']
 })
 export class ConventionComponent implements OnInit {
-  conventions: Convention[] = [];
+  conventions: Convention[] = []; // Toutes les conventions chargées
+  filteredConventions: Convention[] = []; // Conventions filtrées pour la recherche
+  displayedConventions: Convention[] = []; // Conventions affichées (pagination)
   conventionForm: FormGroup;
   searchForm: FormGroup;
   isEditMode = false;
@@ -33,6 +27,7 @@ export class ConventionComponent implements OnInit {
   totalItems: number = 0;
   totalPages: number = 0;
   isGeneratingPDF: number | null = null;
+  isLoading: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -58,8 +53,7 @@ export class ConventionComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    this.getAllConventions();
+    this.loadAllConventions();
 
     this.searchForm.get('keyword')?.valueChanges
       .pipe(
@@ -93,7 +87,7 @@ export class ConventionComponent implements OnInit {
       const newConvention: Convention = this.conventionForm.value;
       this.conventionService.addConvention(newConvention).subscribe({
         next: () => {
-          this.getAllConventions();
+          this.loadAllConventions();
           this.conventionForm.reset();
           this.showFormError = false;
         },
@@ -109,16 +103,28 @@ export class ConventionComponent implements OnInit {
     }
   }
 
-  getAllConventions() {
-    this.conventionService.getAllConventions().subscribe(data => {
-      this.conventions = data;
+  loadAllConventions() {
+    this.isLoading = true;
+    this.conventionService.getAllConventions().subscribe({
+      next: (data) => {
+        this.conventions = data;
+        this.filteredConventions = data; // Initialiser les conventions filtrées
+        this.totalItems = data.length;
+        this.totalPages = Math.ceil(this.totalItems / this.pageSize);
+        this.updateDisplayedConventions();
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Erreur:', error);
+        this.isLoading = false;
+      }
     });
   }
 
   deleteConvention(conventionId: number | undefined) {
     if (conventionId !== undefined && confirm('Êtes-vous sûr de vouloir supprimer cette convention ?')) {
       this.conventionService.deleteConvention(conventionId).subscribe(() => {
-        this.getAllConventions();
+        this.loadAllConventions();
       }, error => console.error('Erreur:', error));
     }
   }
@@ -174,7 +180,7 @@ export class ConventionComponent implements OnInit {
       this.conventionService.updateConvention(this.currentConventionId, updatedConvention)
         .subscribe({
           next: () => {
-            this.getAllConventions();
+            this.loadAllConventions();
             this.conventionForm.reset();
             this.isEditMode = false;
             this.showFormError = false;
@@ -222,10 +228,24 @@ export class ConventionComponent implements OnInit {
   }
 
   performSearch() {
-    const keyword = this.searchForm.get('keyword')?.value;
+    const keyword = this.searchForm.get('keyword')?.value?.toLowerCase();
     const signed = this.searchForm.get('signed')?.value;
-    this.conventionService.intelligentSearch(keyword, signed)
-      .subscribe(results => this.conventions = results);
+
+    this.filteredConventions = this.conventions.filter(convention => {
+      const matchesKeyword = !keyword ||
+        convention.description.toLowerCase().includes(keyword) ||
+        convention.terms.some(term => term.title.toLowerCase().includes(keyword)) ||
+        convention.terms.some(term => term.description.toLowerCase().includes(keyword));
+
+      const matchesSigned = signed === null || convention.signed === signed;
+
+      return matchesKeyword && matchesSigned;
+    });
+
+    this.totalItems = this.filteredConventions.length;
+    this.totalPages = Math.ceil(this.totalItems / this.pageSize);
+    this.currentPage = 0; // Réinitialiser la pagination après une recherche
+    this.updateDisplayedConventions();
   }
 
   resetSearch() {
@@ -233,7 +253,22 @@ export class ConventionComponent implements OnInit {
       keyword: '',
       signed: null
     });
-    this.getAllConventions();
+    this.filteredConventions = this.conventions;
+    this.totalItems = this.conventions.length;
+    this.totalPages = Math.ceil(this.totalItems / this.pageSize);
+    this.currentPage = 0;
+    this.updateDisplayedConventions();
+  }
+
+  updateDisplayedConventions() {
+    const startIndex = this.currentPage * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.displayedConventions = this.filteredConventions.slice(startIndex, endIndex);
+  }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    this.updateDisplayedConventions();
   }
 
   generatePdf(conId: number | undefined) {

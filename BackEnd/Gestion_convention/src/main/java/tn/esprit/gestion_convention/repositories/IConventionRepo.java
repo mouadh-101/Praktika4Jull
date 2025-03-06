@@ -14,7 +14,8 @@ import java.util.Optional;
 
 @Repository
 public interface IConventionRepo extends JpaRepository<Convention, Integer>, JpaSpecificationExecutor<Convention> {
-
+    // Nouvelle méthode pour récupérer les conventions entre deux dates
+    List<Convention> findAllByDateConvBetween(Date startDate, Date endDate);
     // Requête pour compter le nombre de conventions par mois et année
     @Query("SELECT COUNT(c) FROM Convention c " +
             "WHERE MONTH(c.DateConv) = :month AND YEAR(c.DateConv) = :year")

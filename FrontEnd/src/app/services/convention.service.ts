@@ -61,6 +61,8 @@ export class ConventionService {
 
     return this.http.get<Convention[]>(`${this.apiUrl}/search`, { params });
   }
-
+  getConventionStatistics(startDate: string, endDate: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/statistics/${startDate}/${endDate}`);
+  }
 
 }

@@ -136,10 +136,10 @@
   color: #fff;
 }
 /* Cadre bleu autour de la page */
-/* Cadre bleu autour de la page */
 .blue-frame {
   border: 10px solid #007bff; /* Bordure bleue de 10px */
   border-radius: 15px; /* Coins arrondis */
   padding: 20px; /* Espace intérieur */
+  margin: 20px; /* Espace extérieur */
   background-color: #f9f9f9; /* Fond léger pour contraster avec le cadre */
 }

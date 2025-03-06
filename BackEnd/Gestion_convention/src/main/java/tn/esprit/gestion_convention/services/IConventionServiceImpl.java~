@@ -24,8 +24,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -271,21 +272,5 @@ public class IConventionServiceImpl implements IConventionService{
             cb.rectangle(30, 50, document.getPageSize().getWidth() - 60, 2);
             cb.fill();
         }
-    }
-    @Override
-    public Map<Date, Map<String, Long>> getConventionStatisticsByDate(Date startDate, Date endDate) {
-        List<Convention> conventions = conventionRepo.findAllByDateConvBetween(startDate, endDate);
-
-        Map<Date, Map<String, Long>> statistics = new HashMap<>();
-
-        for (Convention convention : conventions) {
-            Date date = convention.getDateConv();
-            String status = convention.getSigned() ? "Signée" : "Non signée";
-
-            statistics.putIfAbsent(date, new HashMap<>());
-            statistics.get(date).put(status, statistics.get(date).getOrDefault(status, 0L) + 1);
-        }
-
-        return statistics;
     }
 }
