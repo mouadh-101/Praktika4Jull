@@ -46,6 +46,10 @@ export class InterviewListComponent implements OnInit {
     this.router.navigate(['/interviews/edit', id]);
   }
 
+  navigateToCalendar() {
+    this.router.navigate(['/calendar']); // Assurez-vous que '/calendrier' est le bon chemin pour votre page du calendrier
+  }
+
   getStatusClass(status: string): string {
     switch (status) {
       case 'SCHEDULED': return 'status-scheduled';
@@ -55,33 +59,42 @@ export class InterviewListComponent implements OnInit {
     }
   }
 
-  exportToPDF(): void {
-    const doc = new jsPDF();
 
-    // Ajouter un titre
-    doc.setFontSize(18);
-    doc.text("Liste des Interviews", 10, 10);
 
-    // Définir les colonnes et les lignes du tableau
-    const colHeaders = ["ID", "Date", "Lieu", "Notes", "Statut"];
-    const rowData = this.interviews.map(interview => [
-      interview.interviewId || "-", // Gérer le cas où l'ID est undefined
-      interview.dateInterview || "-",
-      interview.location || "-",
-      interview.notes || "-",
-      interview.status || "-"
-    ]);
 
-    // Générer le tableau
-    autoTable(doc, {
-      head: [colHeaders],
-      body: rowData,
-      startY: 20
-    });
+ exportToPDF(): void {
+  const doc = new jsPDF();
 
-    // Télécharger le fichier PDF
-    doc.save("Interviews.pdf");
-  }
+  // Ajouter un titre
+  doc.setFontSize(18);
+  doc.text("Liste des Interviews", 10, 10);
+
+  // Définir les colonnes et les lignes du tableau
+  const colHeaders = ["ID", "Date", "Lieu", "Notes", "Statut"];
+  const rowData = this.interviews.map(interview => [
+    interview.interviewId || "-", // Gérer le cas où l'ID est undefined
+    interview.dateInterview || "-",
+    interview.location || "-",
+    interview.notes || "-",
+    interview.status || "-",
+  ]);
+
+  // Générer le tableau
+  autoTable(doc, {
+    head: [colHeaders],
+    body: rowData,
+    startY: 20,
+  });
+
+  // Récupérer le nombre de pages après l'ajout du tableau
+  const pageCount = doc.internal.pages.length;
+
+  // Télécharger le fichier PDF
+  doc.save("Interviews.pdf");
+}
+
+
+
 
 
   exportToExcel(): void {
@@ -93,3 +106,5 @@ export class InterviewListComponent implements OnInit {
   }
 
 }
+
+
