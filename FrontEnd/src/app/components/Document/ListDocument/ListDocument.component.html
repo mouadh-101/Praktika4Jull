@@ -1,0 +1,72 @@
+<div class="container">
+  <h2 class="text-center">Liste des Documents</h2>
+  <br>
+  <button class="btn btn-success" routerLink="/AddDocument">
+    <i class="bi bi-plus-circle"></i> Ajouter un Stage
+  </button>
+  <br>
+  <br>
+  <button class="btn btn-success" routerLink="/DocumentBack">
+    <i class="bi bi-plus"></i> Back
+  </button>
+  <br>
+  <br>
+
+  <!-- Filtrer par durée -->
+  <div class="form-group d-flex align-items-center gap-3">
+    <label for="typeFilter" class="font-weight-bold mb-0">📅 Filtrer par durée :</label>
+    <select id="typeFilter" [(ngModel)]="selectedDuree" (change)="filterDocuments()" class="form-control w-auto px-3 py-2 rounded shadow-sm border-primary">
+      <option value="" class="fw-bold">📂 Toutes les Durées</option>
+      <option *ngFor="let Duree of Duree | keyvalue" [value]="Duree.value" class="text-dark">
+        🔹 {{ Duree.key }}
+      </option>
+    </select>
+  </div>
+<br>
+  <!-- Filtrer par statut -->
+  <div class="form-group d-flex align-items-center gap-3">
+    <label for="statusFilter" class="font-weight-bold mb-0">📑 Filtrer par statut :</label>
+    <select id="statusFilter" [(ngModel)]="selectedStatus" (change)="filterDocuments()" class="form-control w-auto px-3 py-2 rounded shadow-sm border-primary">
+      <option value="" class="fw-bold">📂 Tous les Statuts</option>
+      <option *ngFor="let status of StatusDoc | keyvalue" [value]="status.value" class="text-dark">
+        🔹 {{ status.key }}
+      </option>
+    </select>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-md-4" *ngFor="let document of filteredDocuments | paginate: { itemsPerPage: itemsPerPage, currentPage: page }">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title">Société {{ document.societe }}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">
+            {{ document.dateDebut | date: 'shortDate' }} - {{ document.dateFin | date: 'shortDate' }}
+          </h6>
+          <p class="card-text"><strong>Durée:</strong> {{ document.duree }}</p>
+          <p class="card-text"><strong>Status:</strong> {{ document.statusDoc }}</p>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-primary" (click)="telechargerDemandeStage(document.docid)" [disabled]="estDesactive(document.statusDoc)">
+              <i class="bi bi-download"></i> 
+            </button>
+            <button class="btn btn-secondary" (click)="telechargerLettreAffectation(document.docid)" [disabled]="estDesactive(document.statusDoc)">
+              <i class="bi bi-download"></i> 
+            </button>
+            <button class="btn btn-danger" (click)="supprimerDocument(document.docid)" [disabled]="estDesactiveee(document.statusDoc)">
+              <i class="bi bi-trash"></i> 
+            </button>
+            <button class="btn btn-warning" [routerLink]="['/UpdateDocument', document.docid]" [disabled]="estDesactiveee(document.statusDoc)">
+              <i class="bi bi-pencil"></i> 
+            </button>
+           
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination Controls -->
+  <pagination-controls (pageChange)="page = $event"></pagination-controls>
+
+</div>

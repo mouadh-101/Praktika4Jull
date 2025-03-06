@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -18,13 +19,14 @@ public class Document {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     Long Docid;
-    String Societe;
+    String societe;
     @Enumerated(EnumType.STRING)
     Type type;
     @Enumerated(EnumType.STRING)
     Duree duree;
-    Date DateDebut;
-    Date DateFin;
+
+    LocalDate dateDebut;
+    LocalDate dateFin;
     @Enumerated(EnumType.STRING)
     StatusDoc statusDoc= StatusDoc.ENATTEND;
     public void validerStatus() {
