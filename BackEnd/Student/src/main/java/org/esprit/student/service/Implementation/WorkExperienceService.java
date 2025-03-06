@@ -18,22 +18,33 @@ import java.util.Map;
 public class WorkExperienceService implements IWorkExperienceService {
     @Autowired
     WorkExperienceRepository workExperienceRepository;
+    @Autowired
+    StudentRepository studentRepository;
 
     @Override
-    public WorkExperience addWorkExperience(WorkExperience workExperience) {
-        return workExperienceRepository.save(workExperience);
+    public WorkExperience addWorkExperience(WorkExperience workExperience,String id) {
+        if (studentRepository.existsById(id) && studentRepository.findById(id) != null) {
+            Student s = studentRepository.findById(id).orElse(null);
+            workExperience.setStudent(s);
+            return workExperienceRepository.save(workExperience);
+        }
+        System.out.println("user nf");
+        return null;
     }
 
     @Override
     public WorkExperience updateWorkExperience(Long id,WorkExperience workExperience) {
         WorkExperience existingWorkExperience = workExperienceRepository.findById(id).orElse(null);
+        System.out.println("workExppppp= "+existingWorkExperience);
         if(existingWorkExperience!=null)
         {
             existingWorkExperience.setPosition(workExperience.getPosition());
+            existingWorkExperience.setCompanyName(workExperience.getCompanyName());
             existingWorkExperience.setAddress(workExperience.getAddress());
             existingWorkExperience.setStartDate(workExperience.getStartDate());
             existingWorkExperience.setEndDate(workExperience.getEndDate());
             existingWorkExperience.setDescription(workExperience.getDescription());
+            System.out.println(existingWorkExperience);
 
             return workExperienceRepository.save(existingWorkExperience);
         }
@@ -42,7 +53,7 @@ public class WorkExperienceService implements IWorkExperienceService {
 
     @Override
     public void deleteWorkExperience(Long id) {
-
+        workExperienceRepository.delete(workExperienceRepository.findById(id).orElse(null));
     }
 
     @Override

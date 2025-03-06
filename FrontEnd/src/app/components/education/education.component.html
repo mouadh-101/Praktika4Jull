@@ -1,26 +1,30 @@
-<form [formGroup]="educationForm" (ngSubmit)="submit()">
-    <mat-form-field appearance="outline">
-      <mat-label>Degree</mat-label>
-      <input matInput formControlName="degree" required />
-    </mat-form-field>
-  
-    <mat-form-field appearance="outline">
-      <mat-label>Institution</mat-label>
-      <input matInput formControlName="schoolName" required />
-    </mat-form-field>
-  
-    <mat-form-field appearance="outline">
-      <mat-label>Start Date</mat-label>
-      <input matInput formControlName="startDate" type="date" required />
-    </mat-form-field>
-  
-    <mat-form-field appearance="outline">
-      <mat-label>End Date</mat-label>
-      <input matInput formControlName="endDate" type="date" required />
-    </mat-form-field>
-  
-    <div class="dialog-actions">
-      <button mat-raised-button color="primary" type="submit">Save</button>
-      <button mat-raised-button color="warn" (click)="cancel()">Cancel</button>
+<div class="form-container">
+  <h2 class="form-title">{{ editMode ? 'Edit' : 'Add' }} Education</h2>
+
+  <form [formGroup]="educationForm" (ngSubmit)="submit()">
+    <div class="form-field">
+      <label for="degree">Degree</label>
+      <input id="degree" type="text" formControlName="degree" required>
+    </div>
+
+    <div class="form-field">
+      <label for="schoolName">Institution</label>
+      <input id="schoolName" type="text" formControlName="schoolName" required>
+    </div>
+
+    <div class="form-field">
+      <label for="startDate">Start Date</label>
+      <input id="startDate" type="date" formControlName="startDate" required>
+    </div>
+
+    <div class="form-field">
+      <label for="endDate">End Date</label>
+      <input id="endDate" type="date" formControlName="endDate" required>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" (click)="cancel()">Cancel</button>
+      <button type="submit">Save</button>
     </div>
   </form>
+</div>

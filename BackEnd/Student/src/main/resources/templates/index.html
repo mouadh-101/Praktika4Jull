@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Student Resume</title>
+    <style type="text/css">
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @font-face {
+            font-family: 'Segoe UI';
+            src: url('fonts/segoeui.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Segoe UI';
+            src: url('fonts/segoeuib.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        body {
+            width: 100%;
+            background-color: #ffffff;
+            color: #333333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 12pt;
+        }
+
+        /* Page layout */
+        .page-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        /* Sidebar styles */
+        .sidebar {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100%;
+            background-color: #ffffff;
+            padding: 30px;
+            border-right: 1px solid #eeeeee;
+        }
+
+        .profile-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 15px;
+            border: 2px solid #1e88e5;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .name {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .title {
+            color: #777777;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .social-icons {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .social-icon {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border-radius: 15px;
+            background-color: #f0f0f0;
+            color: #555555;
+            text-decoration: none;
+            font-size: 14px;
+            margin: 0 5px;
+        }
+
+        .section-title {
+            width: 100%;
+            font-size: 14px;
+            font-weight: bold;
+            color: #777777;
+            margin: 20px 0 10px;
+            text-transform: uppercase;
+        }
+
+        .info-list {
+            width: 100%;
+            list-style-type: none;
+        }
+
+        .info-item {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .info-label {
+            font-weight: bold;
+            display: block;
+        }
+
+        .languages-list, .interests-list {
+            width: 100%;
+            list-style-type: none;
+        }
+
+        .language-item, .interest-item {
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        /* Main content styles */
+        .main-content {
+            margin-left: 280px;
+            padding: 30px;
+            background-color: #ffffff;
+        }
+
+        .greeting {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .intro {
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #555555;
+            font-size: 14px;
+        }
+
+        .timeline-section {
+            margin-bottom: 30px;
+            page-break-inside: avoid;
+        }
+
+        .timeline-header {
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .timeline-title {
+            color: #1e88e5;
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-right: 10px;
+            float: left;
+        }
+
+        .section-heading {
+            font-size: 20px;
+            font-weight: bold;
+            float: left;
+        }
+
+        .timeline-item {
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            clear: both;
+        }
+
+        .timeline-dot {
+            float: left;
+            width: 12px;
+            height: 12px;
+            border-radius: 6px;
+            background-color: #1e88e5;
+            margin-right: 15px;
+            margin-top: 5px;
+        }
+
+        .timeline-content {
+            margin-left: 27px;
+        }
+
+        .timeline-date {
+            display: inline-block;
+            background-color: #1e88e5;
+            color: #ffffff;
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .timeline-role {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .timeline-place {
+            color: #777777;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .timeline-desc {
+            color: #555555;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .footer {
+            text-align: center;
+            color: #777777;
+            font-size: 12px;
+            margin-top: 30px;
+            page-break-before: avoid;
+        }
+
+        /* Page break controls */
+        .page-break {
+            page-break-after: always;
+        }
+
+        /* First page should not have a page break */
+        .first-page {
+            page-break-after: avoid;
+        }
+
+        /* Education section should start on a new page if it doesn't fit */
+        .education-section {
+            page-break-before: auto;
+        }
+
+        /* Experience section should start on a new page if it doesn't fit */
+        .experience-section {
+            page-break-before: auto;
+        }
+
+        /* Extra activities section should start on a new page if it doesn't fit */
+        .extra-activities-section {
+            page-break-before: auto;
+        }
+    </style>
+</head>
+<body>
+<div class="page-container first-page">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="profile-container">
+            <img th:src="'file:///G:/project/praktika/FrontEnd/src/assets'+(${student.profilePic != null ? student.profilePic : 'default-profile.png'})" alt="Profile" class="profile-img"/>
+            <h2 class="name" th:text="${user.name}">Daisy Murphy</h2>
+            <p class="title" th:text="${student.fieldOfStudy}">UI / UX Designer</p>
+        </div>
+
+        <div class="social-icons">
+            <a href="#" class="social-icon">f</a>
+            <a href="#" class="social-icon">t</a>
+            <a href="#" class="social-icon">in</a>
+            <a href="#" class="social-icon">be</a>
+            <a href="#" class="social-icon">g</a>
+        </div>
+
+        <h3 class="section-title">Personal Information</h3>
+        <ul class="info-list">
+            <li class="info-item">
+                <span class="info-label">BIRTHDAY:</span>
+                <span th:text="${student.dateOfBirth != null ? #temporals.format(student.dateOfBirth, 'dd MMMM yyyy') : 'Unknown'}">12 April 1990</span>
+            </li>
+            <li class="info-item">
+                <span class="info-label">PHONE:</span>
+                <span th:text="${user.phone}">+1 123 000 4444</span>
+            </li>
+            <li class="info-item">
+                <span class="info-label">MAIL:</span>
+                <span th:text="${user.email}">info@daisym.com</span>
+            </li>
+            <li class="info-item">
+                <span class="info-label">LOCATION:</span>
+                <span th:text="${user.address}">California, USA</span>
+            </li>
+        </ul>
+
+        <h3 class="section-title">Skills</h3>
+        <ul class="interests-list">
+            <li class="interest-item" th:each="skill : ${student.skills}" th:text="${skill.name}">UI/UX Design</li>
+            <!-- Fallback skills if no data is provided -->
+            <li class="interest-item" th:if="${#lists.isEmpty(student.skills)}">UI/UX Design</li>
+            <li class="interest-item" th:if="${#lists.isEmpty(student.skills)}">Graphic Design</li>
+            <li class="interest-item" th:if="${#lists.isEmpty(student.skills)}">Web Development</li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1 class="greeting">HELLO, <span th:text="${user.name}">DAISY MURPHY</span>!</h1>
+        <p class="intro" th:text="${student.bio}">
+            I'm a professional UI/UX Designer with a strong writing craft background and vast media, website hosting complex problem solutions experience. I would love to share my designs. My job is to build your website so that it is functional and user-friendly but at the same time attractive. Moreover, I add personal touch to your product and make sure that is eye-catching and easy to use.
+        </p>
+
+        <!-- Education Section -->
+        <div class="timeline-section education-section">
+            <div class="timeline-header">
+                <div class="timeline-title">TIMELINE</div>
+                <h2 class="section-heading">EDUCATION</h2>
+            </div>
+
+            <div style="clear: both;"></div>
+
+            <div class="timeline" th:if="${not #lists.isEmpty(student.educations)}">
+                <div class="timeline-item" th:each="edu : ${student.educations}">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date" th:text="${(edu.startDate != null ? #temporals.format(edu.startDate, 'yyyy') : 'Unknown') + ' - ' + (edu.endDate != null ? #temporals.format(edu.endDate, 'yyyy') : 'Present')}">2018 - 2020</div>
+                        <h3 class="timeline-role" th:text="${edu.degree}">Master in Computer Science</h3>
+                        <p class="timeline-place" th:text="${edu.schoolName}">Stanford University</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fallback education if no data is provided -->
+            <div class="timeline" th:if="${#lists.isEmpty(student.educations)}">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2018 - 2020</div>
+                        <h3 class="timeline-role">Master in Computer Science</h3>
+                        <p class="timeline-place">Stanford University</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2014 - 2018</div>
+                        <h3 class="timeline-role">Bachelor of Computer Science</h3>
+                        <p class="timeline-place">Harvard University</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Experience Section -->
+        <div class="timeline-section experience-section">
+            <div class="timeline-header">
+                <div class="timeline-title">TIMELINE</div>
+                <h2 class="section-heading">EXPERIENCE</h2>
+            </div>
+
+            <div style="clear: both;"></div>
+
+            <div class="timeline" th:if="${not #lists.isEmpty(student.workExperiences)}">
+                <div class="timeline-item" th:each="work : ${student.workExperiences}">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date" th:text="${(work.startDate != null ? #temporals.format(work.startDate, 'yyyy') : 'Unknown') + ' - ' + (work.endDate != null ? #temporals.format(work.endDate, 'yyyy') : 'Present')}">2020 - 2023</div>
+                        <h3 class="timeline-role" th:text="${work.position}">UI/UX Designer</h3>
+                        <p class="timeline-place" th:text="${work.companyName}">Google</p>
+                        <p class="timeline-desc" th:text="${work.description}">Responsible for designing user interfaces and improving user experience.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fallback experience if no data is provided -->
+            <div class="timeline" th:if="${#lists.isEmpty(student.workExperiences)}">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2020 - 2023</div>
+                        <h3 class="timeline-role">UI/UX Designer</h3>
+                        <p class="timeline-place">Google</p>
+                        <p class="timeline-desc">Responsible for designing user interfaces and improving user experience.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2018 - 2020</div>
+                        <h3 class="timeline-role">Web Designer</h3>
+                        <p class="timeline-place">Apple</p>
+                        <p class="timeline-desc">Designed and developed responsive websites for various products.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Extra Activities Section -->
+        <div class="timeline-section extra-activities-section">
+            <div class="timeline-header">
+                <div class="timeline-title">TIMELINE</div>
+                <h2 class="section-heading">Extra Activities</h2>
+            </div>
+
+            <div style="clear: both;"></div>
+
+            <div class="timeline" th:if="${not #lists.isEmpty(student.extraActivities)}">
+                <div class="timeline-item" th:each="activity : ${student.extraActivities}">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <p class="timeline-role" th:text="${activity.title}">Volunteer Work</p>
+                        <p class="timeline-desc" th:text="${activity.description}">Participated in community service projects.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fallback activities if no data is provided -->
+            <div class="timeline" th:if="${#lists.isEmpty(student.extraActivities)}">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <p class="timeline-role">Volunteer Work</p>
+                        <p class="timeline-desc">Participated in community service projects.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <p class="timeline-role">Design Workshop</p>
+                        <p class="timeline-desc">Conducted workshops on UI/UX design principles.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            This resume is created using Praktika - the intelligent internship Platform
+        </div>
+    </div>
+</div>
+</body>
+</html>

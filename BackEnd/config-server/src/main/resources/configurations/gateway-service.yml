@@ -26,6 +26,7 @@ spring:
           predicates:
             - Path=/api/Document/**
 
+
 eureka:
   instance:
     hostname: localhost

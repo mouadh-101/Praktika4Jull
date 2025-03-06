@@ -26,7 +26,11 @@ import { AddDocumentComponent } from './components/Document/AddDocument/AddDocum
 import { UpdateDocumentComponent } from './components/Document/updateDocument/updateDocument.component';
 import { DocumentBackComponent } from './components/Document/DocumentBack/DocumentBack.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ExtraActComponent } from './components/extra-act/extra-act.component';
+import { WorkExpComponent } from './components/work-exp/work-exp.component';
+import { ProfileUpdateComponent } from './components/profile-update/profile-update.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ExportCvComponent } from './components/export-cv/export-cv.component';
 
 
 @NgModule({
@@ -43,8 +47,12 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ListDocumentComponent,
     AddDocumentComponent,
     UpdateDocumentComponent,
-    DocumentBackComponent
-    
+    DocumentBackComponent,
+    ExtraActComponent,
+    WorkExpComponent,
+    ProfileUpdateComponent,
+    ExportCvComponent,
+
   ],
   imports: [
     ReactiveFormsModule,
@@ -66,13 +74,15 @@ import { NgxPaginationModule } from 'ngx-pagination';
     NgxPaginationModule
 
 
+    HttpClientModule,
+    NgxPaginationModule,
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
      useClass: AuthInterceptor,
      multi: true // Use multiple interceptors if needed
-     
+
    }
   ],
   bootstrap: [AppComponent]

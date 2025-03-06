@@ -27,4 +27,17 @@ public class UserService {
             return "Error registering user: " + e.getMessage();
         }
     }
+    public User updateUser(String userId, User user)
+    {
+        User exitUser=userRepository.findById(userId).orElse(null);
+        if(exitUser!=null)
+        {
+            exitUser.setAddress(user.getAddress());
+            exitUser.setName(user.getName());
+            exitUser.setPhone(user.getPhone());
+            return userRepository.save(exitUser);
+        }
+
+        return null;
+    }
 }

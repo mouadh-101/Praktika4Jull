@@ -21,6 +21,7 @@ public class WorkExperience {
     Long id;
     String address;
     String position;
+    String companyName;
     LocalDate startDate;
     @Column(nullable = true)
     LocalDate endDate;
@@ -83,5 +84,13 @@ public class WorkExperience {
 
     public void setStudent(Student student) {
         this.student = student;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 }

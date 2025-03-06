@@ -1,0 +1,19 @@
+<div class="form-container">
+  <h2 class="form-title">{{ editMode ? 'Edit' : 'Add' }} Extra Activity</h2>
+
+  <form [formGroup]="extraActivityForm" (ngSubmit)="submit()">
+    <div class="form-field">
+      <label for="title">title</label>
+      <input id="title" type="text" formControlName="title" >
+    </div>
+    <div class="form-field">
+      <label for="description">Description</label>
+      <textarea id="description" formControlName="description" rows="4" required></textarea>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" (click)="cancel()">Cancel</button>
+      <button type="submit">Save</button>
+    </div>
+  </form>
+</div>

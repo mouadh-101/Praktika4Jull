@@ -1,0 +1,53 @@
+<div class="form-container">
+    <h2 class="form-title">{{ editMode ? 'Edit' : 'Add' }} Profile</h2>
+  
+    <form [formGroup]="profileForm" (ngSubmit)="submit()">
+      <div class="form-field">
+        <label for="profilePic">Profile Picture</label>
+        <input id="profilePic" type="file" (change)="onFileSelected($event)">
+      </div>
+      
+      <!-- Display uploaded image preview -->
+      <img *ngIf="profilePicUrl" [src]="'./assets/'+profilePicUrl" class="profile-preview" alt="Profile Preview">
+  
+      <div class="form-field">
+        <label for="name">Full Name</label>
+        <input id="name" type="text" formControlName="name" required>
+      </div>
+  
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input id="email" type="email" formControlName="email" required [disabled]=true>
+      </div>
+  
+      <div class="form-field">
+        <label for="phone">Phone</label>
+        <input id="phone" type="text" formControlName="phone" required>
+      </div>
+  
+      <div class="form-field">
+        <label for="address">Address</label>
+        <input id="address" type="text" formControlName="address" required>
+      </div>
+  
+      <div class="form-field">
+        <label for="fieldOfStudy">Field of Study</label>
+        <input id="fieldOfStudy" type="text" formControlName="fieldOfStudy" required>
+      </div>
+  
+      <div class="form-field">
+        <label for="dateOfBirth">Date of Birth</label>
+        <input id="dateOfBirth" type="date" formControlName="dateOfBirth" required>
+      </div>
+  
+      <div class="form-field">
+        <label for="bio">Bio</label>
+        <textarea id="bio" formControlName="bio" maxlength="500"></textarea>
+      </div>
+  
+      <div class="form-actions">
+        <button type="button" (click)="cancel()">Cancel</button>
+        <button type="submit">Save</button>
+      </div>
+    </form>
+  </div>
