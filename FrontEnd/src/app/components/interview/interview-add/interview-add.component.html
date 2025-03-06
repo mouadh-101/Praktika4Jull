@@ -1,0 +1,53 @@
+<div class="container mt-4">
+  <div class="card shadow p-4">
+    <h2 class="text-center mb-4"> Ajouter une Interview</h2>
+
+    <form [formGroup]="interviewForm" (ngSubmit)="addInterview()">
+      <!-- Date -->
+      <div class="mb-3">
+        <label class="form-label">📅 Date :</label>
+        <input type="date" class="form-control" formControlName="dateInterview" [min]="minDate" required />
+        <div *ngIf="interviewForm.get('dateInterview')?.errors?.['invalidDate'] && interviewForm.get('dateInterview')?.touched" class="text-danger">
+          La date doit être strictement supérieure à aujourd'hui.
+        </div>
+      </div>
+
+      <!-- Lieu -->
+      <div class="mb-3">
+        <label class="form-label">📍 Lieu :</label>
+        <input type="text" class="form-control" formControlName="location" required />
+        <div *ngIf="interviewForm.get('location')?.invalid && interviewForm.get('location')?.touched" class="text-danger">
+          Le lieu est obligatoire et doit contenir au moins 3 caractères.
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div class="mb-3">
+        <label class="form-label">📝 Notes :</label>
+        <textarea class="form-control" formControlName="notes" rows="3" required></textarea>
+        <div *ngIf="interviewForm.get('notes')?.invalid && interviewForm.get('notes')?.touched" class="text-danger">
+          Les notes sont obligatoires et doivent contenir au moins 5 caractères.
+        </div>
+      </div>
+
+      <!-- Statut -->
+      <div class="mb-3">
+        <label class="form-label">📌 Statut :</label>
+        <select class="form-select" formControlName="status">
+          <option value=""></option>
+          <option value="SCHEDULED">SCHEDULED</option>
+          <option value="COMPLETED">COMPLETED</option>
+          <option value="CANCELED">CANCELED</option>
+        </select>
+      </div>
+
+      <!-- Boutons -->
+      <div class="d-flex justify-content-end gap-2">
+        <button type="button" class="btn btn-secondary" (click)="cancel()">❌ Annuler</button>
+        <button type="submit" class="btn btn-success" [disabled]="interviewForm.invalid">
+          ✅ Ajouter
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

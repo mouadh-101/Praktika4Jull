@@ -21,6 +21,19 @@ import { UseTabComponent } from './components/use-tab/use-tab.component';
 import { StudentProfileComponent } from './components/studentProfile/studentProfile.component';
 import { SkillComponent } from './components/skill/skill.component';
 import { EducationComponent } from './components/education/education.component';
+import { InterviewComponent } from './components/interview/interview.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FilterPipe } from './pipes/filter.pipe';
+import { InterviewAddComponent } from './components/interview/interview-add/interview-add.component';
+import { InterviewListComponent } from './components/interview/interview-list/interview-list.component';
+import { InterviewEditComponent } from './components/interview/interview-edit/interview-edit.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
+import { CalendarModule } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { CalenderComponent } from './components/calender/calender.component';
+
+
 import { ListDocumentComponent } from './components/Document/ListDocument/ListDocument.component';
 import { AddDocumentComponent } from './components/Document/AddDocument/AddDocument.component';
 import { UpdateDocumentComponent } from './components/Document/updateDocument/updateDocument.component';
@@ -44,6 +57,16 @@ import { ExportCvComponent } from './components/export-cv/export-cv.component';
     StudentProfileComponent,
     SkillComponent,
     EducationComponent,
+    InterviewComponent,
+    FilterPipe,
+    InterviewAddComponent,
+    InterviewListComponent,
+    InterviewEditComponent,
+
+    CalenderComponent,
+
+
+
     ListDocumentComponent,
     AddDocumentComponent,
     UpdateDocumentComponent,
@@ -65,6 +88,13 @@ import { ExportCvComponent } from './components/export-cv/export-cv.component';
     MatInputModule,
     MatIconModule,
     MatDialogModule,
+    HttpClientModule,
+    NgbModule,
+    FormsModule,
+    NgxPaginationModule,
+    FullCalendarModule,
+    MatNativeDateModule,
+    CalendarModule.forRoot({ provide: DateAdapter, useClass: MatNativeDateModule }),
     HttpClientModule,
     BrowserAnimationsModule,
     MatCardModule,

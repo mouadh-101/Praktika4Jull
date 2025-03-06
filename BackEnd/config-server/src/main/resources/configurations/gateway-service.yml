@@ -17,6 +17,10 @@ spring:
           uri: lb://student-service
           predicates:
             - Path=/api/Student/**
+        - id: interview-service
+          uri: lb://interview-service
+          predicates:
+            - Path=/api/interview/**
         - id: Document-server
           uri: lb://Document-server
           predicates:
