@@ -41,6 +41,10 @@ public class UserController {
     public List<User> fndAll() {
         return userRepository.findAll();
     }
+    @PutMapping
+    public User update(@RequestBody User user , @RequestHeader("userId") String userId) {
+        return userService.updateUser(userId,user);
+    }
     @GetMapping("/userById")
     public User userByID(@RequestHeader("userId") String userId)
     {

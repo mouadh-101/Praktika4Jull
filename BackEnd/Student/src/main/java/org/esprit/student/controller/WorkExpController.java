@@ -9,25 +9,25 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/workExperience/WorkExp")
+@RequestMapping("/api/Student/WorkExp")
 public class WorkExpController {
     @Autowired
     IWorkExperienceService workExperienceService;
-    @PostMapping("/add")
-    public WorkExperience addworkExperience(@RequestBody WorkExperience workExperience)
+    @PostMapping
+    public WorkExperience addworkExperience(@RequestBody WorkExperience workExperience,@RequestHeader("userId") String id)
     {
-        return workExperienceService.addWorkExperience(workExperience);
+        return workExperienceService.addWorkExperience(workExperience,id);
     }
     @GetMapping("/{id}")
     public ResponseEntity<WorkExperience> getworkExperience(@PathVariable("id") Long id)
     {
         return workExperienceService.getWorkExperience(id);
     }
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void deleteworkExperience(@PathVariable("id")Long id) {
         workExperienceService.deleteWorkExperience(id);
     }
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public WorkExperience updateworkExperience(@RequestBody WorkExperience workExperience ,@PathVariable("id") Long id) {
         return workExperienceService.updateWorkExperience(id,workExperience);
     }

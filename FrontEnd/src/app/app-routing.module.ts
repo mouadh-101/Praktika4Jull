@@ -9,6 +9,10 @@ import { InterviewAddComponent } from './components/interview/interview-add/inte
 import { InterviewListComponent } from './components/interview/interview-list/interview-list.component';
 
 import { CalenderComponent } from './components/calender/calender.component';
+import { ListDocumentComponent } from './components/Document/ListDocument/ListDocument.component';
+import { AddDocumentComponent } from './components/Document/AddDocument/AddDocument.component';
+import { UpdateDocumentComponent } from './components/Document/updateDocument/updateDocument.component';
+import { DocumentBackComponent } from './components/Document/DocumentBack/DocumentBack.component';
 
 const routes: Routes = [
   { path: 'sign-in', component: SignInComponent },
@@ -20,6 +24,13 @@ const routes: Routes = [
   { path: 'interviews/add', component: InterviewAddComponent },
   { path: 'interviews/edit/:id', component: InterviewEditComponent },
   { path: 'calendar', component:CalenderComponent },
+
+
+  {path:'ListDocument',component:ListDocumentComponent},
+  {path:'AddDocument',component:AddDocumentComponent},
+  {path:'UpdateDocument/:id',component:UpdateDocumentComponent},
+  {path:'DocumentBack',component:DocumentBackComponent},
+
 
 
   { path: '', redirectTo: '/', pathMatch: 'full' }

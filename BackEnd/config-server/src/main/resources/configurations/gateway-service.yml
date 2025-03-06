@@ -21,6 +21,15 @@ spring:
           uri: lb://interview-service
           predicates:
             - Path=/api/interview/**
+        - id: Document-server
+          uri: lb://Document-server
+          predicates:
+            - Path=/api/depots/**
+        - id: Document-server
+          uri: lb://Document-server
+          predicates:
+            - Path=/api/Document/**
+
 
 eureka:
   instance:

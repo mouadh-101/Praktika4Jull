@@ -2,7 +2,8 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, forkJoin, Observable, throwError } from 'rxjs';
+import { saveAs } from 'file-saver'
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,15 @@ export class StudentProfileService {
 
 
   constructor(private http: HttpClient) {}
+
+  updateProfile(user: any): Observable<any> {
+    const forUser = this.http.put('http://localhost:8222/api/users', user);
+    const forStudent = this.http.put(`${this.apiUrl}/update`, user);
+  
+    return forkJoin([forUser, forStudent]).pipe(
+      catchError(this.handleError)
+    );
+  }
 
   getStudentData(): Observable<any> {
     return this.http.get(`${this.apiUrl}`).pipe(
@@ -24,7 +34,7 @@ export class StudentProfileService {
    * Add a new skill for the logged-in student.
    */
   addSkill(skill: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/Skills/affect`, skill).pipe(
+    return this.http.post(`${this.apiUrl}/Skills`, skill).pipe(
       catchError(this.handleError)
     );
   }
@@ -34,6 +44,30 @@ export class StudentProfileService {
    */
   updateSkill(skillId: number, updatedSkill: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/Skills/${skillId}`, updatedSkill).pipe(
+      catchError(this.handleError)
+    );
+  }
+  /**
+   * affect an existing skill for the logged-in student.
+   */
+  disAffectSkill(skillId: number): Observable<any> {
+    return this.http.put(`${this.apiUrl}/Skills/disAffect/${skillId}`,null).pipe(
+      catchError(this.handleError)
+    );
+  }
+  /**
+   * disffect an existing skill for the logged-in student.
+   */
+  affectSkill(skillId: number): Observable<any> {
+    return this.http.put(`${this.apiUrl}/Skills/affect/${skillId}`,null).pipe(
+      catchError(this.handleError)
+    );
+  }
+  /**
+   * get 10 existing skill.
+   */
+  get10Skill(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/Skills/f10`).pipe(
       catchError(this.handleError)
     );
   }
@@ -52,7 +86,7 @@ export class StudentProfileService {
    * Add a new education entry for the logged-in student.
    */
   addEducation(education: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/Edu/affect`, education).pipe(
+    return this.http.post(`${this.apiUrl}/Edu`, education).pipe(
       catchError(this.handleError)
     );
   }
@@ -117,6 +151,23 @@ export class StudentProfileService {
     return this.http.put(`${this.apiUrl}/ExtraAct/${WorkExperienceId}`, updatedWorkExperience).pipe(
       catchError(this.handleError)
     );
+  }
+  skillEnhancer():Observable<any>{
+    return this.http.get(`${this.apiUrl}/Skills/enhancer`).pipe(
+      catchError(this.handleError)
+    );
+  }
+  exportPdf(user: any,templat:string): void {
+    this.http.post(`${this.apiUrl}/export-pdf/${templat}`, user, { responseType: 'blob' })
+      .subscribe({
+        next: (response: Blob) => {
+          // Save the PDF file
+          saveAs(response, 'resume.pdf');
+        },
+        error: (error) => {
+          console.error('Error exporting PDF:', error);
+        }
+      });
   }
 
 
