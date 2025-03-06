@@ -71,7 +71,7 @@ import { ExportCvComponent } from './components/export-cv/export-cv.component';
     MatButtonModule,
     MatIconModule,
     FormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
 
 
     HttpClientModule,
