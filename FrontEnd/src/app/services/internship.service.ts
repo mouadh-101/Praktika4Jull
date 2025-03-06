@@ -15,6 +15,11 @@ export class InternshipService {
   getAllInternships(): Observable<Internship[]> {
     return this.http.get<Internship[]>(`${this.apiUrl}/list`);
   }
+
+  getMatchingInternship(): Observable<Internship[]> {
+    return this.http.get<Internship[]>(`${this.apiUrl}/matchInternships`);
+  }
+
   getInternshipById(id: number): Observable<Internship> {
     return this.http.get<Internship>(`${this.apiUrl}/findInternshipById/${id}`);
   }

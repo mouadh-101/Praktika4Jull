@@ -47,7 +47,7 @@ export class InternshipComponent implements OnInit {
 
   // Charger les internships
 loadInternships() {
-  this.internshipService.getAllInternships().subscribe(data => {
+  this.internshipService.getMatchingInternship().subscribe(data => {
     this.internships = data.map(internship => {
       // Ajouter le champ relativeTime à chaque internship
       return {

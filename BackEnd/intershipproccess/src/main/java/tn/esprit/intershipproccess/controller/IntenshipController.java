@@ -85,9 +85,9 @@ public class IntenshipController {
         return new ResponseEntity<>(internshipService.getInternshipById(id), HttpStatus.OK);
     }
     // Exposer une API REST pour récupérer le stage le mieux adapté pour un étudiant
-    @GetMapping("/matchInternship")
-    public Internship matchInternship(@RequestParam String userId, @RequestBody List<Internship> internships) {
-        return matchmakingService.matchInternship(userId, internships);
+    @GetMapping("/matchInternships")
+    public List<Internship> matchInternships(@RequestHeader("userId") String userId) {
+        return matchmakingService.matchInternships(userId, internshipService.GetAllInternship());
     }
 }
 
