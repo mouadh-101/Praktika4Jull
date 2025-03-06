@@ -1,0 +1,49 @@
+<div class="card mx-auto my-5" style="max-width: 600px;">
+  <div class="card-body">
+    <h5 class="card-title text-center">Ajouter un Document</h5>
+    <form [formGroup]="documentForm" (ngSubmit)="ajouterDocument()" class="form-container">
+      
+      <div class="form-group">
+        <label>Société:</label>
+        <input formControlName="societe" type="text" class="form-control" required>
+        <div *ngIf="documentForm.get('societe')?.invalid && documentForm.get('societe')?.touched" class="text-danger">
+          <small *ngIf="documentForm.get('societe')?.errors?.['required']">Ce champ est obligatoire.</small>
+          <small *ngIf="documentForm.get('societe')?.errors?.['minlength']">Minimum 2 caractères requis.</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Type:</label>
+        <select formControlName="type" class="form-control">
+          <option *ngFor="let type of types" [value]="type">{{ type }}</option>
+        </select>
+        <div *ngIf="documentForm.get('type')?.invalid && documentForm.get('type')?.touched" class="text-danger">
+          <small *ngIf="documentForm.get('type')?.errors?.['required']">Ce champ est obligatoire.</small>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Durée:</label>
+        <select formControlName="duree" class="form-control" (change)="onDureeChange()">
+          <option *ngFor="let duree of durees" [value]="duree">{{ duree }}</option>
+        </select>
+        <div *ngIf="documentForm.get('duree')?.invalid && documentForm.get('duree')?.touched" class="text-danger">
+          <small *ngIf="documentForm.get('duree')?.errors?.['required']">Ce champ est obligatoire.</small>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <label>Date de début:</label>
+        <input formControlName="dateDebut" type="date" class="form-control" required (change)="onDureeChange()">
+      </div>
+
+      <div class="form-group">
+        <label>Date de fin:</label>
+        <input formControlName="dateFin" type="date" class="form-control" required readonly>
+      </div>
+
+     
+      <button type="submit" class="btn btn-primary mt-3" [disabled]="documentForm.invalid">Ajouter</button>
+    </form>
+  </div>
+</div>
