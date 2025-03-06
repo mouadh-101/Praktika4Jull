@@ -1,5 +1,6 @@
 package org.esprit.student.controller;
 
+
 import jakarta.servlet.http.HttpServletResponse;
 import org.esprit.student.controller.dto.UserDto;
 import org.esprit.student.entity.Student;
@@ -11,10 +12,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
+import java.io.IOException;
+import java.nio.file.Files;
+
 import java.nio.file.StandardCopyOption;
 import java.util.Collections;
 import java.util.Map;
@@ -26,7 +29,7 @@ import java.util.UUID;
 public class StudentController {
     @Autowired
     IStudentService studentService;
-    private final String UPLOAD_DIR = "G:/project/praktika/FrontEnd/src/assets/uploads/";
+    private final String UPLOAD_DIR = "C:/Users/TAYSSIR/Desktop/takwapi/integrationnew/PraktikaIntegration/Praktika/FrontEnd/src/assets/uploads/";
     @PostMapping("/add")
     public Student addStudent(@RequestBody Student student)
     {
@@ -44,6 +47,10 @@ public class StudentController {
     @PutMapping("/update")
     public Student updateStudent(@RequestBody Student student ,@RequestHeader("userId") String id) {
         return studentService.updateStudent(id,student);
+    }
+    @GetMapping("/AllSkillsNames/{userId}")
+    List<String> getAllSkillsNames(@PathVariable("userId") String userId){
+        return studentService.getAllSkillsNames(userId);
     }
     @PostMapping(value = "/profile-picture", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Map<String, String>> uploadFile(@RequestParam("file") MultipartFile file) {

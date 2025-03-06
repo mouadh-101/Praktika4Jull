@@ -14,6 +14,7 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
+import java.util.List;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -100,5 +101,10 @@ public class StudentService implements IStudentService {
         return outputStream.toByteArray();
     }
 
+
+    @Override
+    public List<String> getAllSkillsNames(String userId) {
+        return studentRepository.findSkillNamesByStudentId(userId);
+    }
 
 }

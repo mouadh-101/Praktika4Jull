@@ -12,6 +12,7 @@ import java.util.List;
 
 @Repository
 public interface SkillRepository extends JpaRepository<Skill,Long> {
+
     boolean existsByName(String name);
     Skill findByName(String name);
     @Query("SELECT s FROM Skill s WHERE s.id NOT IN (SELECT us.id FROM Student s JOIN s.skills us WHERE s.userId = :userId) ORDER BY s.id DESC")

@@ -6,7 +6,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 // Import Angular Material Modules
@@ -21,6 +21,11 @@ import { UseTabComponent } from './components/use-tab/use-tab.component';
 import { StudentProfileComponent } from './components/studentProfile/studentProfile.component';
 import { SkillComponent } from './components/skill/skill.component';
 import { EducationComponent } from './components/education/education.component';
+import { UpdateInternshipComponent } from './components/update-internship/update-internship.component';
+import { AddInternshipComponent } from './components/add-internship/add-internship.component';
+import { InternshipDetailsComponent } from './components/internship-details/internship-details.component';
+import { InternshipComponent } from './components/internship/internship.component';
+import { FavorisComponent } from './components/favoris/favoris.component';
 import { InterviewComponent } from './components/interview/interview.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FilterPipe } from './pipes/filter.pipe';
@@ -32,8 +37,6 @@ import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
 import { CalendarModule } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CalenderComponent } from './components/calender/calender.component';
-
-
 import { ListDocumentComponent } from './components/Document/ListDocument/ListDocument.component';
 import { AddDocumentComponent } from './components/Document/AddDocument/AddDocument.component';
 import { UpdateDocumentComponent } from './components/Document/updateDocument/updateDocument.component';
@@ -42,6 +45,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ExtraActComponent } from './components/extra-act/extra-act.component';
 import { WorkExpComponent } from './components/work-exp/work-exp.component';
 import { ProfileUpdateComponent } from './components/profile-update/profile-update.component';
+import { AuthGuard } from './guards/auth.guard';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ExportCvComponent } from './components/export-cv/export-cv.component';
 
@@ -57,16 +61,17 @@ import { ExportCvComponent } from './components/export-cv/export-cv.component';
     StudentProfileComponent,
     SkillComponent,
     EducationComponent,
+    UpdateInternshipComponent,
+    AddInternshipComponent,
+    InternshipDetailsComponent,
+    InternshipComponent,
+    FavorisComponent,
     InterviewComponent,
     FilterPipe,
     InterviewAddComponent,
     InterviewListComponent,
     InterviewEditComponent,
-
     CalenderComponent,
-
-
-
     ListDocumentComponent,
     AddDocumentComponent,
     UpdateDocumentComponent,
@@ -88,9 +93,9 @@ import { ExportCvComponent } from './components/export-cv/export-cv.component';
     MatInputModule,
     MatIconModule,
     MatDialogModule,
+    FormsModule,
     HttpClientModule,
     NgbModule,
-    FormsModule,
     NgxPaginationModule,
     FullCalendarModule,
     MatNativeDateModule,
@@ -100,12 +105,10 @@ import { ExportCvComponent } from './components/export-cv/export-cv.component';
     MatCardModule,
     MatButtonModule,
     MatIconModule,
-    FormsModule,
     NgxPaginationModule,
-
-
     HttpClientModule,
     NgxPaginationModule,
+
   ],
   providers: [
     {
