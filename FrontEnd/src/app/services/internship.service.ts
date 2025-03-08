@@ -26,16 +26,15 @@ export class InternshipService {
   addInternship(internship: Internship): Observable<Internship> {
     return this.http.post<Internship>(`${this.apiUrl}/addIntership`, internship);
   }
-  addInternshipWithRequirements(internship: any, requirementNames: string[], companyId: string): Observable<any> {
+  addInternshipWithRequirements(internship: any, requirementNames: string[]): Observable<any> {
     // Crée un objet pour envoyer les données nécessaires
     const internshipData = {
       ...internship,
-      companyId: companyId,  // Ajoute l'ID de l'entreprise
       requirementNames: requirementNames  // Ajoute les exigences
     };
 
     // Envoie les données à l'API backend
-    return this.http.post(`${this.apiUrl}/addIntership1/${companyId}`, internshipData);
+    return this.http.post(`${this.apiUrl}/addIntership1`, internshipData);
   }
   
   getAvailableRequirements(): Observable<string[]> {

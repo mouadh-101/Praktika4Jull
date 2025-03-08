@@ -6,11 +6,12 @@
 
 <div class="container mt-4">
   <h2 class="text-center mb-4">Internship Listings</h2>
-  <div class="d-flex justify-content-end mb-3">
+  <div class="d-flex justify-content-end mb-3" *ngIf="userRole === 'Company'">
     <button class="btn btn-primary" [routerLink]="['/internships/add']">
       <i class="fas fa-plus"></i> Add Internship
     </button>
   </div>
+  
   <div class="row justify-content-center">
       <!-- Partie de filtrage à gauche -->
       <div class="col-md-3">
@@ -75,7 +76,7 @@
                         <div class="internship-info">
                             <span><i class="fas fa-map-marker-alt me-1"></i> {{ internship.location }}</span>
                             <span><i class="fas fa-calendar-alt ms-3 me-1"></i> {{ internship.duration }} months</span>
-                            <span><i class="fas fa-money-bill-wave ms-3 me-1"></i> {{ internship.compensation }} €/month</span>
+                            <span><i class="fas fa-money-bill-wave ms-3 me-1"></i> {{ internship.compensation }} /month</span>
                         </div>
     
                         <div class="badges-container">
@@ -88,12 +89,13 @@
                         </div>
     
                         <div class="d-flex justify-content-end">
-                            <button class="btn btn-link text-muted" (click)="editInternship(internship.id, $event)">
+                            <button *ngIf="userRole === 'Company'"class="btn btn-link text-muted" (click)="editInternship(internship.id, $event)">
                                 <i class="fas fa-pen"></i>
                             </button>
-                            <button class="btn btn-link text-muted" (click)="deleteInternship(internship.id, $event)">
+                            <button  *ngIf="userRole === 'Company'" class="btn btn-link text-muted" (click)="deleteInternship(internship.id, $event)">
                                 <i class="fas fa-trash"></i>
                             </button>
+                        
                         </div>
                     </div>
                 </div>

@@ -16,7 +16,8 @@ export class SignInComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private authService:AuthService
+    private authService:AuthService,
+
   ) {}
 
   ngOnInit(): void {
@@ -34,7 +35,7 @@ export class SignInComponent implements OnInit {
         next: (response) => {
           alert("Login successful!");
           localStorage.setItem('token', response.token); // Store token if needed
-          this.router.navigate(['/dashboard']); // Navigate to dashboard
+          this.router.navigate(['/internships']);
         },
         error: (error) => {
           alert("Invalid credentials. Please try again.");

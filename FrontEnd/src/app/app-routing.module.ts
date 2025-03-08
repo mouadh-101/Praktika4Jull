@@ -25,24 +25,21 @@ const routes: Routes = [
   { path: 'sign-in', component: SignInComponent },
   { path: 'sign-up', component: SignUpComponent },
 
-  { path: 'interviews', component: InterviewListComponent },
+  { path: 'interviews', component: InterviewListComponent,canActivate: [AuthGuard]  },
   { path: 'interviews/add', component: InterviewAddComponent },
   { path: 'interviews/edit/:id', component: InterviewEditComponent },
   { path: 'calendar', component:CalenderComponent },
 
 
-  {path:'ListDocument',component:ListDocumentComponent},
-  {path:'AddDocument',component:AddDocumentComponent},
-  {path:'UpdateDocument/:id',component:UpdateDocumentComponent},
+  {path:'ListDocument',component:ListDocumentComponent,canActivate: [AuthGuard] },
+  {path:'AddDocument',component:AddDocumentComponent,canActivate: [AuthGuard] },
+  {path:'UpdateDocument/:id',component:UpdateDocumentComponent,canActivate: [AuthGuard] },
   {path:'DocumentBack',component:DocumentBackComponent},
-
-
-
   {path:'student',component:StudentProfileComponent,canActivate: [AuthGuard] },
-  { path: 'internships', component: InternshipComponent},
-  { path: 'internships/add', component: AddInternshipComponent },
-  { path: 'internships/edit/:id', component: UpdateInternshipComponent },
-  { path: 'internships/details/:id', component: InternshipDetailsComponent },
+  { path: 'internships', component: InternshipComponent,canActivate: [AuthGuard] },
+  { path: 'internships/add', component: AddInternshipComponent,canActivate: [AuthGuard]  },
+  { path: 'internships/edit/:id', component: UpdateInternshipComponent,canActivate: [AuthGuard]  },
+  { path: 'internships/details/:id', component: InternshipDetailsComponent,canActivate: [AuthGuard]  },
   { path: 'favoris', component: FavorisComponent },
   { path: '', redirectTo: '/', pathMatch: 'full' }
 ];
