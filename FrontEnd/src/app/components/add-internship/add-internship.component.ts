@@ -296,8 +296,7 @@ closeAddRequirementModal() {
     
         this.internshipService.addInternshipWithRequirements(
           this.internshipForm.value,
-          this.selectedRequirements, // Passe les exigences sélectionnées
-          this.companyId
+          this.selectedRequirements
         ).subscribe(
           response => {
             console.log('Stage ajouté avec succès !', response);

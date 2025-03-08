@@ -3,6 +3,8 @@ import { Internship } from 'src/app/models/internship';
 import { InternshipService } from 'src/app/services/internship.service';
 import * as moment from 'moment';  
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-internship',
@@ -19,7 +21,10 @@ export class InternshipComponent implements OnInit {
     field: '',
     remote: false
   };
-  constructor(private router: Router,private internshipService: InternshipService) {}
+  userRole: string = ''; 
+  
+
+  constructor(private router: Router,private internshipService: InternshipService,private userService: UserService) {}
 
 
 
@@ -61,9 +66,23 @@ loadInternships() {
 }
 
 
-  ngOnInit() {
-    this.loadInternships();
-  }
+ngOnInit() {
+  this.loadInternships();
+  this.getUserRole(); // Ajoute les parenthèses pour exécuter la fonction
+}
+
+getUserRole() {
+  this.userService.getUserData().subscribe(
+    (userData) => {
+      this.userRole = userData.role; // Assurez-vous que le backend renvoie un champ "role"
+      console.log('Rôle de l\'utilisateur:', this.userRole); // Affichage dans la console
+    },
+    (error) => {
+      console.error('Erreur lors de la récupération du rôle utilisateur', error);
+    }
+  );
+}
+
 // Naviguer vers les détails de l'internship
 goToDetails(id: number) {
   this.router.navigate(['/internships/details', id]);

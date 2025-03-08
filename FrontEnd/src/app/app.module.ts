@@ -6,7 +6,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 // Import Angular Material Modules
@@ -94,21 +94,14 @@ import { ExportCvComponent } from './components/export-cv/export-cv.component';
     MatIconModule,
     MatDialogModule,
     FormsModule,
-    HttpClientModule,
     NgbModule,
     NgxPaginationModule,
     FullCalendarModule,
     MatNativeDateModule,
     CalendarModule.forRoot({ provide: DateAdapter, useClass: MatNativeDateModule }),
-    HttpClientModule,
     BrowserAnimationsModule,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    NgxPaginationModule,
-    HttpClientModule,
-    NgxPaginationModule,
-
+    MatButtonModule
+    
   ],
   providers: [
     {

@@ -10,6 +10,8 @@
         <option value="$PROJECT_DIR$/BackEnd/discovery/pom.xml" />
         <option value="$PROJECT_DIR$/BackEnd/config-server/pom.xml" />
         <option value="$PROJECT_DIR$/BackEnd/intershipproccess/pom.xml" />
+        <option value="$PROJECT_DIR$/BackEnd/MicroserviceDocument/pom.xml" />
+        <option value="$PROJECT_DIR$/BackEnd/microserviceInterview/pom.xml" />
       </list>
     </option>
   </component>

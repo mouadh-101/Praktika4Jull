@@ -8,7 +8,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="config-server" />
+        <module name="MicroserviceDocument" />
         <module name="intershipproccess" />
+        <module name="microserviceInterview" />
         <module name="gatew" />
         <module name="discovery" />
       </profile>
@@ -26,11 +28,13 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="MicroserviceDocument" options="-parameters" />
       <module name="Student" options="-parameters" />
       <module name="config-server" options="-parameters" />
       <module name="discovery" options="-parameters" />
       <module name="gatew" options="-parameters" />
       <module name="intershipproccess" options="-parameters" />
+      <module name="microserviceInterview" options="-parameters" />
       <module name="user" options="-parameters" />
     </option>
   </component>

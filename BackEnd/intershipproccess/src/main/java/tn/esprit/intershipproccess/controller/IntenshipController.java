@@ -40,10 +40,10 @@ public class IntenshipController {
         Internship savedInternship = internshipService.addInternship(internship);
         return new ResponseEntity<>(savedInternship, HttpStatus.CREATED);
     }
-    @PostMapping("/addIntership1/{companyId}")
+    @PostMapping("/addIntership1")
     public ResponseEntity<?> addInternshipWithRequirements(
             @RequestBody @Valid InternshipRequest internshipRequest,
-            @PathVariable String companyId){
+            @RequestHeader("userId") String companyId){
         Internship internship = new Internship();
         internship.setTitre(internshipRequest.getTitre());
         internship.setDescription(internshipRequest.getDescription());
