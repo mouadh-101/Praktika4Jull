@@ -5,6 +5,8 @@ import * as moment from 'moment';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from 'src/app/services/user.service';
+import { WebsocketService } from 'src/app/services/websocket.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-internship',
@@ -24,7 +26,7 @@ export class InternshipComponent implements OnInit {
   userRole: string = ''; 
   
 
-  constructor(private router: Router,private internshipService: InternshipService,private userService: UserService) {}
+  constructor(private router: Router,private internshipService: InternshipService,private userService: UserService,private notificationService: NotificationService) {}
 
 
 
@@ -67,9 +69,12 @@ loadInternships() {
 
 
 ngOnInit() {
+  console.log('internshipcompentcalled');
   this.loadInternships();
   this.getUserRole(); // Ajoute les parenthèses pour exécuter la fonction
 }
+
+
 
 getUserRole() {
   this.userService.getUserData().subscribe(

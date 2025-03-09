@@ -48,6 +48,7 @@ import { ProfileUpdateComponent } from './components/profile-update/profile-upda
 import { AuthGuard } from './guards/auth.guard';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ExportCvComponent } from './components/export-cv/export-cv.component';
+import { WebsocketComponent } from './components/websocket/websocket.component';
 
 
 @NgModule({
@@ -80,6 +81,7 @@ import { ExportCvComponent } from './components/export-cv/export-cv.component';
     WorkExpComponent,
     ProfileUpdateComponent,
     ExportCvComponent,
+    WebsocketComponent
 
   ],
   imports: [
