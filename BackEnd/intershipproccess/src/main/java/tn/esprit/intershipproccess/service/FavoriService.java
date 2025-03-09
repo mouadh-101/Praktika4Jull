@@ -78,49 +78,54 @@ public class FavoriService {
 
 
     public void checkApplicationDeadlineAndNotify(String userId) {
-        List<Favoris> favoris = favoriRepository.findAllByUserId(userId);
-        LocalDate today = LocalDate.now();
-        for (Favoris favori : favoris) {
-            if (favori.getInternship().getApplicationDeadline().equals(today)) {
-                String title = favori.getInternship().getTitre();
-                String message = "Le délai de candidature pour le stage <strong>" + title + "</strong> est <span style='color: red; font-weight: bold;'>aujourd'hui</span>!";
+        try {
+            List<Favoris> favoris = favoriRepository.findAllByUserId(userId);
+            LocalDate today = LocalDate.now();
+            for (Favoris favori : favoris) {
+                if (favori.getInternship().getApplicationDeadline().equals(today)) {
+                    String title = favori.getInternship().getTitre();
+                    String message = "Le délai de candidature pour le stage <strong>" + title + "</strong> est <span style='color: red; font-weight: bold;'>aujourd'hui</span>!";
 
-                // Notification interne
-                notificationService.sendNotification(userId, message);
+                    // Notification interne via WebSocket
+                    notificationService.sendNotification(userId, message);
 
-                // Récupération de l'email de l'utilisateur
-                String userEmail = client.getUserEmail(userId);
+                    // Envoi de l'email
+                    String userEmail = client.getUserEmail(userId);
+                    if (userEmail != null) {
+                        String emailContent = generateEmailContent(title);
+                      //  emailService.sendEmail(userEmail, "Internship Application Reminder", emailContent, true);
+                    } else {
+                        logger.warn("Email non trouvé pour l'utilisateur : " + userId);
+                    }
 
-                // Envoi de l'email
-                if (userEmail != null) {
-                    String emailContent = "<div style='font-family: Arial, sans-serif; padding: 20px; color: #333;'>"
-                            + "<h2 style='color: #0056b3;'>Internship Application Reminder</h2>"
-                            + "<p>Hello,</p>"
-                            + "<p>🚀 <strong>Be an early applicant!</strong> The application deadline for the <strong>" + title + "</strong> internship is <span style='color: red; font-weight: bold;'>today</span>.</p>"
-                            + "<p>Don't miss this opportunity to kick-start your career.</p>"
-                            + "<br>"
-                            + "<p>🌍 <strong>Find your next opportunity with us!</strong> Our platform connects talented individuals like you with top internships worldwide.</p>"
-                            + "<br>"
-                            + "<a href='http://localhost:4200/internships' style='background-color: #0056b3; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;'>Apply Now</a>"
-                            + "<br><br>"
-                            + "<p>Best regards,</p>"
-                            + "<p><strong>Your Internship Team</strong></p>"
-                            + "</div>";
-
-                    emailService.sendEmail(userEmail, "Internship Application Reminder", emailContent, true);
+                    // Envoi de la notification WebSocket
+                    messagingTemplate.convertAndSend("/topic/notifications", new NotificationMessage(message));
                 }
-
-
-                // Notification WebSockets
-                messagingTemplate.convertAndSend("/topic/notifications", new NotificationMessage(message));
             }
+        } catch (Exception e) {
+            logger.error("Erreur lors de la vérification de la date limite pour l'utilisateur " + userId, e);
         }
+    }
+
+    private String generateEmailContent(String title) {
+        return "<div style='font-family: Arial, sans-serif; padding: 20px; color: #333;'>"
+                + "<h2 style='color: #0056b3;'>Internship Application Reminder</h2>"
+                + "<p>Hello,</p>"
+                + "<p>🚀 <strong>Be an early applicant!</strong> The application deadline for the <strong>" + title + "</strong> internship is <span style='color: red; font-weight: bold;'>today</span>.</p>"
+                + "<p>Don't miss this opportunity to kick-start your career.</p>"
+                + "<br>"
+                + "<p>🌍 <strong>Find your next opportunity with us!</strong> Our platform connects talented individuals like you with top internships worldwide.</p>"
+                + "<br>"
+                + "<a href='http://localhost:4200/internships' style='background-color: #0056b3; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;'>Apply Now</a>"
+                + "<br><br>"
+                + "<p>Best regards,</p>"
+                + "<p><strong>Your Internship Team</strong></p>"
+                + "</div>";
     }
 
 
 
-
-      @Scheduled(cron = "*/10 * * * * *")
+    @Scheduled(cron = "*/10 * * * * *")
     @Scheduled(cron = "0 0 12 * * ?")
     public void checkApplicationDeadlineAndNotifyForAllUsers() {
         logger.info("Exécution de la tâche planifiée : vérification des deadlines de stages.");

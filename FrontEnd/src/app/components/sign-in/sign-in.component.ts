@@ -34,7 +34,8 @@ export class SignInComponent implements OnInit {
       this.authService.login(email, password).subscribe({
         next: (response) => {
           alert("Login successful!");
-          localStorage.setItem('token', response.token); // Store token if needed
+          localStorage.setItem('token', response.token);
+          sessionStorage.setItem('username', this.loginForm.value.email);
           this.router.navigate(['/internships']);
         },
         error: (error) => {

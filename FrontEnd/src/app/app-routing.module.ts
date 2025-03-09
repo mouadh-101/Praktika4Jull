@@ -20,6 +20,7 @@ import { ListDocumentComponent } from './components/Document/ListDocument/ListDo
 import { AddDocumentComponent } from './components/Document/AddDocument/AddDocument.component';
 import { UpdateDocumentComponent } from './components/Document/updateDocument/updateDocument.component';
 import { DocumentBackComponent } from './components/Document/DocumentBack/DocumentBack.component';
+import { WebsocketComponent } from './components/websocket/websocket.component';
 
 const routes: Routes = [
   { path: 'sign-in', component: SignInComponent },
@@ -41,6 +42,7 @@ const routes: Routes = [
   { path: 'internships/edit/:id', component: UpdateInternshipComponent,canActivate: [AuthGuard]  },
   { path: 'internships/details/:id', component: InternshipDetailsComponent,canActivate: [AuthGuard]  },
   { path: 'favoris', component: FavorisComponent },
+  { path: 'chat', component: WebsocketComponent},
   { path: '', redirectTo: '/', pathMatch: 'full' }
 ];
 

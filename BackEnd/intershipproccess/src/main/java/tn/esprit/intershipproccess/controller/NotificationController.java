@@ -12,4 +12,6 @@ public class NotificationController {
     public NotificationMessage sendNotification(NotificationMessage message) {
         return message;
     }
+
+
 }

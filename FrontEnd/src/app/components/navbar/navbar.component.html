@@ -31,9 +31,21 @@
             <li><a (click)="onLogout()" >Logout</a></li>
           </ul>
         </li>
+        <!-- Icône de notification -->
+        <div *ngIf="isLoggedIn" class="notification-icon">
+          <button (click)="toggleNotifications()">
+            <i class="fa fa-bell"></i>
+            <span *ngIf="notificationCount > 0" class="badge">{{ notificationCount }}</span>
+          </button>
+        </div>
+        
       </ul>
       <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-
+    
+  
+       
+     
+      
     </nav>
 
 
@@ -42,4 +54,22 @@
     <a *ngIf="!isLoggedIn" class="btn-getstarted" routerLink="/sign-up">Join Us</a>
 
   </div>
+ 
+  
 </header>
+<!-- Panneau de notifications -->
+
+<div *ngIf="notificationsVisible" class="notifications-popup">
+  <div class="notifications-header">
+    <h5>Notifications</h5>
+    <button (click)="toggleNotifications()">Close</button>
+  </div>
+  <div *ngIf="notifications.length === 0" class="no-notifications">No new notifications</div>
+  
+  <!-- Liste des notifications -->
+  <div *ngFor="let notification of notifications" class="notification-item">
+    <!-- Utiliser [innerHTML] pour afficher du contenu HTML -->
+    <p [innerHTML]="notification"></p>
+  </div>
+</div>
+
