@@ -34,6 +34,10 @@ export class SignUpComponent implements OnInit {
   
   onSignUp(){
     if (this.signupForm.valid) {
+<<<<<<< HEAD
+=======
+      console.log(this.signupForm.value);
+>>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
       this.authService.register(this.signupForm.value).subscribe({
         
         next: () => {

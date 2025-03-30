@@ -21,6 +21,10 @@ public class WorkExperience {
     Long id;
     String address;
     String position;
+<<<<<<< HEAD
+=======
+    String companyName;
+>>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
     LocalDate startDate;
     @Column(nullable = true)
     LocalDate endDate;
@@ -84,4 +88,15 @@ public class WorkExperience {
     public void setStudent(Student student) {
         this.student = student;
     }
+<<<<<<< HEAD
+=======
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+>>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
 }

@@ -1,0 +1,12 @@
+<div class="chat-container">
+    <h2>Spring WebSocket Chat</h2>
+    <ul>
+      <li *ngFor="let msg of messages">
+        <strong>{{ msg.sender }}:</strong> {{ msg.content }}
+      </li>
+    </ul>
+  
+    <input [(ngModel)]="message" placeholder="Type a message..." />
+    <button (click)="sendMessage()">Send</button>
+  </div>
+  

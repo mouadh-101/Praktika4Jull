@@ -63,6 +63,14 @@ public class UserService {
                     sendUserData(userDTO,"/Student/add");
                     sendUserData(userDTO,"/users/signup");
                 }
+<<<<<<< HEAD
+=======
+                if (userDTO.getRole().equals("Company"))
+                {
+                    sendUserData(userDTO,"/internships/company/add");
+                    sendUserData(userDTO,"/users/signup");
+                }
+>>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
 
             }
             return ResponseEntity.ok(Map.of("massage","User registered successfully!"));

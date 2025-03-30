@@ -1,5 +1,26 @@
+<<<<<<< HEAD
 <project version="4">
   <component name="ProjectRootManager">
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/BackEnd/user/pom.xml" />
+        <option value="$PROJECT_DIR$/BackEnd/gatew/pom.xml" />
+        <option value="$PROJECT_DIR$/BackEnd/Student/pom.xml" />
+        <option value="$PROJECT_DIR$/BackEnd/discovery/pom.xml" />
+        <option value="$PROJECT_DIR$/BackEnd/config-server/pom.xml" />
+        <option value="$PROJECT_DIR$/BackEnd/intershipproccess/pom.xml" />
+        <option value="$PROJECT_DIR$/BackEnd/MicroserviceDocument/pom.xml" />
+        <option value="$PROJECT_DIR$/BackEnd/microserviceInterview/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="corretto-21" project-jdk-type="JavaSDK">
+>>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>

@@ -1,0 +1,30 @@
+package tn.esprit.microservicedocument.service;
+
+import com.itextpdf.text.DocumentException;
+import tn.esprit.microservicedocument.entities.Document;
+import tn.esprit.microservicedocument.entities.Duree;
+import tn.esprit.microservicedocument.entities.StatusDoc;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+
+public interface IDocumentService {
+    Document ajouterDocument(Document document) ;
+    void supprimerDocument(Long id);
+    Document updateDocument(Document document);
+    Document chercherDodcument(Long id);
+    List<Document> afficherDocument();
+
+    void validerDocument(Long id);
+
+    void RefuserDocument(Long id);
+
+    byte[] DemandeDeStage(Document documents) throws DocumentException, IOException;
+
+    byte[] LettreAffectation(Document documents) throws DocumentException, IOException;
+
+    List<Document> getDocumentByDuree(Duree Duree);
+
+    List<Document> getDocumentByStatusDoc(StatusDoc StatusDoc);
+}

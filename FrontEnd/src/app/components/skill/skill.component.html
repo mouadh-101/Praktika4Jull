@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <form [formGroup]="skillForm" (ngSubmit)="submit()">
   <mat-form-field appearance="outline">
     <mat-label>Skill Name</mat-label>
@@ -10,3 +11,20 @@
     <button mat-raised-button color="warn" (click)="cancel()">Cancel</button>
   </div>
 </form>
+=======
+<div class="form-container">
+  <h2 class="form-title">{{ editMode ? 'Edit' : 'Add' }} Skill</h2>
+
+  <form [formGroup]="skillForm" (ngSubmit)="submit()">
+    <div class="form-field">
+      <label for="name">Skill Name</label>
+      <input id="name" type="text" formControlName="name" required>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" (click)="cancel()">Cancel</button>
+      <button type="submit">Save</button>
+    </div>
+  </form>
+</div>
+>>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b

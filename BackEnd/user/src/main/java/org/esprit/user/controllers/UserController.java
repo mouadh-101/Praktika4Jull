@@ -1,5 +1,9 @@
 package org.esprit.user.controllers;
 
+<<<<<<< HEAD
+=======
+import jakarta.ws.rs.Path;
+>>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,10 +45,28 @@ public class UserController {
     public List<User> fndAll() {
         return userRepository.findAll();
     }
+<<<<<<< HEAD
+=======
+    @PutMapping
+    public User update(@RequestBody User user , @RequestHeader("userId") String userId) {
+        return userService.updateUser(userId,user);
+    }
+>>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
     @GetMapping("/userById")
     public User userByID(@RequestHeader("userId") String userId)
     {
         return userRepository.findById(userId).orElse(null);
     }
+<<<<<<< HEAD
+=======
+    @GetMapping("/allusersId")
+    public List<String> getAllUsersID(){
+        return userService.getAllUsersID();
+    }
+    @GetMapping("/userEmail/{userId}")
+    public String getUserEmail(@PathVariable("userId") String userId){
+        return userService.getUserEmail(userId);
+    }
+>>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
 
 }

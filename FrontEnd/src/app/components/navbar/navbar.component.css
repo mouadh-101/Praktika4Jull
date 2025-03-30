@@ -1,4 +1,5 @@
 .user-actions {
+<<<<<<< HEAD
     display: flex;
     align-items: center;
     gap: 15px;
@@ -54,3 +55,166 @@
     background: #c82333;
   }
   
+=======
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.notification-icon {
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.profile-container {
+  position: relative;
+  cursor: pointer;
+}
+
+.profile-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  min-width: 150px;
+  text-align: center;
+  z-index: 100;
+}
+
+.username {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.logout-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.logout-btn:hover {
+  background: #c82333;
+}
+
+.notification-icon button {
+  background-color: transparent;  /* Pour enlever la couleur de fond */
+  border: none;                    /* Pour enlever la bordure */
+  padding: 0;                       /* Pour enlever les marges autour de l'icône */
+  cursor: pointer;                 /* Pour avoir un curseur de type pointer sur le bouton */
+}
+
+
+
+.notification-icon button:hover i {
+  color: #555;                      /* Changez la couleur de l'icône au survol, par exemple un gris plus foncé */
+}
+
+
+.notification-icon {
+  position: relative; /* Cela permet de positionner le badge par rapport à l'icône */
+  display: inline-block;
+  
+}
+
+.notification-icon i {
+  color: gray;
+  font-size: 1.5rem;
+}
+
+.notification-icon .badge {
+  position: absolute;
+  top: 0;  /* Positionnez le badge en haut de l'icône */
+  right: 0; /* Positionnez-le sur le côté droit */
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 3px 7px; /* Réduit la taille du badge */
+  font-size: 12px; /* Réduit la taille du texte */
+  line-height: 1;  /* Cela aligne verticalement le texte */
+  transform: translate(25%, -25%);  
+}
+
+
+
+.notifications-container {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  padding: 10px;
+  width: 300px;
+  max-height: 300px;
+  overflow-y: auto;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.notifications-container ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.notifications-container li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.notifications-container li:last-child {
+  border-bottom: none;
+}
+.notifications-popup {
+  position: fixed;
+  top: 10%;
+  right: 20px;
+  width: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  z-index: 1000; /* Assurez-vous qu'il soit au-dessus du contenu de la page */
+  border-radius: 8px;
+}
+
+.notifications-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notifications-header button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.notification-item {
+  border-bottom: 1px solid #ddd;
+  padding: 8px 0;
+}
+
+.no-notifications {
+  text-align: center;
+  font-style: italic;
+}
+
+
+>>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b

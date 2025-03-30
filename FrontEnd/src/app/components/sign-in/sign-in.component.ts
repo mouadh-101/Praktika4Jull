@@ -16,7 +16,12 @@ export class SignInComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
+<<<<<<< HEAD
     private authService:AuthService
+=======
+    private authService:AuthService,
+
+>>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
   ) {}
 
   ngOnInit(): void {
@@ -33,8 +38,14 @@ export class SignInComponent implements OnInit {
       this.authService.login(email, password).subscribe({
         next: (response) => {
           alert("Login successful!");
+<<<<<<< HEAD
           localStorage.setItem('token', response.token); // Store token if needed
           this.router.navigate(['/dashboard']); // Navigate to dashboard
+=======
+          localStorage.setItem('token', response.token);
+          sessionStorage.setItem('username', this.loginForm.value.email);
+          this.router.navigate(['/internships']);
+>>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
         },
         error: (error) => {
           alert("Invalid credentials. Please try again.");

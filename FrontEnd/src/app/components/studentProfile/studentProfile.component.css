@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .profile-container {
   max-width: 800px;
   margin: 0 auto;
@@ -103,3 +104,244 @@
   align-content: center;
   margin-right: 24px;
 }
+=======
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile Section */
+.header {
+  display: flex;
+  align-items: flex-start;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.profile-picture {
+  flex-shrink: 0;
+}
+
+.profile-picture img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ccc;
+}
+
+.profile-info {
+  flex: 1;
+}
+
+.profile-info h1 {
+  font-size: 28px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-info .edit-icon {
+  color: #666;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.contact-info {
+  color: #333;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.contact-info p {
+  margin-bottom: 5px;
+}
+
+.contact-info strong {
+  color: #0066cc;
+  font-weight: 600;
+}
+
+/* Rest of the styles remain unchanged */
+
+.warning-banner {
+  background-color: #fff3dc;
+  border: 1px solid #ffe5b4;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  color: #856404;
+  font-size: 14px;
+}
+
+
+.section {
+  margin-bottom: 25px;
+}
+
+.section-title {
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #666;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.add-button {
+  color: #0066cc;
+  font-size: 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 0;
+}
+
+.add-button:hover {
+  text-decoration: underline;
+}
+
+.skills-section {
+  background-color: #f8fbff;
+  padding: 20px;
+  border-radius: 4px;
+  margin: 15px 0;
+}
+
+.skills-hint {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.skills-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.skill-tag-added,
+.skill-tag {
+  background: #0066cc;
+  border: 1px solid #004181;
+  color: white;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.skill-tag {
+  background: white;
+  border: 1px solid #0066cc;
+  color: #0066cc;
+}
+
+.skill-tag:hover {
+  background: #0066ccad;
+  border: 1px solid #0066cc;
+  color: white;
+}
+
+.download-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: #0066cc;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.education-entry,
+.experience-entry,
+.activity-entry {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 12px;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.education-entry:hover,
+.experience-entry:hover,
+.activity-entry:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.education-entry h3,
+.experience-entry h3,
+.activity-entry h3 {
+  font-size: 16px;
+  color: #0066cc;
+  margin-bottom: 4px;
+}
+
+.education-entry .degree,
+.experience-entry .position {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.education-entry .date,
+.experience-entry .date,
+.experience-entry .address {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.experience-entry .description,
+.activity-entry .description {
+  font-size: 14px;
+  color: #444;
+  margin-top: 8px;
+  line-height: 1.4;
+}
+
+.education-actions,
+.experience-actions,
+.activity-actions {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  gap: 12px;
+}
+
+.action-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: #666;
+  transition: color 0.2s ease;
+}
+
+.action-button:hover {
+  color: #0066cc;
+}
+
+.action-button.delete:hover {
+  color: #dc3545;
+}
+>>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
