@@ -10,12 +10,15 @@ export class ConventionService {
   private apiUrl = 'http://localhost:8222/api/conventions';
   private termsUrl = 'http://localhost:8222/api/conventions/terms';
 
-  constructor(private http: HttpClient) {}
+
+  constructor(private http: HttpClient) {
+  }
 
   // Ajouter une convention
   addConvention(convention: Convention): Observable<Convention> {
     return this.http.post<Convention>(`${this.apiUrl}/add`, convention);
   }
+
   getAllTerms(): Observable<Terms[]> {
     return this.http.get<Terms[]>(this.termsUrl);
   }
@@ -48,6 +51,7 @@ export class ConventionService {
       })
     );
   }
+
   // ConventionService
   updateConvention(id: number, convention: Convention): Observable<Convention> {
     return this.http.put<Convention>(`${this.apiUrl}/${id}`, convention); // Modifier selon votre endpoint
@@ -59,10 +63,31 @@ export class ConventionService {
       .set('keyword', keyword)
       .set('signed', signed !== null ? signed.toString() : '');
 
-    return this.http.get<Convention[]>(`${this.apiUrl}/search`, { params });
+    return this.http.get<Convention[]>(`${this.apiUrl}/search`, {params});
   }
+
   getConventionStatistics(startDate: string, endDate: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/statistics/${startDate}/${endDate}`);
   }
+
+  // Méthode d'envoi de l'email avec pièce jointe
+
+  sendEmail(to: string, from: string, subject: string, file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('to', to);
+    formData.append('from', from);
+    formData.append('subject', subject);
+    formData.append('file', file);
+
+    // Make sure the emailUrl is correctly referenced here
+    return this.http.post<any>(`${this.apiUrl}/send/email`, formData);
+  }
+
+
+  signConvention(id: number, signatureData: string): Observable<Convention> {
+    return this.http.put<Convention>(`${this.apiUrl}/sign/${id}`, { signatureData });
+  }
+
+
 
 }

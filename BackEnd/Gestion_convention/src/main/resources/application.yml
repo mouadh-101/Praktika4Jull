@@ -12,3 +12,14 @@ spring:
         allowed-headers: "*"
         allow-credentials: true
 
+mail:
+  host: smtp.gmail.com
+  port: 587
+  username: ${kossayboubaker96@gmail.com}
+  password: ${lhvw uare jyot yaey}
+  properties:
+    mail:
+      smtp:
+        auth: true
+        starttls:
+          enable: true

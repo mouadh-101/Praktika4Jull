@@ -82,8 +82,16 @@
           </div>
           <div class="col-md-6">
             <p class="mb-1"><strong><i class="bi bi-building"></i> Signature de l'entreprise:</strong></p>
-            <div class="signature-placeholder bg-light p-3 rounded text-center">
-              <p class="text-muted mb-0">[Signature de l'entreprise]</p>
+            <div class="mb-3">
+              <div *ngIf="convention.signed && convention.encryptedSignature; else noSignature">
+                <img [src]="convention.encryptedSignature" alt="Signature" class="img-fluid" style="max-width: 200px; max-height: 100px;" />
+                <p class="text-muted small">Signée le {{ convention.dateConv | date: 'dd/MM/yyyy HH:mm:ss' }}</p>
+              </div>
+              <ng-template #noSignature>
+                <div class="signature-placeholder bg-light p-3 rounded text-center">
+                  <p class="text-muted mb-0">[Signature de l'entreprise]</p>
+                </div>
+              </ng-template>
             </div>
           </div>
         </div>

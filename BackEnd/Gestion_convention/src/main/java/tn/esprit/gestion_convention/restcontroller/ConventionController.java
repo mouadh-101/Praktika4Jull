@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import tn.esprit.gestion_convention.entities.Convention;
 import tn.esprit.gestion_convention.entities.Terms;
 import tn.esprit.gestion_convention.repositories.IConventionRepo;
@@ -113,21 +114,7 @@ public class ConventionController {
     }
 
     // Endpoint pour obtenir le nombre de conventions pour un mois et une année donnés
-    @GetMapping("/statistics/{startDate}/{endDate}")
-    public ResponseEntity<Map<Date, Map<String, Long>>> getConventionStatistics(
-            @PathVariable String startDate,
-            @PathVariable String endDate) {
 
-        Date start = convertToDate(startDate);
-        Date end = convertToDate(endDate);
-
-        if (start == null || end == null) {
-            throw new IllegalArgumentException("Les dates fournies ne sont pas valides.");
-        }
-
-        Map<Date, Map<String, Long>> statistics = IconventionService.getConventionStatisticsByDate(start, end);
-        return ResponseEntity.ok(statistics);
-    }
 
     @GetMapping("/search")
     public ResponseEntity<List<Convention>> intelligentSearch(
@@ -150,6 +137,25 @@ public class ConventionController {
         return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
     }
 
+    @PutMapping("/sign/{id}")
+    public ResponseEntity<?> signConvention(@PathVariable Integer id, @RequestBody Map<String, String> requestBody) {
+        try {
+            String signatureData = requestBody.get("signatureData");
+            System.out.println("Signature reçue dans le contrôleur : " + signatureData);
+            Convention signedConvention = IconventionService.signConvention(id, signatureData);
+            return ResponseEntity.ok(signedConvention);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+    @PostMapping("/send/email")
+    public ResponseEntity<?> sendEmail(@RequestParam String to,
+                                       @RequestParam String from,
+                                       @RequestParam String subject,
+                                       @RequestParam MultipartFile file) {
+        // Your logic to send email here
+        return ResponseEntity.ok("Email sent successfully");
+    }
 
 
 }

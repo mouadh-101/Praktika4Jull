@@ -5,6 +5,7 @@ export class Convention {
   signed!: boolean;
   internshipId!: number;
   terms!: Terms[]; // Liste des termes liés à la convention
+  encryptedSignature?: string;
 }
 
 export interface Terms {

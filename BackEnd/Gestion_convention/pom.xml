@@ -100,6 +100,20 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+
+
+        <!-- Dépendance pour Jakarta Mail API (remplaçant javax.mail) -->
+        <dependency>
+            <groupId>jakarta.mail</groupId>
+            <artifactId>jakarta.mail-api</artifactId>
+            <version>2.0.1</version> <!-- Version compatible avec Spring Boot 3.x -->
+        </dependency>
+        <!-- Dépendance pour Jakarta Activation -->
+        <dependency>
+            <groupId>jakarta.activation</groupId>
+            <artifactId>jakarta.activation-api</artifactId>
+            <version>2.0.1</version> <!-- Version compatible -->
+        </dependency>
     </dependencies>
 
 

@@ -32,63 +32,104 @@
   </form>
 </div>
 
-<div class="table-responsive">
-  <table class="table table-striped table-hover table-bordered mt-3">
-    <thead class="table-dark align-middle">
-    <tr>
-      <th class="col-3">Description</th>
-      <th class="col-1">Date</th>
-      <th class="col-1">Statut</th>
-      <th class="col-3">Termes</th>
-      <th class="col-4 text-center">Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let convention of conventions">
-      <td>{{ convention.description }}</td>
-      <td>{{ convention.dateConv | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
-      <td>
-        <span class="badge" [ngClass]="convention.signed ? 'bg-success' : 'bg-danger'">
-          {{ convention.signed ? 'Signée' : 'Non signée' }}
-        </span>
-      </td>
-      <td>
-        <div *ngFor="let term of convention.terms" class="mb-2">
-          <strong>Titre</strong>: {{ term.title }}
-          <br><strong>Description</strong>: {{ term.description }}
+<div class="row row-cols-1 row-cols-md-2 g-4">
+  <div *ngFor="let convention of conventions" class="col">
+    <div class="card h-100 shadow-sm border-0" style="border-radius: 10px;">
+      <!-- En-tête de la convention -->
+      <div class="card-header bg-primary text-white text-center" style="border-radius: 10px 10px 0 0;">
+        <h5 class="mb-0">Convention de Stage #{{ convention.conId }}</h5>
+        <small>{{ convention.dateConv | date: 'dd/MM/yyyy HH:mm:ss' }}</small>
+      </div>
+
+      <!-- Corps du document -->
+      <div class="card-body">
+        <!-- Description -->
+        <div class="mb-3">
+          <h6 class="fw-bold text-muted">Description</h6>
+          <p class="text-dark">{{ convention.description || 'Aucune description disponible' }}</p>
         </div>
-      </td>
-      <td>
-        <div class="d-flex gap-2 justify-content-end">
-          <button class="btn btn-info btn-sm"
-                  data-bs-toggle="modal"
-                  data-bs-target="#detailsConventionModal"
-                  (click)="getConventionDetails(convention.conId)">
-            <i class="bi bi-eye"></i> Voir
-          </button>
-          <button class="btn btn-warning btn-sm"
-                  data-bs-toggle="modal"
-                  data-bs-target="#editConventionModal"
-                  (click)="loadConventionData(convention)">
-            <i class="bi bi-pencil"></i> Modifier
-          </button>
-          <button class="btn btn-danger btn-sm"
-                  (click)="deleteConvention(convention.conId)">
-            <i class="bi bi-trash"></i> Supprimer
-          </button>
-          <button class="btn btn-success btn-sm"
-                  (click)="generatePdf(convention.conId)"
-                  [disabled]="isGeneratingPDF === convention.conId">
-            <span *ngIf="isGeneratingPDF !== convention.conId">📄 Télécharger PDF</span>
-            <span *ngIf="isGeneratingPDF === convention.conId">
-              <span class="spinner-border spinner-border-sm"></span> Génération...
-            </span>
-          </button>
+
+        <!-- Statut -->
+        <div class="mb-3">
+          <h6 class="fw-bold text-muted">Statut</h6>
+          <span class="badge" [ngClass]="convention.signed ? 'bg-success' : 'bg-danger'">
+            {{ convention.signed ? 'Signée' : 'Non signée' }}
+          </span>
         </div>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+
+        <!-- Termes -->
+        <div class="mb-3">
+          <h6 class="fw-bold text-muted">Termes de la Convention</h6>
+          <div *ngIf="convention.terms && convention.terms.length > 0; else noTerms">
+            <ul class="list-group list-group-flush">
+              <li *ngFor="let term of convention.terms" class="list-group-item">
+                <strong>Titre: {{ term.title }}</strong>
+                <p class="mb-0 text-muted">Description: {{ term.description }}</p>
+              </li>
+            </ul>
+          </div>
+          <ng-template #noTerms>
+            <p class="text-muted">Aucun terme défini.</p>
+          </ng-template>
+        </div>
+
+        <!-- Signature -->
+        <div class="mb-3">
+          <h6 class="fw-bold text-muted">Signature</h6>
+          <div *ngIf="convention.signed && convention.encryptedSignature; else noSignature">
+            <img [src]="convention.encryptedSignature" alt="Signature" class="img-fluid" style="max-width: 200px; max-height: 100px;" />
+            <p class="text-muted small">Signée le {{ convention.dateConv | date: 'dd/MM/yyyy HH:mm:ss' }}</p>
+          </div>
+          <ng-template #noSignature>
+            <p class="text-muted">Non signée</p>
+          </ng-template>
+        </div>
+      </div>
+
+      <!-- Nouveau pied de page intégré -->
+      <div class="card-footer bg-light d-flex gap-2 justify-content-end" style="border-radius: 0 0 10px 10px;">
+        <button class="btn btn-outline-info btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#detailsConventionModal"
+                (click)="getConventionDetails(convention.conId)">
+          <i class="bi bi-eye"></i> Voir
+        </button>
+        <button class="btn btn-outline-warning btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#editConventionModal"
+                (click)="loadConventionData(convention)">
+          <i class="bi bi-pencil"></i> Modifier
+        </button>
+        <button class="btn btn-outline-danger btn-sm"
+                (click)="deleteConvention(convention.conId)">
+          <i class="bi bi-trash"></i> Supprimer
+        </button>
+        <button class="btn btn-outline-success btn-sm"
+                (click)="generatePdf(convention.conId)"
+                [disabled]="isGeneratingPDF === convention.conId">
+          <span *ngIf="isGeneratingPDF !== convention.conId">📄 Télécharger PDF</span>
+          <span *ngIf="isGeneratingPDF === convention.conId">
+            <span class="spinner-border spinner-border-sm"></span> Génération...
+          </span>
+        </button>
+        <button class="btn btn-outline-warning btn-sm" data-bs-toggle="modal" data-bs-target="#sendEmailModal" (click)="openEmailForm()">
+          Envoyer Email
+        </button>
+        <button class="btn btn-outline-primary btn-sm" *ngIf="!convention.signed" data-bs-toggle="modal" data-bs-target="#signConventionModal" (click)="openSignatureModal(convention.conId)">
+          <i class="bi-pen-fill"></i> Signer
+        </button>
+        <!-- Bouton Signer (conditionné comme dans l'original) -->
+<!--        <button class="btn btn-primary btn-sm"-->
+<!--                *ngIf="!convention.signed"-->
+<!--                data-bs-toggle="modal"-->
+<!--                data-bs-target="#signConventionModal"-->
+<!--                (click)="openSignatureModal(convention.conId)">-->
+<!--          <i class="bi bi-pen"></i> Signer-->
+<!--        </button>-->
+
+      </div>
+    </div>
+  </div>
 </div>
 
 
@@ -240,6 +281,32 @@
             <button type="submit" class="btn btn-primary" [disabled]="conventionForm.invalid">Mettre à jour</button>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Envoi Email -->
+
+
+
+
+<!-- Modal Signature -->
+<div class="modal fade" id="signConventionModal" tabindex="-1" aria-labelledby="signModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Signer la Convention</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <signature-pad #signaturePad [options]="signaturePadOptions" (drawStart)="drawStart($event)" (drawEnd)="drawComplete($event)"></signature-pad>
+        <div class="mt-3 d-flex gap-2">
+          <button class="btn btn-secondary" (click)="clearSignature()">Effacer</button>
+<!--          <button class="btn btn-secondary" >signe</button>-->
+          <button class="btn btn-primary" (click)="confirmSignature()" [disabled]="!signatureData">Confirmer</button>
+          <button class="btn btn-danger" data-bs-dismiss="modal">Annuler</button>
+        </div>
       </div>
     </div>
   </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { ConventionService } from '../../services/convention.service';
 import {
   AbstractControl,
@@ -13,6 +13,7 @@ import { Convention } from "../../core/model/db";
 import { Router } from "@angular/router";
 import { PdfGenerationService } from "../../services/pdf-generation.service";
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import {NgSignaturePadOptions, SignaturePadComponent} from "@almothafar/angular-signature-pad";
 
 @Component({
   selector: 'app-convention',
@@ -33,7 +34,18 @@ export class ConventionComponent implements OnInit {
   totalItems: number = 0;
   totalPages: number = 0;
   isGeneratingPDF: number | null = null;
+  // Déclaration du formulaire de mailing
+  emailForm: FormGroup;
+  signatureData: string | null = null;
+  currentSignConventionId?: number;
 
+  @ViewChild('signaturePad') signaturePad!: SignaturePadComponent;
+
+  signaturePadOptions: NgSignaturePadOptions = {
+    minWidth: 2,
+    canvasWidth: 400,
+    canvasHeight: 200
+  };
   constructor(
     private fb: FormBuilder,
     private conventionService: ConventionService,
@@ -46,7 +58,13 @@ export class ConventionComponent implements OnInit {
       signed: [false, Validators.required],
       terms: this.fb.array([], [this.atLeastOneTermValidator])
     });
-
+// Initialize emailForm here
+    this.emailForm = this.fb.group({
+      to: ['', [Validators.required, Validators.email]],
+      from: ['', [Validators.required, Validators.email]],
+      subject: ['', [Validators.required]],
+      file: ['', [Validators.required]]
+    });
     this.searchForm = this.fb.group({
       keyword: [''],
       signed: [null]
@@ -71,6 +89,46 @@ export class ConventionComponent implements OnInit {
     this.searchForm.get('signed')?.valueChanges
       .pipe(distinctUntilChanged())
       .subscribe(() => this.performSearch());
+    // Initialisation du formulaire de mailing
+    this.emailForm = this.fb.group({
+      to: ['', [Validators.required, Validators.email]],
+      from: ['', [Validators.required, Validators.email]],
+      subject: ['', [Validators.required]],
+      file: ['', [Validators.required]],
+    });
+  }
+
+
+
+  // Méthode pour soumettre le formulaire de mailing
+  submitEmailForm(): void {
+    if (this.emailForm.valid) {
+      const to = this.emailForm.get('to')?.value;
+      const from = this.emailForm.get('from')?.value;
+      const subject = this.emailForm.get('subject')?.value;
+      const fileInput = this.emailForm.get('file')?.value;
+
+      if (fileInput) {
+        const file = fileInput[0]; // Get the actual file from the input
+        // Call the service to send the email with the extracted values
+        this.conventionService.sendEmail(to, from, subject, file).subscribe({
+          next: (response) => {
+            console.log('Email sent successfully', response);
+          },
+          error: (error) => {
+            console.error('Error sending email', error);
+          }
+        });
+
+      }
+    }
+  }
+
+
+
+  // Méthode pour ouvrir le formulaire de mailing
+  openEmailForm() {
+    this.router.navigate(['/email-form']);
   }
 
   get getTerms(): FormArray {
@@ -258,4 +316,61 @@ export class ConventionComponent implements OnInit {
       }
     });
   }
+
+  openSignatureModal(conId: number | undefined) {
+    this.currentSignConventionId = conId;
+    this.signatureData = null;
+    if (this.signaturePad) {
+      this.signaturePad.clear();
+    }
+  }
+
+  drawStart(event: MouseEvent | Touch) {
+    console.log('Début du dessin');
+  }
+
+  drawComplete(event: MouseEvent | Touch) {
+    this.signatureData = this.signaturePad.toDataURL();
+    console.log('Signature capturée :', this.signatureData);
+  }
+
+  clearSignature() {
+    this.signaturePad.clear();
+    this.signatureData = null;
+  }
+
+  confirmSignature() {
+    if (this.signatureData && this.currentSignConventionId) {
+      console.log('Envoi de la signature :', this.signatureData);
+      this.conventionService.signConvention(this.currentSignConventionId, this.signatureData).subscribe({
+        next: (updatedConvention: Convention) => {
+          const index = this.conventions.findIndex(c => c.conId === this.currentSignConventionId);
+          if (index !== -1) {
+            this.conventions[index] = updatedConvention; // Mise à jour locale
+          } else {
+            this.getAllConventions(); // Rafraîchissement si non trouvée
+          }
+          this.signatureData = null;
+          this.currentSignConventionId = undefined;
+          alert('Convention signée avec succès !');
+          const modalElement = document.getElementById('signConventionModal');
+
+        },
+        error: (err) => {
+          console.error('Erreur lors de la signature:', err);
+          alert('Erreur lors de la signature');
+        }
+      });
+    } else {
+      console.log('Signature ou ID manquant :', this.signatureData, this.currentSignConventionId);
+    }
+  }
+
+  cancelSignature() {
+    this.signatureData = null;
+    this.currentSignConventionId = undefined;
+    const modalElement = document.getElementById('signConventionModal');
+
+  }
+
 }

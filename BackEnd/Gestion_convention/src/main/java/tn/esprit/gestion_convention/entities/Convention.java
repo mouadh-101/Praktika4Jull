@@ -27,10 +27,17 @@ public class Convention {
     String Description;
     Boolean signed;
     int InternshipId;
-
+    @Column(columnDefinition = "TEXT") // Pour stocker une signature cryptée (base64 ou autre)
+    private String encryptedSignature;
     @OneToMany(mappedBy = "convention", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Terms> terms;
+    public String getEncryptedSignature() {
+        return encryptedSignature;
+    }
 
+    public void setEncryptedSignature(String encryptedSignature) {
+        this.encryptedSignature = encryptedSignature;
+    }
     public Integer getConId() {
         return ConId;
     }

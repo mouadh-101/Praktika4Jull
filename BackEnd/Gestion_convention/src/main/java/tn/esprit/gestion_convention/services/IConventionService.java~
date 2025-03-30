@@ -1,5 +1,6 @@
 package tn.esprit.gestion_convention.services;
 
+import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 import tn.esprit.gestion_convention.entities.Convention;
 
@@ -28,5 +29,5 @@ public interface IConventionService {
     Convention signConvention(Integer id, String signatureData);
     void sendEmailWithAttachment(String to, String from, String subject, MultipartFile file);
 
-
+    Page<Convention> getAllConventions(int page, int size); // Nouvelle méthode paginée
     }

@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ac5ea9f7-b7a4-4d77-bc22-933cc5304c54" name="Changes" comment="" />
+    <list default="true" id="ac5ea9f7-b7a4-4d77-bc22-933cc5304c54" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/BackEnd/Gestion_convention/src/main/java/tn/esprit/gestion_convention/config/EmailConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackEnd/Gestion_convention/src/main/java/tn/esprit/gestion_convention/restcontroller/EmailController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackEnd/Gestion_convention/src/main/java/tn/esprit/gestion_convention/services/EmailService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackEnd/Gestion_convention/src/main/java/tn/esprit/gestion_convention/services/IEmailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/Gestion_convention/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/Gestion_convention/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/Gestion_convention/src/main/java/tn/esprit/gestion_convention/config/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/Gestion_convention/src/main/java/tn/esprit/gestion_convention/config/CorsConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/Gestion_convention/src/main/java/tn/esprit/gestion_convention/repositories/IConventionRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/Gestion_convention/src/main/java/tn/esprit/gestion_convention/repositories/IConventionRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/Gestion_convention/src/main/java/tn/esprit/gestion_convention/restcontroller/ConventionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/Gestion_convention/src/main/java/tn/esprit/gestion_convention/restcontroller/ConventionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/Gestion_convention/src/main/java/tn/esprit/gestion_convention/services/IConventionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/Gestion_convention/src/main/java/tn/esprit/gestion_convention/services/IConventionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/Gestion_convention/src/main/java/tn/esprit/gestion_convention/services/IConventionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/Gestion_convention/src/main/java/tn/esprit/gestion_convention/services/IConventionServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/Gestion_convention/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/Gestion_convention/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/src/app/components/convention/convention.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/app/components/convention/convention.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/src/app/components/convention/convention.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/app/components/convention/convention.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/src/app/services/convention.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/app/services/convention.service.ts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -10,24 +27,24 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2tVVmbUIIHhZCCGcdBQKdQd5Uge" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "com.codeium.enabled": "true",
-    "git-widget-placeholder": "main",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;com.codeium.enabled&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;66952c19&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -37,6 +54,8 @@
       <option name="presentableId" value="Default" />
       <updated>1740437389134</updated>
       <workItem from="1740437390230" duration="8000" />
+      <workItem from="1742824587410" duration="554000" />
+      <workItem from="1742826534781" duration="152000" />
     </task>
     <servers />
   </component>

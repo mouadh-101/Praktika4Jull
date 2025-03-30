@@ -26,6 +26,7 @@ import { TermDetailComponent } from './components/term-detail/term-detail.compon
 import { ConventionComponent } from './components/convention/convention.component';
 import { ConventionDetailComponent } from './components/convention-detail/convention-detail.component';
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {AngularSignaturePadModule} from "@almothafar/angular-signature-pad";
 
 
 @NgModule({
@@ -63,7 +64,8 @@ import {MatPaginatorModule} from "@angular/material/paginator";
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    AngularSignaturePadModule
   ],
   providers: [
     {

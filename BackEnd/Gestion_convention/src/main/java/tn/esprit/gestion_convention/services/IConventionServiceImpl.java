@@ -3,7 +3,11 @@ package tn.esprit.gestion_convention.services;
 import com.itextpdf.text.*;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
+import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.*;
+import com.itextpdf.text.pdf.draw.DottedLineSeparator;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
@@ -11,22 +15,37 @@ import jakarta.persistence.criteria.Root;
 import lombok.AllArgsConstructor;
 import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import tn.esprit.gestion_convention.entities.Convention;
 import tn.esprit.gestion_convention.entities.Terms;
 import tn.esprit.gestion_convention.repositories.IConventionRepo;
 import tn.esprit.gestion_convention.repositories.ITermsRepo;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import java.awt.*;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+import java.io.IOException;
 @Service
 @AllArgsConstructor
 public class IConventionServiceImpl implements IConventionService{
@@ -35,6 +54,8 @@ public class IConventionServiceImpl implements IConventionService{
     @Autowired
     ITermsRepo ItermsRepo;
     private final ITermsService ITermsService; // Injection du service
+    @Autowired
+    private final JavaMailSender mailSender;
     @Override
     public List<Convention> getAllConventions() {
         return conventionRepo.findAll();
@@ -138,93 +159,181 @@ public class IConventionServiceImpl implements IConventionService{
                 .orElseThrow(() -> new RuntimeException("Convention non trouvée"));
 
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-            Document document = new Document(PageSize.A4, 40, 40, 100, 70);
+            Document document = new Document(PageSize.A4, 36, 36, 80, 80); // Marges ajustées
             PdfWriter writer = PdfWriter.getInstance(document, baos);
 
-            // Ajout du header/footer personnalisé
+            // Ajout du header/footer personnalisé et gestion des cadres par page
             HeaderFooter event = new HeaderFooter();
             writer.setPageEvent(event);
 
             document.open();
 
-            // Style amélioré
-            Font titleFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD, BaseColor.DARK_GRAY);
-            Font sectionFont = new Font(Font.FontFamily.HELVETICA, 14, Font.BOLD, new BaseColor(0, 51, 153));
-            Font contentFont = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.BLACK);
+            // Styles professionnels
+            Font titleFont = new Font(Font.FontFamily.HELVETICA, 20, Font.BOLD, new BaseColor(0, 51, 102)); // Bleu foncé
+            Font sectionFont = new Font(Font.FontFamily.HELVETICA, 14, Font.BOLD, new BaseColor(33, 37, 41)); // Gris foncé
+            Font subTitleFont = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLDITALIC, BaseColor.BLACK);
+            Font contentFont = new Font(Font.FontFamily.TIMES_ROMAN, 11, Font.NORMAL, BaseColor.BLACK);
 
-            // Cadre bleu autour du contenu
+            // Cadre bleu pour la première page
             PdfContentByte canvas = writer.getDirectContentUnder();
-            canvas.setColorStroke(BaseColor.BLUE);
+            canvas.setColorStroke(new BaseColor(0, 102, 204)); // Bleu moyen
+            canvas.setLineWidth(1f);
             canvas.rectangle(30, 30, document.getPageSize().getWidth() - 60, document.getPageSize().getHeight() - 60);
             canvas.stroke();
 
-            // Entête avec logos
-            Paragraph header = new Paragraph();
-            header.setSpacingAfter(20f);
+            // En-tête avec logos repositionnés
+            PdfPTable headerTable = new PdfPTable(3);
+            headerTable.setWidthPercentage(100);
+            headerTable.setWidths(new float[]{1, 2, 1});
+            headerTable.setSpacingAfter(20f);
 
             // Logo gauche
-            Image logoLeft = Image.getInstance("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIz35xRMeDZwRhvFLDuLK_-AG8SkBsDsx_bg&s");
-            logoLeft.scaleToFit(80, 80);
-            header.add(logoLeft);
+            Image logoLeft = Image.getInstance("https://raw.githubusercontent.com/mouadh-101/Praktika/refs/heads/main/FrontEnd/src/assets/img/logo.png");
+            logoLeft.scaleToFit(70, 70);
+            PdfPCell logoLeftCell = new PdfPCell(logoLeft, true);
+            logoLeftCell.setBorder(Rectangle.NO_BORDER);
+            logoLeftCell.setVerticalAlignment(Element.ALIGN_TOP);
+            headerTable.addCell(logoLeftCell);
 
             // Titre centré
             Paragraph title = new Paragraph("CONVENTION DE STAGE", titleFont);
             title.setAlignment(Element.ALIGN_CENTER);
-            header.add(title);
+            PdfPCell titleCell = new PdfPCell(title);
+            titleCell.setBorder(Rectangle.NO_BORDER);
+            titleCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            headerTable.addCell(titleCell);
 
             // Logo droit
             Image logoRight = Image.getInstance("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIz35xRMeDZwRhvFLDuLK_-AG8SkBsDsx_bg&s");
-            logoRight.scaleToFit(80, 80);
-            logoRight.setAbsolutePosition(document.getPageSize().getWidth() - 100, document.getPageSize().getHeight() - 70);
-            canvas.addImage(logoRight);
+            logoRight.scaleToFit(70, 70);
+            PdfPCell logoRightCell = new PdfPCell(logoRight, true);
+            logoRightCell.setBorder(Rectangle.NO_BORDER);
+            logoRightCell.setVerticalAlignment(Element.ALIGN_TOP);
+            logoRightCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            headerTable.addCell(logoRightCell);
 
-            document.add(header);
+            document.add(headerTable);
 
-            // Section informations
+            // Ligne séparatrice après l’en-tête
+            Paragraph separator = new Paragraph(" ");
+            separator.setSpacingBefore(10f);
+            document.add(new Chunk(new DottedLineSeparator()));
+
+            // Section Informations Générales
             Paragraph infoSection = new Paragraph("Informations Générales", sectionFont);
             infoSection.setSpacingBefore(20f);
-            infoSection.setSpacingAfter(15f);
+            infoSection.setSpacingAfter(10f);
             document.add(infoSection);
 
-            // Métadonnées sous forme de tableau
-            PdfPTable table = new PdfPTable(2);
-            table.setWidthPercentage(100);
+            PdfPTable infoTable = new PdfPTable(2);
+            infoTable.setWidthPercentage(100);
+            infoTable.setWidths(new float[]{1, 2});
 
-            addTableHeader(table, "Champ", "Valeur", sectionFont);
-            addTableRow(table, "Numéro Convention", convention.getConId().toString(), contentFont);
-            addTableRow(table, "Date création", new SimpleDateFormat("dd/MM/yyyy:HH:mm:ss").format(convention.getDateConv()), contentFont);
-            addTableRow(table, "Statut", convention.getSigned() ? "Signée" : "Non signée", contentFont);
+            addTableHeader(infoTable, "Champ", "Valeur", subTitleFont);
+            addTableRow(infoTable, "Numéro de la Convention", convention.getConId().toString(), contentFont);
+            addTableRow(infoTable, "Date de Création", new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(convention.getDateConv()), contentFont);
+            addTableRow(infoTable, "Statut", convention.getSigned() ? "Signée" : "Non signée", contentFont);
+            document.add(infoTable);
 
-
-            document.add(table);
-
-            // Section description
+            // Section Description
             Paragraph descSection = new Paragraph("Description de la Convention", sectionFont);
             descSection.setSpacingBefore(20f);
+            descSection.setSpacingAfter(10f);
             document.add(descSection);
 
             Paragraph description = new Paragraph(convention.getDescription(), contentFont);
-            description.setIndentationLeft(20);
+            description.setAlignment(Element.ALIGN_JUSTIFIED);
+            description.setIndentationLeft(10);
+            description.setSpacingAfter(15f);
             document.add(description);
 
-            // Section termes
+            // Section Termes
             Paragraph termsSection = new Paragraph("Clauses Contractuelles", sectionFont);
             termsSection.setSpacingBefore(20f);
-            termsSection.setSpacingAfter(15f);
+            termsSection.setSpacingAfter(10f);
             document.add(termsSection);
 
             List<Terms> terms = convention.getTerms();
             for (int i = 0; i < terms.size(); i++) {
                 Terms term = terms.get(i);
+                Paragraph clauseTitle = new Paragraph("Article " + (i + 1) + " : " + term.getTitle(), subTitleFont);
+                clauseTitle.setSpacingBefore(10f);
+                document.add(clauseTitle);
 
-                Paragraph clause = new Paragraph();
-                clause.setFont(contentFont);
-                clause.add(new Chunk("Article " + (i+1) + " - ", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD)));
-                clause.add(new Chunk(term.getTitle() + "\n", sectionFont));
-                clause.add(new Chunk(term.getDescription() + "\n\n", contentFont));
-
-                document.add(clause);
+                Paragraph clauseDesc = new Paragraph(term.getDescription(), contentFont);
+                clauseDesc.setIndentationLeft(20);
+                clauseDesc.setSpacingAfter(10f);
+                clauseDesc.setAlignment(Element.ALIGN_JUSTIFIED);
+                document.add(clauseDesc);
             }
+
+            // Forcer une nouvelle page pour les signatures
+            document.newPage();
+
+            // Cadre bleu pour la deuxième page
+            canvas.setColorStroke(new BaseColor(0, 102, 204)); // Bleu moyen
+            canvas.setLineWidth(1f);
+            canvas.rectangle(30, 30, document.getPageSize().getWidth() - 60, document.getPageSize().getHeight() - 60);
+            canvas.stroke();
+
+            // Section Signatures (sur la deuxième page)
+            Paragraph signatureSection = new Paragraph("Signatures", sectionFont);
+            signatureSection.setSpacingBefore(40f); // Espace au-dessus pour centrer verticalement
+            signatureSection.setSpacingAfter(15f);
+            signatureSection.setAlignment(Element.ALIGN_CENTER);
+            document.add(signatureSection);
+
+            PdfPTable signatureTable = new PdfPTable(2);
+            signatureTable.setWidthPercentage(100);
+            signatureTable.setWidths(new float[]{1, 1});
+            signatureTable.setSpacingBefore(20f);
+
+            // Signature de l'étudiant (placeholder)
+            PdfPCell studentCell = new PdfPCell(new Phrase("Signature de l'étudiant : ____________________", contentFont));
+            studentCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            studentCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            studentCell.setPadding(20);
+            studentCell.setBorder(Rectangle.NO_BORDER);
+            signatureTable.addCell(studentCell);
+
+            // Signature de l'entreprise
+            if (convention.getSigned() && convention.getEncryptedSignature() != null && convention.getEncryptedSignature().startsWith("data:image")) {
+                try {
+                    String base64Image = convention.getEncryptedSignature().split(",")[1];
+                    byte[] imageBytes = Base64.getDecoder().decode(base64Image);
+                    Image signatureImage = Image.getInstance(imageBytes);
+                    signatureImage.scaleToFit(150, 75);
+
+                    PdfPCell signatureCell = new PdfPCell(signatureImage, true);
+                    signatureCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    signatureCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                    signatureCell.setPadding(20);
+                    signatureCell.setBorder(Rectangle.NO_BORDER);
+                    signatureTable.addCell(signatureCell);
+
+                    // Date de signature en dessous
+                    Paragraph signatureDate = new Paragraph("Signée le " + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(convention.getDateConv()), contentFont);
+                    signatureDate.setAlignment(Element.ALIGN_CENTER);
+                    signatureDate.setSpacingBefore(10f);
+                    document.add(signatureDate);
+                } catch (Exception e) {
+                    PdfPCell noSignatureCell = new PdfPCell(new Phrase("Signature de l'entreprise : ____________________", contentFont));
+                    noSignatureCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    noSignatureCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                    noSignatureCell.setPadding(20);
+                    noSignatureCell.setBorder(Rectangle.NO_BORDER);
+                    signatureTable.addCell(noSignatureCell);
+                }
+            } else {
+                PdfPCell noSignatureCell = new PdfPCell(new Phrase("Signature de l'entreprise : ____________________", contentFont));
+                noSignatureCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                noSignatureCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                noSignatureCell.setPadding(20);
+                noSignatureCell.setBorder(Rectangle.NO_BORDER);
+                signatureTable.addCell(noSignatureCell);
+            }
+
+            document.add(signatureTable);
 
             document.close();
             return baos.toByteArray();
@@ -235,57 +344,102 @@ public class IConventionServiceImpl implements IConventionService{
 
     // Méthodes utilitaires
     private void addTableHeader(PdfPTable table, String header1, String header2, Font font) {
-        table.addCell(createCell(header1, font, BaseColor.LIGHT_GRAY));
-        table.addCell(createCell(header2, font, BaseColor.LIGHT_GRAY));
+        PdfPCell cell1 = new PdfPCell(new Phrase(header1, font));
+        cell1.setBackgroundColor(new BaseColor(230, 230, 250)); // Lavande clair
+        cell1.setPadding(8);
+        cell1.setBorderColor(BaseColor.GRAY);
+        table.addCell(cell1);
+
+        PdfPCell cell2 = new PdfPCell(new Phrase(header2, font));
+        cell2.setBackgroundColor(new BaseColor(230, 230, 250));
+        cell2.setPadding(8);
+        cell2.setBorderColor(BaseColor.GRAY);
+        table.addCell(cell2);
     }
 
     private void addTableRow(PdfPTable table, String label, String value, Font font) {
-        table.addCell(createCell(label, font, BaseColor.WHITE));
-        table.addCell(createCell(value, font, BaseColor.WHITE));
-    }
+        PdfPCell labelCell = new PdfPCell(new Phrase(label, font));
+        labelCell.setPadding(6);
+        labelCell.setBorderColor(BaseColor.GRAY);
+        table.addCell(labelCell);
 
-    private PdfPCell createCell(String text, Font font, BaseColor bgColor) {
-        PdfPCell cell = new PdfPCell(new Phrase(text, font));
-        cell.setBackgroundColor(bgColor);
-        cell.setPadding(5);
-        cell.setBorderColor(BaseColor.GRAY);
-        return cell;
+        PdfPCell valueCell = new PdfPCell(new Phrase(value, font));
+        valueCell.setPadding(6);
+        valueCell.setBorderColor(BaseColor.GRAY);
+        table.addCell(valueCell);
     }
 
     // Classe interne pour header/footer
     class HeaderFooter extends PdfPageEventHelper {
         public void onEndPage(PdfWriter writer, Document document) {
             PdfContentByte cb = writer.getDirectContent();
+            cb.setColorFill(new BaseColor(33, 37, 41)); // Gris foncé
+            cb.setLineWidth(0.5f);
 
-            // Header
-            cb.setColorFill(BaseColor.DARK_GRAY);
-            cb.rectangle(30, document.getPageSize().getHeight() - 50, document.getPageSize().getWidth() - 60, 2);
-            cb.fill();
+            // Ligne header
+            cb.moveTo(36, document.getPageSize().getHeight() - 60);
+            cb.lineTo(document.getPageSize().getWidth() - 36, document.getPageSize().getHeight() - 60);
+            cb.stroke();
 
-            // Footer
+            // Footer avec numéro de page
             ColumnText.showTextAligned(cb, Element.ALIGN_CENTER,
-                    new Phrase("Page " + document.getPageNumber(), new Font(Font.FontFamily.HELVETICA, 10)),
+                    new Phrase("Page " + document.getPageNumber(), new Font(Font.FontFamily.HELVETICA, 9, Font.NORMAL, BaseColor.GRAY)),
                     (document.right() - document.left()) / 2 + document.leftMargin(),
                     document.bottom() - 20, 0);
 
-            cb.rectangle(30, 50, document.getPageSize().getWidth() - 60, 2);
-            cb.fill();
+            // Ligne footer
+            cb.moveTo(36, 60);
+            cb.lineTo(document.getPageSize().getWidth() - 36, 60);
+            cb.stroke();
         }
     }
+
     @Override
-    public Map<Date, Map<String, Long>> getConventionStatisticsByDate(Date startDate, Date endDate) {
-        List<Convention> conventions = conventionRepo.findAllByDateConvBetween(startDate, endDate);
+    @Transactional
+    public Convention signConvention(Integer id, String signatureData) {
+        System.out.println("Signature dans le service : " + signatureData);
+        return conventionRepo.findById(id).map(convention -> {
+            if (convention.getSigned()) {
+                throw new RuntimeException("La convention est déjà signée");
+            }
+            try {
+                String secretKey = "MySecretKey12345";
+                SecretKeySpec key = new SecretKeySpec(secretKey.getBytes(StandardCharsets.UTF_8), "AES");
+                Cipher cipher = Cipher.getInstance("AES");
+                cipher.init(Cipher.ENCRYPT_MODE, key);
+                byte[] encryptedBytes = cipher.doFinal(signatureData.getBytes(StandardCharsets.UTF_8));
+                String encryptedSignature = Base64.getEncoder().encodeToString(encryptedBytes);
 
-        Map<Date, Map<String, Long>> statistics = new HashMap<>();
+                convention.setEncryptedSignature(encryptedSignature); // Stocke la version cryptée
+                convention.setSigned(true);
 
-        for (Convention convention : conventions) {
-            Date date = convention.getDateConv();
-            String status = convention.getSigned() ? "Signée" : "Non signée";
-
-            statistics.putIfAbsent(date, new HashMap<>());
-            statistics.get(date).put(status, statistics.get(date).getOrDefault(status, 0L) + 1);
-        }
-
-        return statistics;
+                Convention savedConvention = conventionRepo.save(convention);
+                // Ajoute la signature non cryptée comme champ temporaire dans la réponse
+                savedConvention.setEncryptedSignature(signatureData); // Pour l’affichage immédiat
+                return savedConvention;
+            } catch (Exception e) {
+                throw new RuntimeException("Erreur lors du cryptage de la signature", e);
+            }
+        }).orElseThrow(() -> new RuntimeException("Convention introuvable avec l'ID: " + id));
     }
-}
+
+    @Override
+    public void sendEmailWithAttachment(String to, String from, String subject, MultipartFile file) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+            helper.setTo(to);
+            helper.setFrom(from);
+            helper.setSubject(subject);
+            helper.setText("Veuillez trouver en pièce jointe le document.");
+
+            // Attacher le fichier
+            helper.addAttachment(file.getOriginalFilename(), new ByteArrayResource(file.getBytes()));
+
+            mailSender.send(message);
+        } catch (MessagingException | IOException e) {
+            e.printStackTrace(); // Vous pouvez gérer l'exception comme vous le souhaitez
+        }
+    }
+    }
