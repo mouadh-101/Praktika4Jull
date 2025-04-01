@@ -6,7 +6,6 @@ import { UseTabComponent } from './components/use-tab/use-tab.component';
 import { StudentProfileComponent } from './components/studentProfile/studentProfile.component';
 import {TermDetailComponent} from "./components/term-detail/term-detail.component";
 import {TermsComponent} from "./components/terms/terms.component";
-import {ConventionComponent} from "./components/convention/convention.component";
 import {ConventionDetailComponent} from "./components/convention-detail/convention-detail.component";
 
 
@@ -56,7 +55,6 @@ const routes: Routes = [
   { path: 'terms', component: TermsComponent },
   { path: 'terms/:id', component: TermDetailComponent },
   { path: 'conventions/:id', component: ConventionDetailComponent },
-  { path: 'conventions', component: ConventionComponent },
   { path: '', redirectTo: '/', pathMatch: 'full' }
 ];
 

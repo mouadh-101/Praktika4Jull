@@ -17,11 +17,8 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/login`, { email, password });
   }
   signUp(){}
-<<<<<<< HEAD
-  isLogedIn():boolean{
-=======
+  
   isLoggedIn():boolean{
->>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
     if(localStorage.getItem('token'))
       return true;
     return false;

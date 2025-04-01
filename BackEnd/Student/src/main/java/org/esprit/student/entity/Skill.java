@@ -47,8 +47,6 @@ public class Skill {
     public void setStudents(List<Student> students) {
         this.students = students;
     }
-<<<<<<< HEAD
-=======
 
     @Override
     public String toString() {
@@ -58,5 +56,4 @@ public class Skill {
                 ", students=" + students +
                 '}';
     }
->>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
 }

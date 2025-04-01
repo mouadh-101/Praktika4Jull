@@ -6,23 +6,14 @@ import org.esprit.student.entity.Student;
 import org.esprit.student.repository.EducationRepository;
 import org.esprit.student.repository.StudentRepository;
 import org.esprit.student.service.Interface.IEducationService;
-import org.esprit.student.service.Interface.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
 
 
 @Service
 public class EducationService implements IEducationService {
     @Autowired
     EducationRepository educationRepository;
-<<<<<<< HEAD
-
-    @Override
-    public Education addEducation(Education education) {
-=======
     @Autowired
     StudentRepository studentRepository;
 
@@ -30,7 +21,6 @@ public class EducationService implements IEducationService {
     public Education addEducation(Education education,String id) {
         Student s=studentRepository.findById(id).orElse(null);
         education.setStudent(s);
->>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
         return educationRepository.save(education);
     }
 
@@ -57,8 +47,5 @@ public class EducationService implements IEducationService {
     public Education getEducation(Long id) {
         return educationRepository.findById(id).orElse(null);
     }
-<<<<<<< HEAD
-=======
 
->>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
 }

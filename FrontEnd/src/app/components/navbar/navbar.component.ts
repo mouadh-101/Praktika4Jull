@@ -1,11 +1,8 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
-<<<<<<< HEAD
-=======
 import { Router } from '@angular/router';
 import { NotificationService } from 'src/app/services/notification.service';
->>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
 
 @Component({
   selector: 'app-navbar',
@@ -16,23 +13,6 @@ export class NavbarComponent implements OnInit {
   isLoggedIn = false;
   user: any = null;
   showDropdown = false;
-<<<<<<< HEAD
-
-  constructor(
-    private elementRef: ElementRef,
-    private authService: AuthService,
-    private userService:UserService
-  ) {}
-
-  ngOnInit() {
-    this.isLoggedIn = this.authService.isLogedIn();
-    if (this.isLoggedIn) {
-      this.userService.getUserData().subscribe({
-        next: (data) => this.user = data,
-        error: (err) => console.error('Failed to fetch user data', err)
-      });
-    }
-=======
   userRole='';
 
   notificationCount: number = 0;  // Compteur de notifications
@@ -69,7 +49,6 @@ export class NavbarComponent implements OnInit {
   }
   toggleNotifications(): void {
     this.notificationsVisible = !this.notificationsVisible;  // Bascule entre afficher/masquer les notifications
->>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
   }
 
   toggleDropdown() {
@@ -79,10 +58,6 @@ export class NavbarComponent implements OnInit {
   onLogout() {
     this.authService.logout();
     this.isLoggedIn = false;
-<<<<<<< HEAD
-  }
-}
-=======
     this.router.navigate(['/sign-in']);
     
   }
@@ -98,4 +73,3 @@ export class NavbarComponent implements OnInit {
     );
   }
 }
->>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b

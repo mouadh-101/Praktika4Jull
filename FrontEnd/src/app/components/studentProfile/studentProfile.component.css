@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 .profile-container {
   max-width: 800px;
   margin: 0 auto;
@@ -104,7 +104,7 @@
   align-content: center;
   margin-right: 24px;
 }
-=======
+
 * {
   margin: 0;
   padding: 0;
@@ -344,4 +344,4 @@
 .action-button.delete:hover {
   color: #dc3545;
 }
->>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
+

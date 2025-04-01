@@ -1,31 +1,6 @@
 package org.esprit.student.service.Implementation;
 
 
-<<<<<<< HEAD
-import org.esprit.student.entity.Education;
-import org.esprit.student.entity.ExtraActivities;
-import org.esprit.student.entity.Skill;
-import org.esprit.student.entity.Student;
-import org.esprit.student.repository.EducationRepository;
-import org.esprit.student.repository.SkillRepository;
-import org.esprit.student.repository.StudentRepository;
-import org.esprit.student.service.Interface.IEducationService;
-import org.esprit.student.service.Interface.ISkillService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-
-@Service
-public class SkillService implements ISkillService {
-    @Autowired
-    SkillRepository skillRepository;
-    StudentRepository studentRepository;
-
-
-    @Override
-    public Skill addSkill(Skill skill) {
-        return skillRepository.save(skill);
-=======
 import lombok.extern.slf4j.Slf4j;
 import org.esprit.student.controller.dto.CourseDto;
 import org.esprit.student.entity.Skill;
@@ -75,7 +50,6 @@ public class SkillService implements ISkillService {
             }
         }
         return null;
->>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
     }
 
     @Override
@@ -97,8 +71,6 @@ public class SkillService implements ISkillService {
     public Skill getSkill(Long id) {
         return skillRepository.findById(id).orElse(null);
     }
-<<<<<<< HEAD
-=======
 
     @Override
     public Skill affecterSkill(Long id, String idS) {
@@ -186,5 +158,4 @@ public class SkillService implements ISkillService {
         System.out.println("Total valid courses found: " + courses.size());
         return courses;
     }
->>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
 }

@@ -2,13 +2,6 @@ package org.esprit.student.repository;
 
 import org.esprit.student.entity.Education;
 import org.esprit.student.entity.Skill;
-<<<<<<< HEAD
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-@Repository
-public interface SkillRepository extends JpaRepository<Skill,Long> {
-=======
 import org.esprit.student.entity.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -27,5 +20,4 @@ public interface SkillRepository extends JpaRepository<Skill,Long> {
     @Query("SELECT s FROM Skill s WHERE s.id IN (SELECT us.id FROM Student st JOIN st.skills us WHERE st.userId = :userId)")
     List<Skill> findSkillsByUserId(@Param("userId") String userId);
 
->>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
 }
