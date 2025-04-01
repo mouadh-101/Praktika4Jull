@@ -3,12 +3,6 @@ package org.esprit.student.repository;
 import org.esprit.student.entity.Education;
 import org.esprit.student.entity.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
-<<<<<<< HEAD
-import org.springframework.stereotype.Repository;
-
-@Repository
-public interface StudentRepository extends JpaRepository<Student,String> {
-=======
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -21,5 +15,4 @@ public interface StudentRepository extends JpaRepository<Student,String> {
         List<String> findSkillNamesByStudentId(String userId);
 
 
->>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
 }
