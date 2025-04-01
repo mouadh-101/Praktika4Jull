@@ -59,5 +59,10 @@ public class UserController {
     public String getUserEmail(@PathVariable("userId") String userId){
         return userService.getUserEmail(userId);
     }
+    @GetMapping("/userIdByemail/{email}")
+    public String getUserId(@PathVariable("email")String email){
+        return userService.getUserId(email);
+    }
+
 
 }

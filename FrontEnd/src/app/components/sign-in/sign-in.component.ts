@@ -4,6 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { UserService } from '../../services/user.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-sign-in',
@@ -12,11 +14,12 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class SignInComponent implements OnInit {
   loginForm!: FormGroup; // Declare the form group
-
+  userId!: string;
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private authService:AuthService,
+    private userService:UserService
 
   ) {}
 
@@ -30,13 +33,16 @@ export class SignInComponent implements OnInit {
   onLogin(): void {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
-
       this.authService.login(email, password).subscribe({
         next: (response) => {
           alert("Login successful!");
           localStorage.setItem('token', response.token);
           sessionStorage.setItem('username', this.loginForm.value.email);
-          this.router.navigate(['/internships']);
+          
+        this.router.navigate(['/internships']);
+
+          // 🔥 Récupérer l'ID utilisateur avant de mettre à jour la dernière connexion
+          this.getUserid();
         },
         error: (error) => {
           alert("Invalid credentials. Please try again.");
@@ -46,6 +52,21 @@ export class SignInComponent implements OnInit {
     } else {
       alert("Please fill out all required fields correctly.");
     }
+  }
+  getUserid(): void {
+    this.userService.getUserData().subscribe(
+      (userData) => {
+        this.userId = userData.userId;
+  
+        // ✅ Une fois l'ID récupéré, mise à jour de la dernière connexion
+        if (this.userId) {
+          this.authService.updateLastSeen(this.userId).subscribe();
+        }
+      },
+      (error) => {
+        console.error('Erreur lors de la récupération du ID utilisateur', error);
+      }
+    );
   }
   
   

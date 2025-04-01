@@ -21,6 +21,7 @@ import { AddDocumentComponent } from './components/Document/AddDocument/AddDocum
 import { UpdateDocumentComponent } from './components/Document/updateDocument/updateDocument.component';
 import { DocumentBackComponent } from './components/Document/DocumentBack/DocumentBack.component';
 import { WebsocketComponent } from './components/websocket/websocket.component';
+import { ChatComponent } from './components/chat/chat.component';
 
 const routes: Routes = [
   { path: 'sign-in', component: SignInComponent },
@@ -43,6 +44,7 @@ const routes: Routes = [
   { path: 'internships/details/:id', component: InternshipDetailsComponent,canActivate: [AuthGuard]  },
   { path: 'favoris', component: FavorisComponent },
   { path: 'chat', component: WebsocketComponent},
+  { path: 'chatapp', component: ChatComponent},
   { path: '', redirectTo: '/', pathMatch: 'full' }
 ];
 

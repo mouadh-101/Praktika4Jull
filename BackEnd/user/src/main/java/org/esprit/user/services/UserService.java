@@ -37,6 +37,10 @@ public class UserService {
   public String getUserEmail(String userId){
         return userRepository.findEmailByUserId(userId);
   }
+  public String getUserId(String email){
+        return userRepository.findUserIdByEmail(email);
+  }
+
 
     public User updateUser(String userId, User user)
     {
