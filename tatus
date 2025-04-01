@@ -1,0 +1,82 @@
+* [33m19fd2ce[m[33m ([m[1;36mHEAD[m[33m)[m methode signature et integration de projet
+* [33m66952c1[m[33m ([m[1;31morigin/Convention[m[33m, [m[1;32mConvention[m[33m)[m modification de methode pdf et search
+* [33mdb6c43c[m modification de methode de pdf
+* [33m917bbee[m methode de recherche
+* [33mae9fa65[m methode recherche
+* [33m0a33bf7[m ajouter pdf
+* [33m32eac56[m integration microservice avec angular
+*   [33m364d59e[m[33m ([m[1;31morigin/main[m[33m)[m Merge pull request #7 from mouadh-101/Student
+[32m|[m[33m\[m  
+[32m|[m * [33m3902ed2[m Implimenting application backend logic
+[32m|[m[32m/[m  
+*   [33m5151c86[m Merge pull request #6 from mouadh-101/Internship
+[34m|[m[35m\[m  
+[34m|[m *   [33mbcbf39e[m Merge branch 'main' of https://github.com/mouadh-101/Praktika into Internship
+[34m|[m [36m|[m[34m\[m  
+[34m|[m [36m|[m[34m/[m  
+[34m|[m[34m/[m[36m|[m   
+* [36m|[m   [33m2a87504[m Merge pull request #5 from mouadh-101/Internship
+[1;32m|[m[1;33m\[m [36m\[m  
+[1;32m|[m [1;33m|[m * [33mcd80c06[m Implement real-time notifications with WebSocket integration
+[1;32m|[m [1;33m|[m[1;33m/[m  
+[1;32m|[m * [33m543937f[m Implemented role-based routing to restrict access to spesific pages
+[1;32m|[m[1;32m/[m  
+*   [33mcffc4d0[m Merge pull request #4 from mouadh-101/Student
+[1;34m|[m[1;35m\[m  
+[1;34m|[m * [33mce8e854[m troubleshoot
+[1;34m|[m[1;34m/[m  
+*   [33m64804b9[m Merge pull request #3 from mouadh-101/Internship
+[1;36m|[m[31m\[m  
+[1;36m|[m *   [33m870b005[m fix conflicts
+[1;36m|[m [32m|[m[1;36m\[m  
+[1;36m|[m [32m|[m[1;36m/[m  
+[1;36m|[m[1;36m/[m[32m|[m   
+* [32m|[m   [33m92e8730[m Merge pull request #2 from mouadh-101/InterviewNewTemplate
+[34m|[m[35m\[m [32m\[m  
+[34m|[m * [32m|[m [33md869df1[m fix merge
+[34m|[m * [32m|[m [33mc38b828[m fix merge
+[34m|[m * [32m|[m   [33m98967fc[m Merge branch 'main' of https://github.com/mouadh-101/Praktika into InterviewNewTemplate
+[34m|[m [36m|[m[34m\[m [32m\[m  
+[34m|[m [36m|[m[34m/[m [32m/[m  
+[34m|[m[34m/[m[36m|[m [32m|[m   
+* [36m|[m [32m|[m   [33mfb3266e[m Merge pull request #1 from mouadh-101/document
+[1;32m|[m[1;33m\[m [36m\[m [32m\[m  
+[1;32m|[m * [36m\[m [32m\[m   [33m607594b[m Merge remote-tracking branch 'origin/document' into document
+[1;32m|[m [1;34m|[m[1;35m\[m [36m\[m [32m\[m  
+[1;32m|[m [1;34m|[m * [36m|[m [32m|[m [33ma41c91c[m Crud complet(front et back)
+[1;32m|[m * [1;35m|[m [36m|[m [32m|[m [33ma136ff6[m fix conflit
+[1;32m|[m * [1;35m|[m [36m|[m [32m|[m   [33m9ce7239[m Merge branch 'main' of https://github.com/mouadh-101/Praktika into document
+[1;32m|[m [1;36m|[m[1;32m\[m [1;35m\[m [36m\[m [32m\[m  
+[1;32m|[m [1;36m|[m[1;32m/[m [1;35m/[m [36m/[m [32m/[m  
+[1;32m|[m[1;32m/[m[1;36m|[m [1;35m|[m [36m|[m [32m|[m   
+[1;32m|[m * [1;35m|[m [36m|[m [32m|[m [33m383c702[m crud (front+back) et fontions avancees
+[1;32m|[m [1;35m|[m[1;35m/[m [36m/[m [32m/[m  
+[1;32m|[m * [36m|[m [32m|[m [33m0956787[m first commit
+[1;32m|[m [31m|[m * [32m|[m [33m6299f51[m fix format calendrier && pdf
+[1;32m|[m [31m|[m * [32m|[m [33mcd1a2fa[m fonction avancée  pdf+exel+calendar
+[1;32m|[m [31m|[m * [32m|[m [33m2fe6a41[m fix conflit
+[1;32m|[m [31m|[m * [32m|[m [33mb837ef7[m avancement
+[1;32m|[m [31m|[m * [32m|[m [33m84f1133[m Integration micro-service with project architecture
+[1;32m|[m [31m|[m * [32m|[m [33mbd9bcc2[m integration neouveau template
+[1;32m|[m [31m|[m[31m/[m [32m/[m  
+[1;32m|[m [31m|[m *   [33m04ce803[m Merge branch 'Internship' of https://github.com/mouadh-101/Praktika into Internship
+[1;32m|[m [31m|[m [32m|[m[33m\[m  
+[1;32m|[m [31m|[m [32m|[m * [33m3a5dcf1[m Enhance Implementation student profile matching with internships
+[1;32m|[m [31m|[m * [33m|[m   [33m7e1892d[m merge with Student
+[1;32m|[m [31m|[m [34m|[m[1;32m\[m [33m\[m  
+[1;32m|[m [31m|[m[1;32m_[m[34m|[m[1;32m/[m [33m/[m  
+[1;32m|[m[1;32m/[m[31m|[m [34m|[m [33m|[m   
+* [31m|[m [34m|[m [33m|[m [33m2b5338a[m  Enhancment on resum exportation
+* [31m|[m [34m|[m [33m|[m [33mccac62d[m Adding Resum exportation to pdf feature
+* [31m|[m [34m|[m [33m|[m [33mcb5fcac[m adding Skill enhancer to student profile
+* [31m|[m [34m|[m [33m|[m [33mcb68854[m crud ,integrate template , ctrl inputs
+[31m|[m[31m/[m [34m/[m [33m/[m  
+[31m|[m * [33m/[m [33m02c9896[m merge
+[31m|[m [33m|[m[33m/[m  
+[31m|[m * [33ma58f534[m Implement student profile matching with internships
+[31m|[m * [33ma5ec773[m Implement field matching and requirement selection
+[31m|[m * [33md0c77a0[m Implement filtering, pagination, and favorites functionality with email reminder for application deadlines
+[31m|[m * [33mb72f3c5[m IntegrationProjet
+[31m|[m[31m/[m  
+* [33m571bbdc[m updated Config
+* [33mf166b04[m Repair project settings and Fix KeyClock config

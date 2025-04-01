@@ -38,7 +38,7 @@ export class SignInComponent implements OnInit {
           alert("Login successful!");
           localStorage.setItem('token', response.token);
           sessionStorage.setItem('username', this.loginForm.value.email);
-          
+
         this.router.navigate(['/internships']);
 
           // 🔥 Récupérer l'ID utilisateur avant de mettre à jour la dernière connexion
@@ -57,7 +57,7 @@ export class SignInComponent implements OnInit {
     this.userService.getUserData().subscribe(
       (userData) => {
         this.userId = userData.userId;
-  
+
         // ✅ Une fois l'ID récupéré, mise à jour de la dernière connexion
         if (this.userId) {
           this.authService.updateLastSeen(this.userId).subscribe();
@@ -68,7 +68,7 @@ export class SignInComponent implements OnInit {
       }
     );
   }
-  
-  
-  
+
+
+
 }

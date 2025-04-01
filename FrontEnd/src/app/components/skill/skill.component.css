@@ -1,3 +1,22 @@
+<<<<<<< HEAD
+form {
+    padding: 20px;
+  }
+  
+  mat-form-field {
+    margin-bottom: 15px;
+    width: 100%;
+  }
+  
+  .dialog-actions {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  button {
+    width: 48%;
+  }
+=======
 .form-container {
   background: white;
   padding: 30px;
@@ -65,3 +84,4 @@ button[type="submit"] {
 button:hover {
   opacity: 0.9;
 }
+>>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b

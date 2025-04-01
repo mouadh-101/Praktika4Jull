@@ -4,6 +4,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+<<<<<<< HEAD
+    background: linear-gradient(to bottom right, #f0fbfc, #ffffff); /* Soft gradient */
+=======
+>>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
   }
   
   .auth-card {

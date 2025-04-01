@@ -16,8 +16,13 @@ public class ExtraActController {
     @Autowired
     IExtraActivitiesService extraActivitiesService;
     @PostMapping
+<<<<<<< HEAD
+    public ExtraActivities addExtraActivities(@RequestBody ExtraActivities extraActivities) {
+        return extraActivitiesService.addExtraActivities(extraActivities);
+=======
     public ExtraActivities addExtraActivities(@RequestBody ExtraActivities extraActivities,@RequestHeader("userId") String userId) {
         return extraActivitiesService.addExtraActivities(extraActivities,userId);
+>>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
     }
 
     @PutMapping("/{id}")
@@ -30,7 +35,11 @@ public class ExtraActController {
         extraActivitiesService.deleteExtraActivities(id);
     }
 
+<<<<<<< HEAD
+    @GetMapping
+=======
     @GetMapping("/{id}")
+>>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
     public ExtraActivities getExtraActivities(@PathVariable("id")Long id) {
         return extraActivitiesService.getExtraActivities(id);
     }

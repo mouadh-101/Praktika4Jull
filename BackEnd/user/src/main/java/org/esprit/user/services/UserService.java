@@ -8,9 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
+<<<<<<< HEAD
+=======
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+>>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +33,8 @@ public class UserService {
             return "Error registering user: " + e.getMessage();
         }
     }
+<<<<<<< HEAD
+=======
     //forinternship
     public List<String> getAllUsersID() {
         return userRepository.findAllUserIds();
@@ -55,4 +60,5 @@ public class UserService {
 
         return null;
     }
+>>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
 }

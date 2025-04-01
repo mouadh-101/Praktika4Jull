@@ -25,7 +25,10 @@ public class SecurityConfig {
                         .pathMatchers("/auth/**",
                                 "/api/users/signup",
                                 "/api/Student/add",
+<<<<<<< HEAD
+=======
                                 "/api/internships/company/add",
+>>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
                                 "/swagger-resources",
                                 "/swagger-resources/**",
                                 "/configuration/ui",
@@ -33,8 +36,12 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/webjars/**",
                                 "/swagger-ui.html"
+<<<<<<< HEAD
+                                , "/v3/api-docs/**"
+=======
                                 , "/v3/api-docs/**",
                                 "/ws/**"  // WebSocket autorisé sans authentification
+>>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
                         ).permitAll() // Allow login/register endpoints
                         .pathMatchers("/api/**").authenticated() // Protect API endpoints
                 )

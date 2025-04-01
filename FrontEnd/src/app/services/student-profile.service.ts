@@ -2,8 +2,12 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+<<<<<<< HEAD
+import { catchError, Observable, throwError } from 'rxjs';
+=======
 import { catchError, forkJoin, Observable, throwError } from 'rxjs';
 import { saveAs } from 'file-saver'
+>>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +18,8 @@ export class StudentProfileService {
 
   constructor(private http: HttpClient) {}
 
+<<<<<<< HEAD
+=======
   updateProfile(user: any): Observable<any> {
     const forUser = this.http.put('http://localhost:8222/api/users', user);
     const forStudent = this.http.put(`${this.apiUrl}/update`, user);
@@ -23,6 +29,7 @@ export class StudentProfileService {
     );
   }
 
+>>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
   getStudentData(): Observable<any> {
     return this.http.get(`${this.apiUrl}`).pipe(
       catchError(this.handleError)
@@ -34,7 +41,11 @@ export class StudentProfileService {
    * Add a new skill for the logged-in student.
    */
   addSkill(skill: any): Observable<any> {
+<<<<<<< HEAD
+    return this.http.post(`${this.apiUrl}/Skills/affect`, skill).pipe(
+=======
     return this.http.post(`${this.apiUrl}/Skills`, skill).pipe(
+>>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
       catchError(this.handleError)
     );
   }
@@ -47,6 +58,8 @@ export class StudentProfileService {
       catchError(this.handleError)
     );
   }
+<<<<<<< HEAD
+=======
   /**
    * affect an existing skill for the logged-in student.
    */
@@ -71,6 +84,7 @@ export class StudentProfileService {
       catchError(this.handleError)
     );
   }
+>>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
 
   /**
    * Delete a skill for the logged-in student.
@@ -86,7 +100,11 @@ export class StudentProfileService {
    * Add a new education entry for the logged-in student.
    */
   addEducation(education: any): Observable<any> {
+<<<<<<< HEAD
+    return this.http.post(`${this.apiUrl}/Edu/affect`, education).pipe(
+=======
     return this.http.post(`${this.apiUrl}/Edu`, education).pipe(
+>>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
       catchError(this.handleError)
     );
   }
@@ -152,6 +170,8 @@ export class StudentProfileService {
       catchError(this.handleError)
     );
   }
+<<<<<<< HEAD
+=======
   skillEnhancer():Observable<any>{
     return this.http.get(`${this.apiUrl}/Skills/enhancer`).pipe(
       catchError(this.handleError)
@@ -169,6 +189,7 @@ export class StudentProfileService {
         }
       });
   }
+>>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
 
 
 

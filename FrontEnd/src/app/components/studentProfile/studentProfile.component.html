@@ -1,3 +1,121 @@
+<<<<<<< HEAD
+<div class="profile-container">
+  <!-- Profile Header -->
+  <div class="profile-header">
+    <img [src]="studentData.profilePic ? ('../../../assets/' + studentData.profilePic) : 'C:/Users/mouad/Desktop/micro/FrontEnd/praktika/src/assets/img/team-1.jpg'" alt="Profile Picture" class="profile-pic">
+    <h1>{{ userData.name }}</h1>
+    <p>{{ userData.email }} | {{ userData.phone }} | {{ userData.address }}</p>
+    <button (click)="onUpdateProfile()" class="btn btn-primary">Update Profile</button>
+  </div>
+
+  <!-- Bio Section -->
+  <section class="profile-section">
+    <h2>Bio</h2>
+    <p>{{ studentData.Bio || 'Add your bio here' }}</p>
+    <div *ngIf="studentData.Bio" class="action-buttons">
+      <button (click)="onUpdateBio(studentData.id)" class="btn btn-secondary">Update</button>
+    </div>
+  </section>
+
+  <!-- Field of Study Section -->
+  <section class="profile-section">
+    <h2>Field of Study</h2>
+    <p>{{ studentData.fieldOfStudy || 'Add your field of study' }}</p>
+    <div *ngIf="studentData.fieldOfStudy" class="action-buttons">
+      <button (click)="onUpdateFieldOfStudy(studentData.id)" class="btn btn-secondary">Update</button>
+    </div>
+  </section>
+
+  <!-- Date of Birth Section -->
+  <section class="profile-section">
+    <h2>Date of Birth</h2>
+    <p>{{ studentData.dateOfBirth ? studentData.dateOfBirth : 'Add your date of birth' }}</p>
+    <div *ngIf="studentData.dateOfBirth" class="action-buttons">
+      <button (click)="onUpdateDateOfBirth(studentData.id)" class="btn btn-secondary">Update</button>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section class="profile-section skills-section">
+    <h2>Skills</h2>
+    <ul *ngIf="studentData.skills?.length > 0; else noSkills">
+      <li *ngFor="let skill of studentData.skills" class="skill-item">
+        <span>{{ skill.name }}</span>
+        <div class="action-buttons">
+          <button (click)="onUpdateSkill(skill.id)" class="btn btn-secondary btn-sm">Update</button>
+          <button (click)="onDeleteSkill(skill.id)" class="btn btn-danger btn-sm">Delete</button>
+        </div>
+      </li>
+    </ul>
+    <ng-template #noSkills>
+      <p>Add your skills</p>
+    </ng-template>
+    <button (click)="onAddSkill()" class="btn btn-success">Add Skill</button>
+  </section>
+
+  <!-- Extra Activities Section -->
+  <section class="profile-section">
+    <h2>Extra-Curricular Activities</h2>
+    <ul *ngIf="studentData.extraActivities?.length > 0; else noExtraActivities">
+      <li *ngFor="let activity of studentData.extraActivities">
+        {{ activity.description }}
+        <div class="action-buttons">
+          <button (click)="onUpdateActivity(activity.id)" class="btn btn-secondary btn-sm">Update</button>
+          <button (click)="onDeleteActivity(activity.id)" class="btn btn-danger btn-sm">Delete</button>
+        </div>
+      </li>
+    </ul>
+    <ng-template #noExtraActivities>
+      <p>Add extra-curricular activities</p>
+    </ng-template>
+    <button (click)="onAddActivity()" class="btn btn-success">Add Activity</button>
+  </section>
+
+  <!-- Education Section -->
+  <section class="profile-section">
+    <h2>Education</h2>
+    <ul *ngIf="studentData.educations?.length > 0; else noEducation">
+      <li *ngFor="let education of studentData.educations">
+        <strong>{{ education.degree }}</strong><br>
+        {{ education.schoolName }}<br>
+        {{ education.startDate }} - {{ education.endDate }}
+        <div class="action-buttons">
+          <button (click)="onUpdateEducation(education.id)" class="btn btn-secondary btn-sm">Update</button>
+          <button (click)="onDeleteEducation(education.id)" class="btn btn-danger btn-sm">Delete</button>
+        </div>
+      </li>
+    </ul>
+    <ng-template #noEducation>
+      <p>Add your education details</p>
+    </ng-template>
+    <div class="add_more_item_container ">
+      <i class="ic-16-plus" ></i>
+      <a (click)="onAddEducation()">Add Education</a>
+  </div>
+    <button  class="btn btn-success">Add Education</button>
+  </section>
+
+  <!-- Work Experience Section -->
+  <section class="profile-section">
+    <h2>Work Experience</h2>
+    <ul *ngIf="studentData.workExperiences?.length > 0; else noWorkExperience">
+      <li *ngFor="let experience of studentData.workExperiences">
+        <strong>{{ experience.position }}, {{ experience.company }}</strong><br>
+        {{ experience.startDate}} - {{ experience.endDate }}<br>
+        {{ experience.description }}
+        <div class="action-buttons">
+          <button (click)="onUpdateWorkExperience(experience.id)" class="btn btn-secondary btn-sm">Update</button>
+          <button (click)="onDeleteWorkExperience(experience.id)" class="btn btn-danger btn-sm">Delete</button>
+        </div>
+      </li>
+    </ul>
+    <ng-template #noWorkExperience>
+      <p>Add your work experience</p>
+    </ng-template>
+    <button (click)="onAddWorkExperience()" class="btn btn-success">Add Work Experience</button>
+  </section>
+</div>
+=======
 <div class="container">
   <!-- Warning Banner -->
   <div class="warning-banner">
@@ -115,3 +233,4 @@
   </div>
   <button class="add-button" (click)="onExportPdf()">Export your Resum</button>
 </div>
+>>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b

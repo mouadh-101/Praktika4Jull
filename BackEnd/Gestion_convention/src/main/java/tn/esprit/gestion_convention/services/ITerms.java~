@@ -1,0 +1,8 @@
+package tn.esprit.gestion_convention.services;
+
+import org.springframework.stereotype.Service;
+import tn.esprit.gestion_convention.entities.Terms;
+
+@Service
+public interface ITerms {
+  }

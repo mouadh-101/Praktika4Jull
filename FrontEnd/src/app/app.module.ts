@@ -6,6 +6,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
@@ -21,6 +22,14 @@ import { UseTabComponent } from './components/use-tab/use-tab.component';
 import { StudentProfileComponent } from './components/studentProfile/studentProfile.component';
 import { SkillComponent } from './components/skill/skill.component';
 import { EducationComponent } from './components/education/education.component';
+
+import { TermsComponent } from './components/terms/terms.component';
+import { TermDetailComponent } from './components/term-detail/term-detail.component';
+import { ConventionComponent } from './components/convention/convention.component';
+import { ConventionDetailComponent } from './components/convention-detail/convention-detail.component';
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {AngularSignaturePadModule} from "@almothafar/angular-signature-pad";
+
 import { UpdateInternshipComponent } from './components/update-internship/update-internship.component';
 import { AddInternshipComponent } from './components/add-internship/add-internship.component';
 import { InternshipDetailsComponent } from './components/internship-details/internship-details.component';
@@ -63,6 +72,10 @@ import { ChatComponent } from './components/chat/chat.component';
     StudentProfileComponent,
     SkillComponent,
     EducationComponent,
+    TermsComponent,
+    TermDetailComponent,
+    ConventionComponent,
+    ConventionDetailComponent,
     UpdateInternshipComponent,
     AddInternshipComponent,
     InternshipDetailsComponent,
@@ -96,6 +109,8 @@ import { ChatComponent } from './components/chat/chat.component';
     MatInputModule,
     MatIconModule,
     MatDialogModule,
+    MatPaginatorModule,
+    AngularSignaturePadModule,
     FormsModule,
     NgbModule,
     NgxPaginationModule,
@@ -104,7 +119,7 @@ import { ChatComponent } from './components/chat/chat.component';
     CalendarModule.forRoot({ provide: DateAdapter, useClass: MatNativeDateModule }),
     BrowserAnimationsModule,
     MatButtonModule
-    
+
   ],
   providers: [
     {
