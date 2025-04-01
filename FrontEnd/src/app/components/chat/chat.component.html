@@ -1,0 +1,42 @@
+<div *ngIf="connected" class="chat-box">
+  <!-- Affichage des messages -->
+  <div *ngFor="let msg of messages">
+    <div [ngClass]="msg.senderId === senderId ? 'sent' : 'received'">
+      {{ msg.content }}
+    </div>
+  </div>
+
+  <!-- Zone de saisie du message -->
+  <input [(ngModel)]="content" placeholder="Message..." />
+  <button (click)="send()">Envoyer</button>
+</div>
+
+<!-- Liste des utilisateurs -->
+<div *ngIf="users.length > 0">
+  <h3>Liste des utilisateurs</h3>
+
+  <!-- <ul>
+    <li *ngFor="let user of users" (click)="selectReceiver(user.userId)" style="cursor: pointer;">
+      <strong>{{ user.name }}</strong>  
+      <small>Dernière connexion : {{ usersLastSeen[user.userId] || 'Inconnue' }}</small>
+    </li>
+  </ul> -->
+  <ul>
+    <li *ngFor="let user of users" (click)="selectReceiver(user.userId)" style="cursor: pointer;">
+      <strong>{{ user.name }}</strong>
+      <span title="{{ usersLastSeen[user.userId] }}">
+        - Dernière connexion : {{ usersLastSeen[user.userId] || 'Jamais connecté' }}
+      </span>
+      <span *ngIf="user.isRecentlyOnline" style="color: green; font-weight: bold;">
+        • En ligne récemment
+      </span>
+    </li>
+  </ul>
+    
+  
+</div>
+
+<!-- Message si aucun utilisateur n'est trouvé -->
+<div *ngIf="users.length === 0">
+  <p>Aucun utilisateur trouvé.</p>
+</div>

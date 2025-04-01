@@ -4,22 +4,12 @@ import { SignInComponent } from './components/sign-in/sign-in.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { UseTabComponent } from './components/use-tab/use-tab.component';
 import { StudentProfileComponent } from './components/studentProfile/studentProfile.component';
-<<<<<<< HEAD
 import {TermDetailComponent} from "./components/term-detail/term-detail.component";
 import {TermsComponent} from "./components/terms/terms.component";
 import {ConventionComponent} from "./components/convention/convention.component";
 import {ConventionDetailComponent} from "./components/convention-detail/convention-detail.component";
 
-const routes: Routes = [
-  { path: 'terms', component: TermsComponent },
-  { path: 'terms/:id', component: TermDetailComponent },
-  { path: 'conventions/:id', component: ConventionDetailComponent },
-  { path: 'conventions', component: ConventionComponent },
-  { path: 'sign-in', component: SignInComponent },
-  { path: 'sign-up', component: SignUpComponent },
-  {path:'users',component:UseTabComponent},
-  {path:'student',component:StudentProfileComponent},
-=======
+
 import { InternshipComponent } from './components/internship/internship.component';
 import { AddInternshipComponent } from './components/add-internship/add-internship.component';
 import { UpdateInternshipComponent } from './components/update-internship/update-internship.component';
@@ -37,6 +27,7 @@ import { AddDocumentComponent } from './components/Document/AddDocument/AddDocum
 import { UpdateDocumentComponent } from './components/Document/updateDocument/updateDocument.component';
 import { DocumentBackComponent } from './components/Document/DocumentBack/DocumentBack.component';
 import { WebsocketComponent } from './components/websocket/websocket.component';
+import { ChatComponent } from './components/chat/chat.component';
 
 const routes: Routes = [
   { path: 'sign-in', component: SignInComponent },
@@ -59,7 +50,13 @@ const routes: Routes = [
   { path: 'internships/details/:id', component: InternshipDetailsComponent,canActivate: [AuthGuard]  },
   { path: 'favoris', component: FavorisComponent },
   { path: 'chat', component: WebsocketComponent},
->>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
+  { path: 'chatapp', component: ChatComponent},
+
+
+  { path: 'terms', component: TermsComponent },
+  { path: 'terms/:id', component: TermDetailComponent },
+  { path: 'conventions/:id', component: ConventionDetailComponent },
+  { path: 'conventions', component: ConventionComponent },
   { path: '', redirectTo: '/', pathMatch: 'full' }
 ];
 

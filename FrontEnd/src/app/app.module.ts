@@ -6,11 +6,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
-<<<<<<< HEAD
-import {FormsModule, NgForm, ReactiveFormsModule} from '@angular/forms';
-=======
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
->>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 // Import Angular Material Modules
@@ -25,14 +22,14 @@ import { UseTabComponent } from './components/use-tab/use-tab.component';
 import { StudentProfileComponent } from './components/studentProfile/studentProfile.component';
 import { SkillComponent } from './components/skill/skill.component';
 import { EducationComponent } from './components/education/education.component';
-<<<<<<< HEAD
+
 import { TermsComponent } from './components/terms/terms.component';
 import { TermDetailComponent } from './components/term-detail/term-detail.component';
 import { ConventionComponent } from './components/convention/convention.component';
 import { ConventionDetailComponent } from './components/convention-detail/convention-detail.component';
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {AngularSignaturePadModule} from "@almothafar/angular-signature-pad";
-=======
+
 import { UpdateInternshipComponent } from './components/update-internship/update-internship.component';
 import { AddInternshipComponent } from './components/add-internship/add-internship.component';
 import { InternshipDetailsComponent } from './components/internship-details/internship-details.component';
@@ -61,7 +58,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ExportCvComponent } from './components/export-cv/export-cv.component';
 import { WebsocketComponent } from './components/websocket/websocket.component';
->>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
+import { ChatComponent } from './components/chat/chat.component';
 
 
 @NgModule({
@@ -75,15 +72,10 @@ import { WebsocketComponent } from './components/websocket/websocket.component';
     StudentProfileComponent,
     SkillComponent,
     EducationComponent,
-<<<<<<< HEAD
     TermsComponent,
     TermDetailComponent,
     ConventionComponent,
     ConventionDetailComponent,
-
-
-
-=======
     UpdateInternshipComponent,
     AddInternshipComponent,
     InternshipDetailsComponent,
@@ -103,9 +95,8 @@ import { WebsocketComponent } from './components/websocket/websocket.component';
     WorkExpComponent,
     ProfileUpdateComponent,
     ExportCvComponent,
-    WebsocketComponent
->>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
-
+    WebsocketComponent,
+    ChatComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -118,14 +109,8 @@ import { WebsocketComponent } from './components/websocket/websocket.component';
     MatInputModule,
     MatIconModule,
     MatDialogModule,
-<<<<<<< HEAD
-    HttpClientModule,
-    FormsModule,
-    HttpClientModule,
-    ReactiveFormsModule,
     MatPaginatorModule,
-    AngularSignaturePadModule
-=======
+    AngularSignaturePadModule,
     FormsModule,
     NgbModule,
     NgxPaginationModule,
@@ -134,8 +119,7 @@ import { WebsocketComponent } from './components/websocket/websocket.component';
     CalendarModule.forRoot({ provide: DateAdapter, useClass: MatNativeDateModule }),
     BrowserAnimationsModule,
     MatButtonModule
-    
->>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
+
   ],
   providers: [
     {
