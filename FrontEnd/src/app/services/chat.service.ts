@@ -11,6 +11,8 @@ export class ChatService {
   private apiUrl = 'http://localhost:8087/api/internships/messages';
   private stompClient!: Client;
   private messageSubject: Subject<any> = new Subject();
+  private typingSubject: Subject<any> = new Subject();
+
   constructor(private http: HttpClient) {
     
   }
@@ -34,15 +36,21 @@ export class ChatService {
 
     this.stompClient.onConnect = () => {
       console.log('🟢 Connecté au WebSocket');
-
-      this.stompClient.subscribe(
-        '/topic/messages/' + userId,
-        (message: any) => {
-          console.log('📩 Reçu via WebSocket :', message);
-          this.messageSubject.next(JSON.parse(message.body));
-        }
-      );
+  
+      // 🔹 Écouter les messages
+      this.stompClient.subscribe('/topic/messages/' + userId, (message: any) => {
+        console.log('📩 Reçu via WebSocket :', message);
+        this.messageSubject.next(JSON.parse(message.body));
+      });
+  
+      // 🔹 Écouter l'événement "en train d'écrire"
+      this.stompClient.subscribe('/topic/typing', (typingEvent: any) => {
+        console.log('⌨️ En train d’écrire:', typingEvent.body);
+        this.typingSubject.next(JSON.parse(typingEvent.body));
+      });
     };
+
+
 
     this.stompClient.onStompError = (frame) => {
       console.error('❌ Erreur STOMP :', frame);
@@ -63,7 +71,21 @@ export class ChatService {
   receiveMessages(): Observable<any> {
     return this.messageSubject.asObservable();
   }
+   /** 📌 Envoie un événement "typing" via WebSocket */
+   sendTyping(typingData: { senderId: string; receiverId: string }) {
+    console.log('⌨️ Envoi de l’événement "typing":', typingData);
+    this.stompClient.publish({
+      destination: '/app/typing',
+      body: JSON.stringify(typingData)
+    });
+  }
 
+  /** 📌 Écoute les événements "typing" */
+  receiveTyping(): Observable<{ senderId: string }> {
+    return this.typingSubject.asObservable();
+  }
+
+  
   updateLastSeen(userId: string) {
     return this.http.post(`http://localhost:8087/api/internships/user-last-seen/${userId}`, {});  
   }

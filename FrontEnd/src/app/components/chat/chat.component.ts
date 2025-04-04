@@ -1,6 +1,6 @@
 import { ThisReceiver } from '@angular/compiler';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { forkJoin } from 'rxjs';
+import { forkJoin, timer } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { ChatService } from 'src/app/services/chat.service';
 import { UserService } from 'src/app/services/user.service';
@@ -15,10 +15,16 @@ export class ChatComponent  implements OnInit {
   content: string = '';
   senderId!: string;
   receiverId!: string;
- 
+  receiverName!: string;
   connected = false;
   users: any[] = [];  // Tableau pour stocker les utilisateurs
   usersLastSeen: { [key: string]: string } = {}; // Un dictionnaire clé-valeur pour stocker la dernière connexion
+
+  typingUsers: { [key: string]: boolean } = {}; // Stocke les utilisateurs en train d'écrire
+
+  isTyping: boolean = false;
+  typingUser: string = '';
+  
 
   constructor(
     private chatService: ChatService,
@@ -33,8 +39,10 @@ export class ChatComponent  implements OnInit {
     this.userService.getUsers().subscribe((users) => {
       this.users = users;  // Stocker la liste des utilisateurs dans le tableau users
       console.log('Liste des utilisateurs:', this.users); // Pour déboguer
+      this.loadLastSeenInfo(); // Charger les informations de dernier accès
     });
    this.getUserid();
+ 
   
   }
 
@@ -49,6 +57,7 @@ export class ChatComponent  implements OnInit {
     this.messages.push(message);
     
     this.content = '';
+   
   }
  
   // Méthode pour sélectionner un utilisateur (et affecter son ID au receiverId)
@@ -74,7 +83,17 @@ export class ChatComponent  implements OnInit {
       );
     }
   }
+  loadLastSeenInfo(): void {
+    const lastSeenRequests = this.users.map(user =>
+      this.authService.getLastSeen(user.userId)
+    );
 
+    forkJoin(lastSeenRequests).subscribe(lastSeenData => {
+      this.users.forEach((user, index) => {
+        this.usersLastSeen[user.userId] = lastSeenData[index] || 'Inconnue';
+      });
+    });
+  }
   getUserid(): void {
     this.userService.getUserData().subscribe(
       (userData) => {
@@ -86,14 +105,51 @@ export class ChatComponent  implements OnInit {
         this.chatService.receiveMessages().subscribe(msg => {
           this.messages.push(msg);
         });
+
+
+       
+        this.chatService.receiveTyping().subscribe(({ senderId }) => {
+          if (senderId !== this.senderId) {
+            this.isTyping = true;
+            this.typingUser = this.users.find(u => u.userId === senderId)?.name || 'Quelqu’un';
+      
+            // Supprime l’indicateur après 3 secondes d’inactivité
+            setTimeout(() => this.isTyping = false, 3000);
+          }
+        });
+        
         this.connected = true;
-    this.loadUsers();
+        this.loadUsers();
+
       },
       (error) => {
         console.error('Erreur lors de la récupération du rôle utilisateur', error);
       }
     );
   }
+  closeChat(): void {
+    this.receiverId = '';
+    this.messages = [];
+  }
+  loadUsers(): void {
+    this.userService.getUsers().subscribe((users) => {
+      // Exclure l'utilisateur connecté de la liste des utilisateurs
+      this.users = users.filter(user => user.userId !== this.senderId);
+
+      this.loadLastSeenInfo(); // Charger les informations de dernier accès après avoir filtré les utilisateurs
+    });
+  }
+
+
+/** 📌 Indiquer que l'utilisateur est en train d'écrire */
+  onTyping(): void {
+    if (this.receiverId) {
+      this.chatService.sendTyping({ senderId: this.senderId, receiverId: this.receiverId });
+    }
+  }
+  
+
+
 
   // loadUsers(): void {
   //   this.userService.getUsers().subscribe((users) => {
@@ -102,6 +158,7 @@ export class ChatComponent  implements OnInit {
   //     console.log('Liste des utilisateurs (sans l\'utilisateur connecté):', this.users);
   //   });
   // }
+  /*
   loadUsers(): void {
     this.userService.getUsers().subscribe((users) => {
       this.users = users.filter(user => user.userId !== this.senderId);
@@ -130,7 +187,7 @@ export class ChatComponent  implements OnInit {
       console.log('Liste des utilisateurs avec dernière connexion:', this.usersLastSeen);
     });
   }
-  
+  */
   
  
 }
