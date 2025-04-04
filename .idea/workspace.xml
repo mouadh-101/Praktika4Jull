@@ -6,11 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="ac5ea9f7-b7a4-4d77-bc22-933cc5304c54" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/intershipproccess/src/main/java/tn/esprit/intershipproccess/controller/ChattController.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/intershipproccess/src/main/java/tn/esprit/intershipproccess/controller/ChattController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/app/app.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FrontEnd/src/app/components/chat/chat.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/app/components/chat/chat.component.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FrontEnd/src/app/components/chat/chat.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/app/components/chat/chat.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FrontEnd/src/app/components/chat/chat.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/app/components/chat/chat.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/app/components/internship-details/internship-details.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/app/components/internship-details/internship-details.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/app/components/internship-details/internship-details.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/app/components/internship-details/internship-details.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FrontEnd/src/app/services/chat.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/app/services/chat.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -203,7 +203,7 @@
       <workItem from="1743552560287" duration="949000" />
       <workItem from="1743558921792" duration="51000" />
       <workItem from="1743642299739" duration="1720000" />
-      <workItem from="1743727618505" duration="630000" />
+      <workItem from="1743727618505" duration="3014000" />
     </task>
     <servers />
   </component>

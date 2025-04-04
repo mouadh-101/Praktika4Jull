@@ -42,7 +42,13 @@ export class ChatComponent  implements OnInit {
       this.loadLastSeenInfo(); // Charger les informations de dernier accès
     });
    this.getUserid();
- 
+  // 🔹 Écoute les utilisateurs en ligne
+ // 🔹 Mise à jour automatique des utilisateurs en ligne
+ this.chatService.getOnlineUsers().subscribe(onlineUsers => {
+  this.users.forEach(user => {
+    user.isOnline = onlineUsers.includes(user.userId);
+  });
+});
   
   }
 
@@ -93,6 +99,13 @@ export class ChatComponent  implements OnInit {
         this.usersLastSeen[user.userId] = lastSeenData[index] || 'Inconnue';
       });
     });
+    this.chatService.getOnlineUsers().subscribe(onlineUsers => {
+      onlineUsers.forEach(userId => {
+        this.usersLastSeen[userId] = "Online";
+      });
+     
+    });
+    
   }
   getUserid(): void {
     this.userService.getUserData().subscribe(
@@ -148,46 +161,10 @@ export class ChatComponent  implements OnInit {
     }
   }
   
-
-
-
-  // loadUsers(): void {
-  //   this.userService.getUsers().subscribe((users) => {
-  //     // 🔥 Filtrer pour exclure l'utilisateur connecté
-  //     this.users = users.filter(user => user.userId !== this.senderId);
-  //     console.log('Liste des utilisateurs (sans l\'utilisateur connecté):', this.users);
-  //   });
-  // }
-  /*
-  loadUsers(): void {
-    this.userService.getUsers().subscribe((users) => {
-      this.users = users.filter(user => user.userId !== this.senderId);
-    
-      this.users.forEach(user => {
-        this.authService.getLastSeen(user.userId).subscribe(
-          (lastSeen) => {
-            const lastSeenDate = new Date(lastSeen);
-            this.usersLastSeen[user.userId] = lastSeenDate.toLocaleString();
-            
-            // Vérification si l'utilisateur est en ligne récemment (ex: 5 minutes)
-            const now = new Date();
-            const fiveMinutesAgo = new Date(now.getTime() - 5 * 60 * 1000);
-            user.isRecentlyOnline = lastSeenDate > fiveMinutesAgo;
+  isUserListOpen: boolean = true;  // Initialiser à 'true' pour que la liste soit visible par défaut
   
-            console.log(`${user.name} - Dernière connexion: ${this.usersLastSeen[user.userId]} - Récemment en ligne: ${user.isRecentlyOnline}`);
-          },
-          (error) => {
-            console.error(`Erreur lors de la récupération de la dernière connexion de ${user.name}`, error);
-            this.usersLastSeen[user.userId] = 'Inconnue';
-            user.isRecentlyOnline = false;
-          }
-        );
-      });
-  
-      console.log('Liste des utilisateurs avec dernière connexion:', this.usersLastSeen);
-    });
+
+  toggleUserList() {
+    this.isUserListOpen = !this.isUserListOpen;
   }
-  */
-  
- 
 }
