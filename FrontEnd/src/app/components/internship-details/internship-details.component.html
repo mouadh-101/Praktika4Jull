@@ -75,7 +75,7 @@
         </button>        
        
         
-        <button class="btn btn-link ms-2" style="color: #388da8 !important;">
+        <button class="btn btn-link ms-2" style="color: #388da8 !important;" (click)="openShareModal()">
           <i class="bi bi-share-fill"></i>
         </button>
       </div>
@@ -96,5 +96,27 @@
       <button class="btn custom-btn btn-lg">Apply Now</button>
     </div>
     
+  </div>
+</div>
+
+<!-- Modal de partage -->
+<div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="shareModalLabel">Envoyer ce stage</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <label for="stagiaire">Sélectionner un stagiaire :</label>
+        <select id="stagiaire" class="form-select" [(ngModel)]="selectedUserId">
+          <option *ngFor="let user of users" [value]="user.userId">{{ user.name }}</option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-primary" (click)="sendInternshipMessage()">Envoyer</button>
+      </div>
+    </div>
   </div>
 </div>

@@ -1,42 +1,43 @@
-<div *ngIf="connected" class="chat-box">
-  <!-- Affichage des messages -->
-  <div *ngFor="let msg of messages">
-    <div [ngClass]="msg.senderId === senderId ? 'sent' : 'received'">
-      {{ msg.content }}
+<!-- chat.component.html -->
+<div class="chat-container">
+  <!-- Panneau des utilisateurs à droite -->
+  <div class="user-list">
+    <div *ngFor="let user of users" (click)="selectReceiver(user.userId)">
+      <div class="user">
+        <div>{{ user.name }}</div>
+        <div *ngIf="usersLastSeen[user.userId] === 'Online'" class="online-status">Online</div>
+        <div *ngIf="usersLastSeen[user.userId] !== 'Online'" class="offline-status">
+          Last seen: {{ usersLastSeen[user.userId] }}
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Zone de saisie du message -->
-  <input [(ngModel)]="content" placeholder="Message..." />
-  <button (click)="send()">Envoyer</button>
-</div>
+  <!-- Fenêtre de discussion à gauche -->
+  <div class="chat-box" *ngIf="receiverId">
+    <div class="chat-header">
+      <button class="close-btn" (click)="closeChat()">Close</button>
+      <div>{{ receiverName }}</div>
+    </div>
 
-<!-- Liste des utilisateurs -->
-<div *ngIf="users.length > 0">
-  <h3>Liste des utilisateurs</h3>
+    <div class="messages">
+      <div *ngFor="let msg of messages">
+        <div [class]="msg.senderId === senderId ? 'sent' : 'received'">
+          <p [innerHTML]="msg.content"></p>
 
-  <!-- <ul>
-    <li *ngFor="let user of users" (click)="selectReceiver(user.userId)" style="cursor: pointer;">
-      <strong>{{ user.name }}</strong>  
-      <small>Dernière connexion : {{ usersLastSeen[user.userId] || 'Inconnue' }}</small>
-    </li>
-  </ul> -->
-  <ul>
-    <li *ngFor="let user of users" (click)="selectReceiver(user.userId)" style="cursor: pointer;">
-      <strong>{{ user.name }}</strong>
-      <span title="{{ usersLastSeen[user.userId] }}">
-        - Dernière connexion : {{ usersLastSeen[user.userId] || 'Jamais connecté' }}
-      </span>
-      <span *ngIf="user.isRecentlyOnline" style="color: green; font-weight: bold;">
-        • En ligne récemment
-      </span>
-    </li>
-  </ul>
-    
-  
-</div>
+        </div>
+      </div>
+       <!-- 🔹 Indicateur "Typing" -->
+       <div class="typing-indicator" *ngIf="isTyping">
+        ✍️ {{ typingUser }} est en train d'écrire...
+      </div>
+    </div>
 
-<!-- Message si aucun utilisateur n'est trouvé -->
-<div *ngIf="users.length === 0">
-  <p>Aucun utilisateur trouvé.</p>
+    <div class="message-input">
+       <!-- <input [(ngModel)]="content" placeholder="Type a message..." />
+      <button (click)="send()">Send</button>  -->
+      <input [(ngModel)]="content" placeholder="Type a message..." (keydown)="onTyping()" />
+      <button (click)="send()">Send</button>
+    </div>
+  </div>
 </div>
