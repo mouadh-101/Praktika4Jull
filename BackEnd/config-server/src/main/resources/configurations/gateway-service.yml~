@@ -1,0 +1,43 @@
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: user
+          uri: lb://user
+          predicates:
+            - Path=/api/users/**
+        - id: user
+          uri: lb://user
+          predicates:
+            - Path=/api/users/**
+        - id: student-service
+          uri: lb://student-service
+          predicates:
+            - Path=/api/Student/**
+        - id: student-service
+          uri: lb://convention-service
+          predicates:
+            - Path=/api/conventions/**
+
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+server:
+  port: 8222
+# Keycloak Configuration
+keycloak:
+  enabled: true
+  auth-server-url: http://localhost:8180/auth
+  realm: Auth
+  resource: praktika-Auth
+  public-client: true
+  principal-attribute: preferred_username
+####################
