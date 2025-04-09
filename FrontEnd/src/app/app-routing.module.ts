@@ -27,6 +27,7 @@ import { UpdateDocumentComponent } from './components/Document/updateDocument/up
 import { DocumentBackComponent } from './components/Document/DocumentBack/DocumentBack.component';
 import { WebsocketComponent } from './components/websocket/websocket.component';
 import { ChatComponent } from './components/chat/chat.component';
+import { VideoCallComponent } from './components/video-call/video-call.component';
 
 const routes: Routes = [
   { path: 'sign-in', component: SignInComponent },
@@ -50,7 +51,10 @@ const routes: Routes = [
   { path: 'favoris', component: FavorisComponent },
   { path: 'chat', component: WebsocketComponent},
   { path: 'chatapp', component: ChatComponent},
-
+  {
+    path: 'video-call',
+    component: VideoCallComponent
+  },
 
   { path: 'terms', component: TermsComponent },
   { path: 'terms/:id', component: TermDetailComponent },
@@ -63,3 +67,6 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+
+
+

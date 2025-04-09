@@ -56,6 +56,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { ExportCvComponent } from './components/export-cv/export-cv.component';
 import { WebsocketComponent } from './components/websocket/websocket.component';
 import { ChatComponent } from './components/chat/chat.component';
+import { VideoCallComponent } from './components/video-call/video-call.component';
 
 
 @NgModule({
@@ -93,6 +94,9 @@ import { ChatComponent } from './components/chat/chat.component';
     ExportCvComponent,
     WebsocketComponent,
     ChatComponent,
+    VideoCallComponent,
+    
+
   ],
   imports:[
     ReactiveFormsModule,
