@@ -1,5 +1,6 @@
 package org.esprit.user.controllers;
 
+import jakarta.ws.rs.Path;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,10 +42,27 @@ public class UserController {
     public List<User> fndAll() {
         return userRepository.findAll();
     }
+    @PutMapping
+    public User update(@RequestBody User user , @RequestHeader("userId") String userId) {
+        return userService.updateUser(userId,user);
+    }
     @GetMapping("/userById")
     public User userByID(@RequestHeader("userId") String userId)
     {
         return userRepository.findById(userId).orElse(null);
     }
+    @GetMapping("/allusersId")
+    public List<String> getAllUsersID(){
+        return userService.getAllUsersID();
+    }
+    @GetMapping("/userEmail/{userId}")
+    public String getUserEmail(@PathVariable("userId") String userId){
+        return userService.getUserEmail(userId);
+    }
+    @GetMapping("/userIdByemail/{email}")
+    public String getUserId(@PathVariable("email")String email){
+        return userService.getUserId(email);
+    }
+
 
 }

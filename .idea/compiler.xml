@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="config-server" />
+        <module name="gatew" />
+        <module name="discovery" />
+        <module name="MicroserviceDocument" />
+        <module name="intershipproccess" />
+        <module name="microserviceInterview" />
+        <module name="Gestion_convention" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Gestion_convention" options="-parameters" />
+      <module name="MicroserviceDocument" options="-parameters" />
+      <module name="config-server" options="-parameters" />
+      <module name="discovery" options="-parameters" />
+      <module name="gatew" options="-parameters" />
+      <module name="intershipproccess" options="-parameters" />
+      <module name="microserviceInterview" options="-parameters" />
+    </option>
+  </component>
+</project>

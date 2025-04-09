@@ -71,7 +71,8 @@ public class Education{
         return student;
     }
 
-    public void setStudent(Student student) {
+    void setStudent(Student student) {
         this.student = student;
     }
 }
+head

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <form [formGroup]="educationForm" (ngSubmit)="submit()">
     <mat-form-field appearance="outline">
       <mat-label>Degree</mat-label>
@@ -24,3 +25,35 @@
       <button mat-raised-button color="warn" (click)="cancel()">Cancel</button>
     </div>
   </form>
+=======
+<div class="form-container">
+  <h2 class="form-title">{{ editMode ? 'Edit' : 'Add' }} Education</h2>
+
+  <form [formGroup]="educationForm" (ngSubmit)="submit()">
+    <div class="form-field">
+      <label for="degree">Degree</label>
+      <input id="degree" type="text" formControlName="degree" required>
+    </div>
+
+    <div class="form-field">
+      <label for="schoolName">Institution</label>
+      <input id="schoolName" type="text" formControlName="schoolName" required>
+    </div>
+
+    <div class="form-field">
+      <label for="startDate">Start Date</label>
+      <input id="startDate" type="date" formControlName="startDate" required>
+    </div>
+
+    <div class="form-field">
+      <label for="endDate">End Date</label>
+      <input id="endDate" type="date" formControlName="endDate" required>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" (click)="cancel()">Cancel</button>
+      <button type="submit">Save</button>
+    </div>
+  </form>
+</div>
+>>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b

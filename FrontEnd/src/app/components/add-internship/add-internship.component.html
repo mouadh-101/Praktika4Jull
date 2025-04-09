@@ -1,0 +1,275 @@
+
+<br>
+<br>
+<br>
+<br>
+
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="card shadow p-4" style="max-width: 600px; width: 100%;">
+      <h2 class="text-center mb-4">Add an Internship</h2>
+  
+      <form [formGroup]="internshipForm" (ngSubmit)="submitForm()">
+        <div class="mb-3" *ngIf="internshipForm.get('titre')">
+          <label class="form-label">Title:</label>
+          <input type="text" class="form-control" formControlName="titre" required>
+        
+          <div *ngIf="internshipForm.get('titre')?.invalid && internshipForm.get('titre')?.touched">
+         
+            <small *ngIf="internshipForm.get('titre')?.hasError('required')" class="text-danger">
+              The title is required.
+            </small> 
+            <small *ngIf="internshipForm.get('titre')?.hasError('minlength')" class="text-danger">
+              The title must be at least 3 characters long.
+            </small>
+            
+            <small *ngIf="internshipForm.get('titre')?.hasError('serverError')" class="text-danger">
+              {{ internshipForm.get('titre')?.errors?.['serverError'] }}
+            </small>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Description:</label>
+          <div class="d-flex">
+            <textarea 
+              class="form-control" 
+              formControlName="description" 
+              readonly 
+              (click)="openModal()"
+            ></textarea>
+            <button type="button" class="btn btn-outline-primary ms-2" (click)="openModal()">Edit</button>
+          </div>
+        </div>
+  
+        <div class="mb-3">
+          <label class="form-label">Location:</label>
+          <input type="text" class="form-control" formControlName="location" required>
+          <div *ngIf="internshipForm.get('Location')?.invalid && internshipForm.get('Location')?.touched">
+         
+            <small *ngIf="internshipForm.get('Location')?.hasError('required')" class="text-danger">
+              The Location is required.
+            </small> 
+        
+          </div>
+        </div>
+  
+        <div class="mb-3">
+          <label class="form-label">Field:</label>
+          <input type="text" class="form-control" formControlName="field" id="field" required>
+          <div *ngIf="internshipForm.get('field')?.invalid && internshipForm.get('field')?.touched">
+         
+            <small *ngIf="internshipForm.get('field')?.hasError('required')" class="text-danger">
+              The field is required.
+            </small> 
+        
+          </div>
+        </div>
+
+
+       
+<!--       
+        <label for="requirements">Requirements:</label>
+        <select id="requirements" multiple>
+          <option *ngFor="let req of requirements" [value]="req.id">
+            {{ req.name }}
+          </option>
+        </select> -->
+
+
+
+        <div class="mb-3">
+          <label class="form-label">Duration:</label>
+          <input type="number" class="form-control" formControlName="duration" required>
+          <div *ngIf="internshipForm.get('duration')?.invalid && internshipForm.get('duration')?.touched">
+          <small *ngIf="internshipForm.errors?.['durationMismatch']" class="text-danger">
+            La durée ne correspond pas à la différence entre la date de début et la date de fin.
+          </small>
+        
+          <small *ngIf="internshipForm.get('duration')?.hasError('required')" class="text-danger">
+            The duration is required.
+          </small>
+        </div>
+        </div>
+  
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Start Date:</label>
+            <input type="date" class="form-control" formControlName="startDate" required>
+            <small *ngIf="internshipForm.get('startDate')?.hasError('futureDate') && internshipForm.get('startDate')?.touched" class="text-danger">
+              The start date must be in the future.
+            </small>
+          </div>
+          
+          <div class="col-md-6 mb-3">
+            <label class="form-label">End Date:</label>
+            <input type="date" class="form-control" formControlName="endDate" required>
+            <small *ngIf="internshipForm.get('endDate')?.hasError('endDateInvalid') && internshipForm.get('endDate')?.touched" class="text-danger">
+              La date de fin doit être après la date de début.
+            </small>
+          </div>
+        </div>
+  
+        <div class="mb-3">
+          <label class="form-label">Compensation:</label>
+          <input type="number" class="form-control" formControlName="compensation">
+        </div>
+  
+        <div class="mb-3">
+          <label class="form-label">Application Deadline:</label>
+          <input type="date" class="form-control" formControlName="applicationDeadline" required>
+        </div>
+  
+        <div class="mb-3 form-check">
+          <input type="checkbox" class="form-check-input" formControlName="remote">
+          <label class="form-check-label">Remote</label>
+        </div>
+    
+        <div class="mb-3">
+  <div class="requirements-container">
+    <div *ngFor="let requirement of availableRequirementsTop5" 
+     class="requirement-circle" 
+     (click)="onRequirementAdd(requirement)">
+  <span>+ {{ requirement.name }}</span>
+</div>
+
+  
+    <!-- ✅ Bouton pour ajouter une autre exigence -->
+    <div class="requirement-circle add-requirement" (click)="openAddRequirementModal()">
+      <span>+ Add other requirement</span>
+    </div>
+  </div>
+
+  <div *ngIf="selectedRequirements.length > 0" class="selected-requirements-card">
+    <div class="selected-req-list">
+      <div *ngFor="let selected of selectedRequirements" class="selected-req">
+        {{ selected }}
+        <button (click)="onRequirementRemove(selected)" class="delete-btn">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  
+        </div>
+        
+        <button type="submit" class="btn btn-primary w-100" [disabled]="internshipForm.invalid">
+          Add
+        </button>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Modal HTML -->
+  <div class="modal fade" id="descriptionModal" tabindex="-1" aria-labelledby="descriptionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg"> <!-- Ajout de la classe modal-lg -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="descriptionModalLabel">Edit Description</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <textarea class="form-control" [(ngModel)]="tempDescription" rows="5"></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" (click)="saveDescription()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  
+<!--   
+  <div class="modal fade" id="requirmentModal" tabindex="-1" aria-labelledby="requirmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="requirmentModalLabel">Add Requirement</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          
+          <input type="text" [(ngModel)]="newRequirementName" class="form-control" placeholder="Enter requirement name">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeAddRequirementModal()">Close</button>
+          <button type="button" class="btn btn-primary" (click)="saveNewRequirement()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+<!-- Modal HTML -->
+<!-- Modal HTML -->
+<!-- <div class="modal fade" id="requirmentModal" tabindex="-1" aria-labelledby="requirmentModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="requirmentModalLabel">Add Requirement</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+     
+        <div class="mb-3">
+          <label for="requirementSelect" class="form-label">Select Requirement</label>
+          <select id="requirementSelect" class="form-select" [(ngModel)]="selectedRequirementId">
+            <option value="">Select an existing requirement</option>
+            <option *ngFor="let req of availableRequirements" [value]="req.name">
+              {{ req.name }}
+            </option>
+          </select>
+        </div>
+        
+        <div class="mt-3">
+          <input type="text" [(ngModel)]="newRequirementName" class="form-control" placeholder="Enter custom requirement name">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeAddRequirementModal()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="saveNewRequirement()">Save</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+<div class="modal fade" id="requirmentModal" tabindex="-1" aria-labelledby="requirmentModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="requirmentModalLabel">Add Requirement</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Champ de recherche pour ajouter une nouvelle exigence -->
+        <div class="mb-3">
+          <label for="requirementSearch" class="form-label">Search Requirement</label>
+          <input 
+            id="requirementSearch" 
+            type="text" 
+            class="form-control" 
+            [(ngModel)]="newRequirementName" 
+            (input)="onRequirementSearch()" 
+            placeholder="Search for a requirement">
+        </div>
+
+        <!-- Liste des exigences filtrées -->
+        <div *ngIf="filteredRequirements.length > 0" class="list-group">
+          <a 
+            *ngFor="let req of filteredRequirements" 
+            class="list-group-item list-group-item-action" 
+            (click)="onRequirementSelect(req)">
+            {{ req.name }}
+          </a>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeAddRequirementModal()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="saveNewRequirement()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+  

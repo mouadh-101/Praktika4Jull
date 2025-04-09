@@ -1,0 +1,18 @@
+  spring:
+    config:
+      import: optional:configserver:http://localhost:8888
+    application:
+      name: Document-server
+    mail:
+      host: smtp.gmail.com
+      port: 587
+      username: faresfelhi2@gmail.com
+      password: allxuqotoqzlyqbh
+
+
+      properties:
+        mail:
+          smtp:
+            auth: true
+            starttls:
+              enable: true

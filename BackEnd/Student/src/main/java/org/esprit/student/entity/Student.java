@@ -19,11 +19,11 @@ public class Student {
     String Bio;
     @ManyToMany
     List<Skill> skills;
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "student",cascade = CascadeType.ALL)
     List<ExtraActivities>extraActivities ;
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "student",cascade = CascadeType.ALL)
     List<Education> educations;
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "student",cascade = CascadeType.ALL)
     List<WorkExperience> workExperiences;
 
     public String getUserId() {

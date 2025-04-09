@@ -1,0 +1,122 @@
+<br>
+<br>
+<br>
+<br>
+ <h1 class="internship-title">{{ internship.titre }}</h1>
+<div class="container mt-5">
+  <div class="card shadow-lg p-4 rounded">
+    <!-- Badge "Actively hiring" -->
+    <div class="badge-custom">
+      <i class="bi bi-arrow-up-right text-primary me-2"></i> Actively hiring
+    </div>
+    
+    
+
+    <!-- Titre du stage -->
+    <h2 class="fw-bold text-dark">{{ internship.titre }}</h2>
+
+    <!-- Nom de l'entreprise -->
+    <h5 class="text-secondary fw-bold">{{ internship.company?.description }}</h5>
+
+    <!-- Lieu avec icône -->
+    <p class="text-muted">
+      <i class="bi bi-geo-alt-fill"></i> {{ internship.location }}
+      <span *ngIf="internship.remote" class="badge bg-success ms-2">Remote</span>
+    </p>
+
+    <!-- Start Date, Duration, Compensation, Application Date -->
+    <div class="row">
+      <!-- Start Date -->
+      <div class="col-12 col-md-3 mb-3">
+        <p class="text-muted"><i class="bi bi-play-circle text-muted me-2"></i> <strong>START DATE</strong></p>
+        <p class="text-dark">{{ internship.startDate }}</p>
+      </div>
+      
+      
+    
+      <!-- Duration -->
+      <div class="col-12 col-md-3 mb-3">
+        <p class="text-muted"><i class="bi bi-calendar text-muted me-2"></i> <strong>DURATION</strong></p>
+        <p class="text-dark">{{ internship.duration }} months</p>
+      </div>
+      
+    
+      <!-- Compensation -->
+      <div class="col-12 col-md-3 mb-3">
+        <p class="text-muted"><i class="bi bi-cash text-muted me-2"></i> <strong>COMPENSATION</strong></p>
+        <p class="text-dark">{{ internship.compensation }} €</p>
+      </div>
+      
+    
+      <!-- Application Deadline -->
+      <div class="col-12 col-md-3 mb-3">
+        <p class="text-muted"><i class="bi bi-hourglass-split text-muted me-2"></i> <strong>APPLY BY</strong></p>
+        <p class="text-dark">{{ internship.applicationDeadline }}</p>
+      </div>
+      
+    </div>
+    
+
+    <!-- Date de création & Internship -->
+    <div class="d-flex justify-content-between mt-3 text-muted">
+      <span>Created at: {{ internship.createAt }}</span>
+      <span>Internship</span>
+    </div>
+
+
+  
+    <div class="d-flex align-items-center justify-content-between mt-2">
+      <span class="d-flex align-items-center">
+        <i class="bi bi-person-plus text-muted me-2"></i> 95 applicants
+      </span>
+      <div class="d-flex">
+        <button class="btn btn-link ms-3" [style.color]="isFavori ? '#388da8' : '#388da8'" (click)="toggleFavori()">
+          <i class="bi" [ngClass]="isFavori ? 'bi-bookmark-fill' : 'bi-bookmark'"></i>
+        </button>        
+       
+        
+        <button class="btn btn-link ms-2" style="color: #388da8 !important;" (click)="openShareModal()">
+          <i class="bi bi-share-fill"></i>
+        </button>
+      </div>
+    </div>
+    
+    
+     
+
+    <!-- Ligne fine -->
+    <hr class="gray-line">
+
+    <!-- Description -->
+    <div class="mt-3">
+      <h5>About the internship</h5>
+      <p>{{ internship.description }}</p>
+    </div>
+    <div class="d-flex justify-content-center mt-4">
+      <button class="btn custom-btn btn-lg">Apply Now</button>
+    </div>
+    
+  </div>
+</div>
+
+<!-- Modal de partage -->
+<div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="shareModalLabel">Envoyer ce stage</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <label for="stagiaire">Sélectionner un stagiaire :</label>
+        <select id="stagiaire" class="form-select" [(ngModel)]="selectedUserId">
+          <option *ngFor="let user of users" [value]="user.userId">{{ user.name }}</option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-primary" (click)="sendInternshipMessage()">Envoyer</button>
+      </div>
+    </div>
+  </div>
+</div>
