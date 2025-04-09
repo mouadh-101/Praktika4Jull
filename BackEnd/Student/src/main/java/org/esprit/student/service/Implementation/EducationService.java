@@ -6,12 +6,8 @@ import org.esprit.student.entity.Student;
 import org.esprit.student.repository.EducationRepository;
 import org.esprit.student.repository.StudentRepository;
 import org.esprit.student.service.Interface.IEducationService;
-import org.esprit.student.service.Interface.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
 
 
 @Service

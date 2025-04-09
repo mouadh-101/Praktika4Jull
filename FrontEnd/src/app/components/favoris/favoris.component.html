@@ -1,0 +1,56 @@
+
+<br>
+<br>
+<br>
+<br>
+
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Your Favorite Internships</h2>
+
+  <div class="row justify-content-center">
+    <!-- Partie des cartes à droite -->
+    <div class="col-md-8">
+      <div class="d-flex justify-content-center flex-wrap">
+        <!-- Affichage des internships favoris -->
+        <div *ngFor="let internship of favoris" class="internship-card">
+          <div class="card" (click)="goToDetails(internship.id)" style="cursor: pointer;">
+            <div class="card-body">
+              <div class="d-flex align-items-center mb-2">
+                <div class="flex-grow-1">
+                  <h5 class="fw-bold mb-1">{{ internship.titre }}</h5>
+                  <div class="d-flex align-items-center">
+                    <h6 class="text-muted mb-0 me-2">{{ internship.company?.description }}</h6>
+                    <button class="btn btn-sm rounded-pill bg-white fs-7 fw-medium" 
+                      style="border: 1px solid #388da8; color: #388da8; padding: 2px 8px;">
+                      Actively hiring
+                    </button>
+                  </div>
+                </div>
+                <img [src]="'assets/img/' + internship.company?.logo" 
+                  alt="Company Logo" 
+                  class="img-fluid" 
+                  style="max-width: 50px;">
+              </div>
+
+              <div class="internship-info">
+                <span><i class="fas fa-map-marker-alt me-1"></i> {{ internship.location }}</span>
+                <span><i class="fas fa-calendar-alt ms-3 me-1"></i> {{ internship.duration }} months</span>
+                <span><i class="fas fa-money-bill-wave ms-3 me-1"></i> {{ internship.compensation }} €/month</span>
+              </div>
+
+              <div class="badges-container">
+                <span class="badge bg-light text-dark">
+                  <i class="fas fa-clock me-1 text-success"></i> {{ internship.relativeTime }}
+                </span>
+                <span class="badge bg-light text-dark ms-2">
+                  <i class="fas fa-bolt me-1 text-warning"></i> Be an early applicant
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>

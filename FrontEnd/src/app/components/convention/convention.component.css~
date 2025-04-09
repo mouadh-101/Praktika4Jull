@@ -1,0 +1,11 @@
+.btn-primary {
+  display: none; /* Cela masquerait le bouton */
+}
+.modal-footer button {
+  visibility: hidden; /* Cela masquerait tous les boutons dans le footer */
+}
+
+.modal-footer .btn-primary {
+  display: block !important;
+  visibility: visible !important;
+}

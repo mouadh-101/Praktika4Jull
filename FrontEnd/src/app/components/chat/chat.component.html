@@ -1,0 +1,48 @@
+<div class="chat-container">
+  <!-- Panneau des utilisateurs à gauche -->
+  <div class="user-list" [ngClass]="{ 'opened': isUserListOpen }">
+    <!-- Bouton pour ouvrir/fermer la liste -->
+    <button class="toggle-btn" (click)="toggleUserList()">
+      {{ isUserListOpen ? '-' : '+' }}
+    </button>
+
+    <!-- Affichage de la liste des utilisateurs lorsque le panneau est ouvert -->
+    <div *ngIf="isUserListOpen">
+      <div *ngFor="let user of users" (click)="selectReceiver(user.userId)">
+        <div class="user">
+          <p>{{ user.name }} - <span [ngClass]="user.isOnline ? 'text-success' : 'text-muted'">
+            {{ user.isOnline ? '🟢 En ligne' : '🔴 Dernière connexion' }}
+          </span></p>
+          <div *ngIf="usersLastSeen[user.userId] !== 'Online'" class="offline-status">
+            Last seen: {{ usersLastSeen[user.userId] }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fenêtre de discussion à droite de la liste des utilisateurs -->
+  <div class="chat-box" *ngIf="receiverId">
+    <div class="chat-header">
+      <button class="close-btn" (click)="closeChat()">Close</button>
+      <div>{{ receiverName }}</div>
+    </div>
+
+    <div class="messages">
+      <div *ngFor="let msg of messages">
+        <div [class]="msg.senderId === senderId ? 'sent' : 'received'">
+          <p [innerHTML]="msg.content"></p>
+        </div>
+      </div>
+      <!-- Indicateur de "Typing" -->
+      <div class="typing-indicator" *ngIf="isTyping">
+        ✍️ {{ typingUser }} est en train d'écrire...
+      </div>
+    </div>
+
+    <div class="message-input">
+      <input [(ngModel)]="content" placeholder="Type a message..." (keydown)="onTyping()" />
+      <button (click)="send()">Send</button>
+    </div>
+  </div>
+</div>
