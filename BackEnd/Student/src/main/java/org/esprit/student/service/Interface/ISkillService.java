@@ -1,6 +1,7 @@
 package org.esprit.student.service.Interface;
 
 import org.esprit.student.controller.dto.CourseDto;
+import org.esprit.student.controller.dto.SkillStudentCountDTO;
 import org.esprit.student.entity.Education;
 import org.esprit.student.entity.Skill;
 
@@ -15,4 +16,5 @@ public interface ISkillService {
     Skill disAffecterSkill(Long id, String idS);
     List<Skill> find10Skill(String id);
     List<CourseDto> searchUdemyCourses(String userId);
+    List<SkillStudentCountDTO> getStudentCountPerSkill();
 }

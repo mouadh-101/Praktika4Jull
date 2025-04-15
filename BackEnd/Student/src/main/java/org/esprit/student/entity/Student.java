@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,6 +26,8 @@ public class Student {
     List<Education> educations;
     @OneToMany(mappedBy = "student",cascade = CascadeType.ALL)
     List<WorkExperience> workExperiences;
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Application> applications = new ArrayList<>();
 
     public String getUserId() {
         return userId;
@@ -98,5 +101,11 @@ public class Student {
         this.workExperiences = workExperiences;
     }
 
+    public List<Application> getApplications() {
+        return applications;
+    }
 
+    public void setApplications(List<Application> applications) {
+        this.applications = applications;
+    }
 }

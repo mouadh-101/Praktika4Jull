@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Internship } from 'src/app/models/internship';
 import { FavoriService } from 'src/app/services/favori.service';
 import { InternshipService } from 'src/app/services/internship.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AddApplicationDialogComponent } from '../add-application/add-application.component';
 
 @Component({
   selector: 'app-internship-details',
@@ -12,7 +14,7 @@ import { InternshipService } from 'src/app/services/internship.service';
 export class InternshipDetailsComponent implements OnInit {
   internship!: Internship;
   isFavori: boolean = false; // Variable pour suivre l'état du favori
- constructor(private route: ActivatedRoute,private internshipService: InternshipService,private favorisService:FavoriService ) {}
+ constructor(private route: ActivatedRoute,private internshipService: InternshipService,private favorisService:FavoriService,private dialog: MatDialog ) {}
 
  ngOnInit(): void {
   const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -85,4 +87,22 @@ addFavori() {
 goBack(): void {
   window.history.back();
 }
+
+onApplyClicked(id:number)
+{
+  const dialogRef = this.dialog.open(AddApplicationDialogComponent, {
+    width: '500px', // Set the width of the dialog
+    data: { id } // Pass the internshipId to the dialog
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      console.log('Application submitted successfully');
+    } else {
+      console.log('Application canceled');
+    }
+  });
+}
+
+
 }

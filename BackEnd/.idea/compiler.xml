@@ -38,7 +38,7 @@
       <module name="config-server" options="-parameters" />
       <module name="discovery" options="-parameters" />
       <module name="gatew" options="-parameters" />
-      <module name="intershipproccess" options="" />
+      <module name="intershipproccess" options="-parameters" />
       <module name="microserviceInterview" options="-parameters" />
       <module name="springProject2" options="-parameters" />
       <module name="tpFoyer-17" options="-parameters" />

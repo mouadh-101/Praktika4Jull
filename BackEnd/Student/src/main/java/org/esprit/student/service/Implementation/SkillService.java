@@ -3,6 +3,7 @@ package org.esprit.student.service.Implementation;
 
 import lombok.extern.slf4j.Slf4j;
 import org.esprit.student.controller.dto.CourseDto;
+import org.esprit.student.controller.dto.SkillStudentCountDTO;
 import org.esprit.student.entity.Skill;
 import org.esprit.student.entity.Student;
 import org.esprit.student.repository.SkillRepository;
@@ -158,4 +159,10 @@ public class SkillService implements ISkillService {
         System.out.println("Total valid courses found: " + courses.size());
         return courses;
     }
+
+    @Override
+    public List<SkillStudentCountDTO> getStudentCountPerSkill()  {
+        return skillRepository.countStudentsPerSkill();
+    }
+
 }

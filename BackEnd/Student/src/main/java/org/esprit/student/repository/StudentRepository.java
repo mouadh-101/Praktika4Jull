@@ -13,6 +13,8 @@ public interface StudentRepository extends JpaRepository<Student,String> {
 
         @Query("SELECT s.name FROM Skill s JOIN s.students st WHERE st.userId = :userId")
         List<String> findSkillNamesByStudentId(String userId);
+        @Query("SELECT s.fieldOfStudy, COUNT(w) FROM Student s JOIN s.workExperiences w GROUP BY s.fieldOfStudy ORDER BY COUNT(w) DESC")
+        List<Object[]> getTopFieldsWithInternships();
 
 
 }

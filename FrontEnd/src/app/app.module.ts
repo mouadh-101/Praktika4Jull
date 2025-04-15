@@ -49,6 +49,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ExportCvComponent } from './components/export-cv/export-cv.component';
 import { WebsocketComponent } from './components/websocket/websocket.component';
+import { AddApplicationComponent } from './components/add-application/add-application.component';
 
 
 @NgModule({
@@ -81,7 +82,8 @@ import { WebsocketComponent } from './components/websocket/websocket.component';
     WorkExpComponent,
     ProfileUpdateComponent,
     ExportCvComponent,
-    WebsocketComponent
+    WebsocketComponent,
+    AddApplicationComponent
 
   ],
   imports: [

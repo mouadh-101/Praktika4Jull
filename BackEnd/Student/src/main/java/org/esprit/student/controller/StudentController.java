@@ -78,6 +78,12 @@ public class StudentController {
     public void exportPdf(@RequestBody UserDto user, @RequestHeader("userId") String userId, HttpServletResponse response,@PathVariable("template") String template) {
         studentService.exportPdf(response, user, userId,template);
     }
+
+    @GetMapping("/TopFields")
+    public List<Object[]> getTopFieldsWithInternships()
+    {
+        return studentService.getTopFieldsWithInternships();
+    }
 }
 
 

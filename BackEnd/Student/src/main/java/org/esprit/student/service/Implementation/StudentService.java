@@ -92,6 +92,11 @@ public class StudentService implements IStudentService {
         }
     }
 
+    @Override
+    public List<Object[]> getTopFieldsWithInternships() {
+        return studentRepository.getTopFieldsWithInternships();
+    }
+
     private byte[] generatePdfFromHtml(String htmlContent) throws Exception {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ITextRenderer renderer = new ITextRenderer();
@@ -106,5 +111,6 @@ public class StudentService implements IStudentService {
     public List<String> getAllSkillsNames(String userId) {
         return studentRepository.findSkillNamesByStudentId(userId);
     }
+
 
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -50,6 +51,11 @@ public class EducationService implements IEducationService {
     @Override
     public Education getEducation(Long id) {
         return educationRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<Object[]> getMostCommonEducation() {
+        return educationRepository.getMostCommonEducation();
     }
 
 }

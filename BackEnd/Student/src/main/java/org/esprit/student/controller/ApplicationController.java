@@ -1,45 +1,47 @@
 package org.esprit.student.controller;
 
+import org.esprit.student.controller.dto.ApplicationDto;
+import org.esprit.student.entity.Application;
 import org.esprit.student.entity.Education;
-import org.esprit.student.entity.Student;
 import org.esprit.student.repository.StudentRepository;
+import org.esprit.student.service.Interface.IApplicationService;
 import org.esprit.student.service.Interface.IEducationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
-@RequestMapping("/api/Student/Edu")
+@RequestMapping("/api/Student/App")
 @PreAuthorize("isAuthenticated()")
-public class EducationController {
+public class ApplicationController {
     @Autowired
-    IEducationService educationService;
-    @Autowired
-    StudentRepository studentRepository;
-    @PostMapping
-    public Education addeducation(@RequestBody Education education, @RequestHeader("userId") String id) {
-        return educationService.addEducation(education,id);
+    IApplicationService applicationService;
+    @PostMapping("/{id}")
+    Application addApplication(@RequestBody Application application, @RequestHeader("userId") String userId , @PathVariable("id") int internshipId)
+    {
+        return applicationService.addApplication(application,userId,internshipId);
     }
     @PutMapping("/{id}")
-    public Education updateeducation(@PathVariable("id") Long id,@RequestBody Education education) {
-        return educationService.updateEducation(id,education);
+    Application updateApplication(@PathVariable("id") Long id,@RequestBody Application application)
+    {
+        return applicationService.updateApplication(id,application);
     }
-
     @DeleteMapping("/{id}")
-    public void deleteeducation(@PathVariable("id")Long id) {
-        educationService.deleteEducation(id);
+    void deleteApplication(@PathVariable("id") Long id)
+    {
+        applicationService.deleteApplication(id);
     }
-
     @GetMapping("/{id}")
-    public Education geteducation(@PathVariable("id")Long id) {
-        return educationService.getEducation(id);
+    ApplicationDto getApplication(@PathVariable("id") Long id)
+    {
+        return applicationService.getApplication(id);
     }
-    @GetMapping("/MostCommonEducation")
-    public List<Object[]> getMostCommonEducation() {
-        return educationService.getMostCommonEducation();
+    @GetMapping
+    List<ApplicationDto> getStudentApplication(@RequestHeader("userId") String userId)
+    {
+        return applicationService.getStudentApplication(userId);
     }
 
 }
