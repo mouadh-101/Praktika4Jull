@@ -6,7 +6,6 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
-
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
@@ -55,9 +54,10 @@ import { AuthGuard } from './guards/auth.guard';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ExportCvComponent } from './components/export-cv/export-cv.component';
 import { WebsocketComponent } from './components/websocket/websocket.component';
+
 import { ChatComponent } from './components/chat/chat.component';
 import { VideoCallComponent } from './components/video-call/video-call.component';
-
+import { AddApplicationDialogComponent } from './components/add-application/add-application.component';
 
 
 @NgModule({
@@ -93,11 +93,11 @@ import { VideoCallComponent } from './components/video-call/video-call.component
     WorkExpComponent,
     ProfileUpdateComponent,
     ExportCvComponent,
-    WebsocketComponent,
     ChatComponent,
     VideoCallComponent,
+    AddApplicationDialogComponent
   ],
-  imports:[
+  imports: [
     ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,

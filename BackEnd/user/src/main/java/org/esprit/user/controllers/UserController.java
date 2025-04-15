@@ -4,6 +4,7 @@ import jakarta.ws.rs.Path;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.esprit.user.controllers.Dto.UserStatisticDTO;
 import org.esprit.user.entities.LoginRequest;
 import org.esprit.user.entities.User;
 import org.esprit.user.repositories.UserRepository;
@@ -58,6 +59,10 @@ public class UserController {
     @GetMapping("/userEmail/{userId}")
     public String getUserEmail(@PathVariable("userId") String userId){
         return userService.getUserEmail(userId);
+    }
+    @GetMapping("/statistics")
+    public UserStatisticDTO getUserStatistics() {
+        return userService.getUserStatistics();
     }
     @GetMapping("/userIdByemail/{email}")
     public String getUserId(@PathVariable("email")String email){

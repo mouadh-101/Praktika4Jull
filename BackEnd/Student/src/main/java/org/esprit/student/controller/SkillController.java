@@ -1,6 +1,7 @@
 package org.esprit.student.controller;
 
 import org.esprit.student.controller.dto.CourseDto;
+import org.esprit.student.controller.dto.SkillStudentCountDTO;
 import org.esprit.student.entity.Skill;
 import org.esprit.student.entity.Student;
 import org.esprit.student.repository.StudentRepository;
@@ -56,6 +57,10 @@ public class SkillController{
     @GetMapping("/enhancer")
     public ResponseEntity<List<CourseDto>> getCourses(@RequestHeader String userId) {
         return ResponseEntity.ok(skillService.searchUdemyCourses(userId));
+    }
+    @GetMapping("/student-count")
+    public List<SkillStudentCountDTO> getStudentCountPerSkill() {
+        return skillService.getStudentCountPerSkill();
     }
 
 

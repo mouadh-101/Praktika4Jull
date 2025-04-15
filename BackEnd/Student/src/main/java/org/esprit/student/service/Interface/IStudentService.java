@@ -18,4 +18,5 @@ public interface IStudentService {
     ResponseEntity<Student> getStudent(String id);
     List<String> getAllSkillsNames(String userId);
     void exportPdf(HttpServletResponse response, UserDto user, String userId,String template);
+    List<Object[]> getTopFieldsWithInternships();
 }

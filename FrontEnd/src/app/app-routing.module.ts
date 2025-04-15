@@ -29,7 +29,6 @@ import { WebsocketComponent } from './components/websocket/websocket.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { VideoCallComponent } from './components/video-call/video-call.component';
 
-
 const routes: Routes = [
   { path: 'sign-in', component: SignInComponent },
   { path: 'sign-up', component: SignUpComponent },
@@ -56,7 +55,6 @@ const routes: Routes = [
     path: 'video-call',
     component: VideoCallComponent
   },
-  
 
   { path: 'terms', component: TermsComponent },
   { path: 'terms/:id', component: TermDetailComponent },
@@ -69,3 +67,6 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+
+
+

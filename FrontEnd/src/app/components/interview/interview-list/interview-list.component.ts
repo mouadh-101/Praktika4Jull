@@ -62,36 +62,46 @@ export class InterviewListComponent implements OnInit {
 
 
 
- exportToPDF(): void {
-  const doc = new jsPDF();
+  exportToPDF(): void {
+    const doc = new jsPDF();
 
-  // Ajouter un titre
-  doc.setFontSize(18);
-  doc.text("Liste des Interviews", 10, 10);
+    // Ajouter un titre
+    doc.setFontSize(18);
+    doc.text("Liste des Interviews", 10, 10);
 
-  // Définir les colonnes et les lignes du tableau
-  const colHeaders = ["ID", "Date", "Lieu", "Notes", "Statut"];
-  const rowData = this.interviews.map(interview => [
-    interview.interviewId || "-", // Gérer le cas où l'ID est undefined
-    interview.dateInterview || "-",
-    interview.location || "-",
-    interview.notes || "-",
-    interview.status || "-",
-  ]);
+    // Ajouter la date de création
+    const date = new Date().toLocaleDateString();
+    doc.setFontSize(12);
+    doc.text("Date de création: " + date, 10, 20);
 
-  // Générer le tableau
-  autoTable(doc, {
-    head: [colHeaders],
-    body: rowData,
-    startY: 20,
-  });
+    // Définir les colonnes et les lignes du tableau
+    const colHeaders = ["ID", "Date", "Lieu", "Notes", "Statut"];
+    const rowData = this.interviews.map(interview => [
+      interview.interviewId || "-", // Gérer le cas où l'ID est undefined
+      interview.dateInterview || "-",
+      interview.location || "-",
+      interview.notes || "-",
+      interview.status || "-",
+    ]);
 
-  // Récupérer le nombre de pages après l'ajout du tableau
-  const pageCount = doc.internal.pages.length;
+    // Générer le tableau
+    autoTable(doc, {
+      head: [colHeaders],
+      body: rowData,
+      startY: 30, // Ajuster en fonction de la place pour la date
+      didDrawPage: (data) => {
+        // Ajouter le numéro de page à chaque page
+        const pageCount = doc.internal.pages.length;
+        const currentPage = data.pageNumber;
+        doc.setFontSize(10);
+        doc.text(`Page ${currentPage} sur ${pageCount}`, data.settings.margin.left, doc.internal.pageSize.height - 10);
+      }
+    });
 
-  // Télécharger le fichier PDF
-  doc.save("Interviews.pdf");
-}
+    // Télécharger le fichier PDF
+    doc.save("Interviews.pdf");
+  }
+
 
 
 

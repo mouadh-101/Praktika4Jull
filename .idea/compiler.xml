@@ -11,8 +11,8 @@
         <module name="gatew" />
         <module name="discovery" />
         <module name="MicroserviceDocument" />
-        <module name="intershipproccess" />
         <module name="microserviceInterview" />
+        <module name="intershipproccess" />
         <module name="Gestion_convention" />
       </profile>
       <profile name="Annotation profile for Student" enabled="true">
