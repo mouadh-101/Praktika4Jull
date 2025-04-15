@@ -17,6 +17,10 @@ spring:
           uri: lb://student-service
           predicates:
             - Path=/api/Student/**
+        - id: convention-service
+          uri: lb://convention-service
+          predicates:
+            - Path=/api/conventions/**
         - id: internship-server
           uri: lb://internship-server
           predicates:
@@ -33,7 +37,6 @@ spring:
           uri: lb://Document-server
           predicates:
             - Path=/api/Document/**
-
 
 eureka:
   instance:

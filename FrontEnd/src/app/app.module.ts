@@ -21,6 +21,11 @@ import { UseTabComponent } from './components/use-tab/use-tab.component';
 import { StudentProfileComponent } from './components/studentProfile/studentProfile.component';
 import { SkillComponent } from './components/skill/skill.component';
 import { EducationComponent } from './components/education/education.component';
+
+import { TermsComponent } from './components/terms/terms.component';
+import { TermDetailComponent } from './components/term-detail/term-detail.component';
+import { ConventionDetailComponent } from './components/convention-detail/convention-detail.component';
+import {MatPaginatorModule} from "@angular/material/paginator";
 import { UpdateInternshipComponent } from './components/update-internship/update-internship.component';
 import { AddInternshipComponent } from './components/add-internship/add-internship.component';
 import { InternshipDetailsComponent } from './components/internship-details/internship-details.component';
@@ -50,6 +55,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { ExportCvComponent } from './components/export-cv/export-cv.component';
 import { WebsocketComponent } from './components/websocket/websocket.component';
 import { AddApplicationComponent } from './components/add-application/add-application.component';
+import { ChatComponent } from './components/chat/chat.component';
+import { VideoCallComponent } from './components/video-call/video-call.component';
 
 
 @NgModule({
@@ -63,6 +70,9 @@ import { AddApplicationComponent } from './components/add-application/add-applic
     StudentProfileComponent,
     SkillComponent,
     EducationComponent,
+    TermsComponent,
+    TermDetailComponent,
+    ConventionDetailComponent,
     UpdateInternshipComponent,
     AddInternshipComponent,
     InternshipDetailsComponent,
@@ -83,7 +93,10 @@ import { AddApplicationComponent } from './components/add-application/add-applic
     ProfileUpdateComponent,
     ExportCvComponent,
     WebsocketComponent,
-    AddApplicationComponent
+    AddApplicationComponent,
+    ChatComponent,
+    VideoCallComponent,
+
 
   ],
   imports: [
@@ -97,6 +110,7 @@ import { AddApplicationComponent } from './components/add-application/add-applic
     MatInputModule,
     MatIconModule,
     MatDialogModule,
+    MatPaginatorModule,
     FormsModule,
     NgbModule,
     NgxPaginationModule,
@@ -105,7 +119,6 @@ import { AddApplicationComponent } from './components/add-application/add-applic
     CalendarModule.forRoot({ provide: DateAdapter, useClass: MatNativeDateModule }),
     BrowserAnimationsModule,
     MatButtonModule
-    
   ],
   providers: [
     {

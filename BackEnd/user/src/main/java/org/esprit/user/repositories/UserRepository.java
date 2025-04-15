@@ -12,9 +12,9 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
+
     //forchat
     Optional<User> findByEmail(String email);
-
     //for internship
     @Query("SELECT u.userId FROM User u")
     List<String> findAllUserIds();
@@ -26,7 +26,8 @@ public interface UserRepository extends JpaRepository<User, String> {
             "FROM User u")
     UserStatisticDTO getUserStatistics();
 
-
+    @Query("SELECT u.userId FROM User u WHERE u.email = :email")
+    String findUserIdByEmail(String email);
 
 
 }

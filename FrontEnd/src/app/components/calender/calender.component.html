@@ -1,15 +1,38 @@
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-
-
-
-<div class="full-calendar-container">
+<div class="calendar-container">
   <full-calendar [options]="calendarOptions"></full-calendar>
 </div>
 
+<!-- Bouton pour afficher le formulaire -->
+<button (click)="showForm = !showForm" *ngIf="!showForm" class="btn btn-primary">
+  Ajouter une interview
+</button>
 
+<!-- Formulaire -->
+<div class="interview-form-container" *ngIf="showForm">
+  <h3>{{ selectedInterview ? 'Modifier l\'interview' : 'Ajouter une interview' }}</h3>
+
+  <form [formGroup]="interviewForm" (ngSubmit)="saveInterview()">
+    <label>Date :</label>
+    <input type="date" formControlName="dateInterview" required />
+
+    <label>Lieu :</label>
+    <input type="text" formControlName="location" required />
+
+    <label>Notes :</label>
+    <textarea formControlName="notes"></textarea>
+
+    <label>Statut :</label>
+    <select formControlName="status">
+      <option value="SCHEDULED">SCHEDULED</option>
+      <option value="COMPLETED">COMPLETED</option>
+      <option value="CANCELED">CANCELED</option>
+    </select>
+
+    <button type="submit">{{ selectedInterview ? 'Modifier' : 'Ajouter' }}</button>
+    <button type="button" (click)="closeForm()">Annuler</button>
+  </form>
+
+  <button *ngIf="selectedInterview" (click)="deleteInterview(selectedInterview.interviewId!)" class="delete-button">
+    Supprimer l'interview
+  </button>
+</div>

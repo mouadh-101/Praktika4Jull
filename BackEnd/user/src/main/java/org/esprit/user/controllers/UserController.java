@@ -64,5 +64,10 @@ public class UserController {
     public UserStatisticDTO getUserStatistics() {
         return userService.getUserStatistics();
     }
+    @GetMapping("/userIdByemail/{email}")
+    public String getUserId(@PathVariable("email")String email){
+        return userService.getUserId(email);
+    }
+
 
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { InterviewService } from 'src/app/services/interview.service';
+import emailjs from '@emailjs/browser';
 
 @Component({
   selector: 'app-interview-add',
@@ -11,6 +12,7 @@ import { InterviewService } from 'src/app/services/interview.service';
 export class InterviewAddComponent implements OnInit {
   interviewForm!: FormGroup;
   minDate: string = '';
+
   constructor(
     private fb: FormBuilder,
     private interviewService: InterviewService,
@@ -46,9 +48,32 @@ export class InterviewAddComponent implements OnInit {
     if (this.interviewForm.invalid) {
       return;
     }
+
+    // Ajouter l'interview à la base de données
     this.interviewService.addInterview(this.interviewForm.value).subscribe(() => {
+
+      // Après l'ajout réussi, envoyer un email
+      this.sendEmail(this.interviewForm.value);
+
+      // Redirection vers la liste des interviews
       this.router.navigate(['/interviews']);
     });
+  }
+
+  sendEmail(interviewData: any): void {
+    const templateParams = {
+      to_email: "hedi.latrache@esprit.tn",  // Remplace par l'email du candidat
+      subject: "Nouvelle Interview Planifiée",
+      message: `Votre interview est prévue le ${interviewData.dateInterview} à ${interviewData.location}. Notes: ${interviewData.notes}`
+    };
+
+    emailjs.send('service_id', 'template_id', templateParams, 'user_id')
+      .then(() => {
+        console.log('✅ Email envoyé avec succès !');
+      })
+      .catch((error) => {
+        console.error('❌ Erreur lors de l\'envoi de l\'email:', error);
+      });
   }
 
   cancel(): void {

@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
   private apiUrl = 'http://localhost:8222/auth'; 
+  private userLastSeenUrl = 'http://localhost:8222/api/internships/user-last-seen';
 
   constructor(private http: HttpClient) {}
 
@@ -16,6 +17,7 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/login`, { email, password });
   }
   signUp(){}
+  
   isLoggedIn():boolean{
     if(localStorage.getItem('token'))
       return true;
@@ -39,6 +41,14 @@ export class AuthService {
   {
     return localStorage.getItem('token');
   }
-
+  //for internship 
+  updateLastSeen(userId: string): Observable<any> {
+    return this.http.put(`${this.userLastSeenUrl}/${userId}`, {});
+  }
+ 
+  getLastSeen(userId: string): Observable<string> { // 🔥 Remplace LocalDateTime par string
+    return this.http.get<string>(`${this.userLastSeenUrl}/${userId}`);
+  }
+  
 
 }

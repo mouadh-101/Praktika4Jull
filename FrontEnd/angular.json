@@ -14,7 +14,6 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/praktika",
-            "allowedCommonJsDependencies": ["sockjs-client"],
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -27,6 +26,8 @@
               "src/assets"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/styles.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css",
@@ -35,7 +36,6 @@
             ],
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
-
             ]
           },
           "configurations": {
@@ -93,7 +93,6 @@
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               "src/favicon.ico"
-
             ],
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",

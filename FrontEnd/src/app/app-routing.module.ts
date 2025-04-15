@@ -4,6 +4,11 @@ import { SignInComponent } from './components/sign-in/sign-in.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { UseTabComponent } from './components/use-tab/use-tab.component';
 import { StudentProfileComponent } from './components/studentProfile/studentProfile.component';
+import {TermDetailComponent} from "./components/term-detail/term-detail.component";
+import {TermsComponent} from "./components/terms/terms.component";
+import {ConventionDetailComponent} from "./components/convention-detail/convention-detail.component";
+
+
 import { InternshipComponent } from './components/internship/internship.component';
 import { AddInternshipComponent } from './components/add-internship/add-internship.component';
 import { UpdateInternshipComponent } from './components/update-internship/update-internship.component';
@@ -21,6 +26,8 @@ import { AddDocumentComponent } from './components/Document/AddDocument/AddDocum
 import { UpdateDocumentComponent } from './components/Document/updateDocument/updateDocument.component';
 import { DocumentBackComponent } from './components/Document/DocumentBack/DocumentBack.component';
 import { WebsocketComponent } from './components/websocket/websocket.component';
+import { ChatComponent } from './components/chat/chat.component';
+import { VideoCallComponent } from './components/video-call/video-call.component';
 
 const routes: Routes = [
   { path: 'sign-in', component: SignInComponent },
@@ -43,6 +50,15 @@ const routes: Routes = [
   { path: 'internships/details/:id', component: InternshipDetailsComponent,canActivate: [AuthGuard]  },
   { path: 'favoris', component: FavorisComponent },
   { path: 'chat', component: WebsocketComponent},
+  { path: 'chatapp', component: ChatComponent},
+  {
+    path: 'video-call',
+    component: VideoCallComponent
+  },
+
+  { path: 'terms', component: TermsComponent },
+  { path: 'terms/:id', component: TermDetailComponent },
+  { path: 'conventions/:id', component: ConventionDetailComponent },
   { path: '', redirectTo: '/', pathMatch: 'full' }
 ];
 
@@ -51,3 +67,6 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+
+
+

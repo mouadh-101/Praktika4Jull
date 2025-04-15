@@ -1,0 +1,39 @@
+package tn.esprit.gestion_convention.services;
+
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+import java.io.IOException;
+
+@Service
+@AllArgsConstructor
+public class EmailService implements EmailService {
+    @Autowired
+    private final JavaMailSender mailSender;
+
+    public void sendEmailWithAttachment(String to, String from, String subject, MultipartFile file) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+            helper.setTo(to);
+            helper.setFrom(from);
+            helper.setSubject(subject);
+            helper.setText("Veuillez trouver en pièce jointe le document.");
+
+            // Attacher le fichier
+            helper.addAttachment(file.getOriginalFilename(), new ByteArrayResource(file.getBytes()));
+
+            mailSender.send(message);
+        } catch (MessagingException | IOException e) {
+            e.printStackTrace(); // Vous pouvez gérer l'exception comme vous le souhaitez
+        }
+    }
+}
