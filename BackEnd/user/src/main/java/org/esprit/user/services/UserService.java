@@ -2,6 +2,7 @@ package org.esprit.user.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.esprit.user.controllers.Dto.UserStatisticDTO;
 import org.esprit.user.entities.User;
 import org.esprit.user.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,5 +55,8 @@ public class UserService {
         }
 
         return null;
+    }
+    public UserStatisticDTO getUserStatistics() {
+        return userRepository.getUserStatistics();
     }
 }

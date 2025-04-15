@@ -1,6 +1,7 @@
 package org.esprit.user.repositories;
 
 
+import org.esprit.user.controllers.Dto.UserStatisticDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.esprit.user.entities.User;
 import org.springframework.data.jpa.repository.Query;
@@ -19,6 +20,11 @@ public interface UserRepository extends JpaRepository<User, String> {
     List<String> findAllUserIds();
     @Query("SELECT u.email FROM User u WHERE u.userId = :userId")
     String findEmailByUserId(String userId);
+    @Query("SELECT COUNT(CASE WHEN u.role = 'STUDENT' THEN 1 END) AS studentCount, " +
+            "COUNT(CASE WHEN u.role = 'COMPANY' THEN 1 END) AS companyCount, " +
+            "COUNT(u.id) AS totalUsers " +
+            "FROM User u")
+    UserStatisticDTO getUserStatistics();
 
     @Query("SELECT u.userId FROM User u WHERE u.email = :email")
     String findUserIdByEmail(String email);

@@ -1,5 +1,6 @@
 package org.esprit.student.repository;
 
+import org.esprit.student.controller.dto.SkillStudentCountDTO;
 import org.esprit.student.entity.Education;
 import org.esprit.student.entity.Skill;
 import org.esprit.student.entity.Student;
@@ -19,5 +20,9 @@ public interface SkillRepository extends JpaRepository<Skill,Long> {
     List<Skill> findTop10UnassignedSkills(@Param("userId") String userId);
     @Query("SELECT s FROM Skill s WHERE s.id IN (SELECT us.id FROM Student st JOIN st.skills us WHERE st.userId = :userId)")
     List<Skill> findSkillsByUserId(@Param("userId") String userId);
+    @Query("SELECT s.name AS skillName, COUNT(su.userId) AS studentCount " +
+            "FROM Skill s LEFT JOIN s.students su " +
+            "GROUP BY s.id")
+    List<SkillStudentCountDTO> countStudentsPerSkill();
 
 }

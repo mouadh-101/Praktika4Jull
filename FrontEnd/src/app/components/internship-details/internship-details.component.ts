@@ -4,9 +4,10 @@ import * as bootstrap from 'bootstrap';
 import { Internship } from 'src/app/models/internship';
 import { FavoriService } from 'src/app/services/favori.service';
 import { InternshipService } from 'src/app/services/internship.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AddApplicationDialogComponent } from '../add-application/add-application.component';
 import { UserService } from 'src/app/services/user.service';
 import { ChatService } from '../../services/chat.service';
-
 @Component({
   selector: 'app-internship-details',
   templateUrl: './internship-details.component.html',
@@ -14,12 +15,12 @@ import { ChatService } from '../../services/chat.service';
 })
 export class InternshipDetailsComponent implements OnInit {
   internship!: Internship;
-  isFavori: boolean = false; 
-  users: any[] = []; 
+  isFavori: boolean = false; // Variable pour suivre l'état du favori
+  users: any[] = [];
   selectedUserId: string = ''; // ID du stagiaire sélectionné
   userId!:string;
 
- constructor(private route: ActivatedRoute,private internshipService: InternshipService,private favorisService:FavoriService,private userService:UserService ,private chatService : ChatService) {}
+ constructor(private route: ActivatedRoute,private internshipService: InternshipService,private favorisService:FavoriService,private userService:UserService ,private chatService : ChatService,dialog: MatDialog ) {}
 
  ngOnInit(): void {
   const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -33,7 +34,7 @@ export class InternshipDetailsComponent implements OnInit {
    this.getUserid();
    this.checkFavori(this.userId, this.internship.id);
 
-   
+
 }
 
 
@@ -75,7 +76,7 @@ sendInternshipMessage(): void {
   }
   const internshipUrl = `https://ton-site.com/internship/${this.internship.id}`;
   const messageData = {
-    senderId: this.userId, 
+    senderId: this.userId,
     receiverId: this.selectedUserId,
     content: `Je te recommande ce stage : **${this.internship.titre}** chez **${this.internship.company?.description}**.\n
               📍 Lieu : ${this.internship.location}\n
@@ -127,7 +128,7 @@ this.favorisService.removeFavori(Number(this.route.snapshot.paramMap.get('id')))
   console.error("❌ Erreur lors de la suppression :", error);
 });
 
-     
+
   } else {
     // Ajouter le favori
     this.favorisService.addFavoris(this.internship.id).subscribe(
@@ -161,4 +162,22 @@ addFavori() {
 goBack(): void {
   window.history.back();
 }
+
+onApplyClicked(id:number)
+{
+  const dialogRef = this.dialog.open(AddApplicationDialogComponent, {
+    width: '500px', // Set the width of the dialog
+    data: { id } // Pass the internshipId to the dialog
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      console.log('Application submitted successfully');
+    } else {
+      console.log('Application canceled');
+    }
+  });
+}
+
+
 }

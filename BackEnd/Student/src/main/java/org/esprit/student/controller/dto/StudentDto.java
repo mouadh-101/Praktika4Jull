@@ -1,2 +1,5 @@
-package org.esprit.student.controller.dto;public class StudentDto {
+package org.esprit.student.controller.dto;
+
+public class StudentDto {
+    String userId;
 }

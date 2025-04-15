@@ -8,6 +8,9 @@ import org.esprit.student.repository.StudentRepository;
 import org.esprit.student.service.Interface.IEducationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.http.ResponseEntity;
+import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -46,6 +49,11 @@ public class EducationService implements IEducationService {
     @Override
     public Education getEducation(Long id) {
         return educationRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<Object[]> getMostCommonEducation() {
+        return educationRepository.getMostCommonEducation();
     }
 
 }
