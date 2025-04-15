@@ -1,5 +1,6 @@
 package org.esprit.student.controller;
 
+import org.esprit.student.controller.dto.ASIDto;
 import org.esprit.student.controller.dto.ApplicationDto;
 import org.esprit.student.entity.Application;
 import org.esprit.student.entity.Education;
@@ -42,6 +43,10 @@ public class ApplicationController {
     List<ApplicationDto> getStudentApplication(@RequestHeader("userId") String userId)
     {
         return applicationService.getStudentApplication(userId);
+    }
+    @GetMapping("/asi/{id}")
+    public ASIDto getASI(@PathVariable Long id) {
+        return applicationService.getASI(id);
     }
 
 }

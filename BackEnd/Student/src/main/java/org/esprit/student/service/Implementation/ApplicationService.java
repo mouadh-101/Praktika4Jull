@@ -2,6 +2,7 @@ package org.esprit.student.service.Implementation;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.esprit.student.controller.dto.ASIDto;
 import org.esprit.student.controller.dto.ApplicationDto;
 import org.esprit.student.controller.dto.CourseDto;
 import org.esprit.student.controller.dto.SkillStudentCountDTO;
@@ -72,5 +73,10 @@ public class ApplicationService implements IApplicationService {
             return applicationRepository.findByStudent(studentRepository.findById(userId).orElse(null));
         }
         return null;
+    }
+
+    @Override
+    public ASIDto getASI(Long id) {
+        return applicationRepository.findASIByID(id);
     }
 }

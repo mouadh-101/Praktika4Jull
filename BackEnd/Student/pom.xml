@@ -50,6 +50,11 @@
 
 		</dependency>
 		<!--- endScrapping-->
+		<!--- feing clinet -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
 		<!-- Thymeleaf for templating -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
