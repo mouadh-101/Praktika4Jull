@@ -54,9 +54,10 @@ import { AuthGuard } from './guards/auth.guard';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ExportCvComponent } from './components/export-cv/export-cv.component';
 import { WebsocketComponent } from './components/websocket/websocket.component';
-import { AddApplicationComponent } from './components/add-application/add-application.component';
+
 import { ChatComponent } from './components/chat/chat.component';
 import { VideoCallComponent } from './components/video-call/video-call.component';
+import { AddApplicationDialogComponent } from './components/add-application/add-application.component';
 
 
 @NgModule({
@@ -92,12 +93,9 @@ import { VideoCallComponent } from './components/video-call/video-call.component
     WorkExpComponent,
     ProfileUpdateComponent,
     ExportCvComponent,
-    WebsocketComponent,
-    AddApplicationComponent,
     ChatComponent,
     VideoCallComponent,
-
-
+    AddApplicationDialogComponent
   ],
   imports: [
     ReactiveFormsModule,
