@@ -6,12 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="ac5ea9f7-b7a4-4d77-bc22-933cc5304c54" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/intershipproccess/src/main/java/tn/esprit/intershipproccess/controller/ChattController.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/intershipproccess/src/main/java/tn/esprit/intershipproccess/controller/ChattController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/Student/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/Student/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/angular.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/app/app-routing.module.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FrontEnd/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/app/app.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/app/components/chat/chat.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/app/components/chat/chat.component.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/app/components/chat/chat.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/app/components/chat/chat.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/app/components/chat/chat.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/app/components/chat/chat.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/app/services/chat.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/app/services/chat.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,18 +22,25 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
 }</component>
   <component name="ProjectId" id="2tVVmbUIIHhZCCGcdBQKdQd5Uge" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -58,7 +66,7 @@
     &quot;com.codeium.enabled&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;Internship&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/TAYSSIR/Downloads/batigo-client (2)/batigo-client&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/TAYSSIR/Documents/batigo-backend/batigo-backend&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
@@ -163,6 +171,7 @@
     </configuration>
     <list>
       <item itemvalue="Application.StudentApplication" />
+      <item itemvalue="Spring Boot.UserApplication" />
       <item itemvalue="Spring Boot.ConfigServerApplication" />
       <item itemvalue="Spring Boot.DiscoveryApplication" />
       <item itemvalue="Spring Boot.GatewApplication" />
@@ -171,7 +180,6 @@
       <item itemvalue="Spring Boot.MicroserviceDocumentApplication" />
       <item itemvalue="Spring Boot.MicroserviceInterviewApplication" />
       <item itemvalue="Spring Boot.StudentApplication" />
-      <item itemvalue="Spring Boot.UserApplication" />
     </list>
     <recent_temporary>
       <list>
@@ -203,7 +211,18 @@
       <workItem from="1743552560287" duration="949000" />
       <workItem from="1743558921792" duration="51000" />
       <workItem from="1743642299739" duration="1720000" />
-      <workItem from="1743727618505" duration="3014000" />
+      <workItem from="1743727618505" duration="4287000" />
+      <workItem from="1743835074586" duration="350000" />
+      <workItem from="1743835929804" duration="56000" />
+      <workItem from="1743842332357" duration="4534000" />
+      <workItem from="1743891789882" duration="42000" />
+      <workItem from="1743898837005" duration="1393000" />
+      <workItem from="1743901391452" duration="2541000" />
+      <workItem from="1744178006423" duration="5611000" />
+      <workItem from="1744289598070" duration="1341000" />
+      <workItem from="1744396065197" duration="911000" />
+      <workItem from="1744560427440" duration="4522000" />
+      <workItem from="1744749104424" duration="356000" />
     </task>
     <servers />
   </component>
