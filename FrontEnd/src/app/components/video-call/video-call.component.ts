@@ -78,3 +78,4 @@ export class VideoCallComponent implements AfterViewInit {
     });
   }
 }
+

@@ -4,67 +4,115 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="72bf3a39-9c47-4f81-8531-6f27b86c1b88" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/BackEnd/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/.idea/BackEnd.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/.idea/dataSources.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/.idea/vcs.xml" beforeDir="false" />
+    <list default="true" id="79417fd4-e8fa-47ff-8c83-41bcc454ed3d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/controller/ApplicationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/entity/Application.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/entity/ApplicationStatus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/repository/ApplicationRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/service/Implementation/ApplicationService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/service/Interface/IApplicationService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FrontEnd/src/app/components/add-application/add-application.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FrontEnd/src/app/components/add-application/add-application.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FrontEnd/src/app/components/add-application/add-application.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FrontEnd/src/app/components/add-application/add-application.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FrontEnd/src/app/services/application.service.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FrontEnd/src/app/services/application.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/controller/EducationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/controller/EducationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/controller/SkillController.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/controller/SkillController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/controller/StudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/controller/StudentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/controller/dto/ApplicationDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/controller/dto/ApplicationDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/controller/dto/InternshipDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/controller/dto/InternshipDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/controller/dto/SkillStudentCountDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/controller/dto/SkillStudentCountDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/controller/dto/StudentDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/controller/dto/StudentDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/entity/Education.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/entity/Education.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/entity/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/entity/Student.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/repository/EducationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/repository/EducationRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/repository/SkillRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/repository/SkillRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/repository/StudentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/repository/StudentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/service/Implementation/EducationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/service/Implementation/EducationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/service/Implementation/SkillService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/service/Implementation/SkillService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/service/Implementation/StudentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/service/Implementation/StudentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/service/Interface/IEducationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/service/Interface/IEducationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/service/Interface/ISkillService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/service/Interface/ISkillService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/service/Interface/IStudentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/Student/src/main/java/org/esprit/student/service/Interface/IStudentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/user/src/main/java/org/esprit/user/controllers/Dto/UserStatisticDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/user/src/main/java/org/esprit/user/controllers/Dto/UserStatisticDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/user/src/main/java/org/esprit/user/controllers/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/user/src/main/java/org/esprit/user/controllers/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/user/src/main/java/org/esprit/user/repositories/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/user/src/main/java/org/esprit/user/repositories/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/user/src/main/java/org/esprit/user/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/user/src/main/java/org/esprit/user/services/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/app/app-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/src/app/components/calender/calender.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/app/components/calender/calender.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/src/app/components/calender/calender.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/app/components/calender/calender.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/src/app/components/calender/calender.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/app/components/calender/calender.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/src/app/components/internship-details/internship-details.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/app/components/internship-details/internship-details.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/src/app/components/internship-details/internship-details.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/app/components/internship-details/internship-details.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/src/app/components/interview/interview-add/interview-add.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/app/components/interview/interview-add/interview-add.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/src/app/components/interview/interview-list/interview-list.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/app/components/interview/interview-list/interview-list.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/src/app/components/interview/interview-list/interview-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/app/components/interview/interview-list/interview-list.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/src/app/components/video-call/video-call.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/app/components/video-call/video-call.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/src/app/components/video-call/video-call.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/app/components/video-call/video-call.component.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="KubernetesApiProvider"><![CDATA[{
-  "isMigrated": true
-}]]></component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 2
+  &quot;associatedIndex&quot;: 0
 }</component>
-  <component name="ProjectId" id="2vUxXUJdjNwD0b0oHExVi5FT2Pn" />
+  <component name="ProjectId" id="2tVVmbUIIHhZCCGcdBQKdQd5Uge" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "Student",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.configurations.included.in.services": "true",
-    "vue.rearranger.settings.migration": "true"
+    "git-widget-placeholder": "Merging Internship",
+    "ts.external.directory.path": "C:\\Users\\TAYSSIR\\Desktop\\takwapi\\integrationnew\\PraktikaIntegration\\Praktika3\\Praktika\\FrontEnd\\node_modules\\typescript\\lib"
   }
 }]]></component>
-  <component name="RunDashboard">
-    <option name="configurationTypes">
-      <set>
-        <option value="MicronautRunConfigurationType" />
-        <option value="QuarkusRunConfigurationType" />
-        <option value="SpringBootApplicationConfigurationType" />
-      </set>
-    </option>
-  </component>
   <component name="RunManager" selected="Spring Boot.GatewApplication">
+    <configuration name="ConfigServerApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="tn.esprit.configserver.ConfigServerApplication" />
+      <module name="config-server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tn.esprit.configserver.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ConfigServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="config-server" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="tn.esprit.configserver.ConfigServerApplication" />
@@ -129,6 +177,23 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.ConfigServerApplication" />
+      <item itemvalue="Spring Boot.UserApplication" />
+      <item itemvalue="Spring Boot.ConfigServerApplication" />
+      <item itemvalue="Spring Boot.DiscoveryApplication" />
+      <item itemvalue="Spring Boot.GatewApplication" />
+      <item itemvalue="Spring Boot.GestionConventionApplication" />
+      <item itemvalue="Spring Boot.IntershipproccessApplication" />
+      <item itemvalue="Spring Boot.MicroserviceDocumentApplication" />
+      <item itemvalue="Spring Boot.MicroserviceInterviewApplication" />
+      <item itemvalue="Spring Boot.StudentApplication" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.ConfigServerApplication" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -137,9 +202,28 @@
       <created>1744213495092</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1744213495092</updated>
+      <updated>1740437389134</updated>
       <workItem from="1744213496727" duration="3496000" />
-      <workItem from="1744738009721" duration="294000" />
+      <workItem from="1740437390230" duration="8000" />
+      <workItem from="1742824587410" duration="554000" />
+      <workItem from="1742826534781" duration="152000" />
+      <workItem from="1743550322218" duration="1170000" />
+      <workItem from="1743551666053" duration="29000" />
+      <workItem from="1743552560287" duration="949000" />
+      <workItem from="1743558921792" duration="51000" />
+      <workItem from="1743642299739" duration="1720000" />
+      <workItem from="1743727618505" duration="4287000" />
+      <workItem from="1743835074586" duration="350000" />
+      <workItem from="1743835929804" duration="56000" />
+      <workItem from="1743842332357" duration="4534000" />
+      <workItem from="1743891789882" duration="42000" />
+      <workItem from="1743898837005" duration="1393000" />
+      <workItem from="1743901391452" duration="2541000" />
+      <workItem from="1744178006423" duration="5611000" />
+      <workItem from="1744289598070" duration="1341000" />
+      <workItem from="1744396065197" duration="911000" />
+      <workItem from="1744560427440" duration="4522000" />
+      <workItem from="1744749104424" duration="356000" />
     </task>
     <servers />
   </component>
