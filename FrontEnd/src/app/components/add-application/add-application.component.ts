@@ -10,6 +10,7 @@ import { ApplicationService } from 'src/app/services/application.service';
 })
 export class AddApplicationDialogComponent {
   applicationForm!: FormGroup;
+  editMode: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -32,8 +33,8 @@ export class AddApplicationDialogComponent {
 
       // Pass the internshipId along with the application data
       this.applicationService.addApplication(applicationData, this.data.internshipId).subscribe({
-        next: () => {
-          this.dialogRef.close(true); // Close the dialog after successful submission
+        next: (response) => {
+          this.dialogRef.close(true); // Success
         },
         error: (error) => {
           console.error('Error submitting application:', error);

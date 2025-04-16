@@ -1,0 +1,57 @@
+<br><br><br><br>
+
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Application Listings</h2>
+  
+  <!-- If user is a student, show their applications -->
+  <div class="row justify-content-center" *ngIf="userRole === 'Student'">
+    <div class="col-md-12">
+      <div class="d-flex justify-content-center flex-wrap">
+        <div *ngFor="let application of applications | paginate: { itemsPerPage: 5, currentPage: p }" class="application-card">
+          <div class="card" (click)="viewApplicationDetails(application.id)" style="cursor: pointer;">
+            <div class="card-body">
+              <h5 class="fw-bold">{{ application.internship?.titre }}</h5>
+              <p>{{ application.internship?.company?.name }}</p>
+              <p><strong>Status:</strong> {{ application.status }}</p>
+              <p><strong>Applied On:</strong> {{ application.appliedDate | date }}</p>
+
+              <div class="d-flex justify-content-end">
+                <button class="btn btn-link text-muted" (click)="viewApplicationDetails(application.id)">
+                  <i class="fas fa-eye"></i> View Details
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Pagination -->
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
+
+  <!-- If user is a company, show applications related to their internships -->
+  <div class="row justify-content-center" *ngIf="userRole === 'Company'">
+    <div class="col-md-12">
+      <div class="d-flex justify-content-center flex-wrap">
+        <div *ngFor="let application of applications | paginate: { itemsPerPage: 5, currentPage: p }" class="application-card">
+          <div class="card" (click)="viewApplicationDetails(application.id)" style="cursor: pointer;">
+            <div class="card-body">
+              <h5 class="fw-bold">{{ application.student?.name }}</h5>
+              <p>{{ application.student?.email }}</p>
+              <p><strong>Status:</strong> {{ application.status }}</p>
+              <p><strong>Applied On:</strong> {{ application.appliedDate | date }}</p>
+
+              <div class="d-flex justify-content-end">
+                <button class="btn btn-link text-muted" (click)="viewApplicationDetails(application.id)">
+                  <i class="fas fa-eye"></i> View Details
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Pagination -->
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
+</div>

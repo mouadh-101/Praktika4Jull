@@ -20,7 +20,7 @@ export class InternshipDetailsComponent implements OnInit {
   selectedUserId: string = ''; // ID du stagiaire sélectionné
   userId!:string;
 
- constructor(private route: ActivatedRoute,private internshipService: InternshipService,private favorisService:FavoriService,private userService:UserService ,private chatService : ChatService,dialog: MatDialog ) {}
+ constructor(private route: ActivatedRoute,private internshipService: InternshipService,private favorisService:FavoriService,private userService:UserService ,private chatService : ChatService, private dialog: MatDialog ) {}
 
  ngOnInit(): void {
   const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -167,12 +167,13 @@ onApplyClicked(id:number)
 {
   const dialogRef = this.dialog.open(AddApplicationDialogComponent, {
     width: '500px', // Set the width of the dialog
-    data: { id } // Pass the internshipId to the dialog
+    data: {internshipId: id} // Pass the internshipId to the dialog
   });
 
-  dialogRef.afterClosed().subscribe(result => {
+  dialogRef.afterClosed().subscribe((result: any) => {
     if (result) {
       console.log('Application submitted successfully');
+      alert("Application submitted successfully")
     } else {
       console.log('Application canceled');
     }

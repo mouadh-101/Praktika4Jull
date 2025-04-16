@@ -13,5 +13,5 @@ import java.util.List;
 public interface ApplicationRepository extends JpaRepository<Application,Long> {
     ApplicationDto findAppById(Long id);
     List<ApplicationDto> findByStudent(Student student);
-    ASIDto findASIByID(Long id);
+    List<ApplicationDto> findByInternshipIdIn(List<Long> internshipIds);
 }

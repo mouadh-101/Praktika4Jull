@@ -58,6 +58,8 @@ import { WebsocketComponent } from './components/websocket/websocket.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { VideoCallComponent } from './components/video-call/video-call.component';
 import { AddApplicationDialogComponent } from './components/add-application/add-application.component';
+import { StudentApplicationsComponent } from './components/student-applications/student-applications.component';
+import { ApplicationDetailsComponent } from './components/application-details/application-details.component';
 
 
 @NgModule({
@@ -95,7 +97,10 @@ import { AddApplicationDialogComponent } from './components/add-application/add-
     ExportCvComponent,
     ChatComponent,
     VideoCallComponent,
-    AddApplicationDialogComponent
+    AddApplicationDialogComponent,
+    WebsocketComponent,
+    StudentApplicationsComponent,
+    ApplicationDetailsComponent
   ],
   imports: [
     ReactiveFormsModule,

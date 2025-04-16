@@ -28,6 +28,8 @@ import { DocumentBackComponent } from './components/Document/DocumentBack/Docume
 import { WebsocketComponent } from './components/websocket/websocket.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { VideoCallComponent } from './components/video-call/video-call.component';
+import { ApplicationDetailsComponent } from './components/application-details/application-details.component';
+import { StudentApplicationsComponent } from './components/student-applications/student-applications.component';
 
 const routes: Routes = [
   { path: 'sign-in', component: SignInComponent },
@@ -59,6 +61,11 @@ const routes: Routes = [
   { path: 'terms', component: TermsComponent },
   { path: 'terms/:id', component: TermDetailComponent },
   { path: 'conventions/:id', component: ConventionDetailComponent },
+
+
+  { path: 'applications/:id', component: ApplicationDetailsComponent },
+  { path: 'applications', component: StudentApplicationsComponent },
+
   { path: '', redirectTo: '/', pathMatch: 'full' }
 ];
 
