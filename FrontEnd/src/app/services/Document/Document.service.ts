@@ -7,7 +7,8 @@ import { Document, Duree, StatusDoc } from 'src/app/Models/document';
   providedIn: 'root'
 })
 export class DocumentService {
-  private baseUrl = 'http://localhost:8088/api/Document'; 
+  private baseUrl = 'http://localhost:8088/api/Document';
+
 
 constructor(private http: HttpClient) { }
 // Ajouter un document
@@ -62,6 +63,11 @@ getDocumentByDurre(Duree: Duree): Observable<Document[]> {
 getDocumentByStatusDoc(StatusDoc: StatusDoc): Observable<Document[]> {
   const url = `${this.baseUrl}/filterStatus?StatusDoc=${StatusDoc}`;
   return this.http.get<Document[]>(url);
+}
+generateQRCode(id: number): Observable<Blob> {
+  return this.http.get(`${this.baseUrl}/generateQRCode/${id}`, {
+    responseType: 'blob',
+  });
 }
 
 }

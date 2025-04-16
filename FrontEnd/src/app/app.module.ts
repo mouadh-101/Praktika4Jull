@@ -21,6 +21,20 @@ import { UseTabComponent } from './components/use-tab/use-tab.component';
 import { StudentProfileComponent } from './components/studentProfile/studentProfile.component';
 import { SkillComponent } from './components/skill/skill.component';
 import { EducationComponent } from './components/education/education.component';
+import { ListDocumentComponent } from './components/Document/ListDocument/ListDocument.component';
+import { AddDocumentComponent } from './components/Document/AddDocument/AddDocument.component';
+import { UpdateDocumentComponent } from './components/Document/updateDocument/updateDocument.component';
+import { DocumentBackComponent } from './components/Document/DocumentBack/DocumentBack.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { DepotComponent } from './components/Document/Depot/Depot.component';
+import { DepotBackComponent } from './components/Document/DepotBack/DepotBack.component';
+import { ListJournalComponent } from './components/Document/ListJournal/ListJournal.component';
+import { AddJournalComponent } from './components/Document/AddJournal/AddJournal.component';
+import { JournalbackComponent } from './components/Document/Journalback/Journalback.component';
+import { UpdateJournalComponent } from './components/Document/UpdateJournal/UpdateJournal.component';
+
+
 
 import { TermsComponent } from './components/terms/terms.component';
 import { TermDetailComponent } from './components/term-detail/term-detail.component';
@@ -42,22 +56,16 @@ import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
 import { CalendarModule } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CalenderComponent } from './components/calender/calender.component';
-import { ListDocumentComponent } from './components/Document/ListDocument/ListDocument.component';
-import { AddDocumentComponent } from './components/Document/AddDocument/AddDocument.component';
-import { UpdateDocumentComponent } from './components/Document/updateDocument/updateDocument.component';
-import { DocumentBackComponent } from './components/Document/DocumentBack/DocumentBack.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ExtraActComponent } from './components/extra-act/extra-act.component';
 import { WorkExpComponent } from './components/work-exp/work-exp.component';
 import { ProfileUpdateComponent } from './components/profile-update/profile-update.component';
 import { AuthGuard } from './guards/auth.guard';
-import { NgxPaginationModule } from 'ngx-pagination';
 import { ExportCvComponent } from './components/export-cv/export-cv.component';
 import { WebsocketComponent } from './components/websocket/websocket.component';
 
 import { ChatComponent } from './components/chat/chat.component';
 import { VideoCallComponent } from './components/video-call/video-call.component';
-import { AddApplicationDialogComponent } from './components/add-application/add-application.component';
+
 
 
 @NgModule({
@@ -95,13 +103,23 @@ import { AddApplicationDialogComponent } from './components/add-application/add-
     ExportCvComponent,
     ChatComponent,
     VideoCallComponent,
-    AddApplicationDialogComponent
+    WebsocketComponent,
+    DepotComponent,
+    DepotBackComponent,
+    ListJournalComponent,
+    AddJournalComponent,
+      JournalbackComponent,
+      UpdateJournalComponent,
+      InterviewComponent
   ],
   imports: [
-    ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgxPaginationModule,
     MatButtonModule,
     MatToolbarModule,
     MatCardModule,

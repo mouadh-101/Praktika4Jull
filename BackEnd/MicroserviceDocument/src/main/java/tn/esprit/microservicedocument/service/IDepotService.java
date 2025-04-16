@@ -10,9 +10,10 @@ import java.util.Optional;
 public interface IDepotService {
     Optional<Depot> findDepotById(Long id);
 
-    Depot addDocument(MultipartFile rapport, MultipartFile journal, MultipartFile attestation) throws IOException;
+    Depot addDocument(MultipartFile rapport, MultipartFile journal, MultipartFile attestation, Long idDocument) throws IOException;
 
-    List<Depot> findAllDepots();
+
+    Depot findDepotsbyIdDocument(Long idDocument);
 
     void deleteDepot(Long id);
 

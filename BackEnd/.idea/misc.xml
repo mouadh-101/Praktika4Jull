@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 <?xml version="1.0" encoding="UTF-8"?>
->>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">
@@ -14,13 +11,10 @@
         <option value="$PROJECT_DIR$/springProject2/pom.xml" />
         <option value="$PROJECT_DIR$/userr/pom.xml" />
         <option value="$PROJECT_DIR$/Student/pom.xml" />
-<<<<<<< HEAD
-        <option value="$PROJECT_DIR$/Gestion_convention/pom.xml" />
-=======
-        <option value="$PROJECT_DIR$/intershipproccess/pom.xml" />
         <option value="$PROJECT_DIR$/MicroserviceDocument/pom.xml" />
+        <option value="$PROJECT_DIR$/Gestion_convention/pom.xml" />
+        <option value="$PROJECT_DIR$/intershipproccess/pom.xml" />
         <option value="$PROJECT_DIR$/microserviceInterview/pom.xml" />
->>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b
       </list>
     </option>
     <option name="ignoredFiles">

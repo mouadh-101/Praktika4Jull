@@ -8,11 +8,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="config-server" />
+        <module name="gatew" />
+        <module name="discovery" />
         <module name="MicroserviceDocument" />
         <module name="intershipproccess" />
         <module name="microserviceInterview" />
-        <module name="gatew" />
-        <module name="discovery" />
+        <module name="Gestion_convention" />
       </profile>
       <profile name="Annotation profile for user" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -33,6 +34,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Gestion_convention" options="-parameters" />
       <module name="MicroserviceDocument" options="-parameters" />
       <module name="Student" options="-parameters" />
       <module name="config-server" options="-parameters" />

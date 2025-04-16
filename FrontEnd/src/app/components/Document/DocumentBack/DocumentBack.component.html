@@ -37,6 +37,8 @@
         <th>Demande de stage</th>
         <th>Lettre d'Affectation</th>
         <th>Actions</th>
+        <th>Depot</th>
+        <th>Les taches</th>
       </tr>
     </thead>
     <tbody>
@@ -62,6 +64,16 @@
           </button>
           <button (click)="refuserDocument(document.docid)" class="btn btn-secondary" [disabled]="estDesactiveee(document.statusDoc)">
             Refuser
+          </button>
+        </td>
+        <td>
+          <button class="btn btn-primary" [routerLink]="['/depotback', document.docid]" [disabled]="estDesactive(document.statusDoc)">
+            <i class="bi bi-list"></i>
+          </button>
+        </td>
+        <td>
+          <button class="btn btn-primary" [routerLink]="['/JournalBack', document.docid]" [disabled]="estDesactive(document.statusDoc)">
+            <i class="bi bi-list"></i>
           </button>
         </td>
       </tr>

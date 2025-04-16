@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tn.esprit.microservicedocument.entities.Depot;
 import tn.esprit.microservicedocument.repository.IDepotRepository;
+import tn.esprit.microservicedocument.repository.IDocumentRepository;
 import tn.esprit.microservicedocument.service.IDepotService;
 
 import java.io.ByteArrayOutputStream;
@@ -28,7 +29,9 @@ public class DepotRestController {
 
     @Autowired
     IDepotRepository depotRepository;
-    @GetMapping("/upload/{idDepot}")
+    @Autowired
+    IDocumentRepository documentRepository;
+    @GetMapping("/uploadzip/{idDepot}")
     public ResponseEntity<byte[]> downloadDocuments(@PathVariable Long idDepot) throws IOException {
         // Récupère le dépôt en fonction de l'ID
         Depot depot = depotRepository.findById(idDepot)
@@ -68,13 +71,15 @@ public class DepotRestController {
         // Retourne la réponse avec l'archive ZIP et les en-têtes appropriés
         return new ResponseEntity<>(zipData, headers, HttpStatus.OK);
     }
-    @PostMapping("/upload")
+    @PostMapping("/upload/{idDocument}")
     public ResponseEntity<Depot> uploadDocuments(
-            @RequestParam(value = "rapport", required = false) MultipartFile rapport,
-            @RequestParam(value = "journal", required = false) MultipartFile journal,
-            @RequestParam(value = "attestation", required = false) MultipartFile attestation) {
+            @RequestParam(value = "Rapport", required = false) MultipartFile Rapport,
+            @RequestParam(value = "Journal", required = false) MultipartFile Journal,
+            @RequestParam(value = "Attestation", required = false) MultipartFile Attestation,
+            @PathVariable Long idDocument ) {
         try {
-            Depot depot = depotService.addDocument(rapport, journal, attestation);
+
+            Depot depot = depotService.addDocument(Rapport, Journal, Attestation,idDocument);
             return ResponseEntity.ok(depot);
         } catch (IOException e) {
             return ResponseEntity.status(500).body(null);
@@ -87,9 +92,9 @@ public class DepotRestController {
         return depot.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping
-    public List<Depot> getAllDepots() {
-        return depotService.findAllDepots();
+    @GetMapping("/depotByDocumentId/{IdDocument}")
+    public Depot getDepotByDocument(@PathVariable Long IdDocument) {
+        return depotService.findDepotsbyIdDocument(IdDocument);
     }
 
     @DeleteMapping("/{id}")
@@ -105,11 +110,11 @@ public class DepotRestController {
     @PutMapping("/{id}")
     public ResponseEntity<Depot> updateDepot(
             @PathVariable Long id,
-            @RequestParam(value = "rapport", required = false) MultipartFile rapport,
-            @RequestParam(value = "journal", required = false) MultipartFile journal,
-            @RequestParam(value = "attestation", required = false) MultipartFile attestation) {
+            @RequestParam(value = "Rapport", required = false) MultipartFile Rapport,
+            @RequestParam(value = "Journal", required = false) MultipartFile Journal,
+            @RequestParam(value = "Attestation", required = false) MultipartFile Attestation) {
         try {
-            Depot updatedDepot = depotService.updateDepot(id, rapport, journal, attestation);
+            Depot updatedDepot = depotService.updateDepot(id, Rapport, Journal, Attestation);
             return ResponseEntity.ok(updatedDepot);
         } catch (IOException e) {
             return ResponseEntity.status(500).body(null);
