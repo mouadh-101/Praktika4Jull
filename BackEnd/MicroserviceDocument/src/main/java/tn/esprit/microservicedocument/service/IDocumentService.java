@@ -2,6 +2,8 @@ package tn.esprit.microservicedocument.service;
 
 import com.itextpdf.text.DocumentException;
 import tn.esprit.microservicedocument.entities.Document;
+import tn.esprit.microservicedocument.entities.Duree;
+import tn.esprit.microservicedocument.entities.StatusDoc;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,4 +23,8 @@ public interface IDocumentService {
     byte[] DemandeDeStage(Document documents) throws DocumentException, IOException;
 
     byte[] LettreAffectation(Document documents) throws DocumentException, IOException;
+
+    List<Document> getDocumentByDuree(Duree Duree);
+
+    List<Document> getDocumentByStatusDoc(StatusDoc StatusDoc);
 }

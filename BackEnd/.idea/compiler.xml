@@ -9,10 +9,18 @@
         <outputRelativeToContentRoot value="true" />
         <module name="config-server" />
         <module name="MicroserviceDocument" />
-        <module name="Student" />
         <module name="gatew" />
-        <module name="user" />
         <module name="discovery" />
+      </profile>
+      <profile name="Annotation profile for user" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+        </processorPath>
+        <module name="Student" />
+        <module name="user" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

@@ -1,11 +1,13 @@
 package tn.esprit.microservicedocument.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.print.Doc;
 import java.util.Date;
 
 @Entity
@@ -26,4 +28,7 @@ public class Depot {
     private byte[] Attestation ;
     @Temporal(TemporalType.TIMESTAMP)
     private Date uploadDate;
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.EAGER)
+    Document document ;
 }

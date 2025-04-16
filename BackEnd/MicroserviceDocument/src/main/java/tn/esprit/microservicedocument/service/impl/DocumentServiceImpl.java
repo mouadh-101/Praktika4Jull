@@ -2,8 +2,12 @@ package tn.esprit.microservicedocument.service.impl;
 
 import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import tn.esprit.microservicedocument.entities.Document;
+import tn.esprit.microservicedocument.entities.Duree;
+import tn.esprit.microservicedocument.entities.StatusDoc;
 import tn.esprit.microservicedocument.repository.IDocumentRepository;
 import tn.esprit.microservicedocument.service.IDocumentService;
 import com.itextpdf.text.*;
@@ -19,9 +23,21 @@ public class DocumentServiceImpl implements IDocumentService {
     @Autowired
     IDocumentRepository documentRepository;
 
+    @Autowired
+    EmailService emailService;
     @Override
     public Document ajouterDocument(Document document) {
+        /*String email="faresfelhi45@gmail.com";
+        String subject= "Ajout avec succès";
+        String body = "Votre stage a été ajouté avec succès à " + document.getSociete() + " du " + document.getDateDebut() + " au " + document.getDateFin() + ".";
+
+        emailService.sendEmail(
+                email,
+                subject,
+                body
+        );*/
         return documentRepository.save(document);
+
     }
 
     @Override
@@ -31,9 +47,21 @@ public class DocumentServiceImpl implements IDocumentService {
 
     @Override
     public Document updateDocument(Document document) {
+        if (document.getDocid() == null || !documentRepository.existsById(document.getDocid())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Document not found with id " + document.getDocid());
+        }
+        String email="faresfelhi45@gmail.com";
+        String subject= "Modifier avec succès";
+        String body="Votre stage a été Modifié avec succès à " + document.getSociete() + " du " + document.getDateDebut() + " au " + document.getDateFin() + ".";
+
+        emailService.sendEmail(
+                email,
+                subject,
+                body
+        );
+        // Mettez à jour les champs du document ici si nécessaire
         return documentRepository.save(document);
     }
-
     @Override
     public Document chercherDodcument(Long id) {
         return documentRepository.findById(id).orElse(null);
@@ -47,15 +75,38 @@ public class DocumentServiceImpl implements IDocumentService {
     public void validerDocument(Long id) {
         documentRepository.findById(id).ifPresent(document -> {
             document.validerStatus();
+
             documentRepository.save(document);
+            String email="faresfelhi45@gmail.com";
+            String subject= "Validé avec succès";
+            String body="Votre stage a été validé  à " + document.getSociete() + " du " + document.getDateDebut() + " au " + document.getDateFin() + ".";
+
+            emailService.sendEmail(
+                    email,
+                    subject,
+                    body
+            );
         });
+
     }
     @Override
     public void RefuserDocument(Long id) {
         documentRepository.findById(id).ifPresent(document -> {
             document.refuserStatus();
+
             documentRepository.save(document);
+            String email="faresfelhi45@gmail.com";
+            String subject= "Refus de stage";
+            String body = "Votre stage a été refusé à " + document.getSociete() + " du " + document.getDateDebut() + " au " + document.getDateFin() + ". Veuillez consulter le département de stage.";
+
+            emailService.sendEmail(
+                    email,
+                    subject,
+                    body
+            );
         });
+
+
     }
     public String getCurrentDate() {
         LocalDate date = LocalDate.now();
@@ -174,6 +225,14 @@ public class DocumentServiceImpl implements IDocumentService {
         document.add(signatureImage);
         document.close();
         return byteArrayOutputStream.toByteArray();
+    }
+    @Override
+    public List<Document> getDocumentByDuree(Duree Duree) {
+        return documentRepository.findDocumentsByDuree(Duree);
+    }
+    @Override
+    public List<Document> getDocumentByStatusDoc(StatusDoc StatusDoc) {
+        return documentRepository.findDocumentsByStatusDoc(StatusDoc );
     }
 
 }

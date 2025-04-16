@@ -4,12 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import tn.esprit.microservicedocument.entities.Depot;
+import tn.esprit.microservicedocument.entities.Document;
 import tn.esprit.microservicedocument.repository.IDepotRepository;
+import tn.esprit.microservicedocument.repository.IDocumentRepository;
 import tn.esprit.microservicedocument.service.IDepotService;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,6 +18,8 @@ public class DepotServiceImpl implements IDepotService {
 
     @Autowired
     private IDepotRepository depotRepository;
+    @Autowired
+    private IDocumentRepository documentRepository;
 
     @Override
     public Optional<Depot> findDepotById(Long id) {
@@ -24,8 +27,11 @@ public class DepotServiceImpl implements IDepotService {
     }
 
     @Override
-    public Depot addDocument(MultipartFile rapport, MultipartFile journal, MultipartFile attestation) throws IOException {
+    public Depot addDocument(MultipartFile rapport, MultipartFile journal, MultipartFile attestation, Long idDocument) throws IOException {
+        Document document = documentRepository.findById(idDocument)
+                .orElseThrow(() -> new RuntimeException("Document non trouvé"));
         Depot depot = new Depot();
+        depot.setDocument(document);
         if (rapport != null && !rapport.isEmpty()) {
             depot.setRapport(rapport.getBytes());
         }
@@ -40,18 +46,20 @@ public class DepotServiceImpl implements IDepotService {
     }
 
     @Override
-    public List<Depot> findAllDepots() {
-        return depotRepository.findAll();
+    public Depot findDepotsbyIdDocument(Long idDocument) {
+
+        Document document = documentRepository.findById(idDocument)
+                .orElseThrow(() -> new RuntimeException("Document non trouvé avec l'ID: " + idDocument));
+
+        return document.getDepot();
     }
 
     @Override
     public void deleteDepot(Long id) {
-        if (depotRepository.existsById(id)) {
-            depotRepository.deleteById(id);
-        } else {
-            throw new RuntimeException("Depot non trouvé pour l'ID: " + id);
-        }
+        depotRepository.deleteById(id);
+
     }
+
 
     @Override
     public Depot updateDepot(Long id, MultipartFile rapport, MultipartFile journal, MultipartFile attestation) throws IOException {
