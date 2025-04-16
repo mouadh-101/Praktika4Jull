@@ -4,25 +4,24 @@
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
-        <option value="$PROJECT_DIR$/BackEnd/user/pom.xml" />
-        <option value="$PROJECT_DIR$/BackEnd/gatew/pom.xml" />
-        <option value="$PROJECT_DIR$/BackEnd/Student/pom.xml" />
-        <option value="$PROJECT_DIR$/BackEnd/discovery/pom.xml" />
-        <option value="$PROJECT_DIR$/BackEnd/config-server/pom.xml" />
-        <option value="$PROJECT_DIR$/BackEnd/MicroserviceDocument/pom.xml" />
-        <option value="$PROJECT_DIR$/BackEnd/microserviceInterview/pom.xml" />
-        <option value="$PROJECT_DIR$/BackEnd/intershipproccess/pom.xml" />
-        <option value="$PROJECT_DIR$/BackEnd/Gestion_convention/pom.xml" />
-        <option value="$PROJECT_DIR$/microserviceInterview/pom.xml" />
-        <option value="$PROJECT_DIR$/Student/pom.xml" />
         <option value="$PROJECT_DIR$/user/pom.xml" />
-        <option value="$PROJECT_DIR$/MicroserviceDocument/pom.xml" />
-        <option value="$PROJECT_DIR$/intershipproccess/pom.xml" />
-        <option value="$PROJECT_DIR$/Gestion_convention/pom.xml" />
         <option value="$PROJECT_DIR$/gatew/pom.xml" />
         <option value="$PROJECT_DIR$/discovery/pom.xml" />
         <option value="$PROJECT_DIR$/config-server/pom.xml" />
+        <option value="$PROJECT_DIR$/springProject2/pom.xml" />
+        <option value="$PROJECT_DIR$/userr/pom.xml" />
+        <option value="$PROJECT_DIR$/Student/pom.xml" />
+        <option value="$PROJECT_DIR$/MicroserviceDocument/pom.xml" />
+        <option value="$PROJECT_DIR$/Gestion_convention/pom.xml" />
+        <option value="$PROJECT_DIR$/intershipproccess/pom.xml" />
+        <option value="$PROJECT_DIR$/microserviceInterview/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/springProject2/pom.xml" />
+        <option value="$PROJECT_DIR$/userr/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK">

@@ -36,6 +36,8 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @RestController
 @RequestMapping("/api/Document")
@@ -48,27 +50,54 @@ public class DocumentRestController {
     @Autowired
     IDocumentRepository documentRepository;
 
-    @GetMapping("/generateQRCode/{id}")
-    public ResponseEntity<String> generateQRCode(@PathVariable("id") Long id) throws IOException {
-        // Lien pour chaque fichier à télécharger
-        String downloadLinks = "http://localhost:8088/api/Document/DemandeStage/" + id + "\n"
-                + "http://localhost:8088/api/Document/LettreAffectation/" + id + "\n"
-                + "http://localhost:8088/api/Document/AutreFichier/" + id;
+    @GetMapping("/downloadAll/{id}")
+    public ResponseEntity<byte[]> downloadAllDocuments(@PathVariable("id") Long id)  throws IOException, DocumentException {
+        Document document = documentRepository.findById(id).orElse(null);
+        if (document == null) {
+            return ResponseEntity.notFound().build();
+        }
 
-        // Générer le QR code à partir des liens
+        byte[] demandeStage = documentService.DemandeDeStage(document);
+        byte[] lettreAffectation = documentService.LettreAffectation(document);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try (ZipOutputStream zos = new ZipOutputStream(baos)) {
+            ZipEntry entry1 = new ZipEntry("Demande_Stage.pdf");
+            zos.putNextEntry(entry1);
+            zos.write(demandeStage);
+            zos.closeEntry();
+
+            ZipEntry entry2 = new ZipEntry("Lettre_Affectation.pdf");
+            zos.putNextEntry(entry2);
+            zos.write(lettreAffectation);
+            zos.closeEntry();
+        }
+
+        byte[] zipBytes = baos.toByteArray();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", "Documents_Stage.zip");
+        headers.setContentLength(zipBytes.length);
+
+        return new ResponseEntity<>(zipBytes, headers, HttpStatus.OK);
+    }
+
+
+    @GetMapping(value = "/generateQRCode/{id}", produces = MediaType.IMAGE_PNG_VALUE)
+    public ResponseEntity<byte[]> generateQRCode(@PathVariable("id") Long id) throws IOException {
+        // Lien pour chaque fichier à télécharger
+        String downloadLinks = "http://192.168.1.102:8088/api/Document/downloadAll/" + id;
+
+
         try {
             Map<EncodeHintType, Object> hints = new HashMap<>();
-            hints.put(EncodeHintType.MARGIN, 1);  // Optionnel, pour ajuster la marge du QR code
+            hints.put(EncodeHintType.MARGIN, 1);
 
-            // Créer un BitMatrix à partir des liens
             BitMatrix matrix = new MultiFormatWriter().encode(downloadLinks, BarcodeFormat.QR_CODE, 300, 300, hints);
 
-            // Créer une image à partir du QR code
             BufferedImage image = new BufferedImage(300, 300, BufferedImage.TYPE_INT_RGB);
-            image.createGraphics();
-
-            // Dessiner le QR code dans l'image
-            Graphics2D graphics = (Graphics2D) image.getGraphics();
+            Graphics2D graphics = image.createGraphics();
             graphics.setColor(Color.WHITE);
             graphics.fillRect(0, 0, 300, 300);
             graphics.setColor(Color.BLACK);
@@ -77,20 +106,19 @@ public class DocumentRestController {
                 for (int j = 0; j < 300; j++) {
                     if (matrix.get(i, j)) {
                         image.setRGB(i, j, Color.BLACK.getRGB());
-                    } else {
-                        image.setRGB(i, j, Color.WHITE.getRGB());
                     }
                 }
             }
 
-            // Convertir l'image en base64
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ImageIO.write(image, "PNG", baos);
-            byte[] imageInByte = baos.toByteArray();
-            String base64Image = Base64.getEncoder().encodeToString(imageInByte);
+            byte[] imageBytes = baos.toByteArray();
 
-            // Retourner le base64 dans la réponse
-            return ResponseEntity.ok(base64Image);
+            return ResponseEntity
+                    .ok()
+                    .contentType(MediaType.IMAGE_PNG)
+                    .body(imageBytes);
+
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -111,12 +139,7 @@ public class DocumentRestController {
     {
         documentService.supprimerDocument(id);
     }
-    //@PutMapping(path = "/document/update")
-    //Document updateDocument(@RequestBody Document document)
-    //{
-      //  return documentService.updateDocument(document);
-    //
-    //}
+
     @PutMapping("/update/{id}")
     public ResponseEntity<Document> updateDocument(@PathVariable("id") Long id, @RequestBody Document document) {
         Optional<Document> existingDocument = documentRepository.findById(id);

@@ -1,9 +1,11 @@
+import{ Depot } from "./Depot"
+import { Journal } from "./Journal";
 export enum StatusDoc {
     ENATTEND = "ENATTEND",
     VALIDE = "VALIDE",
     REFUSER = "REFUSER"
   }
-  
+
   export enum Type {
     CONVENTION = "CONVENTION",
     INTERNSHIP_REQUEST = "INTERNSHIP_REQUEST",
@@ -22,4 +24,6 @@ export enum StatusDoc {
     dateFin: Date;
     duree: Duree;
     statusDoc: StatusDoc;
+    depot: Depot;
+    journals: Journal[];
   }

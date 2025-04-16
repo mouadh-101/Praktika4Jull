@@ -11,11 +11,11 @@
         <module name="gatew" />
         <module name="discovery" />
         <module name="MicroserviceDocument" />
-        <module name="microserviceInterview" />
         <module name="intershipproccess" />
+        <module name="microserviceInterview" />
         <module name="Gestion_convention" />
       </profile>
-      <profile name="Annotation profile for Student" enabled="true">
+      <profile name="Annotation profile for user" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -26,6 +26,11 @@
         <module name="user" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="springProject2" target="17" />
+      <module name="tpFoyer-17" target="17" />
+      <module name="userr" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
@@ -37,7 +42,10 @@
       <module name="gatew" options="-parameters" />
       <module name="intershipproccess" options="-parameters" />
       <module name="microserviceInterview" options="-parameters" />
+      <module name="springProject2" options="-parameters" />
+      <module name="tpFoyer-17" options="-parameters" />
       <module name="user" options="-parameters" />
+      <module name="userr" options="-parameters" />
     </option>
   </component>
 </project>

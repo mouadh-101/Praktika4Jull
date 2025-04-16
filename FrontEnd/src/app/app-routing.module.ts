@@ -21,13 +21,19 @@ import { InterviewAddComponent } from './components/interview/interview-add/inte
 import { InterviewListComponent } from './components/interview/interview-list/interview-list.component';
 
 import { CalenderComponent } from './components/calender/calender.component';
+import { WebsocketComponent } from './components/websocket/websocket.component';
+import { ChatComponent } from './components/chat/chat.component';
+import { VideoCallComponent } from './components/video-call/video-call.component';
 import { ListDocumentComponent } from './components/Document/ListDocument/ListDocument.component';
 import { AddDocumentComponent } from './components/Document/AddDocument/AddDocument.component';
 import { UpdateDocumentComponent } from './components/Document/updateDocument/updateDocument.component';
 import { DocumentBackComponent } from './components/Document/DocumentBack/DocumentBack.component';
-import { WebsocketComponent } from './components/websocket/websocket.component';
-import { ChatComponent } from './components/chat/chat.component';
-import { VideoCallComponent } from './components/video-call/video-call.component';
+import { DepotComponent } from './components/Document/Depot/Depot.component';
+import { DepotBackComponent } from './components/Document/DepotBack/DepotBack.component';
+import { ListJournalComponent } from './components/Document/ListJournal/ListJournal.component';
+import { AddJournalComponent } from './components/Document/AddJournal/AddJournal.component';
+import { JournalbackComponent } from './components/Document/Journalback/Journalback.component';
+import { UpdateJournalComponent } from './components/Document/UpdateJournal/UpdateJournal.component';
 import { ApplicationDetailsComponent } from './components/application-details/application-details.component';
 import { StudentApplicationsComponent } from './components/student-applications/student-applications.component';
 
@@ -62,9 +68,23 @@ const routes: Routes = [
   { path: 'terms/:id', component: TermDetailComponent },
   { path: 'conventions/:id', component: ConventionDetailComponent },
 
+  {path:'users',component:UseTabComponent},
+  {path:'student',component:StudentProfileComponent},
+  {path:'ListDocument',component:ListDocumentComponent},
+  {path:'AddDocument',component:AddDocumentComponent},
+  {path:'UpdateDocument/:id',component:UpdateDocumentComponent},
+  {path:'DocumentBack',component:DocumentBackComponent},
+  {path:'depot/:id', component:DepotComponent},
+  {path:'depotback/:id', component:DepotBackComponent},
+  {path:'ListJournal/:id', component:ListJournalComponent},
+  {path:'AddJournal/:id', component:AddJournalComponent},
+  {path:'JournalBack/:id', component:JournalbackComponent},
+  {path:'UpdateJournal/:id',component:UpdateJournalComponent},
+
 
   { path: 'applications/:id', component: ApplicationDetailsComponent },
   { path: 'applications', component: StudentApplicationsComponent },
+
 
   { path: '', redirectTo: '/', pathMatch: 'full' }
 ];

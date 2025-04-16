@@ -25,7 +25,9 @@ export class ListDocumentComponent implements OnInit {
   ngOnInit(): void {
     this.chargerDocuments();
   }
-  
+  generateQRCodeUrl(docId: number): string {
+    return `http://192.168.47.44:8088/api/Document/generateQRCode/${docId}`;
+  }
   filterDocuments(): void {
     let filtered = this.documents;
 

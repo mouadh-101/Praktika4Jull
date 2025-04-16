@@ -9,6 +9,9 @@
       username: faresfelhi2@gmail.com
       password: allxuqotoqzlyqbh
 
+      servlet:
+        multipart:
+          enabled: true
 
       properties:
         mail:

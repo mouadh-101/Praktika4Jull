@@ -1,0 +1,45 @@
+<div class="container mt-5">
+  <h2 class="text-center text-primary">📝 Liste des tâches</h2>
+  
+  <div class="text-end mb-4">
+    <button class="btn btn-secondary me-2" routerLink="/ListDocument">
+      <i class="bi bi-arrow-left-circle"></i> Retour
+    </button>
+  </div>
+
+  <div *ngIf="journals.length > 0; else noJournals">
+    <div class="row">
+      <div class="col-md-6 col-lg-4 mb-4 d-flex" *ngFor="let journal of journals | paginate: { itemsPerPage: itemsPerPage, currentPage: page }">
+        <div class="card bg-light border-start border-5 border-primary shadow-sm w-100 h-100 d-flex flex-column justify-content-between"
+             style="transition: transform 0.3s ease-in-out;">
+          <div class="card-body">
+            <h5 class="card-title text-dark fw-bold">
+              🛠️ <span>Tâche :</span> {{ journal.tache }}
+            </h5>
+            <p class="card-text mb-2">
+              📅 <strong class="text-secondary">Date :</strong> {{ journal.dateJournal | date: 'longDate' }}
+            </p>
+          </div>
+          <div class="card-footer bg-transparent border-0 text-end">
+            <button class="btn btn-outline-danger btn-sm" (click)="deleteJournal(journal.idJournal)" title="Supprimer">
+              <i class="bi bi-trash-fill"></i>
+            </button>
+            <!-- Bouton Modifier -->
+<button class="btn btn-outline-warning btn-sm ms-2" 
+[routerLink]="['/UpdateJournal', journal.idJournal]" 
+title="Modifier">
+<i class="bi bi-pencil-square"></i>
+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <pagination-controls (pageChange)="page = $event"></pagination-controls>
+
+  <ng-template #noJournals>
+    <div class="alert alert-info text-center">
+      Aucun journal trouvé pour ce stage.
+    </div>
+  </ng-template>
+</div>
