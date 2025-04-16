@@ -1,4 +1,4 @@
-package esprit.microservice1;
+package esprit.microservice1.controller;
 
 import esprit.microservice1.entities.Comment;
 import esprit.microservice1.entities.Post;
@@ -18,7 +18,7 @@ import java.util.List;
 public class MicroserviceRestApi {
     @Autowired
     IService service;
-    ////////////////*********CRUD POST*********////////////
+////////////////*********CRUD POST*********////////////
     @PostMapping("/ajouterPost")
     Post addPost(@RequestBody Post post) {
         return  service.addPost(post);
@@ -54,7 +54,7 @@ public class MicroserviceRestApi {
         return  service.updatePost(id, post);
     }
 
-    ///////////////*****crud comment*****////////////
+///////////////*****crud comment*****////////////
     @PostMapping("/ajouterComment/{id}")
     Comment addCommentandAffectToPost(@PathVariable Integer id,@RequestBody Comment comment) {
         return  service.addCommentandAffectToPost(id,comment);

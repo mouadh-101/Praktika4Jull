@@ -8,13 +8,24 @@
 
     <nav id="navmenu" class="navmenu">
       <ul>
-        <li><a routerLink="" class="active">Home</a></li>
-        <li><a routerLink="">About</a></li>
-        <li><a routerLink="">Features</a></li>
-        <li><a routerLink="">Services</a></li>
-        <li><a routerLink="">Pricing</a></li>
-        <li><a routerLink="">Contact</a></li>
-        <li *ngIf="isLoggedIn" class="dropdown"><a href="#">
+        <li><a routerLink="home" class="active">Home</a></li>
+        <li><a *ngIf="!isLoggedIn" routerLink="">About</a></li>
+        <li><a *ngIf="!isLoggedIn" routerLink="">Features</a></li>
+        <li><a *ngIf="!isLoggedIn" routerLink="">Services</a></li>
+        <li><a *ngIf="!isLoggedIn" routerLink="">Pricing</a></li>
+        <li><a *ngIf="!isLoggedIn" routerLink="">Contact</a></li>
+        
+        <li><a *ngIf="isLoggedIn && userRole=='ADMIN'"  routerLink="diplome">Diplome</a></li>
+        <li><a *ngIf="isLoggedIn && userRole=='ADMIN'" routerLink="formations">Formations</a></li>
+        <li><a *ngIf="isLoggedIn && userRole=='USER'" routerLink="post">post</a></li>
+
+        <li><a *ngIf="isLoggedIn && userRole=='USER'" routerLink="formationsclient">My Formations</a></li>
+
+        <li><a *ngIf="!isLoggedIn" routerLink=""></a></li>
+        <li><a *ngIf="!isLoggedIn" routerLink="">Contact</a></li>
+        <li><a *ngIf="isLoggedIn" role="button" (click)="onLogout()">Logout</a></li>
+
+        <!-- <li *ngIf="isLoggedIn" class="dropdown"><a href="#">
           <span>
             <img *ngIf="user?.profilePicture" [src]="user.profilePicture" alt="Profile" class="profile-circle">
             <img *ngIf="!user?.profilePicture" src="../../../assets/img/pdp.jpg" alt="Profile" class="profile-circle">
@@ -25,31 +36,14 @@
             <li><a href="#">Dropdown 3</a></li>
             <li><a (click)="onLogout()">Logout</a></li>
           </ul>
-        </li>
+        </li> -->
       </ul>
       <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       
     </nav>
 
     <!-- Show Profile & Notifications when logged in -->
-    <div *ngIf="isLoggedIn" class="user-actions d-flex align-items-center">
-      
-      <!-- Notification Bell -->
-      
-
-      <!-- Profile Circle & Dropdown -->
-      <div class="profile-container" (mouseenter)="toggleDropdown()" (mouseleave)="toggleDropdown()">
-        <img *ngIf="user?.profilePicture" [src]="user.profilePicture" alt="Profile" class="profile-circle">
-        <img *ngIf="!user?.profilePicture" src="../../../assets/img/pdp.jpg" alt="Profile" class="profile-circle">
-
-        <!-- Dropdown -->
-        <div *ngIf="showDropdown" class="profile-dropdown">
-          <p class="username">{{ user?.name}}</p>
-          <p class="username">{{ user?.role}}</p>
-          <button class="logout-btn" (click)="onLogout()">Logout</button>
-        </div>
-      </div>
-    </div>
+  
 
 
     <!-- Show "Join Us" when not logged in -->

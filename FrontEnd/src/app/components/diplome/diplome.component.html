@@ -1,0 +1,80 @@
+
+<!-- Header with Image -->
+<header class="bg-light text-white text-center py-4">
+  <img src="../../../assets/img/v915-wit-011-l.jpg" style="height: 200px;width: 100%;" class="img-fluid" alt="Header Image">
+  <h1 style="color: black;">Diplome</h1>
+</header>
+<div class="container">
+    <h2>Diplomes Management</h2>
+    <button type="button" class="btn btn-secondary" (click)="goBack()">Back</button>
+
+    <!-- Create / Update Form -->
+    <div class="card mt-4">
+      <div class="card-body">
+        <h5 class="card-title">{{ isEditMode ? 'Update Diplome' : 'Create Diplome' }}</h5>
+  
+        <form (ngSubmit)="isEditMode ? onUpdateDiplome() : onCreateDiplome()">
+          <div class="form-group">
+            <label for="dateObtention">Date Obtention</label>
+            <input type="date" class="form-control" id="dateObtention" [(ngModel)]="selectedDiplome.dateObtention" name="dateObtention" required />
+          </div>
+  
+          <div class="form-group">
+            <label for="formation">Formation</label>
+            <select class="form-control" id="formation" [(ngModel)]="selectedDiplome.formation" name="formation" required>
+              <option *ngFor="let formation of formations" [value]="formation.id">{{ formation.titre }}</option>
+            </select>
+          </div>
+  
+          <div class="form-group">
+            <label for="user">User</label>
+            <select class="form-control" id="user" [(ngModel)]="selectedDiplome.user" name="user" required>
+              <option *ngFor="let user of users" [value]="user.userId">{{ user.name }}</option>
+            </select>
+          </div>
+  
+          <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Update' : 'Create' }}</button>
+          <button type="button" class="btn btn-secondary" (click)="resetForm()">Reset</button>
+        </form>
+      </div>
+    </div>
+  
+    <!-- List of Diplomes -->
+    <div class="mt-4">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Date Obtention</th>
+            <th>Formation</th>
+            <th>Diplome</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let diplome of diplomes">
+            <td>{{ diplome.id }}</td>
+            <td>{{ diplome.dateObtention }}</td>
+            <td>{{ diplome.formation.titre }}</td>
+            <td>
+              <a [href]="'http://localhost:8086/api/diplomes/users/Image/'+diplome.path"
+              [ngClass]="{ 'disabled-link': !diplome.path }"
+              [attr.target]="diplome.path ? '_blank' : null"
+              [attr.rel]="diplome.path ? 'noopener noreferrer' : null">
+                
+                See
+              </a>
+            </td>
+        
+            <td>
+              <button class="btn btn-warning" (click)="onEditDiplome(diplome.id)">Edit</button>
+              <button class="btn btn-danger" (click)="onDeleteDiplome(diplome.id)">Delete</button>
+              <button class="btn btn-info" (click)="onGenerateDiploma(diplome.id, diplome.iduser)">Generate Dip</button>
+            </td>
+          </tr>
+        </tbody>
+        
+      </table>
+    </div>
+  </div>
+  

@@ -21,8 +21,18 @@ spring:
           uri: lb://forum-service
           predicates:
             - Path=/api/forum/**
-
-
+        - id: diplomes
+          uri: lb://forum-service
+          predicates:
+            - Path=/api/diplomes/**
+        - id: examens
+          uri: lb://forum-service
+          predicates:
+            - Path=/api/examens/**
+        - id: formations
+          uri: lb://forum-service
+          predicates:
+            - Path=/api/formations/**
 
 eureka:
   instance:

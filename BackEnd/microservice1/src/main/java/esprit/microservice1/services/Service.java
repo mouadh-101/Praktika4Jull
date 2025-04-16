@@ -14,17 +14,24 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @org.springframework.stereotype.Service
 @Slf4j
 @AllArgsConstructor
 public class Service implements IService{
 
-    PostRepo postRepo;
-    CommentRepo commentRepo;
-    UserRepo userRepo;
+PostRepo postRepo;
+CommentRepo commentRepo;
+UserRepo userRepo;
 
 
     @Override
@@ -33,6 +40,8 @@ public class Service implements IService{
         Post post = postRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Post not found with ID: " + id));
         comment.setPost(post);
+        String filteredContent = filterBadWordsUsingAPI(comment.getDescriptionComment());
+        comment.setDescriptionComment(filteredContent);
         return commentRepo.save(comment);
     }
 
@@ -59,18 +68,35 @@ public class Service implements IService{
 
 
 
-    /////////////******Post*****////////////
+/////////////******Post*****////////////
+private final RestTemplate restTemplate = new RestTemplate();
+    private static final String FILTER_API_URL = "https://www.purgomalum.com/service/json?text=";
+
     @Override
     public Post addPost(Post post) {
+        String filteredContent = filterBadWordsUsingAPI(post.getDescription());
+        post.setDescription(filteredContent);
         return postRepo.save(post);
     }
 
-    @Override
-    public Page<Post> findAllPost(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "datePost"));
-        return postRepo.findAll(pageable);
+    private String filterBadWordsUsingAPI(String content) {
+        if (content == null || content.isEmpty()) return "";
+
+        ResponseEntity<Map> response = restTemplate.exchange(
+                FILTER_API_URL + content,
+                HttpMethod.GET,
+                new HttpEntity<>(new HttpHeaders()),
+                Map.class
+        );
+
+        return response.getBody().get("result").toString();
     }
     @Override
+    public Page<Post> findAllPost(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return postRepo.findAll(pageable);
+    }
+@Override
     public List<Post> filterPosts(String name, LocalDate date) {
         return postRepo.searchByNameAndDate(name, date);
     }

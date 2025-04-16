@@ -1,0 +1,102 @@
+<!-- Header with Image -->
+<header class="bg-light text-white text-center py-4">
+  <img
+    src="../../../assets/img/v915-wit-011-l.jpg"
+    style="height: 200px; width: 100%"
+    class="img-fluid"
+    alt="Header Image"
+  />
+
+</header>
+<section class="course-content">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 col-md-12">
+        <button type="button" *ngIf="!selectedExamToDo" class="btn btn-secondary" (click)="goBack()">
+          Back
+        </button>
+        <div class="mt-4" *ngIf="!selectedExamToDo">
+          <full-calendar [options]="calendarOptions"></full-calendar>
+        </div>
+        
+        <!-- <div class="row" *ngIf="!selectedExamToDo">
+          <div class="container mt-4">
+            <h2 class="text-center">Examens</h2>
+            <button type="button" class="btn btn-secondary" (click)="goBack()">
+              Back
+            </button>
+
+            <div class="row mt-4" *ngIf="examens.length > 0">
+              <div class="col-md-4 mb-3" *ngFor="let examen of examens">
+                <div class="card shadow">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ examen.titre }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">
+                      ID: {{ examen.id }}
+                    </h6>
+
+                    <p class="card-text">
+                      <strong>Note :</strong>
+*                      <strong>Type :</strong> {{ examen.examenT }} <br />
+                      <strong>Session :</strong> {{ examen.session }} <br />
+                      <strong>Date :</strong>
+                      {{ examen.date | date : "yyyy-MM-dd" }}
+                    </p>
+
+                    <button
+                      class="btn btn-danger btn-sm w-100"
+                      (click)="assignUser(examen.id!)"
+                    >
+                      Participer
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              *ngIf="examens.length === 0"
+              class="alert alert-info text-center mt-4"
+            >
+              Aucun examen trouvé.
+            </div>
+          </div>
+        </div> -->
+        <div class="alert alert-info text-center" *ngIf="selectedExamToDo">
+          Temps restant : {{ globalTimerDisplay }}
+        </div>
+        
+        <div class="mt-5" *ngIf="selectedExamToDo">
+          <h4>Répondre à l'examen : {{ selectedExamToDo.titre }}</h4>
+          <form (ngSubmit)="submitExam()">
+            <div
+            *ngFor="let q of selectedExamToDo.questions; let i = index"
+            class="mb-4 p-3 border rounded shadow-sm"
+          >
+            <div class="d-flex justify-content-between align-items-center">
+              <p><strong>{{ q.text }}</strong></p>
+            </div>
+            <div *ngFor="let a of q.answers" class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="question-{{ q.id }}"
+                [value]="a.id"
+                [(ngModel)]="userAnswers[q.id]"
+                [attr.id]="'a-' + a.id"
+               
+              />
+              <label class="form-check-label" [attr.for]="'a-' + a.id">
+                {{ a.text }}
+              </label>
+            </div>
+          </div>
+          
+            <button class="btn btn-success">Soumettre</button>
+          </form>
+        </div>
+
+        <!-- Liste des Tests sous forme de Cartes -->
+      </div>
+    </div>
+  </div>
+</section>

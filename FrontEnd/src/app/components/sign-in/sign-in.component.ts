@@ -34,7 +34,15 @@ export class SignInComponent implements OnInit {
         next: (response) => {
           alert("Login successful!");
           localStorage.setItem('token', response.token); // Store token if needed
-          this.router.navigate(['/dashboard']); // Navigate to dashboard
+          this.authService.storeUserRole(response.token); 
+          const userRole = localStorage.getItem('userRole');
+          if (userRole === 'ADMIN') {
+            window.location.href = "/formations";
+          } else {
+            window.location.href = "/formationsclient";
+          }
+         
+          
         },
         error: (error) => {
           alert("Invalid credentials. Please try again.");

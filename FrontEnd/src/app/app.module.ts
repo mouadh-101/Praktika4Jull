@@ -22,6 +22,14 @@ import { StudentProfileComponent } from './components/studentProfile/studentProf
 import { SkillComponent } from './components/skill/skill.component';
 import { EducationComponent } from './components/education/education.component';
 import { PostsComponent } from './components/posts/posts.component';
+import { HomeComponent } from './components/home/home.component';
+import { ChatbotComponent } from './components/chatbot/chatbot.component';
+import { DiplomeComponent } from './components/diplome/diplome.component';
+import { FormationComponent } from './components/formation/formation.component';
+import { ExamenComponent } from './components/examen/examen.component';
+import { FormationsclientComponent } from './formationsclient/formationsclient.component';
+import { ExmanComponent } from './exman/exman.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 
 @NgModule({
@@ -30,12 +38,20 @@ import { PostsComponent } from './components/posts/posts.component';
     SignInComponent,
     SignUpComponent,
     NavbarComponent,
+    DiplomeComponent,
+    FormationComponent,
     FooterComponent,
+    ExamenComponent,
     UseTabComponent,
     StudentProfileComponent,
     SkillComponent,
     EducationComponent,
     PostsComponent,
+    HomeComponent,
+    ChatbotComponent,
+    FormationsclientComponent,
+    ExmanComponent
+
 
   ],
   imports: [
@@ -43,6 +59,7 @@ import { PostsComponent } from './components/posts/posts.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    FullCalendarModule,
     MatButtonModule,
     MatToolbarModule,
     MatCardModule,

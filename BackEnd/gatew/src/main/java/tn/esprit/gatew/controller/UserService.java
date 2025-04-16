@@ -5,6 +5,8 @@ import org.keycloak.admin.client.Keycloak;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.http.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -97,7 +99,15 @@ public class UserService {
                     .body(Map.of("error", "Error obtaining token: " + e.getMessage()));
         }
     }
+    public String getConnectedUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+        if (authentication != null && authentication.isAuthenticated()) {
+            return authentication.getName();
+        }
+
+        return null;
+    }
     public ResponseEntity<Map<String, String>> logoutUser(String token) {
         try {
             RestTemplate restTemplate = new RestTemplate();

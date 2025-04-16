@@ -1,0 +1,101 @@
+<!-- Header with Image -->
+<header class="bg-light text-white text-center py-4">
+    <img src="../../../assets/img/v915-wit-011-l.jpg" style="height: 200px;width: 100%;" class="img-fluid" alt="Header Image">
+    <h1 style="color: black;">Formations</h1>
+  </header>
+<section class="course-content">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 col-md-12">
+     
+          <button *ngIf="status && !hidden" class="btn btn-danger p-2 mb-3" (click)="selected()">My list</button>
+          <button *ngIf="!status && !hidden" (click)="selected()" class="btn btn-secondary p-2 mb-3">Formations</button>
+          <button (click)="toggleHidden()"  class="btn btn-danger p-2 mb-3">My Examens</button>
+  
+        <div *ngIf="hidden" >
+          <div class="row mt-4" *ngIf="examans.length > 0">
+            <div class="col-md-4 mb-3" *ngFor="let examen of examans">
+              <div class="card shadow">
+                <div class="card-body">
+                  <h5 class="card-title">{{ examen.examen.titre }}</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">ID: {{ examen.id }}</h6>
+          
+                  <p class="card-text">
+                    <strong>Note :</strong> {{ examen.note ? examen.note : "00" }} <br>
+                    <strong>Type :</strong> {{ examen.examen.examenT }} <br>
+                    <strong>Session :</strong> {{ examen.examen.session }} <br>
+                    <strong>Date :</strong> {{ examen.examen.date | date:"yyyy-MM-dd" }}
+                  </p>
+          
+                 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+          
+      
+          <div class="row" *ngIf="!hidden" >
+            <h2 class="text-danger" *ngIf="!status"> My list</h2>
+            <h2 class="text-danger" *ngIf="status"> LIST FORMATIONS</h2>
+            <div class="col-md-6 mb-3" *ngFor="let formation of formations">
+              <div class="card shadow">
+                <div class="card-body">
+                  <h5 class="card-title">{{ formation.titre }}</h5>
+                  <p class="card-text">{{ formation.description }}</p>
+                  <p class="card-text"><strong>Niveau :</strong> {{ formation.niveau }}</p>
+                  <p class="card-text"><strong>Type :</strong> {{ formation.formationT }}</p>
+                  
+                  
+                  <p *ngIf="!status">Moyenne : {{ formationMoyennes[formation.id] || 'N/A' }}</p>
+                  <button class="btn btn-warning me-2" (click)="assignUser(formation.id)" *ngIf="status" >Save</button>
+
+                  <button class="btn btn-warning me-2" [routerLink]="'/examn/'+formation.id" *ngIf="!status" >Examen</button>
+  
+                </div>
+              </div>
+            </div>
+          </div>
+     
+  
+            <div *ngIf="formations.length === 0" class="alert alert-info text-center mt-4">
+                Aucun formations trouvé.
+            </div>
+            <div *ngIf="examans.length === 0" class="alert alert-info text-center mt-4">
+                Aucun examen trouvé.
+            </div>
+            <div class="mt-5">
+              <h2 class="text-primary text-center">Suggestions de formations pour vous</h2>
+              <!-- <div class="text-center mb-3">
+                <button class="btn btn-success" (click)="getFormationsRecommandation()">Afficher les recommandations</button>
+              </div> -->
+            
+              <div class="row" *ngIf="Recommandations.length > 0">
+                <div class="col-md-6 mb-3" *ngFor="let formation of Recommandations">
+                  <div class="card shadow">
+                    <div class="card-body">
+                      <h5 class="card-title">{{ formation.titre }}</h5>
+                      <p class="card-text">{{ formation.description }}</p>
+                      <p class="card-text"><strong>Niveau :</strong> {{ formation.niveau }}</p>
+                      <p class="card-text"><strong>Type :</strong> {{ formation.formationT }}</p>
+            
+                      <button class="btn btn-warning me-2" (click)="assignUserRecommandation(formation)" >Save</button>
+                    </div>
+                  </div>
+                </div>
+                <ng-template *ngIf="Recommandations.length === 0">
+                  <div class="alert alert-info text-center mt-4">
+                    Aucune recommandation disponible pour le moment.
+                  </div>
+                </ng-template>
+              </div>
+            
+             
+            </div>
+            
+        </div>
+ 
+  
+      </div>
+    </div>
+  </section>

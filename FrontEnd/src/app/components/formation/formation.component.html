@@ -1,0 +1,203 @@
+<!-- Header with Image -->
+<header class="bg-light text-white text-center py-4">
+  <img
+    src="../../../assets/img/v915-wit-011-l.jpg"
+    style="height: 200px; width: 100%"
+    class="img-fluid"
+    alt="Header Image"
+  />
+  <h1 style="color: black">Formations</h1>
+</header>
+
+<section class="course-content">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 col-md-12">
+        <div>
+          <h2 class="text-danger">LIST FORMATIONS</h2>
+          <button type="button" *ngIf="!openadd" class="btn btn-secondary " (click)="openadd=true">Ajouter Formation</button>
+          <br><br>
+                        <!-- Formulaire d'ajout -->
+                        <div *ngIf="openadd" class="card p-4 shadow mb-4">
+                          <h4 class="mb-3">Ajouter une formation</h4>
+                          <form (ngSubmit)="addFormation()">
+                            <div class="mb-3">
+                              <label for="titre" class="form-label">Titre</label>
+                              <input type="text" id="titre" class="form-control" [(ngModel)]="newFormation.titre" name="titre" required />
+                            </div>
+            
+                            <div class="mb-3">
+                              <label for="description" class="form-label">Description</label>
+                              <input type="text" id="description" class="form-control" [(ngModel)]="newFormation.description" name="description" required />
+                            </div>
+            
+                            <div class="mb-3">
+                              <label for="niveau" class="form-label">Niveau</label>
+                              <select id="niveau" class="form-select" [(ngModel)]="newFormation.niveau" name="niveau" required>
+                                <option value="Beginner">Beginner</option>
+                                <option value="Intermediate">Intermediate</option>
+                                <option value="Advanced">Advanced</option>
+                              </select>
+                            </div>
+            
+                            <div class="mb-3">
+                              <label for="formationT" class="form-label">Type de Formation</label>
+                              <select id="formationT" class="form-select" [(ngModel)]="newFormation.formationT" name="formationT" required>
+                                <option value="Video">Vidéo</option>
+                                <option value="Enligne">En ligne</option>
+                              </select>
+                            </div>
+            
+                            <button type="submit" class="btn btn-primary w-100">Ajouter</button>
+                            <button type="button" class="btn btn-danger w-100 mt-2" (click)="cancelajouter()">Annuler</button>
+          
+                          </form>
+                        </div>
+                           <!-- Formulaire de modification -->
+              <div *ngIf="selectedFormation" class="card p-4 shadow mt-4">
+                <h4 class="mb-3">Modifier la formation</h4>
+                <form (ngSubmit)="updateFormation()">
+                  <div class="mb-3">
+                    <label class="form-label">Titre</label>
+                    <input type="text" class="form-control" [(ngModel)]="selectedFormation.titre" name="titre" required />
+                  </div>
+  
+                  <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <input type="text" class="form-control" [(ngModel)]="selectedFormation.description" name="description" required />
+                  </div>
+  
+                  <div class="mb-3">
+                    <label class="form-label">Niveau</label>
+                    <select class="form-select" [(ngModel)]="selectedFormation.niveau" name="niveau" required>
+                      <option value="Beginner">Beginner</option>
+                      <option value="Intermediate">Intermediate</option>
+                      <option value="Advanced">Advanced</option>
+                    </select>
+                  </div>
+  
+                  <div class="mb-3">
+                    <label class="form-label">Type de Formation</label>
+                    <select class="form-select" [(ngModel)]="selectedFormation.formationT" name="formationT" required>
+                      <option value="Video">Vidéo</option>
+                      <option value="Enligne">En ligne</option>
+                    </select>
+                  </div>
+  
+                  <button type="submit" class="btn btn-success w-100">Mettre à jour</button>
+                  <button type="button" class="btn btn-secondary w-100 mt-2" (click)="cancelEdit()">Annuler</button>
+                </form>
+              </div>
+          <div *ngIf="formations.length === 0" class="text-center">
+            <p>Aucune Formation</p>
+          </div>
+          <ng-container *ngIf="!showCourses && !openadd && !selectedFormation">
+            <div class="row">
+              <div
+                class="col-md-6 mb-3"
+                *ngFor="let formation of formations"
+              >
+                <div class="card shadow h-100">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ formation.titre }}</h5>
+                    <p>{{ formation.description }}</p>
+                    <p><strong>Niveau :</strong> {{ formation.niveau }}</p>
+                    <p><strong>Type :</strong> {{ formation.formationT }}</p>
+                    <!-- <button
+                      class="btn btn-warning btn-sm me-2"
+                      (click)="calculmoyenne(formation.id)"
+                    >
+                      Moyenne
+                    </button> -->
+                    <button
+                      class="btn btn-warning btn-sm me-2"
+                      data-bs-toggle="modal"
+                      href="#userMoyenneModal"
+                      (click)="getusersmoy(formation.id)"
+                    >
+                      List
+                    </button>
+                    <button class="btn btn-secondary btn-sm me-2 " (click)="editFormation(formation)">
+                      <i class="fas fa-edit me-2"></i> Modifier
+                    </button>
+                    
+                    <!-- Button: Supprimer -->
+                    <button class="btn btn-danger btn-sm me-2" (click)="deleteFormation(formation.id!)">
+                      <i class="fas fa-trash me-2"></i> Supprimer
+                    </button>
+                    
+                    <!-- Button: Examen -->
+                    <button class="btn btn-info btn-sm " [routerLink]="'/examen/'+formation.id">
+                      <i class="fas fa-book me-2"></i> Examen
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
+          <!-- Modal -->
+          <div
+            class="modal fade"
+            id="userMoyenneModal"
+            tabindex="-1"
+            aria-labelledby="userMoyenneModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content shadow">
+                <div class="modal-header bg-primary text-white">
+                  <h5 class="modal-title" id="userMoyenneModalLabel">
+                    Utilisateurs avec leur Moyenne
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Fermer"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <div *ngIf="userMoyennes.length > 0">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Nom</th>
+                          <th>Email</th>
+                          <th>Moyenne</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let user of userMoyennes; index as i">
+                          <td>{{ i + 1 }}</td>
+                          <td>{{ user.nom }}</td>
+                          <td>{{ user.email }}</td>
+                          <td>{{ user.moyenne | number : "1.2-2" }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div *ngIf="userMoyennes.length === 0">
+                    <p class="text-center text-muted">
+                      Aucun utilisateur trouvé pour cette formation.
+                    </p>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Fermer
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

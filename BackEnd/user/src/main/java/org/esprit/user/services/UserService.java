@@ -27,4 +27,7 @@ public class UserService {
             return "Error registering user: " + e.getMessage();
         }
     }
+    public User getuser(String id){
+      return   userRepository.findByEmail(id);
+    }
 }

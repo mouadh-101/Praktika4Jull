@@ -33,5 +33,8 @@ public class Post {
     @OneToMany(cascade = CascadeType.ALL, mappedBy="post", fetch = FetchType.LAZY)
     @JsonIgnoreProperties("post") // pour éviter la récursion infinie
     private List<Comment> Comments;
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Like> likes;
 
 }

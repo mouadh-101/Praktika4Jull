@@ -17,6 +17,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/users")
 public class UserController {
 
@@ -40,6 +41,10 @@ public class UserController {
     @GetMapping("/")
     public List<User> fndAll() {
         return userRepository.findAll();
+    }
+    @GetMapping("/get")
+    public User findbyemail(@RequestParam String email) {
+        return userRepository.findByEmail(email);
     }
     @GetMapping("/userById")
     public User userByID(@RequestHeader("userId") String userId)

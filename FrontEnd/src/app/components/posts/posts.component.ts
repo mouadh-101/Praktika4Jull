@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommentService } from 'src/app/services/comment.service';
+import { LikeService } from 'src/app/services/like.service';
 import { PostService } from 'src/app/services/post.service';
 
 @Component({
@@ -16,7 +17,8 @@ export class PostsComponent implements OnInit {
   idme:number=0;
 isChatVisible: any;
 
-  constructor(private service: PostService, private commentService: CommentService) {}
+  constructor(private service: PostService,private likeService: LikeService,
+     private commentService: CommentService) {}
 
   ngOnInit(): void {
     this.loadPosts()
@@ -63,10 +65,24 @@ isChatVisible: any;
 
         this.loadPosts();  // Recharge les posts après l'ajout
         this.closePostModal();
+      },(error)=>{
+        console.error(error);
+        
       });
     }
   }
-
+  userId = 1;
+  toggleLike(post: any): void {
+    this.likeService.toggleLike(post.idPost, this.userId).subscribe((response:any) => {
+      if (response === "Post liked!") {
+        post.likesCount = (post.likesCount || 0) + 1;
+        post.likedByUser = true;
+      } else {
+        post.likesCount = (post.likesCount || 1) - 1;
+        post.likedByUser = false;
+      }
+    });
+  }
   // Modifier un post
   submitEditPost(editPostForm: any) {
     if (editPostForm.valid) {
@@ -129,11 +145,16 @@ isChatVisible: any;
   pageSize: number = 5; // Nombre de posts par page
   totalPages: number = 0;
   loadPosts(): void {
-    this.service.getPostspage(this.currentPage, this.pageSize).subscribe((response:any) => {
+    this.service.getPostspage(this.currentPage, this.pageSize).subscribe(response => {
       console.log(response);
       
       this.posts = response.content; // Récupère les posts de la page actuelle
-      this.totalPages = response.totalPages; // Nombre total de pages
+      this.totalPages = response.page.totalPages; // Nombre total de pages
+      this.posts.forEach(post => {
+        this.likeService.getLikeCount(post.idPost).subscribe(count => {
+          post.likesCount = count;
+        });
+      });
     });
   }
 

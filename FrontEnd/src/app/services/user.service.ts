@@ -9,18 +9,21 @@ import { JwtPayload, jwtDecode } from 'jwt-decode';
 })
 export class UserService {
 
-  private apiUrl = 'http://localhost:8222/api/users/'; // Adjust the URL as needed
+  private apiUrl = 'http://localhost:8222/api/users'; // Adjust the URL as needed
   constructor(private http: HttpClient , private authService : AuthService) {}
   getUsers(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}`).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get<any[]>(`http://localhost:8082/api/users/`)
   }
 
-  getUserData(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}userById`); // Fetch user data
+  // getUserData(): Observable<any> {
+  //   return this.http.get<any>(`${this.apiUrl}/userById`); // Fetch user data
+  // }
+  getUser(): Observable<any> {
+    return this.http.get<any>(`http://localhost:8222/auth/me`,{responseType:"text" as "json"}); // Fetch user data
   }
-
+  getUseremail(email:any): Observable<any> {
+    return this.http.get<any>(`http://localhost:8082/api/users/get?email=${email}`); // Fetch user data
+  }
   private handleError(error: HttpErrorResponse) {
     if (error.status === 401) {
       // Redirect to Sign In page if not authenticated

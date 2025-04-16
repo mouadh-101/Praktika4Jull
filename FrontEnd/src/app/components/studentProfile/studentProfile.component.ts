@@ -26,7 +26,7 @@ export class StudentProfileComponent implements OnInit {
       return;
     }
   
-    this.userService.getUserData().subscribe({
+    this.userService.getUser().subscribe({
       next: (userData) => {
         this.userData = userData;
         console.log('User data fetched:', userData);

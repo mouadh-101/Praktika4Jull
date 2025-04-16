@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PostService {
-  private apiUrl = 'http://localhost:8222/api/forum'; // URL de l'API Spring Boot
+  private apiUrl = 'http://localhost:8222/api/forum'; 
 
   constructor(private http: HttpClient) {}
 
