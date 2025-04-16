@@ -1,6 +1,6 @@
 <header id="header" class="header d-flex align-items-center fixed-top">
   <div class="container-fluid container-xl position-relative d-flex align-items-center">
-    
+
     <a href="index.html" class="logo d-flex align-items-center me-auto">
       <img src="assets/img/logo.png" alt="">
       <h1 class="sitename">Praktika</h1>
@@ -8,52 +8,67 @@
 
     <nav id="navmenu" class="navmenu">
       <ul>
-        <li><a routerLink="" class="active">Home</a></li>
-        <li><a routerLink="">About</a></li>
-        <li><a routerLink="">Features</a></li>
-        <li><a routerLink="">Services</a></li>
-        <li><a routerLink="">Pricing</a></li>
-        <li><a routerLink="">Contact</a></li>
+        <li><a routerLink="" class="active" >Home</a></li>
+        <li><a routerLink="" *ngIf="!isLoggedIn" >About</a></li>
+        <li><a routerLink="" *ngIf="!isLoggedIn" >Features</a></li>
+        <li><a routerLink="" *ngIf="!isLoggedIn" >Services</a></li>
+        <li><a routerLink="" *ngIf="!isLoggedIn" >Pricing</a></li>
+        <li><a routerLink="" *ngIf="!isLoggedIn"  >Contact</a></li>
+        <li><a routerLink="/internships" *ngIf="isLoggedIn">Internships</a></li>
+        <li><a routerLink="/ListDocument" *ngIf="isLoggedIn" >Doccument</a></li>
+        <li><a routerLink="/interviews" *ngIf="isLoggedIn" >Interview</a></li>
+        <li><a routerLink="" *ngIf="isLoggedIn" >Pricing</a></li>
+        <li><a routerLink="" *ngIf="isLoggedIn"  >Contact</a></li>
         <li *ngIf="isLoggedIn" class="dropdown"><a href="#">
           <span>
             <img *ngIf="user?.profilePicture" [src]="user.profilePicture" alt="Profile" class="profile-circle">
             <img *ngIf="!user?.profilePicture" src="../../../assets/img/pdp.jpg" alt="Profile" class="profile-circle">
           </span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
           <ul>
-            <li><a routerLink="">My Resume</a></li>
-            <li><a href="#">Dropdown 2</a></li>
+            <li><a routerLink="/student"  *ngIf="userRole === 'Student'">My Resume</a></li>
+            <li><a routerLink="/favoris">My BookMarks</a></li>
             <li><a href="#">Dropdown 3</a></li>
-            <li><a (click)="onLogout()">Logout</a></li>
+            <li><a (click)="onLogout()" >Logout</a></li>
           </ul>
         </li>
+        <!-- Icône de notification -->
+        <div *ngIf="isLoggedIn" class="notification-icon">
+          <button (click)="toggleNotifications()">
+            <i class="fa fa-bell"></i>
+            <span *ngIf="notificationCount > 0" class="badge">{{ notificationCount }}</span>
+          </button>
+        </div>
+        
       </ul>
       <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+    
+  
+       
+     
       
     </nav>
 
-    <!-- Show Profile & Notifications when logged in -->
-    <div *ngIf="isLoggedIn" class="user-actions d-flex align-items-center">
-      
-      <!-- Notification Bell -->
-      
-
-      <!-- Profile Circle & Dropdown -->
-      <div class="profile-container" (mouseenter)="toggleDropdown()" (mouseleave)="toggleDropdown()">
-        <img *ngIf="user?.profilePicture" [src]="user.profilePicture" alt="Profile" class="profile-circle">
-        <img *ngIf="!user?.profilePicture" src="../../../assets/img/pdp.jpg" alt="Profile" class="profile-circle">
-
-        <!-- Dropdown -->
-        <div *ngIf="showDropdown" class="profile-dropdown">
-          <p class="username">{{ user?.name}}</p>
-          <p class="username">{{ user?.role}}</p>
-          <button class="logout-btn" (click)="onLogout()">Logout</button>
-        </div>
-      </div>
-    </div>
 
 
     <!-- Show "Join Us" when not logged in -->
     <a *ngIf="!isLoggedIn" class="btn-getstarted" routerLink="/sign-up">Join Us</a>
 
   </div>
+ 
+  
 </header>
+<!-- Panneau de notifications -->
+
+<div *ngIf="notificationsVisible" class="notifications-popup">
+  <div class="notifications-header">
+    <h5>Notifications</h5>
+    <button (click)="toggleNotifications()">Close</button>
+  </div>
+  <div *ngIf="notifications.length === 0" class="no-notifications">No new notifications</div>
+  
+  <!-- Liste des notifications -->
+  <div *ngFor="let notification of notifications" class="notification-item">
+    <!-- Utiliser [innerHTML] pour afficher du contenu HTML -->
+    <p [innerHTML]="notification"></p>
+  </div>
+</div>

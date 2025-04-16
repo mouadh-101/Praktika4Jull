@@ -1,0 +1,145 @@
+/* Conteneur principal du document */
+.document-container {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 2.5rem;
+  background-color: #f9f9f9;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Fond "Esprit" en rouge transparent */
+.watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  opacity: 0.1; /* Opacité réduite pour le texte */
+  z-index: 1;
+  pointer-events: none; /* Permet de cliquer à travers le texte */
+}
+
+.watermark-text {
+  font-size: 120px;
+  font-weight: bold;
+  color: rgba(255, 0, 0, 0.3); /* Rouge transparent */
+  white-space: nowrap;
+}
+
+/* En-tête du document */
+.document-header {
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.document-header h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.document-header p {
+  font-size: 1.25rem;
+  color: #666;
+}
+
+/* Sections du document */
+.document-section {
+  margin-bottom: 2.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.section-title {
+  font-size: 1.75rem;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+}
+
+/* Informations de base */
+.bg-info {
+  background-color: #17a2b8 !important; /* Bleu pour Informations de Base */
+}
+
+/* Termes associés */
+.bg-warning {
+  background-color: #ffc107 !important; /* Jaune pour Termes Associés */
+}
+
+/* Signatures */
+.bg-danger {
+  background-color: #dc3545 !important; /* Rouge pour Signatures */
+}
+
+/* Termes associés */
+.term-item {
+  padding: 1.5rem;
+  border-bottom: 1px solid #eee;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.term-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.term-item:last-child {
+  border-bottom: none;
+}
+
+.term-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2980b9;
+}
+
+.term-description {
+  font-size: 1.1rem;
+  color: #666;
+}
+
+/* Placeholder de signature */
+.signature-placeholder {
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background-color: #f1f1f1;
+  border: 1px dashed #ccc;
+}
+
+/* Pied de page */
+.document-footer {
+  border-top: 2px solid #ddd;
+  padding-top: 1.5rem;
+  margin-top: 2.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* Bouton de retour */
+.btn-outline-primary {
+  border: 2px solid #2980b9;
+  color: #2980b9;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-outline-primary:hover {
+  background-color: #2980b9;
+  color: #fff;
+}
+/* Cadre bleu autour de la page */
+/* Cadre bleu autour de la page */
+.blue-frame {
+  border: 10px solid #007bff; /* Bordure bleue de 10px */
+  border-radius: 15px; /* Coins arrondis */
+  padding: 20px; /* Espace intérieur */
+  background-color: #f9f9f9; /* Fond léger pour contraster avec le cadre */
+}

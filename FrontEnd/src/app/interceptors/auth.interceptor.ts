@@ -29,6 +29,7 @@ export class AuthInterceptor implements HttpInterceptor {
         setHeaders: {
           Authorization: `Bearer ${token}`,
           "Content-Type": 'application/json'
+
         }
       });
     }
@@ -47,3 +48,4 @@ export class AuthInterceptor implements HttpInterceptor {
     );
   }
 }
+

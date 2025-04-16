@@ -32,14 +32,14 @@ public class DepotRestController {
     @Autowired
     IDocumentRepository documentRepository;
     @GetMapping("/uploadzip/{idDepot}")
-        public ResponseEntity<byte[]> downloadDocuments(@PathVariable Long idDepot) throws IOException {
-            // Récupère le dépôt en fonction de l'ID
-            Depot depot = depotRepository.findById(idDepot)
-                    .orElseThrow(() -> new RuntimeException("Depot not found"));
+    public ResponseEntity<byte[]> downloadDocuments(@PathVariable Long idDepot) throws IOException {
+        // Récupère le dépôt en fonction de l'ID
+        Depot depot = depotRepository.findById(idDepot)
+                .orElseThrow(() -> new RuntimeException("Depot not found"));
 
-            byte[] rapport = depot.getRapport();
-            byte[] journal = depot.getJournal();
-            byte[] attestation = depot.getAttestation();
+        byte[] rapport = depot.getRapport();
+        byte[] journal = depot.getJournal();
+        byte[] attestation = depot.getAttestation();
 
         // Crée un flux pour l'archive ZIP
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

@@ -27,15 +27,6 @@ public class DocumentServiceImpl implements IDocumentService {
     EmailService emailService;
     @Override
     public Document ajouterDocument(Document document) {
-        /*String email="faresfelhi45@gmail.com";
-        String subject= "Ajout avec succès";
-        String body = "Votre stage a été ajouté avec succès à " + document.getSociete() + " du " + document.getDateDebut() + " au " + document.getDateFin() + ".";
-
-        emailService.sendEmail(
-                email,
-                subject,
-                body
-        );*/
         return documentRepository.save(document);
 
     }

@@ -6,5 +6,5 @@ export interface Depot {
     Journal:ArrayBuffer ;
     Attestation:ArrayBuffer ;
     uploadDate: Date;
-    document: Document;    
+    document: Document;
 }

@@ -1,0 +1,25 @@
+spring:
+  config:
+    import: optional:configserver:http://localhost:8888
+  application:
+    name: convention-service
+
+  spring:
+    web:
+      cors:
+        allowed-origins: "http://localhost:4200"
+        allowed-methods: "GET,POST,PUT,DELETE,OPTIONS"
+        allowed-headers: "*"
+        allow-credentials: true
+
+mail:
+  host: smtp.gmail.com
+  port: 587
+  username: ${kossayboubaker96@gmail.com}
+  password: ${lhvw uare jyot yaey}
+  properties:
+    mail:
+      smtp:
+        auth: true
+        starttls:
+          enable: true

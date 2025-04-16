@@ -7,8 +7,9 @@ import { Document, Duree, StatusDoc } from 'src/app/Models/document';
   providedIn: 'root'
 })
 export class DocumentService {
-  private baseUrl = 'http://localhost:8088/api/Document'; 
- 
+  private baseUrl = 'http://localhost:8088/api/Document';
+
+
 constructor(private http: HttpClient) { }
 // Ajouter un document
 ajouterDocument(document: any): Observable<any> {

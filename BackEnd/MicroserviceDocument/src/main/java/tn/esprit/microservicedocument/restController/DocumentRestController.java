@@ -87,7 +87,7 @@ public class DocumentRestController {
     @GetMapping(value = "/generateQRCode/{id}", produces = MediaType.IMAGE_PNG_VALUE)
     public ResponseEntity<byte[]> generateQRCode(@PathVariable("id") Long id) throws IOException {
         // Lien pour chaque fichier à télécharger
-        String downloadLinks = "http://192.168.47.44:8088/api/Document/downloadAll/" + id;
+        String downloadLinks = "http://192.168.1.102:8088/api/Document/downloadAll/" + id;
 
 
         try {
@@ -139,12 +139,7 @@ public class DocumentRestController {
     {
         documentService.supprimerDocument(id);
     }
-    //@PutMapping(path = "/document/update")
-    //Document updateDocument(@RequestBody Document document)
-    //{
-      //  return documentService.updateDocument(document);
-    //
-    //}
+
     @PutMapping("/update/{id}")
     public ResponseEntity<Document> updateDocument(@PathVariable("id") Long id, @RequestBody Document document) {
         Optional<Document> existingDocument = documentRepository.findById(id);

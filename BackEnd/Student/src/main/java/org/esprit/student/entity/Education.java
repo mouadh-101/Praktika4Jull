@@ -74,4 +74,7 @@ public class Education{
     public void setStudent(Student student) {
         this.student = student;
     }
+
+
+
 }

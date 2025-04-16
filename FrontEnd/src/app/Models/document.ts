@@ -1,11 +1,11 @@
-import{ Depot } from "./Depot" 
+import{ Depot } from "./Depot"
 import { Journal } from "./Journal";
 export enum StatusDoc {
     ENATTEND = "ENATTEND",
     VALIDE = "VALIDE",
     REFUSER = "REFUSER"
   }
-  
+
   export enum Type {
     CONVENTION = "CONVENTION",
     INTERNSHIP_REQUEST = "INTERNSHIP_REQUEST",
