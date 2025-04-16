@@ -100,5 +100,10 @@ internship.setStatus(Status.OPEN);
     public List<Internship> getInternshipsWithFilters(String location, Integer duration, BigDecimal compensation, String field, Boolean remote) {
         return internshipRepository.findByFilters(location, duration, compensation, field, remote);
     }
+    public List<Internship> getInternshipByUserId(String userId)
+    {
+        Company c =companyRepository.findById(userId).orElse(null);
+        return internshipRepository.findAllByCompany(c);
+    }
 
 }

@@ -3,6 +3,7 @@ package tn.esprit.intershipproccess.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import tn.esprit.intershipproccess.entity.Company;
 import tn.esprit.intershipproccess.entity.Internship;
 
 import java.math.BigDecimal;
@@ -19,5 +20,6 @@ public interface InternshipRepository extends JpaRepository<Internship,Integer> 
                                    @Param("compensation") BigDecimal compensation,
                                    @Param("field") String field,
                                    @Param("remote") Boolean remote);
+    List<Internship> findAllByCompany(Company company);
 
 }

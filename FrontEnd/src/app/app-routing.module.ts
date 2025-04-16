@@ -34,6 +34,8 @@ import { ListJournalComponent } from './components/Document/ListJournal/ListJour
 import { AddJournalComponent } from './components/Document/AddJournal/AddJournal.component';
 import { JournalbackComponent } from './components/Document/Journalback/Journalback.component';
 import { UpdateJournalComponent } from './components/Document/UpdateJournal/UpdateJournal.component';
+import { ApplicationDetailsComponent } from './components/application-details/application-details.component';
+import { StudentApplicationsComponent } from './components/student-applications/student-applications.component';
 
 const routes: Routes = [
   { path: 'sign-in', component: SignInComponent },
@@ -65,21 +67,23 @@ const routes: Routes = [
   { path: 'terms', component: TermsComponent },
   { path: 'terms/:id', component: TermDetailComponent },
   { path: 'conventions/:id', component: ConventionDetailComponent },
+
   {path:'users',component:UseTabComponent},
   {path:'student',component:StudentProfileComponent},
   {path:'ListDocument',component:ListDocumentComponent},
   {path:'AddDocument',component:AddDocumentComponent},
   {path:'UpdateDocument/:id',component:UpdateDocumentComponent},
   {path:'DocumentBack',component:DocumentBackComponent},
-{path:'depot/:id', component:DepotComponent},
-{path:'depotback/:id', component:DepotBackComponent},
-{path:'ListJournal/:id', component:ListJournalComponent},
-{path:'AddJournal/:id', component:AddJournalComponent},
-{path:'JournalBack/:id', component:JournalbackComponent},
-{path:'UpdateJournal/:id',component:UpdateJournalComponent},
+  {path:'depot/:id', component:DepotComponent},
+  {path:'depotback/:id', component:DepotBackComponent},
+  {path:'ListJournal/:id', component:ListJournalComponent},
+  {path:'AddJournal/:id', component:AddJournalComponent},
+  {path:'JournalBack/:id', component:JournalbackComponent},
+  {path:'UpdateJournal/:id',component:UpdateJournalComponent},
 
 
-
+  { path: 'applications/:id', component: ApplicationDetailsComponent },
+  { path: 'applications', component: StudentApplicationsComponent },
 
 
   { path: '', redirectTo: '/', pathMatch: 'full' }

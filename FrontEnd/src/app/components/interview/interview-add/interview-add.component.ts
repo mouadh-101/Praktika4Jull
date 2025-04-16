@@ -71,7 +71,7 @@ export class InterviewAddComponent implements OnInit {
       .then(() => {
         console.log('✅ Email envoyé avec succès !');
       })
-      .catch((error) => {
+      .catch((error:Error) => {
         console.error('❌ Erreur lors de l\'envoi de l\'email:', error);
       });
   }

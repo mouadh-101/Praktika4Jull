@@ -52,6 +52,11 @@ public class UserController {
     {
         return userRepository.findById(userId).orElse(null);
     }
+    @GetMapping("/userByIdd")
+    public User userById(@RequestBody String userId)
+    {
+        return userRepository.findById(userId).orElse(null);
+    }
     @GetMapping("/allusersId")
     public List<String> getAllUsersID(){
         return userService.getAllUsersID();

@@ -72,6 +72,10 @@ public class IntenshipController {
     public ResponseEntity<List<Internship>> GetAllInternship(){
         return new ResponseEntity<>(internshipService.GetAllInternship(), HttpStatus.OK);
     }
+    @GetMapping("/listById")
+    public List<Internship> GetAllInternshipByCompany(@RequestHeader("userId") String userId){
+        return internshipService.getInternshipByUserId(userId);
+    }
     @GetMapping("/requirements")
     public ResponseEntity<List<Requirement>>  getAvailableRequirements(){
         return new ResponseEntity<>(internshipService.getAvailableRequirements(), HttpStatus.OK);
