@@ -1,0 +1,12 @@
+<ejs-gantt
+  #ganttRef
+  id="Gantt"
+  [dataSource]="data"
+  [taskFields]="taskSettings"
+  [columns]="columns"
+  [toolbar]="toolbar"
+  [editSettings]="editSettings"
+  (toolbarClick)="toolbarClick($event)"
+  allowPdfExport="true"
+  allowExcelExport="true">
+</ejs-gantt>

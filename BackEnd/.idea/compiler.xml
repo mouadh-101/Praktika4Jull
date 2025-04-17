@@ -10,6 +10,9 @@
         <module name="config-server" />
         <module name="gatew" />
         <module name="discovery" />
+        <module name="MicroserviceDocument" />
+        <module name="intershipproccess" />
+        <module name="microserviceInterview" />
         <module name="Gestion_convention" />
       </profile>
       <profile name="Annotation profile for user" enabled="true">
@@ -17,18 +20,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar" />
-        </processorPath>
-        <module name="user" />
-      </profile>
-      <profile name="Annotation profile for Student" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
         <module name="Student" />
+        <module name="user" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -40,10 +35,13 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Gestion_convention" options="-parameters" />
+      <module name="MicroserviceDocument" options="-parameters" />
       <module name="Student" options="-parameters" />
       <module name="config-server" options="-parameters" />
       <module name="discovery" options="-parameters" />
       <module name="gatew" options="-parameters" />
+      <module name="intershipproccess" options="-parameters" />
+      <module name="microserviceInterview" options="-parameters" />
       <module name="springProject2" options="-parameters" />
       <module name="tpFoyer-17" options="-parameters" />
       <module name="user" options="-parameters" />

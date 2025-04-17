@@ -16,6 +16,7 @@ public class ExtraActivities {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+    String title;
     String description;
     @ManyToOne
     @JsonIgnore
@@ -43,5 +44,13 @@ public class ExtraActivities {
 
     public void setStudent(Student student) {
         this.student = student;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

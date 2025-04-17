@@ -21,6 +21,8 @@ export class UserService {
     return this.http.get<any>(`${this.apiUrl}userById`); // Fetch user data
   }
 
+  
+
   private handleError(error: HttpErrorResponse) {
     if (error.status === 401) {
       // Redirect to Sign In page if not authenticated

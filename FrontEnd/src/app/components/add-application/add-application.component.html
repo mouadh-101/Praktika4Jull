@@ -1,0 +1,37 @@
+<div class="form-container">
+  <h2 class="form-title">{{ editMode ? 'Edit' : 'Add' }} Application</h2>
+
+  <!-- Warning text only in Add mode -->
+  <p *ngIf="!editMode" class="text-sm text-yellow-400 bg-yellow-900 p-3 rounded mb-4 border border-yellow-600">
+    ⚠️ The information in your resume will be shared with the company and may be analyzed by AI.
+    Please double-check your inputs before submitting.
+  </p>
+
+  <form [formGroup]="applicationForm" (ngSubmit)="submit()">
+    <div class="form-field">
+      <label for="coverLetter">Cover Letter</label>
+      <textarea
+        id="coverLetter"
+        formControlName="coverLetter"
+        rows="4"
+        placeholder="Write your cover letter here..."
+        required>
+      </textarea>
+    </div>
+
+    <!-- Status field -->
+    <div class="form-field" *ngIf="editMode">
+      <label for="status">Status</label>
+      <select id="status" formControlName="status">
+        <option value="PENDING">PENDING</option>
+        <option value="ACCEPTED">ACCEPTED</option>
+        <option value="REJECTED">REJECTED</option>
+      </select>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn btn-cancel" (click)="cancel()">Cancel</button>
+      <button type="submit" class="btn btn-submit">Submit</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,27 @@
+spring:
+  config:
+    import: optional:configserver:http://localhost:8888
+  application:
+    name: internship-server
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: stakwa336@gmail.com
+    password: iabspyodwscbunll
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+logging:
+  level:
+    root: INFO
+    org.springframework.mail: DEBUG
+
+application:
+  config:
+    users-url: http://localhost:8082/api/users
+    student-url : http://localhost:8083/api/Student
+
+

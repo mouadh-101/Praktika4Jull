@@ -1,0 +1,49 @@
+<div class="container mt-5">
+  <div class="card shadow border-0 mx-auto" style="max-width: 600px;">
+    <div class="card-header bg-primary text-white text-center fw-bold">
+      ✍️ Ajouter une Tâche
+    </div>
+    <div class="card-body">
+
+      <form (ngSubmit)="onSubmit()" #journalForm="ngForm">
+        <!-- Tâche -->
+        <div class="mb-3">
+          <label for="tache" class="form-label fw-semibold">🛠️ Nom de la tâche</label>
+          <input
+            type="text"
+            id="tache"
+            name="tache"
+            [(ngModel)]="journal.tache"
+            class="form-control"
+            placeholder="Ex: Mise à jour base de données"
+            required
+          />
+        </div>
+
+        <!-- Date -->
+        <div class="mb-3">
+          <label for="dateJournal" class="form-label fw-semibold">📅 Date</label>
+          <input
+            type="date"
+            id="dateJournal"
+            name="dateJournal"
+            [(ngModel)]="journal.dateJournal"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <!-- Boutons -->
+        <div class="d-flex justify-content-between mt-4">
+          <button type="submit" class="btn btn-success" [disabled]="!journalForm.form.valid">
+            <i class="bi bi-check-circle"></i> Ajouter
+          </button>
+          <button class="btn btn-secondary" routerLink="/ListDocument">
+            <i class="bi bi-arrow-left-circle"></i> Annuler
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>

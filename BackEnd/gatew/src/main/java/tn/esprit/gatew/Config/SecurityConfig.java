@@ -25,6 +25,7 @@ public class SecurityConfig {
                         .pathMatchers("/auth/**",
                                 "/api/users/signup",
                                 "/api/Student/add",
+                                "/api/internships/company/add",
                                 "/swagger-resources",
                                 "/swagger-resources/**",
                                 "/configuration/ui",
@@ -32,7 +33,8 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/webjars/**",
                                 "/swagger-ui.html"
-                                , "/v3/api-docs/**"
+                                , "/v3/api-docs/**",
+                                "/ws/**"  // WebSocket autorisé sans authentification
                         ).permitAll() // Allow login/register endpoints
                         .pathMatchers("/api/**").authenticated() // Protect API endpoints
                 )

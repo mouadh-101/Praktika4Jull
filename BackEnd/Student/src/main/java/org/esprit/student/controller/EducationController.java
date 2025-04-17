@@ -8,27 +8,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/Student/Edu")
+@PreAuthorize("isAuthenticated()")
 public class EducationController {
     @Autowired
     IEducationService educationService;
     @Autowired
     StudentRepository studentRepository;
     @PostMapping
-    public Education addeducation(@RequestBody Education education) {
-        return educationService.addEducation(education);
-    }
-    @PreAuthorize("isAuthenticated()")
-    @PostMapping("/affect")
     public Education addeducation(@RequestBody Education education, @RequestHeader("userId") String id) {
-        Student s=studentRepository.findById(id).orElse(null);
-        education.setStudent(s);
-        return educationService.addEducation(education);
+        return educationService.addEducation(education,id);
     }
-
     @PutMapping("/{id}")
     public Education updateeducation(@PathVariable("id") Long id,@RequestBody Education education) {
         return educationService.updateEducation(id,education);
@@ -39,10 +33,13 @@ public class EducationController {
         educationService.deleteEducation(id);
     }
 
-    @GetMapping
+    @GetMapping("/{id}")
     public Education geteducation(@PathVariable("id")Long id) {
         return educationService.getEducation(id);
     }
-
+    @GetMapping("/MostCommonEducation")
+    public List<Object[]> getMostCommonEducation() {
+        return educationService.getMostCommonEducation();
+    }
 
 }

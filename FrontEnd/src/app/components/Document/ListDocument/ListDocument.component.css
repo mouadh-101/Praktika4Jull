@@ -1,0 +1,73 @@
+.card-body {
+    padding: 1.25rem;
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+
+  .card-subtitle {
+    font-size: 1rem;
+  }
+
+  .card-text {
+    font-size: 0.875rem;
+  }
+
+  .d-flex {
+    gap: 0.5rem;
+  }
+
+  button i {
+    margin-right: 0.5rem;
+  }
+  button.btn {
+    min-width: 50px;
+  }
+    /* Conteneur du QR code */
+.qr-code-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  position: relative;
+  padding: 15px;
+  background-color: #f0f0f0; /* Couleur de fond légère */
+  border-radius: 12px; /* Coins arrondis */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre légère pour faire ressortir le QR code */
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Transition pour l'effet de survol */
+}
+
+/* Effet de survol pour rendre l'élément plus interactif */
+.qr-code-container:hover {
+  transform: scale(1.05); /* Agrandit l'élément au survol */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Ombre plus marquée */
+}
+
+/* QR code */
+.qr-code img {
+  width: 120px; /* Taille fixe du QR code */
+  height: 120px;
+  border: 4px solid #007bff; /* Bordure bleue pour délimiter le QR code */
+  border-radius: 8px; /* Coins arrondis pour le QR code */
+  transition: transform 0.2s ease-in-out; /* Transition pour l'effet de survol */
+}
+
+/* Effet de survol sur l'image */
+.qr-code img:hover {
+  transform: rotate(10deg); /* Rotation légère au survol */
+}
+
+/* Ajout d'un texte sous le QR code pour plus de clarté */
+.qr-code-container::after {
+  content: 'Scanner!';
+  position: absolute;
+  bottom: -25px;
+  font-size: 16px;
+  color: #007bff;
+  font-weight: bold;
+  text-align: center;
+}
+

@@ -1,0 +1,127 @@
+/* Form container */
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Spacing between inputs */
+  input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  /* Placeholder styling */
+  input::placeholder {
+    color: #888;
+  }
+  
+  /* Label styling */
+  label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 6px;
+    color: rgb(56, 141, 168); /* Use theme color for labels */
+  }
+  
+  /* Styling for the buttons */
+  button {
+    background-color: rgb(56, 141, 168); /* Primary theme color for buttons */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+  }
+  
+  /* Button hover effect */
+  button:hover {
+    background-color: #428b97; /* Slightly darker shade for hover effect */
+  }
+  
+  /* Style for the "Supprimer" button (red color for delete action) */
+  button[type="button"] {
+    background-color: #dc3545;
+    margin-left: 10px;
+  }
+  
+  button[type="button"]:hover {
+    background-color: #c82333;
+  }
+  
+  /* Spacing between form sections */
+  form > div {
+    margin-bottom: 15px;
+  }
+  
+  /* Form array (Taches) section styling */
+  formArrayName {
+    margin-top: 20px;
+  }
+  
+  formArrayName div {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+  }
+  
+  /* Form submit button */
+  button[type="submit"] {
+    background-color: rgb(56, 141, 168); /* Use theme color for submit button */
+    margin-top: 20px;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #428b97;
+  }
+  textarea {
+    width: 100%; /* Makes it take up the full width of the container */
+    max-width: 500px; /* Optional: sets a maximum width */
+    height: 150px; /* You can adjust the height as needed */
+    resize: vertical; /* Allows resizing of the height */
+  }
+  
+  input[type="text"], input[type="date"] {
+    width: 100%;
+    max-width: 500px;
+  }
+/* Make the form container wide */
+.wide-form {
+  width: 80%; /* Adjust width as needed */
+  margin: 0 auto; /* Center the form */
+}
+
+/* Style input fields and textareas to be wide */
+.wide-input {
+  width: 100%; /* Full width of the parent container */
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Optional: Adjust button styling */
+button {
+  padding: 10px 15px;
+  background-color: rgb(56, 141, 168); /* Adjust button color as per your theme */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #4d8fa3;
+}
+  

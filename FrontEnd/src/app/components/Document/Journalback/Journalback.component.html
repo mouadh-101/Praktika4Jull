@@ -1,0 +1,36 @@
+<div class="container mt-5">
+  <h1 class="text-center text-primary mb-4">📋 Gestion des Tâches</h1>
+
+  <!-- Vérifie si on a des tâches -->
+  <div *ngIf="journals && journals.length > 0; else noJournals">
+
+    <div *ngFor="let journal of journals" class="card bg-light shadow-sm p-3 mb-4 rounded border-0">
+      <div class="card-body">
+        <h5 class="card-title fw-bold text-dark">🛠️ Tâche : {{ journal.tache }}</h5>
+        <p class="card-text text-muted mb-1">
+          📅 <strong>Date :</strong> {{ journal.dateJournal | date: 'longDate' }}
+        </p>
+
+        <div class="text-end mt-3">
+          <button class="btn btn-danger btn-sm me-2" (click)="deleteJournal(journal.idJournal)">
+            <i class="bi bi-trash"></i> Supprimer
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Template si aucune tâche -->
+  <ng-template #noJournals>
+    <div class="alert alert-info text-center">
+      😕 Aucune tâche trouvée pour ce stage.
+    </div>
+  </ng-template>
+
+  <div class="text-center mt-4">
+    <button routerLink="/DocumentBack" class="btn btn-primary">
+      <i class="bi bi-arrow-left-circle"></i> Retour
+    </button>
+  </div>
+</div>
