@@ -8,9 +8,15 @@ import {TermDetailComponent} from "./components/term-detail/term-detail.componen
 import {TermsComponent} from "./components/terms/terms.component";
 import {ConventionComponent} from "./components/convention/convention.component";
 import {ConventionDetailComponent} from "./components/convention-detail/convention-detail.component";
+import { QuizListComponent } from './components/quiz-list/quiz-list.component';
+import { QuizFormComponent } from './components/quiz-form/quiz-form.component';
 
 const routes: Routes = [
   { path: 'terms', component: TermsComponent },
+  { path: 'quizzes', component: QuizListComponent },
+  { path: 'quizzes/add', component: QuizFormComponent },
+  // { path: 'quizzes/edit/:id', component: QuizFormComponent },
+  { path: '', redirectTo: '/quizzes', pathMatch: 'full' },
   { path: 'terms/:id', component: TermDetailComponent },
   { path: 'conventions/:id', component: ConventionDetailComponent },
   { path: 'conventions', component: ConventionComponent },

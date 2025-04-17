@@ -4,7 +4,84 @@
   <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addConventionModal">
     <i class="bi bi-plus-circle"></i> Ajouter une Convention
   </button>
+  <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addConventionModalGenerate">
+    <i class="bi bi-plus-circle"></i> generate convention
+  </button>
 </div>
+<!-- Bouton déclencheur -->
+<!-- Bouton pour ouvrir les statistiques -->
+<!-- Bouton pour ouvrir les statistiques -->
+<div class="text-center my-6">
+  <button (click)="handleStatsClick()" class="px-6 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold text-base rounded-lg shadow-md hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out">
+    📊 Statistiques
+  </button>
+</div>
+
+<!-- Modal des statistiques -->
+<div *ngIf="showStatsModal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 px-4">
+  <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-xl transform transition-all scale-100 animate-fade-in">
+    
+    <!-- En-tête -->
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 w-full text-center">📈 Statistiques des Conventions</h2>
+      <button (click)="showStatsModal = false" class="absolute right-6 top-6 text-gray-500 hover:text-red-600 text-3xl transition-colors">×</button>
+    </div>
+
+    <!-- Section statistique moyenne -->
+    <div class="mb-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <!-- Total des conventions -->
+      <div class="p-4 bg-blue-50 rounded-lg shadow-sm text-center">
+        <h3 class="text-lg font-semibold text-gray-800">Total Conventions</h3>
+        <p class="text-3xl font-bold text-blue-600">{{ conventions.length }}</p>
+        <p class="text-sm text-gray-600">Toutes conventions</p>
+      </div>
+      
+      <!-- Moyenne des conventions signées -->
+      <div class="p-4 bg-green-50 rounded-lg shadow-sm text-center">
+        <h3 class="text-lg font-semibold text-gray-800">Signées</h3>
+        <p class="text-3xl font-bold text-green-600">{{ averageSigned | number:'1.0-2' }}</p>
+        <p class="text-sm text-gray-600">Moyenne mensuelle</p>
+      </div>
+      
+      <!-- Moyenne des conventions non signées -->
+      <div class="p-4 bg-red-50 rounded-lg shadow-sm text-center">
+        <h3 class="text-lg font-semibold text-gray-800">Non signées</h3>
+        <p class="text-3xl font-bold text-red-600">{{ averageUnsigned | number:'1.0-2' }}</p>
+        <p class="text-sm text-gray-600">Moyenne mensuelle</p>
+      </div>
+    </div>
+
+    <!-- Détails par statut -->
+    <div class="mb-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div class="p-4 bg-green-100 rounded-lg">
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">Conventions Signées</h3>
+        <p class="text-2xl font-bold text-green-700">{{ signedCount }} <span class="text-sm font-normal">({{ signedPercentage | number:'1.0-2' }}%)</span></p>
+      </div>
+      <div class="p-4 bg-red-100 rounded-lg">
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">Conventions Non Signées</h3>
+        <p class="text-2xl font-bold text-red-700">{{ unsignedCount }} <span class="text-sm font-normal">({{ unsignedPercentage | number:'1.0-2' }}%)</span></p>
+      </div>
+    </div>
+
+    <!-- Chart -->
+    <div class="h-[400px] sm:h-[450px]">
+      <canvas baseChart
+        [data]="chartData"
+        [type]="chartType"
+        [options]="chartOptions"
+        [plugins]="chartPlugins">
+      </canvas>
+    </div>
+
+    <!-- Bouton de fermeture -->
+    <div class="mt-6 text-center">
+      <button (click)="showStatsModal = false" class="px-6 py-2 text-base bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition duration-200">
+        Fermer
+      </button>
+    </div>
+  </div>
+</div>
+
 
 <div class="search-container mb-4 p-3 bg-light rounded">
   <form [formGroup]="searchForm">
@@ -153,14 +230,14 @@
             </div>
           </div>
 
-          <div class="mb-3">
+          <!-- <div class="mb-3">
             <label for="internshipId" class="form-label">ID Stage</label>
             <input type="number" class="form-control" id="internshipId" formControlName="internshipId">
             <div class="text-danger" *ngIf="conventionForm.get('internshipId')?.invalid && conventionForm.get('internshipId')?.touched">
               <small *ngIf="conventionForm.get('internshipId')?.errors?.['required']">Ce champ est requis.</small>
               <small *ngIf="conventionForm.get('internshipId')?.errors?.['min']">L'ID doit être supérieur à 0.</small>
             </div>
-          </div>
+          </div> -->
 
           <div class="mb-3">
             <label class="form-label">Signée</label>
@@ -205,6 +282,37 @@
   </div>
 </div>
 
+<!-- Modal Ajout -->
+<div class="modal fade" id="addConventionModalGenerate" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Ajouter une Convention</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="conventionFormPython" (ngSubmit)="submitFormPython()">
+
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <input type="text" class="form-control" id="description" formControlName="description">
+            <div class="text-danger" *ngIf="conventionFormPython.get('description')?.invalid && conventionFormPython.get('description')?.touched">
+              <small *ngIf="conventionFormPython.get('description')?.errors?.['required']">Ce champ est requis.</small>
+              <small *ngIf="conventionFormPython.get('description')?.errors?.['minlength']">Minimum 3 caractères.</small>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            <button type="submit" class="btn btn-primary" [disabled]="conventionFormPython.invalid">Enregistrer</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Nouveau Modal Modification -->
 <!-- Nouveau Modal Modification -->
 <div class="modal fade" id="editConventionModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -228,14 +336,14 @@
           </div>
 
           <!-- Champ ID Stage -->
-          <div class="mb-3">
+          <!-- <div class="mb-3">
             <label>ID Stage</label>
             <input type="number" class="form-control" formControlName="internshipId" required>
             <div *ngIf="conventionForm.get('internshipId')?.invalid && conventionForm.get('internshipId')?.touched" class="text-danger">
               <small *ngIf="conventionForm.get('internshipId')?.errors?.['required']">L'ID du stage est requis.</small>
               <small *ngIf="conventionForm.get('internshipId')?.errors?.['min']">L'ID doit être positif.</small>
             </div>
-          </div>
+          </div> -->
 
           <!-- Champ Signée -->
           <div class="mb-3">

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ConventionService } from '../../services/convention.service';
 import {
   AbstractControl,
@@ -13,7 +13,9 @@ import { Convention } from "../../core/model/db";
 import { Router } from "@angular/router";
 import { PdfGenerationService } from "../../services/pdf-generation.service";
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import {NgSignaturePadOptions, SignaturePadComponent} from "@almothafar/angular-signature-pad";
+import { NgSignaturePadOptions, SignaturePadComponent } from "@almothafar/angular-signature-pad";
+import { ChartConfiguration, ChartData, ChartOptions, ChartType } from 'chart.js';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-convention',
@@ -23,6 +25,7 @@ import {NgSignaturePadOptions, SignaturePadComponent} from "@almothafar/angular-
 export class ConventionComponent implements OnInit {
   conventions: Convention[] = [];
   conventionForm: FormGroup;
+  conventionFormPython:FormGroup;
   searchForm: FormGroup;
   isEditMode = false;
   currentConventionId?: number;
@@ -38,14 +41,74 @@ export class ConventionComponent implements OnInit {
   emailForm: FormGroup;
   signatureData: string | null = null;
   currentSignConventionId?: number;
-
+  
+  // Nouvelles propriétés pour les statistiques
+  averageSigned: number = 0;
+  averageUnsigned: number = 0;
+  signedCount: number = 0;
+  unsignedCount: number = 0;
+  signedPercentage: number = 0;
+  unsignedPercentage: number = 0;
+  qrCodeImage: string | ArrayBuffer | null = '';
+  chartType: ChartType = 'bar';
+chartPlugins = [];
+  // nouvelleConvention = { text: "Convention de stage débutant le 15 mai 2025 et se terminant le 15 août 2025 pour un stage en développement web chez Technologie Innovante SA. L'étudiant Pierre Dupont de l'Université de Paris travaillera sur la création d'applications web utilisant React et Node.js. Les termes incluent: Horaires de travail - 35 heures par semaine du lundi au vendredi; Rémunération - gratification mensuelle de 700€; Confidentialité - l'étudiant s'engage à ne pas divulguer d'informations confidentielles; Encadrement - supervision par Mme Sophie Martin, directrice technique; Évaluation - rapport de stage et présentation finale requis." };
+  nouvelleConvention = {text: ""}
+  showStatsModal = false;
   @ViewChild('signaturePad') signaturePad!: SignaturePadComponent;
-
+  selectedConventionId!: number;
+  qrCodeImageUrl: string | null = null;
+  showQrModal: boolean = false;
   signaturePadOptions: NgSignaturePadOptions = {
     minWidth: 2,
     canvasWidth: 400,
     canvasHeight: 200
   };
+
+  // Configuration du graphique
+  ChartType: ChartType = 'bar';
+  chartData: ChartData = {
+    labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin'],
+    datasets: [
+      {
+        label: 'Conventions',
+        data: [12, 19, 3, 5, 2, 3],
+        backgroundColor: 'rgba(59, 130, 246, 0.7)',
+        borderColor: 'rgba(59, 130, 246, 1)',
+        borderWidth: 1
+      }
+    ]
+  };
+  chartOptions: ChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: 'Nombre de Conventions'
+        }
+      },
+      x: {
+        title: {
+          display: true,
+          text: 'Mois'
+        }
+      }
+    },
+    plugins: {
+      legend: {
+        display: true,
+        position: 'top'
+      },
+      title: {
+        display: true,
+        text: 'Statistiques des Conventions par Mois'
+      }
+    }
+  };
+  
   constructor(
     private fb: FormBuilder,
     private conventionService: ConventionService,
@@ -54,11 +117,14 @@ export class ConventionComponent implements OnInit {
   ) {
     this.conventionForm = this.fb.group({
       description: ['', [Validators.required, Validators.minLength(3)]],
-      internshipId: ['', [Validators.required, Validators.min(1)]],
+      // internshipId: ['', [Validators.required, Validators.min(1)]],
       signed: [false, Validators.required],
       terms: this.fb.array([], [this.atLeastOneTermValidator])
     });
-// Initialize emailForm here
+    this.conventionFormPython = this.fb.group({
+      description: ['', [Validators.required, Validators.minLength(20)]]
+    });
+    // Initialize emailForm here
     this.emailForm = this.fb.group({
       to: ['', [Validators.required, Validators.email]],
       from: ['', [Validators.required, Validators.email]],
@@ -98,8 +164,101 @@ export class ConventionComponent implements OnInit {
     });
   }
 
+  ///codeQr
+ // Méthode pour afficher le QR code
+ viewQRCode(conId: number): void {
+  this.conventionService.getQRCode(conId).subscribe(
+    (data: Blob) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        this.qrCodeImage = reader.result;
+      };
+      reader.readAsDataURL(data);
+    },
+    error => {
+      console.error('Erreur lors de la génération du QR code:', error);
+    }
+  );
+}
+
+/// statistique
+
+// Filtrer les conventions par statut
+filterByStatus(status: boolean | null) {
+  this.searchForm.patchValue({ signed: status });
+  this.performSearch();
+}
+
+// Calculer les moyennes par statut
+
+calculateStatistics() {
+  // Compter les conventions signées et non signées
+  this.signedCount = this.conventions.filter(c => c.signed).length;
+  this.unsignedCount = this.conventions.filter(c => !c.signed).length;
+  
+  // Calculer les pourcentages
+  const total = this.conventions.length || 1;
+  this.signedPercentage = (this.signedCount / total) * 100;
+  this.unsignedPercentage = (this.unsignedCount / total) * 100;
+  
+  // Calculer les moyennes mensuelles (supposons 12 mois pour l'exemple)
+  const months = 12;
+  this.averageSigned = this.signedCount / months;
+  this.averageUnsigned = this.unsignedCount / months;
+  
+  // Mettre à jour les données du graphique
+  this.updateChartData();
+}
+
+updateChartData() {
+  // Exemple de données mensuelles - à adapter avec vos vraies données
+  this.chartData = {
+    labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'],
+    datasets: [
+      {
+        label: 'Conventions Signées',
+        data: [5, 7, 8, 6, 9, 10, 12, 8, 7, 9, 10, 11], // Remplacez par vos données réelles
+        backgroundColor: 'rgba(16, 185, 129, 0.7)',
+        borderColor: 'rgba(16, 185, 129, 1)',
+        borderWidth: 1
+      },
+      {
+        label: 'Conventions Non Signées',
+        data: [3, 2, 4, 5, 3, 2, 1, 4, 3, 2, 1, 2], // Remplacez par vos données réelles
+        backgroundColor: 'rgba(239, 68, 68, 0.7)',
+        borderColor: 'rgba(239, 68, 68, 1)',
+        borderWidth: 1
+      }
+    ]
+  };
+}
+
+handleStatsClick() {
+  this.calculateStatistics();
+  this.showStatsModal = true;
+}
+
+// Dans getAllConventions(), appelez calculateStatistics() après avoir reçu les données
+getAllConventions() {
+  this.conventionService.getAllConventions().subscribe(data => {
+    this.conventions = data;
+    this.calculateStatistics();
+    this.updateTotalPages();
+  });
+}
 
 
+// Mise à jour des pages pour la pagination
+private updateTotalPages() {
+  this.totalItems = this.conventions.length;
+  this.totalPages = Math.ceil(this.totalItems / this.pageSize);
+  if (this.currentPage >= this.totalPages) {
+    this.currentPage = this.totalPages - 1;
+  }
+  if (this.currentPage < 0) {
+    this.currentPage = 0;
+  }
+}
   // Méthode pour soumettre le formulaire de mailing
   submitEmailForm(): void {
     if (this.emailForm.valid) {
@@ -160,6 +319,7 @@ export class ConventionComponent implements OnInit {
           this.showFormError = true;
         }
       });
+
       alert("Convention ajoutée avec succès !");
     } else {
       this.showFormError = true;
@@ -167,10 +327,31 @@ export class ConventionComponent implements OnInit {
     }
   }
 
-  getAllConventions() {
-    this.conventionService.getAllConventions().subscribe(data => {
-      this.conventions = data;
-    });
+  submitFormPython() {
+    if (this.conventionFormPython.valid) {
+      const newConvention: Convention = this.conventionFormPython.value;
+      this.nouvelleConvention.text=newConvention.description
+      this.conventionService.addConventionPython(this.nouvelleConvention)
+        .subscribe({
+          next: (response) => {
+            this.conventionService.addConvention(response.structured_data).subscribe({
+              next: () => {
+                this.getAllConventions();
+                this.conventionFormPython.reset();
+                this.showFormError = false;
+              }
+            });
+            // éventuellement reset du champ ou affichage d’un message
+          },
+          error: (error) => {
+            console.error('Erreur lors de l’ajout de la convention :', error);
+          }
+        });
+      alert("Convention ajoutée avec succès !");
+    } else {
+      this.showFormError = true;
+      this.markFormGroupTouched(this.conventionFormPython);
+    }
   }
 
   deleteConvention(conventionId: number | undefined) {
@@ -187,7 +368,7 @@ export class ConventionComponent implements OnInit {
 
     this.conventionForm.patchValue({
       description: convention.description,
-      internshipId: convention.internshipId,
+      // internshipId: convention.internshipId,
       signed: convention.signed,
       dateConv: convention.dateConv
     });

@@ -1,0 +1,54 @@
+<div class="container mt-5 quiz-form-container">
+    <div class="form-title text-center mb-4">
+      <h2 class="fw-bold text-primary">
+        {{ isEditMode ? 'Modifier' : 'Ajouter' }} un Quiz
+      </h2>
+      <p class="text-muted">Veuillez remplir les informations ci-dessous</p>
+    </div>
+  
+    <form [formGroup]="quizForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white fw-semibold">
+          <i class="fas fa-info-circle me-2"></i> Informations de base
+        </div>
+  
+        <div class="card-body">
+          <div class="mb-3">
+            <label for="title" class="form-label">Titre *</label>
+            <input
+              type="text"
+              class="form-control"
+              id="title"
+              formControlName="title"
+              placeholder="Entrez le titre du quiz"
+              [ngClass]="{ 'is-invalid': quizForm.get('title')?.invalid && quizForm.get('title')?.touched }"
+            />
+            <div class="invalid-feedback">
+              Titre requis (minimum 3 caractères).
+            </div>
+          </div>
+  
+          <div class="mb-3">
+            <label for="status" class="form-label">Nombre de questions</label>
+            <input
+              type="number"
+              class="form-control"
+              id="status"
+              formControlName="status"
+              placeholder="Ex: 10"
+            />
+          </div>
+        </div>
+      </div>
+  
+      <div class="d-flex justify-content-end gap-2">
+        <button type="submit" class="btn btn-success px-4">
+          <i class="fas fa-save me-1"></i> {{ isEditMode ? 'Mettre à jour' : 'Créer' }}
+        </button>
+        <button type="button" class="btn btn-outline-secondary px-4" (click)="onCancel()">
+          <i class="fas fa-times me-1"></i> Annuler
+        </button>
+      </div>
+    </form>
+  </div>
+  

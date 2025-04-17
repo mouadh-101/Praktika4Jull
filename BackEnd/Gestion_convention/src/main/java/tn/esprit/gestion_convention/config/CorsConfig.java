@@ -14,7 +14,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
 
-                registry.addMapping("/api/convention/generate-pdf/{conId}") // Appliquer CORS sur toutes les routes API
+                registry.addMapping("/**") // Appliquer CORS sur toutes les routes API
                         .allowedOrigins("http://localhost:4200") // Autoriser Angular
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Méthodes autorisées
                         .allowedHeaders("*") // Autoriser tous les headers

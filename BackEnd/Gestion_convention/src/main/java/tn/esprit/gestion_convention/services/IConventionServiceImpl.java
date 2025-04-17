@@ -1,5 +1,9 @@
 package tn.esprit.gestion_convention.services;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
 import com.itextpdf.text.*;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
@@ -441,5 +445,24 @@ public class IConventionServiceImpl implements IConventionService{
         } catch (MessagingException | IOException e) {
             e.printStackTrace(); // Vous pouvez gérer l'exception comme vous le souhaitez
         }
+    }
+
+    public byte[] generateQRCode(Convention convention) throws Exception {
+        // Crée un contenu lisible à afficher après scan
+        StringBuilder content = new StringBuilder();
+        content.append("📄 Convention Details\n");
+        content.append("📅 Date: ").append(convention.getDateConv()).append("\n");
+        content.append("📝 Description: ").append(convention.getDescription()).append("\n");
+        content.append("✅ Signed: ").append(convention.getSigned() ? "Yes" : "No").append("\n");
+
+        content.append("📜 Terms:\n");
+        for (Terms t : convention.getTerms()) {
+            content.append(" - ").append(t.getTitle()).append(": ").append(t.getDescription()).append("\n");
+        }
+
+        BitMatrix matrix = new MultiFormatWriter().encode(content.toString(), BarcodeFormat.QR_CODE, 250, 250);
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        MatrixToImageWriter.writeToStream(matrix, "PNG", out);
+        return out.toByteArray();
     }
     }

@@ -7,16 +7,29 @@ import {Convention, Terms} from '../core/model/db';
   providedIn: 'root'
 })
 export class ConventionService {
-  private apiUrl = 'http://localhost:8222/api/conventions';
-  private termsUrl = 'http://localhost:8222/api/conventions/terms';
+  private apiUrl = 'http://localhost:8085/api/conventions';
+  private termsUrl = 'http://localhost:8085/api/conventions/terms';
+  private apiUrlPython = 'http://127.0.0.1:5000/generate_convention';
 
 
   constructor(private http: HttpClient) {
   }
 
+  // ocde Qr
+  // Méthode pour récupérer le QR code
+  getQRCode(conId: number): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/generateQR/${conId}`, { responseType: 'blob' });
+  }
+  
+
+    // Ajouter une convention
+    addConvention(convention: Convention): Observable<Convention> {
+      return this.http.post<Convention>(`${this.apiUrl}/add`, convention);
+    }
+
   // Ajouter une convention
-  addConvention(convention: Convention): Observable<Convention> {
-    return this.http.post<Convention>(`${this.apiUrl}/add`, convention);
+  addConventionPython(convention: any): Observable<any> {
+    return this.http.post<Convention>(`${this.apiUrlPython}`, convention);
   }
 
   getAllTerms(): Observable<Terms[]> {

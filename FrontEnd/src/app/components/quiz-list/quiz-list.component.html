@@ -1,0 +1,31 @@
+<div class="quiz-container">
+  <div class="quiz-header">
+    <h2 class="quiz-title">🎯 Gestion des Quiz</h2>
+    <p class="quiz-subtitle">Testez vos connaissances en répondant aux questions ci-dessous</p>
+  </div>
+
+  <div *ngFor="let question of quizQuestions; let i = index" class="question-card shadow-lg">
+    <div class="question-header">
+      <h5><strong>Question {{ i + 1 }}</strong></h5>
+      <p>{{ question.question }}</p>
+    </div>
+
+    <div class="options-group">
+      <button *ngFor="let option of question.options; let j = index"
+              class="option-btn"
+              [ngClass]="{
+                'correct': isAnswered(i) && j === question.correctAnswerIndex,
+                'incorrect': isAnswered(i) && selectedAnswers[i] === j && j !== question.correctAnswerIndex,
+                'disabled': isAnswered(i)
+              }"
+              (click)="selectAnswer(i, j)">
+        {{ option }}
+      </button>
+    </div>
+
+    <div *ngIf="isAnswered(i)" class="explanation">
+      <span class="badge bg-info">💡 Explication</span>
+      <p>{{ question.explanation }}</p>
+    </div>
+  </div>
+</div>

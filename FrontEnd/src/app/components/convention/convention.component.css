@@ -1,9 +1,191 @@
 
-.modal-footer button {
-  visibility: hidden; /* Cela masquerait tous les boutons dans le footer */
-}
 
 .modal-footer .btn-primary {
   display: block !important;
   visibility: visible !important;
+}
+/* Bouton des statistiques */
+.stats-button {
+  padding: 8px 20px;
+  background: linear-gradient(to right, #2563eb, #4f46e5);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stats-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Modal des statistiques */
+.stats-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.modal-content {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  padding: 24px;
+  width: 100%;
+  max-width: 600px;
+  transform: translateY(0);
+  animation: fade-in 0.3s ease-out;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.modal-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+  text-align: center;
+  width: 100%;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #6b7280;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.close-button:hover {
+  color: #dc2626;
+}
+
+.chart-container {
+  height: 400px;
+  width: 100%;
+}
+
+.close-modal-button {
+  padding: 8px 16px;
+  background: #e5e7eb;
+  color: #374151;
+  font-size: 14px;
+  border-radius: 6px;
+  border: none;
+  transition: background 0.2s ease;
+}
+
+.close-modal-button:hover {
+  background: #d1d5db;
+}
+
+/* Animation pour le modal */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+/* Ajustements pour le chart */
+canvas {
+  max-height: 450px !important;
+  width: 100% !important;
+}
+
+/* Couleurs pour les conventions dans le tableau */
+.signed-row {
+  background-color: #ecfdf5; /* Vert clair pour les conventions signées */
+}
+
+.unsigned-row {
+  background-color: #fef2f2; /* Rouge clair pour les conventions non signées */
+}
+
+/* Styles existants pour les autres éléments */
+.container {
+  max-width: 1200px;
+}
+
+.border {
+  border: 1px solid #e5e7eb;
+}
+
+.rounded {
+  border-radius: 6px;
+}
+
+.bg-gray-200 {
+  background-color: #e5e7eb;
+}
+
+.bg-blue-500 {
+  background-color: #3b82f6;
+}
+
+.bg-green-500 {
+  background-color: #10b981;
+}
+
+.bg-red-500 {
+  background-color: #ef4444;
+}
+
+.bg-purple-500 {
+  background-color: #8b5cf6;
+}
+
+.bg-yellow-500 {
+  background-color: #f59e0b;
+}
+
+.text-white {
+  color: #ffffff;
+}
+
+.p-2 {
+  padding: 8px;
+}
+
+.mt-4 {
+  margin-top: 16px;
+}
+
+.flex {
+  display: flex;
+}
+
+.gap-2 {
+  gap: 8px;
+}
+
+.gap-4 {
+  gap: 16px;
+}
+
+.w-full {
+  width: 100%;
 }

@@ -27,6 +27,5 @@ public interface IConventionService {
     // Nouvelle méthode pour les statistiques
     Convention signConvention(Integer id, String signatureData);
     void sendEmailWithAttachment(String to, String from, String subject, MultipartFile file);
-
-
+    byte[] generateQRCode(Convention convention) throws Exception;
     }

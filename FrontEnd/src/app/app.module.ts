@@ -27,6 +27,9 @@ import { ConventionComponent } from './components/convention/convention.componen
 import { ConventionDetailComponent } from './components/convention-detail/convention-detail.component';
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {AngularSignaturePadModule} from "@almothafar/angular-signature-pad";
+import { NgChartsModule } from 'ng2-charts';
+import { QuizListComponent } from './components/quiz-list/quiz-list.component';
+import { QuizFormComponent } from './components/quiz-form/quiz-form.component';
 
 
 @NgModule({
@@ -44,6 +47,8 @@ import {AngularSignaturePadModule} from "@almothafar/angular-signature-pad";
     TermDetailComponent,
     ConventionComponent,
     ConventionDetailComponent,
+    QuizListComponent,
+    QuizFormComponent,
 
 
 
@@ -65,7 +70,9 @@ import {AngularSignaturePadModule} from "@almothafar/angular-signature-pad";
     HttpClientModule,
     ReactiveFormsModule,
     MatPaginatorModule,
-    AngularSignaturePadModule
+    AngularSignaturePadModule,
+    NgChartsModule
+    
   ],
   providers: [
     {

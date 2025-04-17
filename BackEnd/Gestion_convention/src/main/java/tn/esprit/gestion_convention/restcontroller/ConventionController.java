@@ -24,6 +24,8 @@ import java.util.Optional;
 @AllArgsConstructor
 @RequestMapping("/api/conventions")
 
+
+
 public class ConventionController {
     @Autowired
     IConventionService IconventionService;
@@ -157,6 +159,7 @@ public class ConventionController {
         return ResponseEntity.ok("Email sent successfully");
     }
 
+// code QR
 
 }
 
