@@ -23,7 +23,7 @@ export class StudentProfileComponent implements OnInit {
   constructor(private studentProfileService: StudentProfileService, private userService: UserService,public dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.fetchUserDataAndInitializeCV();
+    this.fetchUserDataAndInitializeCV();  
     this.studentProfileService.get10Skill().subscribe((skills) => {
       this.f10 = skills; // Assign the API response to the variable
       console.log(this.f10); // Check if the data is received correctly

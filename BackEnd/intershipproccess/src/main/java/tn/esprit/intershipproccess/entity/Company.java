@@ -24,4 +24,6 @@ public class Company {
     @JsonIgnore
 @OneToMany(mappedBy = "company")
     List<Internship> internships;
+
+
 }

@@ -30,5 +30,16 @@ public class CompanyService {
         return companyRepository.findById(idCompany);
     }
 
+public Company updateCompany(Company company , String idCompony){
+       Company oldCompany = companyRepository.findById(idCompony).orElse(null);
+       if(oldCompany != null){
+           oldCompany.setDescription(company.getDescription());
+           oldCompany.setLogo(company.getLogo());
+           oldCompany.setWebsite(company.getWebsite());
+           oldCompany.setIndustry(company.getIndustry());
+           return companyRepository.save(oldCompany);
+       }
+    return null;
+}
 
 }

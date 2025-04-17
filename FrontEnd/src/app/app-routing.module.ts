@@ -34,6 +34,10 @@ import { ListJournalComponent } from './components/Document/ListJournal/ListJour
 import { AddJournalComponent } from './components/Document/AddJournal/AddJournal.component';
 import { JournalbackComponent } from './components/Document/Journalback/Journalback.component';
 import { UpdateJournalComponent } from './components/Document/UpdateJournal/UpdateJournal.component';
+import { CompanyProfileComponent } from './components/company-profile/company-profile.component';
+import { AddPlanComponent } from './components/add-plan/add-plan.component';
+import { ListPlanComponent } from './components/list-plan/list-plan.component';
+import { GanttComponent } from './components/gantt/gantt.component';
 
 const routes: Routes = [
   { path: 'sign-in', component: SignInComponent },
@@ -67,6 +71,7 @@ const routes: Routes = [
   { path: 'conventions/:id', component: ConventionDetailComponent },
   {path:'users',component:UseTabComponent},
   {path:'student',component:StudentProfileComponent},
+  {path:'company',component:CompanyProfileComponent},
   {path:'ListDocument',component:ListDocumentComponent},
   {path:'AddDocument',component:AddDocumentComponent},
   {path:'UpdateDocument/:id',component:UpdateDocumentComponent},
@@ -77,10 +82,10 @@ const routes: Routes = [
 {path:'AddJournal/:id', component:AddJournalComponent},
 {path:'JournalBack/:id', component:JournalbackComponent},
 {path:'UpdateJournal/:id',component:UpdateJournalComponent},
-
-
-
-
+{path:'AddPlan',component:AddPlanComponent},
+{ path: 'plans', component: ListPlanComponent },
+{ path: 'gantt', component: GanttComponent }
+,
 
   { path: '', redirectTo: '/', pathMatch: 'full' }
 ];

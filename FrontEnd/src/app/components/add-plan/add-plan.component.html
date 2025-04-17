@@ -1,0 +1,47 @@
+<form [formGroup]="planForm" (ngSubmit)="onSubmit()" class="wide-form">
+  <label for="description">Description</label>
+  <textarea formControlName="description" placeholder="Description" id="description" rows="4" class="wide-input"></textarea><br>
+  
+  <label for="problematique">Problem</label>
+  <textarea formControlName="problematique" placeholder="Problem" id="problematique" rows="4" class="wide-input"></textarea><br>
+
+  <label for="fonctionnalites">Features</label>
+  <textarea formControlName="fonctionnalites" placeholder="Features" id="fonctionnalites" rows="4" class="wide-input"></textarea><br>
+
+  <label for="technologies">Technologies</label>
+  <textarea formControlName="technologies" placeholder="Technologies" id="technologies" rows="4" class="wide-input"></textarea><br>
+
+  <label for="fichierRemis">File Name</label>
+  <input formControlName="fichierRemis" placeholder="File Name" id="fichierRemis" class="wide-input"><br>
+
+  <label for="encadrantInterne">Internal Supervisor</label>
+  <input formControlName="encadrantInterne" placeholder="Internal Supervisor" id="encadrantInterne" class="wide-input"><br>
+
+  <label for="encadrantExterne">External Supervisor</label>
+  <input formControlName="encadrantExterne" placeholder="External Supervisor" id="encadrantExterne" class="wide-input"><br>
+
+  <div formGroupName="company">
+    <label for="company">Company</label>
+    <input formControlName="company" placeholder="Company" id="company" class="wide-input">
+  </div>
+
+  <div formArrayName="planning">
+    <div *ngFor="let tache of planning.controls; let i = index" [formGroupName]="i">
+      <label for="nomTache">Task Name</label>
+      <input formControlName="nomTache" placeholder="Task Name" id="nomTache" class="wide-input">
+
+      <label for="dateDebut">Start Date</label>
+      <input formControlName="dateDebut" type="date" id="dateDebut" class="wide-input">
+
+      <label for="dateFin">End Date</label>
+      <input formControlName="dateFin" type="date" id="dateFin" class="wide-input">
+      
+      <button type="button" (click)="removeTache(i)">Remove</button>
+    </div>
+  </div>
+
+  <button type="button" (click)="addTache()">Add a Task</button>
+  <br><br>
+
+  <button type="submit">Submit</button>
+</form>

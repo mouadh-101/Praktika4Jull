@@ -65,7 +65,12 @@ import { WebsocketComponent } from './components/websocket/websocket.component';
 
 import { ChatComponent } from './components/chat/chat.component';
 import { VideoCallComponent } from './components/video-call/video-call.component';
-
+import { CompanyProfileComponent } from './components/company-profile/company-profile.component';
+import { EditProfileDialogComponent } from './components/edit-profile-dialog/edit-profile-dialog.component';
+import { AddPlanComponent } from './components/add-plan/add-plan.component';
+import { ListPlanComponent } from './components/list-plan/list-plan.component';
+import { GanttComponent } from './components/gantt/gantt.component';
+import { ExcelExportService, GanttModule, PdfExportService, ToolbarService } from '@syncfusion/ej2-angular-gantt';
 
 
 @NgModule({
@@ -110,7 +115,12 @@ import { VideoCallComponent } from './components/video-call/video-call.component
     AddJournalComponent,
       JournalbackComponent,
       UpdateJournalComponent,
-      InterviewComponent
+      InterviewComponent,
+      CompanyProfileComponent,
+      EditProfileDialogComponent,
+      AddPlanComponent,
+      ListPlanComponent,
+      GanttComponent
   ],
   imports: [
     BrowserModule,
@@ -134,7 +144,9 @@ import { VideoCallComponent } from './components/video-call/video-call.component
     MatNativeDateModule,
     CalendarModule.forRoot({ provide: DateAdapter, useClass: MatNativeDateModule }),
     BrowserAnimationsModule,
-    MatButtonModule
+    MatButtonModule,
+    GanttModule
+    
   ],
   providers: [
     {
@@ -142,7 +154,11 @@ import { VideoCallComponent } from './components/video-call/video-call.component
      useClass: AuthInterceptor,
      multi: true // Use multiple interceptors if needed
 
-   }
+   },
+    // Services Syncfusion
+    PdfExportService,
+    ExcelExportService,
+    ToolbarService
   ],
   bootstrap: [AppComponent]
 })

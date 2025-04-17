@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Document, Duree, StatusDoc } from 'src/app/Models/document';
+import { Document,Duree, StatusDoc } from 'src/app/Models/document';
 import { DocumentService } from 'src/app/services/Document/Document.service';
 
 @Component({
@@ -26,7 +26,7 @@ export class ListDocumentComponent implements OnInit {
     this.chargerDocuments();
   }
   generateQRCodeUrl(docId: number): string {
-    return `http://192.168.47.44:8088/api/Document/generateQRCode/${docId}`;
+    return `http://192.168.100.8:8088/api/Document/generateQRCode/${docId}`;
   }
   filterDocuments(): void {
     let filtered = this.documents;

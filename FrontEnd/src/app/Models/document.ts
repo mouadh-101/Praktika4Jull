@@ -1,5 +1,9 @@
-import{ Depot } from "./Depot"
+import { Depot } from "./Depot";
 import { Journal } from "./Journal";
+
+
+
+
 export enum StatusDoc {
     ENATTEND = "ENATTEND",
     VALIDE = "VALIDE",

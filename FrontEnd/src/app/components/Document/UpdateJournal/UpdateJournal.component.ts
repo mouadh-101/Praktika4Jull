@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Document } from 'src/app/Models/document';
 import { Journal } from 'src/app/Models/Journal';
+import { Document } from 'src/app/Models/document'
 import { JournalService } from 'src/app/services/Document/Journal.service';
 
 @Component({
@@ -10,7 +9,7 @@ import { JournalService } from 'src/app/services/Document/Journal.service';
   templateUrl: './UpdateJournal.component.html',
   styleUrls: ['./UpdateJournal.component.css']
 })
-export class UpdateJournalComponent implements OnInit {
+export class UpdateJournalComponent implements OnInit { 
   journal: Journal = {
     idJournal: 0,
     tache: '',

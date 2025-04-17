@@ -1,0 +1,39 @@
+<div class="container mt-4">
+  <h2>Work Plans</h2>
+  <div *ngIf="plans.length === 0" class="alert alert-warning">
+    No work plans found.
+  </div>
+  <div *ngFor="let plan of plans" class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title">{{ plan.description }}</h5>
+      <p><strong>Description:</strong> {{ plan.description }}</p>
+      <p><strong>Problem:</strong> {{ plan.problematique }}</p>
+      <p><strong>Features:</strong> {{ plan.fonctionnalites }}</p>
+      <p><strong>Technologies:</strong> {{ plan.technologies }}</p>
+      <p><strong>Status:</strong> {{ plan.statut }}</p>
+      <p><strong>File Submitted:</strong> <a href="{{ plan.fichierRemis }}" target="_blank">Download</a></p>
+      <p><strong>Internal Supervisor:</strong> {{ plan.encadrantInterne }}</p>
+      <p><strong>External Supervisor:</strong> {{ plan.encadrantExterne }}</p>
+
+      <div *ngIf="plan.planning && plan.planning.length > 0">
+        <h6>Task Planning:</h6>
+        <ul>
+          <li *ngFor="let tache of plan.planning">
+            <strong>{{ tache.nomTache }}</strong><br />
+            Start Date: {{ tache.dateDebut }}<br />
+            End Date: {{ tache.dateFin }}
+          </li>
+        </ul>
+      </div>
+
+      <div *ngIf="plan.company">
+        <p><strong>Company:</strong> {{ plan.company }} </p>
+      </div>
+
+      <button class="btn btn-primary" (click)="downloadPlan(plan.id!)">
+        Download Work Plan
+      </button>
+    </div>
+    <app-gantt [planDeTravail]="plan"></app-gantt>
+  </div>
+</div>
