@@ -24,7 +24,9 @@ public class Interview {
     String Notes;
     @Enumerated(EnumType.STRING)
     StatusInterv Status;
-
+    String interviewLink;
+    String companyId ;
+    String studentId ;
     @OneToOne
     DemandeInterview demandeInerview;
 }

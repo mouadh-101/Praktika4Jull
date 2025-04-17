@@ -65,6 +65,7 @@ export class NavbarComponent implements OnInit {
     this.userService.getUserData().subscribe(
       (userData) => {
         this.userRole = userData.role; 
+        localStorage.setItem('userRole', userData.role);      
         console.log('Rôle de l\'utilisateur:', this.userRole);
       },
       (error) => {

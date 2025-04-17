@@ -41,6 +41,10 @@ export class AuthService {
   {
     return localStorage.getItem('token');
   }
+  getUserRole()
+  {
+    return localStorage.getItem('userRole');
+  }
   //for internship 
   updateLastSeen(userId: string): Observable<any> {
     return this.http.put(`${this.userLastSeenUrl}/${userId}`, {});

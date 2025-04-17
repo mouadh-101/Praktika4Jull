@@ -1,12 +1,14 @@
 package org.esprit.student.controller;
 
-import org.esprit.student.controller.dto.ApplicationDto;
+import org.esprit.student.controller.dto.*;
 import org.esprit.student.entity.Application;
 import org.esprit.student.entity.Education;
 import org.esprit.student.repository.StudentRepository;
 import org.esprit.student.service.Interface.IApplicationService;
 import org.esprit.student.service.Interface.IEducationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,10 +21,13 @@ public class ApplicationController {
     @Autowired
     IApplicationService applicationService;
     @PostMapping("/{id}")
-    Application addApplication(@RequestBody Application application, @RequestHeader("userId") String userId , @PathVariable("id") int internshipId)
-    {
-        return applicationService.addApplication(application,userId,internshipId);
+    public ResponseEntity<Application> addApplication(@RequestBody Application application,
+                                                      @RequestHeader("userId") String userId,
+                                                      @PathVariable("id") int internshipId) {
+        Application savedApplication = applicationService.addApplication(application, userId, internshipId);
+        return ResponseEntity.ok(savedApplication);
     }
+
     @PutMapping("/{id}")
     Application updateApplication(@PathVariable("id") Long id,@RequestBody Application application)
     {
@@ -38,10 +43,28 @@ public class ApplicationController {
     {
         return applicationService.getApplication(id);
     }
-    @GetMapping
-    List<ApplicationDto> getStudentApplication(@RequestHeader("userId") String userId)
+    @GetMapping("/student")
+    List<ASIDto> getStudentApplication(@RequestHeader("userId") String userId)
     {
-        return applicationService.getStudentApplication(userId);
+        return applicationService.getAllStudentApplication(userId);
+    }
+    @GetMapping("/company")
+    List<ASIDto> getCompanyApplication(@RequestHeader("userId") String userId)
+    {
+        return applicationService.getAllCompanyApplication(userId);
+    }
+    @GetMapping("/asi/{id}")
+    public ASIDto getASI(@PathVariable Long id) {
+        return applicationService.getASI(id);
+    }
+    @GetMapping("/analyze/{id}")
+    public AnalyzeDto getAnalyze(@PathVariable Long id) {
+        return applicationService.getAnalyze(id);
+    }
+    @GetMapping("/statistics")
+    public ResponseEntity<ApplicationStatisticsDto> getStatistics(@RequestHeader("userId") String userId) {
+        ApplicationStatisticsDto statistics = applicationService.getApplicationStatistics(userId);
+        return ResponseEntity.ok(statistics);
     }
 
 }

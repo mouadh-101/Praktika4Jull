@@ -8,6 +8,7 @@ export interface Interview {
   location: string;
   notes: string;
   status: string;
+  
 }
 
 export interface DemandeInterview {

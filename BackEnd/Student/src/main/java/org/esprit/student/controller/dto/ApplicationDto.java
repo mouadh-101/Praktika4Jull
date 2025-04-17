@@ -3,6 +3,7 @@ package org.esprit.student.controller.dto;
 import org.esprit.student.entity.ApplicationStatus;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public interface ApplicationDto {
     Long getId();
@@ -10,9 +11,14 @@ public interface ApplicationDto {
     LocalDate getAppliedAt();
     ApplicationStatus getStatus();
 
-    interface StudentProjection {
-        String getUserId();
-    }
-    StudentProjection getStudent();
+    StudentDto getStudent();
+
     int getInternshipId();
+
+
+
+
+
+
+
 }

@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,10 @@ public class InterviewService implements IServiceInterview{
     @Override
     public Interview ajouterInterview(Interview interview)
     {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        String formattedDate = formatter.format(interview.getDateInterview());
+        String interviewLink ="http://localhost:4200/video-call?roomID="+formattedDate;
+        interview.setInterviewLink(interviewLink);
         return interviewRepo.save(interview);
     }
 

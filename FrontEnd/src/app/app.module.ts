@@ -72,6 +72,12 @@ import { ListPlanComponent } from './components/list-plan/list-plan.component';
 import { GanttComponent } from './components/gantt/gantt.component';
 import { ExcelExportService, GanttModule, PdfExportService, ToolbarService } from '@syncfusion/ej2-angular-gantt';
 
+import { AddApplicationDialogComponent } from './components/add-application/add-application.component';
+import { StudentApplicationsComponent } from './components/student-applications/student-applications.component';
+import { ApplicationDetailsComponent } from './components/application-details/application-details.component';
+import { AppAnalyzeComponent } from './components/app-analyze/app-analyze.component';
+import { NgChartsModule } from 'ng2-charts';
+
 
 @NgModule({
   declarations: [
@@ -120,9 +126,18 @@ import { ExcelExportService, GanttModule, PdfExportService, ToolbarService } fro
       EditProfileDialogComponent,
       AddPlanComponent,
       ListPlanComponent,
-      GanttComponent
+      GanttComponent,
+    JournalbackComponent,
+    UpdateJournalComponent,
+    InterviewComponent,
+    AddApplicationDialogComponent,
+    WebsocketComponent,
+    StudentApplicationsComponent,
+    ApplicationDetailsComponent,
+    AppAnalyzeComponent
   ],
   imports: [
+    ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -145,8 +160,8 @@ import { ExcelExportService, GanttModule, PdfExportService, ToolbarService } fro
     CalendarModule.forRoot({ provide: DateAdapter, useClass: MatNativeDateModule }),
     BrowserAnimationsModule,
     MatButtonModule,
-    GanttModule
-    
+    GanttModule,
+    NgChartsModule
   ],
   providers: [
     {

@@ -1,0 +1,130 @@
+<div class="container my-5">
+  <div class="card bg-light text-dark shadow-sm p-4 rounded-4 border-0">
+
+    <!-- ✅ Internship Application Overview -->
+    <div class="mb-4">
+      <span class="badge bg-primary-subtle text-primary-emphasis fs-6 mb-3">
+        <i class="bi bi-clipboard-check me-2"></i> {{ application.status | uppercase }}
+      </span>
+
+      <h2 class="fw-semibold">{{ application.internship.titre }}</h2>
+      <h6 class="text-muted fw-normal">{{ application.internship.description }}</h6>
+
+      <p class="text-muted">
+        <i class="bi bi-geo-alt-fill me-1"></i> {{ application.internship.location }}
+        <span *ngIf="application.internship.remote" class="badge bg-success-subtle text-success-emphasis ms-2">Remote</span>
+      </p>
+    </div>
+
+    <!-- ✅ Student Basic Info -->
+    <div class="bg-white border rounded p-3 mb-4 d-flex align-items-start gap-3">
+      <img [src]="application.student.profilePic" class="rounded-circle shadow" width="90" height="90" alt="Profile" />
+
+      <div>
+        <h5 class="mb-0 fw-bold">{{ application.user.name }}</h5>
+        <p class="mb-1 text-muted">{{ application.user.email }}</p>
+        <p class="mb-0 text-muted"><i class="bi bi-telephone me-1"></i>{{ application.user.phone }}</p>
+        <p class="mb-0 text-muted"><i class="bi bi-geo me-1"></i>{{ application.user.address }}</p>
+      </div>
+    </div>
+    <button class="btn btn-sm btn-outline-primary mb-2"
+            (click)="showMore = !showMore">
+      {{ showMore ? 'Hide Details' : 'Show More Details' }}
+    </button>
+
+    <!-- ✅ Student Bio and Field -->
+    <div *ngIf="showMore">
+      <div class="mb-4 p-3 bg-white border rounded">
+        <h6 class="text-muted fw-bold mb-2"><i class="bi bi-person-lines-fill me-2"></i>Bio</h6>
+        <p class="mb-1">{{ application.student.bio }}</p>
+        <p class="text-muted mb-0"><i class="bi bi-journal-code me-2"></i>Field of Study: <strong>{{ application.student.fieldOfStudy }}</strong></p>
+        <p class="text-muted"><i class="bi bi-cake2 me-2"></i>Date of Birth: {{ application.student.dateOfBirth | date }}</p>
+      </div>
+
+      <!-- ✅ Skills -->
+      <div class="mb-4 p-3 bg-white border rounded">
+        <h6 class="text-muted fw-bold mb-2"><i class="bi bi-lightning-fill me-2"></i>Skills</h6>
+        <div class="d-flex flex-wrap gap-2">
+          <span *ngFor="let skill of application.student.skills" class="badge bg-info-subtle text-dark">{{ skill.name }}</span>
+        </div>
+      </div>
+
+      <!-- ✅ Education -->
+      <div class="mb-4 p-3 bg-white border rounded">
+        <h6 class="text-muted fw-bold mb-3"><i class="bi bi-mortarboard me-2"></i>Education</h6>
+        <div *ngFor="let edu of application.student.educations" class="mb-2">
+          <p class="mb-0 fw-semibold">{{ edu.degree }} - {{ edu.schoolName }}</p>
+          <small class="text-muted">{{ edu.startDate | date }} → {{ edu.endDate | date }}</small>
+        </div>
+      </div>
+
+      <!-- ✅ Work Experience -->
+      <div class="mb-4 p-3 bg-white border rounded">
+        <h6 class="text-muted fw-bold mb-3"><i class="bi bi-briefcase-fill me-2"></i>Work Experience</h6>
+        <div *ngFor="let exp of application.student.workExperiences" class="mb-3">
+          <p class="mb-0 fw-semibold">{{ exp.position }} at {{ exp.companyName }}</p>
+          <small class="text-muted">{{ exp.startDate | date }} → {{ exp.endDate | date }}</small>
+          <p class="mt-1 text-muted">{{ exp.description }}</p>
+        </div>
+      </div>
+
+      <!-- ✅ Extra Activities -->
+      <div class="mb-4 p-3 bg-white border rounded">
+        <h6 class="text-muted fw-bold mb-3"><i class="bi bi-stars me-2"></i>Extra Activities</h6>
+        <div *ngFor="let act of application.student.extraActivities" class="mb-3">
+          <p class="mb-0 fw-semibold">{{ act.title }}</p>
+          <p class="text-muted">{{ act.description }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ✅ Cover Letter -->
+    <div class="mb-4 p-3 bg-white border rounded">
+      <h6 class="text-muted fw-bold mb-2"><i class="bi bi-chat-left-text me-2"></i>Cover Letter</h6>
+      <p>{{ application.coverLetter }}</p>
+    </div>
+
+    <!-- ✅ Internship Info -->
+    <div class="mb-4 p-3 bg-white border rounded">
+      <div class="row">
+        <div class="col-md-4">
+          <p class="text-muted mb-1"><i class="bi bi-calendar me-2"></i>Start Date</p>
+          <p>{{ application.internship.startDate | date }}</p>
+        </div>
+        <div class="col-md-4">
+          <p class="text-muted mb-1"><i class="bi bi-clock me-2"></i>Duration</p>
+          <p>{{ application.internship.duration }} month</p>
+        </div>
+        <div class="col-md-4">
+          <p class="text-muted mb-1"><i class="bi bi-cash-coin me-2"></i>Compensation</p>
+          <p>{{ application.internship.compensation }} €</p>
+        </div>
+      </div>
+
+      <p class="text-muted mb-1"><i class="bi bi-list-check me-2"></i>Requirements</p>
+      <div class="d-flex flex-wrap gap-2">
+        <span *ngFor="let req of application.internship.requirements" class="badge bg-secondary-subtle text-dark">{{ req.name }}</span>
+      </div>
+    </div>
+
+    <!-- ✅ Footer and CTA -->
+    <div class="d-flex justify-content-between text-muted text-sm">
+      <span>Application ID: {{ application.id }}</span>
+      <span>Status: <strong class="text-success">{{ application.status }}</strong></span>
+    </div>
+
+    <div class="mt-4 d-flex gap-3 justify-content-center flex-wrap">
+      <button class="btn btn-outline-danger px-4" (click)="onDeleteApplication(application.id)">
+        <i class="bi bi-trash me-2"></i> Delete Application
+      </button>
+      <button class="btn btn-outline-primary px-4" (click)="onAnalyze(application.id)">
+        <i class="bi bi-robot me-2" ></i> Ask AI for Analysis
+      </button>
+      <button class="btn btn-outline-warning px-4" (click)="onUpdateApplication(application.id)">
+        <i class="bi bi-pencil-square me-2"></i> Update Application
+      </button>
+
+      
+    </div>
+  </div>
+</div>

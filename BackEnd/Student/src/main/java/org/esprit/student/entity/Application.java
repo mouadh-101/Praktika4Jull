@@ -1,5 +1,6 @@
 package org.esprit.student.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,6 +20,7 @@ public class Application {
     Long id;
     @ManyToOne
     @JoinColumn(name = "student_id", nullable = false)
+    @JsonIgnore
     Student student;
     int internshipId;
     LocalDate appliedAt;
@@ -29,6 +31,14 @@ public class Application {
 
     public Student getStudent() {
         return student;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setStudent(Student student) {

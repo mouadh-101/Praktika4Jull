@@ -29,13 +29,20 @@
           <h3 class="text-primary">{{ interview.dateInterview | date }}</h3>
           <p><strong>Lieu :</strong> {{ interview.location }}</p>
           <p><strong>Notes :</strong> {{ interview.notes }}</p>
+          
           <p><strong>Statut :</strong> <span [ngClass]="getStatusClass(interview.status)">{{ interview.status }}</span></p>
+          <a class="btn btn-success btn-sm me-2" [href]="interview.interviewLink" target="_blank">
+            <i class="bi bi-calendar-check"></i> Join Meeting
+          </a>
+          
+
 
           <div class="d-flex justify-content-between mt-3">
             <!-- Bouton Modifier -->
             <button class="btn btn-edit btn-sm me-2" (click)="navigateToEdit(interview.interviewId)">
               <i class="bi bi-pencil-square"></i> Modifier Interview
             </button>
+            
             <!-- Bouton Supprimer -->
             <button class="btn btn-delete btn-sm" (click)="deleteInterview(interview.interviewId)">
               <i class="bi bi-trash"></i> Supprimer Interview
