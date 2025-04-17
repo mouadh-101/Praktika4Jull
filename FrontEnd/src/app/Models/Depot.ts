@@ -1,5 +1,6 @@
 import { Document } from "./document";
 
+
 export interface Depot {
     idDepot: number;
     Rapport: ArrayBuffer ;

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Type } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Duree, StatusDoc, Type } from 'src/app/Models/document';
+import { Duree, StatusDoc } from 'src/app/Models/document';
 import { DocumentService } from 'src/app/services/Document/Document.service';
 
 @Component({

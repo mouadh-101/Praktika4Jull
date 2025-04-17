@@ -8,14 +8,14 @@ import autoTable from 'jspdf-autotable';
 
 
 
-@Component({
+@Component({ 
   selector: 'app-interview-list',
   templateUrl: './interview-list.component.html',
   styleUrls: ['./interview-list.component.css']
 })
 export class InterviewListComponent implements OnInit {
   interviews: Interview[] = [];
-  searchTerm: string = '';
+  searchTerm: string = ''; 
   p: number = 1; // Page actuelle pour la pagination
 
   constructor(private interviewService: InterviewService, private router: Router) {}

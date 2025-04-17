@@ -34,6 +34,10 @@ import { ListJournalComponent } from './components/Document/ListJournal/ListJour
 import { AddJournalComponent } from './components/Document/AddJournal/AddJournal.component';
 import { JournalbackComponent } from './components/Document/Journalback/Journalback.component';
 import { UpdateJournalComponent } from './components/Document/UpdateJournal/UpdateJournal.component';
+import { CompanyProfileComponent } from './components/company-profile/company-profile.component';
+import { AddPlanComponent } from './components/add-plan/add-plan.component';
+import { ListPlanComponent } from './components/list-plan/list-plan.component';
+import { GanttComponent } from './components/gantt/gantt.component';
 import { ApplicationDetailsComponent } from './components/application-details/application-details.component';
 import { StudentApplicationsComponent } from './components/student-applications/student-applications.component';
 import { AppAnalyzeComponent } from './components/app-analyze/app-analyze.component';
@@ -71,10 +75,21 @@ const routes: Routes = [
 
   {path:'users',component:UseTabComponent},
   {path:'student',component:StudentProfileComponent},
+  {path:'company',component:CompanyProfileComponent},
   {path:'ListDocument',component:ListDocumentComponent},
   {path:'AddDocument',component:AddDocumentComponent},
   {path:'UpdateDocument/:id',component:UpdateDocumentComponent},
   {path:'DocumentBack',component:DocumentBackComponent},
+{path:'depot/:id', component:DepotComponent},
+{path:'depotback/:id', component:DepotBackComponent},
+{path:'ListJournal/:id', component:ListJournalComponent},
+{path:'AddJournal/:id', component:AddJournalComponent},
+{path:'JournalBack/:id', component:JournalbackComponent},
+{path:'UpdateJournal/:id',component:UpdateJournalComponent},
+{path:'AddPlan',component:AddPlanComponent},
+{ path: 'plans', component: ListPlanComponent },
+{ path: 'gantt', component: GanttComponent }
+,
   {path:'depot/:id', component:DepotComponent},
   {path:'depotback/:id', component:DepotBackComponent},
   {path:'ListJournal/:id', component:ListJournalComponent},

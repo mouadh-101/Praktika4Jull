@@ -87,7 +87,7 @@ public class DocumentRestController {
     @GetMapping(value = "/generateQRCode/{id}", produces = MediaType.IMAGE_PNG_VALUE)
     public ResponseEntity<byte[]> generateQRCode(@PathVariable("id") Long id) throws IOException {
         // Lien pour chaque fichier à télécharger
-        String downloadLinks = "http://192.168.1.102:8088/api/Document/downloadAll/" + id;
+        String downloadLinks = "http://192.168.100.8:8088/api/Document/downloadAll/" + id;
 
 
         try {

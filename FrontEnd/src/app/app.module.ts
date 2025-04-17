@@ -65,6 +65,12 @@ import { WebsocketComponent } from './components/websocket/websocket.component';
 
 import { ChatComponent } from './components/chat/chat.component';
 import { VideoCallComponent } from './components/video-call/video-call.component';
+import { CompanyProfileComponent } from './components/company-profile/company-profile.component';
+import { EditProfileDialogComponent } from './components/edit-profile-dialog/edit-profile-dialog.component';
+import { AddPlanComponent } from './components/add-plan/add-plan.component';
+import { ListPlanComponent } from './components/list-plan/list-plan.component';
+import { GanttComponent } from './components/gantt/gantt.component';
+import { ExcelExportService, GanttModule, PdfExportService, ToolbarService } from '@syncfusion/ej2-angular-gantt';
 
 import { AddApplicationDialogComponent } from './components/add-application/add-application.component';
 import { StudentApplicationsComponent } from './components/student-applications/student-applications.component';
@@ -113,6 +119,14 @@ import { NgChartsModule } from 'ng2-charts';
     DepotBackComponent,
     ListJournalComponent,
     AddJournalComponent,
+      JournalbackComponent,
+      UpdateJournalComponent,
+      InterviewComponent,
+      CompanyProfileComponent,
+      EditProfileDialogComponent,
+      AddPlanComponent,
+      ListPlanComponent,
+      GanttComponent,
     JournalbackComponent,
     UpdateJournalComponent,
     InterviewComponent,
@@ -146,6 +160,7 @@ import { NgChartsModule } from 'ng2-charts';
     CalendarModule.forRoot({ provide: DateAdapter, useClass: MatNativeDateModule }),
     BrowserAnimationsModule,
     MatButtonModule,
+    GanttModule,
     NgChartsModule
   ],
   providers: [
@@ -154,7 +169,11 @@ import { NgChartsModule } from 'ng2-charts';
      useClass: AuthInterceptor,
      multi: true // Use multiple interceptors if needed
 
-   }
+   },
+    // Services Syncfusion
+    PdfExportService,
+    ExcelExportService,
+    ToolbarService
   ],
   bootstrap: [AppComponent]
 })

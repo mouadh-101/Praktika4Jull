@@ -26,6 +26,9 @@
           </span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
           <ul>
             <li><a routerLink="/student"  *ngIf="userRole === 'Student'">My Resume</a></li>
+            <li><a routerLink="/company"  *ngIf="userRole === 'Company'">My Profile</a></li>
+            <li><a routerLink="/favoris" *ngIf="userRole === 'Student'" >My BookMarks</a></li>
+            <li><a routerLink="/plans" *ngIf="userRole === 'Student'" >My work plan </a></li>
             <li><a routerLink="/applications"  *ngIf="userRole === 'Student'">My Application</a></li>
             <li><a routerLink="/favoris">My BookMarks</a></li>
             <li><a href="#">Dropdown 3</a></li>
@@ -39,14 +42,14 @@
             <span *ngIf="notificationCount > 0" class="badge">{{ notificationCount }}</span>
           </button>
         </div>
-        
+
       </ul>
       <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-    
-  
-       
-     
-      
+
+
+
+
+
     </nav>
 
 
@@ -55,8 +58,8 @@
     <a *ngIf="!isLoggedIn" class="btn-getstarted" routerLink="/sign-up">Join Us</a>
 
   </div>
- 
-  
+
+
 </header>
 <!-- Panneau de notifications -->
 
@@ -66,7 +69,7 @@
     <button (click)="toggleNotifications()">Close</button>
   </div>
   <div *ngIf="notifications.length === 0" class="no-notifications">No new notifications</div>
-  
+
   <!-- Liste des notifications -->
   <div *ngFor="let notification of notifications" class="notification-item">
     <!-- Utiliser [innerHTML] pour afficher du contenu HTML -->
