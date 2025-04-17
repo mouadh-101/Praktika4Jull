@@ -52,8 +52,8 @@ public class UserController {
     {
         return userRepository.findById(userId).orElse(null);
     }
-    @GetMapping("/userByIdd")
-    public User userById(@RequestBody String userId)
+    @GetMapping("/userByIdd/{id}")
+    public User userById(@PathVariable("id") String userId)
     {
         return userRepository.findById(userId).orElse(null);
     }

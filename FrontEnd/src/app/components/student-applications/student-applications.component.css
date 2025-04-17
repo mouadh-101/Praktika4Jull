@@ -1,0 +1,19 @@
+
+  
+  .app-card {
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  
+  .app-card:hover {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+  }
+  
+  .app-card:hover .app-img {
+    transform: scale(1.05);
+  }
+  .stat-card:hover .app-img {
+    transform: scale(1.05);
+  }
+  
+  

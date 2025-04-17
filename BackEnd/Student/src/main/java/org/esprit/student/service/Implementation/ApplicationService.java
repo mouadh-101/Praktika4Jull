@@ -5,6 +5,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.esprit.student.client.AnalyzerClient;
 import org.esprit.student.client.InternshipClient;
+import org.esprit.student.client.UserClient;
 import org.esprit.student.controller.dto.*;
 import org.esprit.student.entity.Application;
 import org.esprit.student.repository.ApplicationRepository;
@@ -29,6 +30,8 @@ public class ApplicationService implements IApplicationService {
     private InternshipClient internshipClient;
     @Autowired
     private AnalyzerClient analyzerClient;
+    @Autowired
+    private UserClient userClient;
 
     @Override
     public Application addApplication(Application application, String userId, int internshipId) {
@@ -74,11 +77,12 @@ public class ApplicationService implements IApplicationService {
                 .orElseThrow(() -> new EntityNotFoundException("Application not found with id: " + id));
 
         InternshipDto internship = internshipClient.getInternshipById(application.getInternshipId());
+        UserData userData =userClient.getUserData(application.getStudent().getUserId());
         if (internship == null) {
             throw new EntityNotFoundException("Internship not found with id: " + application.getInternshipId());
         }
 
-        return new ASIDtoImpl(application, internship);
+        return new ASIDtoImpl(application, internship,userData);
     }
 
     public List<ASIDto> getAllStudentApplication(String userId) {
@@ -88,7 +92,8 @@ public class ApplicationService implements IApplicationService {
         return applications.stream()
                 .map(app -> {
                     InternshipDto internship = internshipClient.getInternshipById(app.getInternshipId());
-                    return new AppStudentInternImpl(app, internship);
+                    UserData userData =userClient.getUserData(userId);
+                    return new AppStudentInternImpl(app, internship,userData);
                 })
                 .collect(Collectors.toList());
     }
@@ -96,19 +101,19 @@ public class ApplicationService implements IApplicationService {
     @Override
     public List<ASIDto> getAllCompanyApplication(String userId) {
         List<InternshipDto> internships = internshipClient.getInternshipsByCompanyId(userId);
+        UserData userData =userClient.getUserData(userId);
         List<Long> internshipIds = internships.stream()
                 .map(InternshipDto::getId)
                 .collect(Collectors.toList());
 
         List<ApplicationDto> applications = applicationRepository.findByInternshipIdIn(internshipIds);
-
         return applications.stream()
                 .map(app -> {
                     InternshipDto internship = internships.stream()
                             .filter(i -> i.getId().equals(app.getInternshipId()))
                             .findFirst()
                             .orElse(null); // Can be improved
-                    return new AppStudentInternImpl(app, internship);
+                    return new AppStudentInternImpl(app, internship,userData);
                 })
                 .collect(Collectors.toList());
     }
@@ -119,6 +124,11 @@ public class ApplicationService implements IApplicationService {
         ASIDto applicationDto=getASI(id);
         AnalyzeDto analyzeDto=analyzerClient.analyzeApplication(applicationDto);
         return analyzeDto;
+    }
+
+    @Override
+    public ApplicationStatisticsDto getApplicationStatistics(String userId) {
+        return applicationRepository.getApplicationStatisticsByUserId(userId);
     }
 
 

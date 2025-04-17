@@ -1,7 +1,5 @@
 package org.esprit.student.service.Interface;
-import org.esprit.student.controller.dto.ASIDto;
-import org.esprit.student.controller.dto.AnalyzeDto;
-import org.esprit.student.controller.dto.ApplicationDto;
+import org.esprit.student.controller.dto.*;
 import org.esprit.student.entity.Application;
 
 import java.util.List;
@@ -17,5 +15,6 @@ public interface IApplicationService {
     List<ASIDto> getAllCompanyApplication(String userId);
 
     AnalyzeDto getAnalyze(Long id);
+    ApplicationStatisticsDto getApplicationStatistics(String userId);
 
 }

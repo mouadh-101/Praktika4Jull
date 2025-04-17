@@ -8,10 +8,12 @@ public class AppStudentInternImpl implements ASIDto {
 
     private final ApplicationDto application;
     private final InternshipDto internship;
+    private final UserData user;
 
-    public AppStudentInternImpl(ApplicationDto application, InternshipDto internship) {
+    public AppStudentInternImpl(ApplicationDto application, InternshipDto internship,UserData user) {
         this.application = application;
         this.internship = internship;
+        this.user=user;
     }
 
     @Override
@@ -37,6 +39,11 @@ public class AppStudentInternImpl implements ASIDto {
     @Override
     public StudentDto getStudent() {
         return application.getStudent(); // ✅ FIXED: Return directly without casting
+    }
+
+    @Override
+    public UserData getUser() {
+        return user;
     }
 
     @Override

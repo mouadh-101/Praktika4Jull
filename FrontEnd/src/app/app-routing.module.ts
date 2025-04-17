@@ -36,6 +36,7 @@ import { JournalbackComponent } from './components/Document/Journalback/Journalb
 import { UpdateJournalComponent } from './components/Document/UpdateJournal/UpdateJournal.component';
 import { ApplicationDetailsComponent } from './components/application-details/application-details.component';
 import { StudentApplicationsComponent } from './components/student-applications/student-applications.component';
+import { AppAnalyzeComponent } from './components/app-analyze/app-analyze.component';
 
 const routes: Routes = [
   { path: 'sign-in', component: SignInComponent },
@@ -84,6 +85,7 @@ const routes: Routes = [
 
   { path: 'applications/:id', component: ApplicationDetailsComponent },
   { path: 'applications', component: StudentApplicationsComponent },
+  { path: 'applicationsAnalyser/:id', component: AppAnalyzeComponent },
 
 
   { path: '', redirectTo: '/', pathMatch: 'full' }

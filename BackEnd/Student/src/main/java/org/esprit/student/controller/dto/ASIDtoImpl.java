@@ -9,10 +9,12 @@ public class ASIDtoImpl implements ASIDto {
 
     private final Application application;
     private final InternshipDto internship;
+    private final UserData user;
 
-    public ASIDtoImpl(Application application, InternshipDto internship) {
+    public ASIDtoImpl(Application application, InternshipDto internship,UserData user) {
         this.application = application;
         this.internship = internship;
+        this.user=user;
     }
 
 
@@ -39,6 +41,11 @@ public class ASIDtoImpl implements ASIDto {
     @Override
     public StudentDto getStudent() {
         return new StudentDtoImpl(application.getStudent());
+    }
+
+    @Override
+    public UserData getUser() {
+        return user;
     }
 
     @Override
