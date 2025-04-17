@@ -11,6 +11,6 @@ import java.util.List;
 public interface InternshipClient {
     @GetMapping("/findInternshipById/{id}")
     InternshipDto getInternshipById(@PathVariable("id") int id);
-    @GetMapping("/listById")
-    List<InternshipDto> getInternshipsByCompanyId(String userId);
+    @GetMapping("/listById/{id}")
+    List<InternshipDto> getInternshipsByCompanyId(@PathVariable("id") String userId);
 }

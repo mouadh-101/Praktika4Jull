@@ -69,6 +69,8 @@ import { VideoCallComponent } from './components/video-call/video-call.component
 import { AddApplicationDialogComponent } from './components/add-application/add-application.component';
 import { StudentApplicationsComponent } from './components/student-applications/student-applications.component';
 import { ApplicationDetailsComponent } from './components/application-details/application-details.component';
+import { AppAnalyzeComponent } from './components/app-analyze/app-analyze.component';
+import { NgChartsModule } from 'ng2-charts';
 
 
 @NgModule({
@@ -111,13 +113,14 @@ import { ApplicationDetailsComponent } from './components/application-details/ap
     DepotBackComponent,
     ListJournalComponent,
     AddJournalComponent,
-      JournalbackComponent,
-      UpdateJournalComponent,
-      InterviewComponent,
+    JournalbackComponent,
+    UpdateJournalComponent,
+    InterviewComponent,
     AddApplicationDialogComponent,
     WebsocketComponent,
     StudentApplicationsComponent,
-    ApplicationDetailsComponent
+    ApplicationDetailsComponent,
+    AppAnalyzeComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -142,7 +145,8 @@ import { ApplicationDetailsComponent } from './components/application-details/ap
     MatNativeDateModule,
     CalendarModule.forRoot({ provide: DateAdapter, useClass: MatNativeDateModule }),
     BrowserAnimationsModule,
-    MatButtonModule
+    MatButtonModule,
+    NgChartsModule
   ],
   providers: [
     {

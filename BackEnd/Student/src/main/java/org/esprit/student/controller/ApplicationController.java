@@ -1,8 +1,6 @@
 package org.esprit.student.controller;
 
-import org.esprit.student.controller.dto.ASIDto;
-import org.esprit.student.controller.dto.AnalyzeDto;
-import org.esprit.student.controller.dto.ApplicationDto;
+import org.esprit.student.controller.dto.*;
 import org.esprit.student.entity.Application;
 import org.esprit.student.entity.Education;
 import org.esprit.student.repository.StudentRepository;
@@ -62,6 +60,11 @@ public class ApplicationController {
     @GetMapping("/analyze/{id}")
     public AnalyzeDto getAnalyze(@PathVariable Long id) {
         return applicationService.getAnalyze(id);
+    }
+    @GetMapping("/statistics")
+    public ResponseEntity<ApplicationStatisticsDto> getStatistics(@RequestHeader("userId") String userId) {
+        ApplicationStatisticsDto statistics = applicationService.getApplicationStatistics(userId);
+        return ResponseEntity.ok(statistics);
     }
 
 }

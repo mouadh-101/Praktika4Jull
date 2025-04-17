@@ -12,6 +12,7 @@ public interface ApplicationDto {
     ApplicationStatus getStatus();
 
     StudentDto getStudent();
+
     int getInternshipId();
 
 

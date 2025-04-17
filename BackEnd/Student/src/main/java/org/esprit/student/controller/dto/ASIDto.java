@@ -14,6 +14,7 @@ public interface ASIDto {
     ApplicationStatus getStatus();
 
     StudentDto getStudent();
+    UserData getUser();
     InternshipDto getInternship();
 
 

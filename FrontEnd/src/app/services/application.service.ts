@@ -21,10 +21,20 @@ export class ApplicationService {
     return this.http.get<any>(`${this.apiUrl}/company`);
   }
   getApplicationById(id: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${id}`);
+    return this.http.get(`${this.apiUrl}/asi/${id}`);
+  }
+  getAnalyse(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/analyze/${id}`);
   }
 
   deleteApplication(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+  updateApplication(id: number,app:any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`,app);
+  }
+  
+  getApplicationStatistics(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/statistics`);
   }
 }

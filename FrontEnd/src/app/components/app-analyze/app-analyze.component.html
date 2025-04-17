@@ -1,0 +1,53 @@
+<div class="container my-5">
+    <div class="card shadow-sm border-0 rounded-4 p-4">
+  
+      <h2 class="mb-4 text-primary fw-semibold">
+        <i class="bi bi-bar-chart-fill me-2"></i> AI Application Analysis
+      </h2>
+  
+      <!-- Student Rating -->
+      <div class="mb-4">
+        <h5 class="text-muted"><i class="bi bi-star-fill me-2 text-warning"></i>Student Rating</h5>
+        <p class="fs-5">{{ analysisResult.studentRating }}</p>
+      </div>
+  
+      <!-- Hiring Probability -->
+      <div class="mb-4">
+        <h5 class="text-muted"><i class="bi bi-graph-up-arrow me-2 text-success"></i>Hiring Probability</h5>
+        <p class="fs-5">{{ analysisResult.hiringProbability }}</p>
+      </div>
+  
+      <!-- Profile Strength Score -->
+      <div class="mb-4">
+        <h5 class="text-muted"><i class="bi bi-speedometer2 me-2 text-info"></i>Profile Strength Score</h5>
+          <p *ngFor="let score of analysisResult.profileStrengthScore" class="list-group-item">
+            {{ score }}
+          </p>
+      </div>
+  
+      <!-- Advice to Improve Chances -->
+      <div class="mb-4">
+        <h5 class="text-muted"><i class="bi bi-lightbulb me-2 text-warning"></i>Advice to Improve Chances</h5>
+        <div class="bg-light rounded p-3 border">
+          <p class="mb-0 text-dark">{{ analysisResult.adviceToImproveChances }}</p>
+        </div>
+      </div>
+  
+      <!-- Cover Letter Feedback -->
+      <div class="mb-4">
+        <h5 class="text-muted"><i class="bi bi-envelope-open me-2 text-secondary"></i>Cover Letter Feedback</h5>
+        <div class="bg-light rounded p-3 border">
+          <p class="mb-0 text-dark">{{ analysisResult.coverLetterFeedback }}</p>
+        </div>
+      </div>
+  
+      <!-- Back Button -->
+      <div class="text-end">
+        <button class="btn btn-outline-secondary" (click)="goBack()">
+            <i class="bi bi-arrow-left-circle me-1"></i> Back
+        </button>
+      </div>
+  
+    </div>
+  </div>
+  
