@@ -1,140 +1,109 @@
-<div class="container">
-  <h2 class="text-center">Liste des Documents</h2>
-  <br>
-  <button class="btn btn-success" routerLink="/AddDocument">
-    <i class="bi bi-plus-circle"></i> Ajouter un Stage
-  </button>
-  <br><br>
-  <button class="btn btn-success" routerLink="/DocumentBack">
-    <i class="bi bi-plus"></i> Back
-  </button>
-  <br><br>
-  <br>
-  <br>
-  <button class="btn btn-success" routerLink="/DocumentBack">
-    <i class="bi bi-plus"></i> Back
-  </button>
-  <br>
-  <br>
+<div class="list-document-page">
+  <div class="container mt-4">
+    <div class="page-header">
+      <h2 class="page-title">My Documents</h2>
+      <app-custom-button type="primary" routerLink="/AddDocument">
+        <i class="bi bi-plus-lg"></i> Add New Document
+      </app-custom-button>
+    </div>
+    <!-- Back button - decide if still needed or handled by app navigation flow -->
+    <!-- <app-custom-button type="secondary" routerLink="/DocumentBack" customClass="mb-3"><i class="bi bi-arrow-left"></i> Back</app-custom-button> -->
 
-  <!-- Filtrer par durée -->
-  <div class="form-group d-flex align-items-center gap-3">
-    <label for="typeFilter" class="font-weight-bold mb-0">📅 Filtrer par durée :</label>
-    <select id="typeFilter" [(ngModel)]="selectedDuree" (change)="filterDocuments()" class="form-control w-auto px-3 py-2 rounded shadow-sm border-primary">
-      <option value="" class="fw-bold">📂 Toutes les Durées</option>
-      <option *ngFor="let Duree of Duree | keyvalue" [value]="Duree.value" class="text-dark">
-        🔹 {{ Duree.key }}
-      </option>
-    </select>
-  </div>
-  <br>
-
-  <!-- Filtrer par statut -->
-  <div class="form-group d-flex align-items-center gap-3">
-    <label for="statusFilter" class="font-weight-bold mb-0">📑 Filtrer par statut :</label>
-    <select id="statusFilter" [(ngModel)]="selectedStatus" (change)="filterDocuments()" class="form-control w-auto px-3 py-2 rounded shadow-sm border-primary">
-      <option value="" class="fw-bold">📂 Tous les Statuts</option>
-      <option *ngFor="let status of StatusDoc | keyvalue" [value]="status.value" class="text-dark">
-        🔹 {{ status.key }}
-      </option>
-    </select>
-  </div>
-  <br>
-
-  <div class="row">
-    <div class="col-md-4" *ngFor="let document of filteredDocuments | paginate: { itemsPerPage: itemsPerPage, currentPage: page }">
-      <div class="card mb-4">
-        <div class="card-body">
-          <h5 class="card-title">Société {{ document.societe }}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">
-            {{ document.dateDebut | date: 'shortDate' }} - {{ document.dateFin | date: 'shortDate' }}
-          </h6>
-          <p class="card-text"><strong>Durée:</strong> {{ document.duree }}</p>
-          <p class="card-text"><strong>Status:</strong> {{ document.statusDoc }}</p>
-          <div class="qr-code-container">
-            <div class="qr-code">
-              <img [src]="generateQRCodeUrl(document.docid)" alt="QR Code" />
+    <div class="row gy-4">
+      <!-- Filter Section -->
+      <div class="col-lg-3">
+        <app-info-card cardTitle="Filter Documents" customClass="filter-card">
+          <form class="filter-form">
+            <div class="form-field">
+              <label for="typeFilter">Filter by Duration:</label>
+              <select id="typeFilter" [(ngModel)]="selectedDuree" (change)="filterDocuments()" name="dureeFilter">
+                <option value="">All Durations</option>
+                <option *ngFor="let duree of Duree | keyvalue" [value]="duree.value">{{ duree.key }}</option>
+              </select>
             </div>
-          </div>
-          <br>
-          <br>
-          <!-- Boutons principaux (en haut de la carte) -->
-          <div class="d-flex flex-wrap gap-2 justify-content-between">
-            <button class="btn btn-primary btn-sm shadow rounded fw-bold"
-                    (click)="telechargerDemandeStage(document.docid)"
-                    [disabled]="estDesactive(document.statusDoc)"
-                    title="Télécharger la demande">
-              <i class="bi bi-download me-1"></i>
-            </button>
 
+            <div class="form-field">
+              <label for="statusFilter">Filter by Status:</label>
+              <select id="statusFilter" [(ngModel)]="selectedStatus" (change)="filterDocuments()" name="statusFilter">
+                <option value="">All Statuses</option>
+                <option *ngFor="let status of StatusDoc | keyvalue" [value]="status.value">{{ status.key }}</option>
+              </select>
+            </div>
+            <!-- No explicit "Apply" button in original, filters on change. Keep as is or add button. -->
+          </form>
+        </app-info-card>
+      </div>
 
-            <button class="btn btn-secondary btn-sm shadow rounded fw-bold"
-                    (click)="telechargerLettreAffectation(document.docid)"
-                    [disabled]="estDesactive(document.statusDoc)"
-                    title="Télécharger la lettre d'affectation">
-              <i class="bi bi-download me-1"></i>
-            </button>
-
-            <button class="btn btn-danger btn-sm shadow rounded fw-bold"
-                    (click)="supprimerDocument(document.docid)"
-                    [disabled]="estDesactiveee(document.statusDoc)"
-                    title="Supprimer">
-              <i class="bi bi-trash me-1"></i>
-            </button>
-
-            <button class="btn btn-warning btn-sm shadow rounded fw-bold text-dark"
-                    [routerLink]="['/UpdateDocument', document.docid]"
-                    [disabled]="estDesactiveee(document.statusDoc)"
-                    title="Modifier">
-              <i class="bi bi-pencil me-1"></i>
-            </button>
-
-            <button class="btn btn-primary btn-sm shadow rounded fw-bold text-white"
-                    [routerLink]="['/depot', document.docid]"
-                    [disabled]="estDesactive(document.statusDoc)"
-                    title="Voir dépôt">
-              <i class="bi bi-box-arrow-in-right me-1"></i>
-            </button>
-          </div>
+      <!-- Document Cards Section -->
+      <div class="col-lg-9">
+        <div *ngIf="filteredDocuments.length === 0" class="no-documents-message">
+          <app-info-card cardTitle="No Documents Found">
+            <p>You haven't added any documents yet, or none match your current filters.</p>
+            <app-custom-button type="primary" routerLink="/AddDocument" customClass="mt-3">
+              Add Your First Document
+            </app-custom-button>
+          </app-info-card>
         </div>
 
-        <!-- Boutons secondaires (en bas de la carte) -->
-        <div class="card-footer d-flex justify-content-between mt-3">
-          <button class="btn btn-success btn-sm shadow rounded fw-bold"
-                  [routerLink]="['/AddJournal', document.docid]"
-                  [disabled]="estDesactive(document.statusDoc)"
-                  title="Ajouter tâche">
-            <i class="bi bi-plus-circle me-1"></i> Tâche
-          </button>
+        <div class="document-cards-container row gy-4">
+          <div *ngFor="let document of filteredDocuments | paginate: { itemsPerPage: itemsPerPage, currentPage: page }" class="col-md-6">
+            <app-info-card [cardTitle]="'Company: ' + document.societe" customClass="document-card">
+              <div class="document-meta">
+                <span><i class="bi bi-calendar-range"></i> {{ document.dateDebut | date:'shortDate' }} - {{ document.dateFin | date:'shortDate' }}</span>
+                <span><i class="bi bi-clock-history"></i> Duration: {{ document.duree }}</span>
+                <span><i class="bi bi-info-circle"></i> Status: <span class="status-badge {{document.statusDoc}}">{{ document.statusDoc }}</span></span>
+              </div>
 
-          <button class="btn btn-dark btn-sm shadow rounded fw-bold"
-                  [routerLink]="['/ListJournal', document.docid]"
-                  [disabled]="estDesactive(document.statusDoc)"
-                  title="Voir tâches">
-            <i class="bi bi-card-checklist me-1"></i> Tâches
-          </button>
-          <div class="d-flex justify-content-between">
-            <button class="btn btn-primary" (click)="telechargerDemandeStage(document.docid)" [disabled]="estDesactive(document.statusDoc)">
-              <i class="bi bi-download"></i>
-            </button>
-            <button class="btn btn-secondary" (click)="telechargerLettreAffectation(document.docid)" [disabled]="estDesactive(document.statusDoc)">
-              <i class="bi bi-download"></i>
-            </button>
-            <button class="btn btn-danger" (click)="supprimerDocument(document.docid)" [disabled]="estDesactiveee(document.statusDoc)">
-              <i class="bi bi-trash"></i>
-            </button>
-            <button class="btn btn-warning" [routerLink]="['/UpdateDocument', document.docid]" [disabled]="estDesactiveee(document.statusDoc)">
-              <i class="bi bi-pencil"></i>
-            </button>
+              <div class="qr-code-section">
+                <img [src]="generateQRCodeUrl(document.docid)" alt="QR Code for document {{document.docid}}" class="qr-code-image" />
+                <small>Scan for quick access</small>
+              </div>
 
-
-
+              <div class="document-actions-main">
+                <app-custom-button type="secondary" (buttonClick)="telechargerDemandeStage(document.docid)"
+                                   [disabled]="estDesactive(document.statusDoc)" title="Download Internship Application">
+                  <i class="bi bi-file-earmark-arrow-down"></i> Request
+                </app-custom-button>
+                <app-custom-button type="secondary" (buttonClick)="telechargerLettreAffectation(document.docid)"
+                                   [disabled]="estDesactive(document.statusDoc)" title="Download Assignment Letter">
+                  <i class="bi bi-file-earmark-arrow-down"></i> Assignment
+                </app-custom-button>
+                 <app-custom-button type="default" [routerLink]="['/depot', document.docid]"
+                                   [disabled]="estDesactive(document.statusDoc)" title="View Submission">
+                  <i class="bi bi-box-arrow-in-right"></i> Submission
+                </app-custom-button>
+              </div>
+              <hr class="actions-divider">
+              <div class="document-actions-secondary">
+                 <app-custom-button type="link" [routerLink]="['/AddJournal', document.docid]"
+                                   [disabled]="estDesactive(document.statusDoc)" title="Add Task">
+                  <i class="bi bi-journal-plus"></i> Add Task
+                </app-custom-button>
+                <app-custom-button type="link" [routerLink]="['/ListJournal', document.docid]"
+                                   [disabled]="estDesactive(document.statusDoc)" title="View Tasks">
+                  <i class="bi bi-journal-check"></i> View Tasks
+                </app-custom-button>
+                <div class="admin-actions">
+                  <app-custom-button type="icon" customClass="edit-btn" [routerLink]="['/UpdateDocument', document.docid]"
+                                     [disabled]="estDesactiveee(document.statusDoc)" title="Edit Document">
+                    <i class="bi bi-pencil-square"></i>
+                  </app-custom-button>
+                  <app-custom-button type="icon" customClass="delete-btn" (buttonClick)="supprimerDocument(document.docid)"
+                                     [disabled]="estDesactiveee(document.statusDoc)" title="Delete Document">
+                    <i class="bi bi-trash3"></i>
+                  </app-custom-button>
+                </div>
+              </div>
+            </app-info-card>
           </div>
+        </div>
+        <div class="pagination-container mt-4" *ngIf="filteredDocuments.length > 0">
+          <pagination-controls (pageChange)="page = $event"
+            previousLabel=""
+            nextLabel="">
+          </pagination-controls>
         </div>
       </div>
     </div>
   </div>
-
-  <!-- Pagination Controls -->
-  <pagination-controls (pageChange)="page = $event"></pagination-controls>
 </div>

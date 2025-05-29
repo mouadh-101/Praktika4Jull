@@ -1,0 +1,7 @@
+<button
+  [ngClass]="computedButtonClasses"
+  [disabled]="disabled"
+  [title]="title || null"
+  (click)="handleClick($event)">
+  <ng-content></ng-content> <!-- For text or icons inside button -->
+</button>

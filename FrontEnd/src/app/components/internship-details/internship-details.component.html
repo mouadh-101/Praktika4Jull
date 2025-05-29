@@ -1,121 +1,108 @@
-<br>
-<br>
-<br>
-<br>
- <h1 class="internship-title">{{ internship.titre }}</h1>
-<div class="container mt-5">
-  <div class="card shadow-lg p-4 rounded">
-    <!-- Badge "Actively hiring" -->
-    <div class="badge-custom">
-      <i class="bi bi-arrow-up-right text-primary me-2"></i> Actively hiring
+<div class="internship-details-page">
+  <div class="container my-4">
+
+    <div class="page-header">
+      <app-custom-button type="link" (buttonClick)="goBack()" customClass="back-button">
+        <i class="bi bi-arrow-left"></i> Back to Listings
+      </app-custom-button>
+      <h1 class="details-page-title">{{ internship?.titre || 'Internship Details' }}</h1>
     </div>
-    
-    
 
-    <!-- Titre du stage -->
-    <h2 class="fw-bold text-dark">{{ internship.titre }}</h2>
-
-    <!-- Nom de l'entreprise -->
-    <h5 class="text-secondary fw-bold">{{ internship.company?.description }}</h5>
-
-    <!-- Lieu avec icône -->
-    <p class="text-muted">
-      <i class="bi bi-geo-alt-fill"></i> {{ internship.location }}
-      <span *ngIf="internship.remote" class="badge bg-success ms-2">Remote</span>
-    </p>
-
-    <!-- Start Date, Duration, Compensation, Application Date -->
-    <div class="row">
-      <!-- Start Date -->
-      <div class="col-12 col-md-3 mb-3">
-        <p class="text-muted"><i class="bi bi-play-circle text-muted me-2"></i> <strong>START DATE</strong></p>
-        <p class="text-dark">{{ internship.startDate }}</p>
+    <app-info-card customClass="main-internship-card">
+      <div class="internship-header">
+        <div class="header-main-info">
+          <h2 class="internship-main-title">{{ internship?.titre }}</h2>
+          <h3 class="company-name-title">{{ internship?.company?.name || internship?.company?.description || 'Company Name' }}</h3>
+          <p class="location-info">
+            <i class="bi bi-geo-alt-fill"></i> {{ internship?.location }}
+            <span *ngIf="internship?.remote" class="badge remote-badge ms-2">Remote</span>
+          </p>
+        </div>
+        <div class="header-actions">
+          <app-custom-button type="icon" (buttonClick)="toggleFavori()" [title]="isFavori ? 'Remove from Bookmarks' : 'Add to Bookmarks'" customClass="favorite-button" [class.is-favorited]="isFavori">
+            <i class="bi" [ngClass]="isFavori ? 'bi-bookmark-fill' : 'bi-bookmark'"></i>
+          </app-custom-button>
+          <app-custom-button type="icon" (buttonClick)="openShareModal()" title="Share Internship" customClass="share-button">
+            <i class="bi bi-share-fill"></i>
+          </app-custom-button>
+        </div>
       </div>
-      
-      
-    
-      <!-- Duration -->
-      <div class="col-12 col-md-3 mb-3">
-        <p class="text-muted"><i class="bi bi-calendar text-muted me-2"></i> <strong>DURATION</strong></p>
-        <p class="text-dark">{{ internship.duration }} months</p>
+
+      <div class="actively-hiring-badge" *ngIf="internship?.activelyHiring"> <!-- Assuming a boolean field activelyHiring -->
+        <i class="bi bi-arrow-up-right"></i> Actively hiring
       </div>
-      
-    
-      <!-- Compensation -->
-      <div class="col-12 col-md-3 mb-3">
-        <p class="text-muted"><i class="bi bi-cash text-muted me-2"></i> <strong>COMPENSATION</strong></p>
-        <p class="text-dark">{{ internship.compensation }} €</p>
+
+      <hr class="section-divider">
+
+      <div class="key-facts-grid">
+        <div class="fact-item">
+          <span class="fact-label"><i class="bi bi-play-circle"></i> START DATE</span>
+          <span class="fact-value">{{ internship?.startDate | date:'mediumDate' }}</span>
+        </div>
+        <div class="fact-item">
+          <span class="fact-label"><i class="bi bi-calendar3"></i> DURATION</span>
+          <span class="fact-value">{{ internship?.duration }} months</span>
+        </div>
+        <div class="fact-item">
+          <span class="fact-label"><i class="bi bi-cash-coin"></i> COMPENSATION</span>
+          <span class="fact-value">{{ internship?.compensation ? internship?.compensation + ' €/month' : 'N/A' }}</span>
+        </div>
+        <div class="fact-item">
+          <span class="fact-label"><i class="bi bi-hourglass-split"></i> APPLY BY</span>
+          <span class="fact-value">{{ internship?.applicationDeadline | date:'mediumDate' }}</span>
+        </div>
       </div>
-      
-    
-      <!-- Application Deadline -->
-      <div class="col-12 col-md-3 mb-3">
-        <p class="text-muted"><i class="bi bi-hourglass-split text-muted me-2"></i> <strong>APPLY BY</strong></p>
-        <p class="text-dark">{{ internship.applicationDeadline }}</p>
+
+      <div class="meta-info">
+        <span>Posted: {{ internship?.createAt | date:'mediumDate' }} ({{ getRelativeTime(internship?.createAt) }})</span>
+        <!-- <span>95 applicants</span> --> <!-- This data might not be available or reliable -->
       </div>
-      
-    </div>
-    
 
-    <!-- Date de création & Internship -->
-    <div class="d-flex justify-content-between mt-3 text-muted">
-      <span>Created at: {{ internship.createAt }}</span>
-      <span>Internship</span>
-    </div>
-
-
-  
-    <div class="d-flex align-items-center justify-content-between mt-2">
-      <span class="d-flex align-items-center">
-        <i class="bi bi-person-plus text-muted me-2"></i> 95 applicants
-      </span>
-      <div class="d-flex">
-        <button class="btn btn-link ms-3" [style.color]="isFavori ? '#388da8' : '#388da8'" (click)="toggleFavori()">
-          <i class="bi" [ngClass]="isFavori ? 'bi-bookmark-fill' : 'bi-bookmark'"></i>
-        </button>        
-       
-        
-        <button class="btn btn-link ms-2" style="color: #388da8 !important;" (click)="openShareModal()">
-          <i class="bi bi-share-fill"></i>
-        </button>
+      <div class="apply-action-bar">
+        <app-custom-button type="primary" (buttonClick)="onApplyClicked(internship?.id)" customClass="btn-apply-now btn-lg">
+          Apply Now
+        </app-custom-button>
       </div>
-    </div>
-    
-    
-     
+    </app-info-card>
 
-    <!-- Ligne fine -->
-    <hr class="gray-line">
+    <app-info-card cardTitle="About the Internship" *ngIf="internship?.description">
+      <div class="description-content" [innerHTML]="internship?.description"></div>
+      <!-- Use [innerHTML] if description can contain HTML, otherwise {{ internship.description }} -->
+      <!-- Consider sanitizing if HTML comes from untrusted source -->
+    </app-info-card>
 
-    <!-- Description -->
-    <div class="mt-3">
-      <h5>About the internship</h5>
-      <p>{{ internship.description }}</p>
-    </div>
-    <div class="d-flex justify-content-center mt-4">
-      <button class="btn custom-btn btn-lg" (click)="onApplyClicked(internship.id)">Apply Now</button>
-    </div>
-    
+    <!-- Add other sections like Responsibilities, Requirements, About Company as app-info-cards if data exists -->
+    <!-- Example:
+    <app-info-card cardTitle="Responsibilities" *ngIf="internship?.responsibilities">
+      <ul class="styled-list">
+        <li *ngFor="let item of internship.responsibilities">{{ item }}</li>
+      </ul>
+    </app-info-card>
+    -->
+
   </div>
 </div>
 
-<!-- Modal de partage -->
+<!-- Modal de partage (kept existing Bootstrap modal structure) -->
 <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="shareModalLabel">Envoyer ce stage</h5>
+        <h5 class="modal-title" id="shareModalLabel">Share this Internship</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <label for="stagiaire">Sélectionner un stagiaire :</label>
-        <select id="stagiaire" class="form-select" [(ngModel)]="selectedUserId">
-          <option *ngFor="let user of users" [value]="user.userId">{{ user.name }}</option>
-        </select>
+        <div class="form-field">
+          <label for="stagiaire">Select a user to share with:</label>
+          <select id="stagiaire" class="form-select" [(ngModel)]="selectedUserId">
+            <option value="" disabled selected>Choose a user</option>
+            <option *ngFor="let user of users" [value]="user.userId">{{ user.name }}</option>
+          </select>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-        <button type="button" class="btn btn-primary" (click)="sendInternshipMessage()">Envoyer</button>
+        <app-custom-button type="default" (buttonClick)="closeShareModal()">Cancel</app-custom-button>
+        <app-custom-button type="primary" (buttonClick)="sendInternshipMessage()">Send</app-custom-button>
       </div>
     </div>
   </div>

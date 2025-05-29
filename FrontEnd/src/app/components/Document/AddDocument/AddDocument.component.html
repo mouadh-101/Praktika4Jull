@@ -1,49 +1,66 @@
-<div class="card mx-auto my-5" style="max-width: 600px;">
-  <div class="card-body">
-    <h5 class="card-title text-center">Ajouter un Document</h5>
-    <form [formGroup]="documentForm" (ngSubmit)="ajouterDocument()" class="form-container">
-      
-      <div class="form-group">
-        <label>Société:</label>
-        <input formControlName="societe" type="text" class="form-control" required>
-        <div *ngIf="documentForm.get('societe')?.invalid && documentForm.get('societe')?.touched" class="text-danger">
-          <small *ngIf="documentForm.get('societe')?.errors?.['required']">Ce champ est obligatoire.</small>
-          <small *ngIf="documentForm.get('societe')?.errors?.['minlength']">Minimum 2 caractères requis.</small>
+<div class="add-document-page">
+  <div class="container my-5">
+    <app-info-card cardTitle="Add New Document" customClass="add-document-card">
+      <form [formGroup]="documentForm" (ngSubmit)="ajouterDocument()" class="add-document-form">
+
+        <div class="form-field">
+          <label for="societe">Company / Organization <span class="required-asterisk">*</span></label>
+          <input id="societe" type="text" formControlName="societe" placeholder="Enter company name">
+          <div *ngIf="documentForm.get('societe')?.invalid && (documentForm.get('societe')?.touched || documentForm.get('societe')?.dirty)" class="error-text">
+            <span *ngIf="documentForm.get('societe')?.errors?.['required']">Company name is required.</span>
+            <span *ngIf="documentForm.get('societe')?.errors?.['minlength']">Must be at least 2 characters.</span>
+          </div>
         </div>
-      </div>
 
-      <div class="form-group">
-        <label>Type:</label>
-        <select formControlName="type" class="form-control">
-          <option *ngFor="let type of types" [value]="type">{{ type }}</option>
-        </select>
-        <div *ngIf="documentForm.get('type')?.invalid && documentForm.get('type')?.touched" class="text-danger">
-          <small *ngIf="documentForm.get('type')?.errors?.['required']">Ce champ est obligatoire.</small>
+        <div class="form-field">
+          <label for="type">Document Type <span class="required-asterisk">*</span></label>
+          <select id="type" formControlName="type">
+            <option value="" disabled selected>Select document type</option>
+            <option *ngFor="let type of types" [value]="type">{{ type }}</option>
+          </select>
+          <div *ngIf="documentForm.get('type')?.invalid && (documentForm.get('type')?.touched || documentForm.get('type')?.dirty)" class="error-text">
+            <span *ngIf="documentForm.get('type')?.errors?.['required']">Document type is required.</span>
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label>Durée:</label>
-        <select formControlName="duree" class="form-control" (change)="onDureeChange()">
-          <option *ngFor="let duree of durees" [value]="duree">{{ duree }}</option>
-        </select>
-        <div *ngIf="documentForm.get('duree')?.invalid && documentForm.get('duree')?.touched" class="text-danger">
-          <small *ngIf="documentForm.get('duree')?.errors?.['required']">Ce champ est obligatoire.</small>
+
+        <div class="form-field">
+          <label for="duree">Duration <span class="required-asterisk">*</span></label>
+          <select id="duree" formControlName="duree" (change)="onDureeChange()">
+            <option value="" disabled selected>Select duration</option>
+            <option *ngFor="let duree of durees" [value]="duree">{{ duree }}</option>
+          </select>
+          <div *ngIf="documentForm.get('duree')?.invalid && (documentForm.get('duree')?.touched || documentForm.get('duree')?.dirty)" class="error-text">
+            <span *ngIf="documentForm.get('duree')?.errors?.['required']">Duration is required.</span>
+          </div>
         </div>
-      </div>
 
+        <div class="form-row">
+          <div class="form-field">
+            <label for="dateDebut">Start Date <span class="required-asterisk">*</span></label>
+            <input id="dateDebut" type="date" formControlName="dateDebut" (change)="onDureeChange()">
+             <div *ngIf="documentForm.get('dateDebut')?.invalid && (documentForm.get('dateDebut')?.touched || documentForm.get('dateDebut')?.dirty)" class="error-text">
+                <span *ngIf="documentForm.get('dateDebut')?.errors?.['required']">Start date is required.</span>
+            </div>
+          </div>
 
-      <div class="form-group">
-        <label>Date de début:</label>
-        <input formControlName="dateDebut" type="date" class="form-control" required (change)="onDureeChange()">
-      </div>
+          <div class="form-field">
+            <label for="dateFin">End Date <span class="required-asterisk">*</span></label>
+            <input id="dateFin" type="date" formControlName="dateFin" readonly>
+            <!-- End Date is calculated, so no direct error message needed if readonly and always set -->
+          </div>
+        </div>
+        
+        <!-- statusDoc is set by default in TS, not shown in form -->
 
-      <div class="form-group">
-        <label>Date de fin:</label>
-        <input formControlName="dateFin" type="date" class="form-control" required readonly>
-      </div>
-
-     
-      <button type="submit" class="btn btn-primary mt-3" [disabled]="documentForm.invalid">Ajouter</button>
-    </form>
+        <div class="form-actions">
+          <app-custom-button type="default" (buttonClick)="goBackToList()">
+            Cancel
+          </app-custom-button>
+          <app-custom-button type="primary" (buttonClick)="ajouterDocument()" [disabled]="documentForm.invalid">
+            Add Document
+          </app-custom-button>
+        </div>
+      </form>
+    </app-info-card>
   </div>
 </div>

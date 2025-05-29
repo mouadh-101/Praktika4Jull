@@ -1,40 +1,66 @@
-<div class="form-container">
-  <h2 class="form-title">{{ editMode ? 'Edit' : 'Add' }} Work Experience</h2>
+<div class="work-exp-dialog-container">
+  <h2 mat-dialog-title class="dialog-title">{{ editMode ? 'Edit' : 'Add' }} Work Experience</h2>
 
-  <form [formGroup]="workExperienceForm" (ngSubmit)="submit()">
-    <div class="form-field">
-      <label for="companyName">Company Name</label>
-      <input id="companyName" type="text" formControlName="companyName" required>
-    </div>
+  <mat-dialog-content>
+    <form [formGroup]="workExperienceForm" class="work-exp-form">
+      <mat-form-field appearance="outline">
+        <mat-label>Company Name</mat-label>
+        <input matInput formControlName="companyName" placeholder="e.g., Google" required>
+        <mat-error *ngIf="workExperienceForm.get('companyName')?.hasError('required')">
+          Company name is required.
+        </mat-error>
+      </mat-form-field>
 
-    <div class="form-field">
-      <label for="position">Position</label>
-      <input id="position" type="text" formControlName="position" required>
-    </div>
+      <mat-form-field appearance="outline">
+        <mat-label>Position / Title</mat-label>
+        <input matInput formControlName="position" placeholder="e.g., Software Engineering Intern" required>
+        <mat-error *ngIf="workExperienceForm.get('position')?.hasError('required')">
+          Position is required.
+        </mat-error>
+      </mat-form-field>
 
-    <div class="form-field">
-      <label for="address">Address</label>
-      <input id="address" type="text" formControlName="address" required>
-    </div>
+      <mat-form-field appearance="outline">
+        <mat-label>Location / Address</mat-label>
+        <input matInput formControlName="address" placeholder="e.g., Mountain View, CA">
+        <!-- Address was required in original, making it not required here based on common use cases, but can be changed -->
+         <mat-error *ngIf="workExperienceForm.get('address')?.hasError('required')">
+          Address is required.
+        </mat-error>
+      </mat-form-field>
 
-    <div class="form-field">
-      <label for="startDate">Start Date</label>
-      <input id="startDate" type="date" formControlName="startDate" required>
-    </div>
+      <div class="date-fields-row">
+        <mat-form-field appearance="outline" class="date-field">
+          <mat-label>Start Date</mat-label>
+          <input matInput formControlName="startDate" type="date" required>
+          <mat-error *ngIf="workExperienceForm.get('startDate')?.hasError('required')">
+            Start date is required.
+          </mat-error>
+        </mat-form-field>
 
-    <div class="form-field">
-      <label for="endDate">End Date</label>
-      <input id="endDate" type="date" formControlName="endDate">
-    </div>
+        <mat-form-field appearance="outline" class="date-field">
+          <mat-label>End Date</mat-label>
+          <input matInput formControlName="endDate" type="date">
+          <mat-hint>Leave blank if current</mat-hint>
+          <!-- Add custom validator for endDate after startDate if needed -->
+        </mat-form-field>
+      </div>
 
-    <div class="form-field">
-      <label for="description">Description</label>
-      <textarea id="description" formControlName="description" rows="4"></textarea>
-    </div>
+      <mat-form-field appearance="outline" class="description-field">
+        <mat-label>Description (Optional)</mat-label>
+        <textarea matInput formControlName="description"
+                  cdkTextareaAutosize
+                  #autosize="cdkTextareaAutosize"
+                  cdkAutosizeMinRows="3"
+                  cdkAutosizeMaxRows="6"
+                  placeholder="Describe your role and responsibilities..."></textarea>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
 
-    <div class="form-actions">
-      <button type="button" (click)="cancel()">Cancel</button>
-      <button type="submit">Save</button>
-    </div>
-  </form>
+  <mat-dialog-actions class="dialog-actions">
+    <app-custom-button type="default" (buttonClick)="cancel()">Cancel</app-custom-button>
+    <app-custom-button type="primary" (buttonClick)="submit()" [disabled]="workExperienceForm.invalid">
+      {{ editMode ? 'Save Changes' : 'Add Experience' }}
+    </app-custom-button>
+  </mat-dialog-actions>
 </div>

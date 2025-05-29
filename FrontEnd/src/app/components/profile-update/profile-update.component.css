@@ -1,75 +1,81 @@
-.profile-preview {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-top: 10px;
+/* Styles for ProfileUpdateComponent Dialog */
+
+.profile-update-dialog-container {
+  display: flex;
+  flex-direction: column;
 }
-.form-container {
-    background: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    max-width: 500px;
-    margin: 0 auto;
-  }
-  
-  
-  .form-title {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  .form-field {
-    margin-bottom: 20px;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 600;
-    color: #555;
-  }
-  
-  input, textarea {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-  }
-  
-  textarea {
-    resize: vertical;
-    min-height: 100px;
-  }
-  
-  .form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-  }
-  
-  button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.2s;
-  }
-  
-  button[type="button"] {
-    background-color: #f0f0f0;
-    color: #333;
-  }
-  
-  button[type="submit"] {
-    background-color: #0066cc;
-    color: white;
-  }
-  
-  button:hover {
-    opacity: 0.9;
-  }
+
+.dialog-title { /* h2 with mat-dialog-title */
+  font-family: var(--font-family-headings);
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-default);
+  padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-md);
+  border-bottom: 1px solid var(--color-border-light);
+  margin-bottom: 0;
+}
+
+.profile-update-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-lg);
+}
+
+.profile-update-form mat-form-field {
+  width: 100%;
+}
+
+/* Profile Picture Section */
+.profile-picture-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-sm); /* Space before next field */
+  padding: var(--spacing-md); /* Increased padding */
+  border: 1px dashed var(--color-border-default);
+  border-radius: var(--border-radius-base);
+  background-color: var(--color-bg-alt);
+}
+
+.profile-preview {
+  width: 120px;
+  height: 120px;
+  border-radius: var(--border-radius-round); /* Circular preview */
+  object-fit: cover;
+  border: var(--border-width-thick) solid var(--color-border-light);
+  background-color: var(--color-bg-body); /* Fallback if image is transparent */
+}
+
+.btn-upload-pic.custom-button { /* Styling for app-custom-button */
+  padding: var(--spacing-xs) var(--spacing-lg);
+}
+.btn-upload-pic.custom-button .bi {
+  margin-right: var(--spacing-xs);
+  font-size: 1.1em; /* Slightly larger icon */
+}
+
+.file-error { /* For mat-error related to file input if used directly, or custom error display */
+  font-size: var(--font-size-small);
+  color: var(--color-danger);
+  width: 100%;
+  text-align: center; /* Center if it's a general message for the section */
+  margin-top: var(--spacing-xxs);
+}
+
+
+.description-field {
+  /* Specific styling if needed */
+}
+
+.dialog-actions { /* mat-dialog-actions */
+  padding: var(--spacing-sm) var(--spacing-lg) var(--spacing-lg);
+  gap: var(--spacing-sm);
+  border-top: 1px solid var(--color-border-light);
+}
+
+/*
+  Angular Material components (mat-form-field, mat-input, mat-label, mat-error, cdkTextareaAutosize)
+  are themed by the global custom-theme.scss and styles.css settings for Material.
+*/

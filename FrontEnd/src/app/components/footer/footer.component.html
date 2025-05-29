@@ -1,67 +1,65 @@
-<footer id="footer" class="footer position-relative light-background">
-
-    <div class="container footer-top">
+<footer id="footer" class="footer">
+  <div class="footer-main-content">
+    <div class="container">
       <div class="row gy-4">
-        <div class="col-lg-4 col-md-6 footer-about">
-          <a href="index.html" class="logo d-flex align-items-center">
-            <span class="sitename">QuickStart</span>
+
+        <!-- About Section -->
+        <div class="col-lg-5 col-md-12 footer-about">
+          <a routerLink="/" class="logo d-flex align-items-center">
+            <img src="assets/img/logo.png" alt="Praktika Logo">
+            <span class="sitename">Praktika</span>
           </a>
-          <div class="footer-contact pt-3">
-            <p>A108 Adam Street</p>
-            <p>New York, NY 535022</p>
-            <p class="mt-3"><strong>Phone:</strong> <span>+1 5589 55488 55</span></p>
-            <p><strong>Email:</strong> <span>info&example.com</span></p>
-          </div>
-          <div class="social-links d-flex mt-4">
-            <a href=""><i class="bi bi-twitter-x"></i></a>
-            <a href=""><i class="bi bi-facebook"></i></a>
-            <a href=""><i class="bi bi-instagram"></i></a>
-            <a href=""><i class="bi bi-linkedin"></i></a>
+          <p class="footer-tagline">
+            Connecting talent with opportunity. Find your next internship with Praktika.
+          </p>
+          <div class="social-links d-flex mt-3">
+            <a href="#" target="_blank" title="Twitter"><i class="bi bi-twitter-x"></i></a>
+            <a href="#" target="_blank" title="Facebook"><i class="bi bi-facebook"></i></a>
+            <a href="#" target="_blank" title="Instagram"><i class="bi bi-instagram"></i></a>
+            <a href="#" target="_blank" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
           </div>
         </div>
 
-        <div class="col-lg-2 col-md-3 footer-links">
-          <h4>Useful Links</h4>
+        <!-- Quick Links Section -->
+        <div class="col-lg-3 col-md-6 footer-links">
+          <h4>Quick Links</h4>
           <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About us</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Terms of service</a></li>
-            <li><a href="#">Privacy policy</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a routerLink="/">Home</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a routerLink="/internships">Internships</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a routerLink="/about">About Us</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a routerLink="/contact">Contact</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a routerLink="/terms">Terms of Service</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a routerLink="/privacy">Privacy Policy</a></li>
           </ul>
         </div>
 
-        <div class="col-lg-2 col-md-3 footer-links">
-          <h4>Our Services</h4>
-          <ul>
-            <li><a href="#">Web Design</a></li>
-            <li><a href="#">Web Development</a></li>
-            <li><a href="#">Product Management</a></li>
-            <li><a href="#">Marketing</a></li>
-            <li><a href="#">Graphic Design</a></li>
-          </ul>
-        </div>
-
-        <div class="col-lg-4 col-md-12 footer-newsletter">
-          <h4>Our Newsletter</h4>
-          <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
-          <form action="forms/newsletter.php" method="post" class="php-email-form">
-            <div class="newsletter-form"><input type="email" name="email"><input type="submit" value="Subscribe"></div>
-            <div class="loading">Loading</div>
-            <div class="error-message"></div>
-            <div class="sent-message">Your subscription request has been sent. Thank you!</div>
-          </form>
+        <!-- Contact Section -->
+        <div class="col-lg-4 col-md-6 footer-contact">
+          <h4>Contact Us</h4>
+          <p>
+            Praktika Platform<br>
+            123 Innovation Drive<br>
+            Knowledge City, KC 54321<br>
+            United States <br><br>
+            <strong>Phone:</strong> +1 234 567 8900<br>
+            <strong>Email:</strong> info@praktika.example.com<br>
+          </p>
         </div>
 
       </div>
     </div>
+  </div>
 
-    <div class="container copyright text-center mt-4">
-      <p>© <span>Copyright</span> <strong class="px-1 sitename">QuickStart</strong><span>All Rights Reserved</span></p>
-      <div class="credits">
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> Dist<a href="https://themewagon.com">ThemeWagon
-      </a>
+  <div class="footer-bottom-bar">
+    <div class="container">
+      <div class="copyright text-center">
+        <p>&copy; {{ currentYear }} <strong class="px-1 sitename">Praktika</strong>. All Rights Reserved.</p>
+      </div>
+      <div class="credits text-center">
+        <!-- Original credits can be removed or kept if required by the template license -->
+        <!-- Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>. Distributed by <a href="https://themewagon.com/">ThemeWagon</a>. -->
+        Powered by Angular & Spring Boot
       </div>
     </div>
-
-  </footer>
+  </div>
+</footer>

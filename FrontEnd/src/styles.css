@@ -1,9 +1,248 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* Core Design Tokens */
+:root {
+  /* Color Palette */
+  --color-primary: #0066cc;
+  --color-primary-rgb: 0, 102, 204;
+  --color-primary-dark: #004181; /* For borders or darker shades */
+  --color-primary-light: #e0efff; /* Lighter shade for backgrounds or hover states */
+
+  --color-secondary: #6c757d;
+  --color-secondary-rgb: 108, 117, 125;
+  --color-accent: #007bff; /* Often same as primary, but can be distinct */
+
+  --color-danger: #dc3545;
+  --color-danger-rgb: 220, 53, 69;
+  --color-success: #28a745;
+  --color-success-rgb: 40, 167, 69;
+  --color-success-light: rgba(40, 167, 69, 0.1);
+  --color-success-light-border: rgba(40, 167, 69, 0.2);
+
+  --color-warning-bg: #ffc107; /* For warning badge backgrounds */
+  --color-warning-text: #383d41; /* For text on warning badge backgrounds */
+
+  --color-text-default: #333333;
+  --color-text-secondary: #666666;
+  --color-text-on-primary: #ffffff;
+  --color-text-on-secondary: #ffffff;
+  --color-text-link: var(--color-primary);
+  --color-text-warning: #856404; /* For warning banner text */
+
+  --color-bg-body: #ffffff;
+  --color-bg-container: #ffffff;
+  --color-bg-alt: #f8f9fa; /* For alternate backgrounds like sidebars or sections */
+  --color-bg-skills-section: #f8fbff;
+  --color-bg-warning: #fff3dc; /* For warning banner background */
+
+  --color-border-default: #dee2e6; /* General border color */
+  --color-border-light: #e0e0e0;
+  --color-border-input: #ced4da;
+  --color-border-warning: #ffe5b4;
+  --color-border-light-alpha: rgba(222, 226, 230, 0.5); /* For semi-transparent light borders */
+
+  /* Dark Theme / Inverted Background Colors */
+  --color-neutral-dark: #2c3e50; /* Example: For footer background */
+  --color-primary-alpha: rgba(0, 102, 204, 0.1); /* Example: for subtle hover on dark bg */
+
+  /* Text colors for dark backgrounds */
+  --color-text-light-secondary: #bdc3c7; /* Lighter secondary text for dark bgs */
+  --color-text-light-muted: #95a5a6;    /* Lighter muted text for dark bgs */
 
 
+  /* Typography */
+  --font-family-base: 'Inter', Roboto, "Helvetica Neue", sans-serif; /* Added Inter, kept fallbacks */
+  --font-family-headings: 'Inter', Roboto, "Helvetica Neue", sans-serif;
+
+  --font-size-base: 14px;
+  --font-size-small: 13px;
+  --font-size-large: 16px;
+
+  --font-size-h1: 28px;
+  --font-size-h1-xl: 2.8rem; /* Approx 44.8px, for larger hero titles */
+  --font-size-h2: 24px;
+  --font-size-h3: 18px;
+  --font-size-h4: 16px; /* Defaulting, can be adjusted */
+  --font-size-h5: 14px; /* Defaulting, can be adjusted */
+  --font-size-h6: 14px; /* Defaulting, can be adjusted */
+
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --line-height-base: 1.6;
+  --line-height-headings: 1.3;
+
+  /* Spacing Units (based on 4px grid) */
+  --spacing-xxs: 4px;
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+
+  /* Border Styles */
+  --border-radius-small: 3px; /* For small elements like inline tags if not pills */
+  --border-radius-base: 6px;  /* Standard for cards, inputs */
+  --border-radius-large: 8px; /* For larger containers */
+  --border-radius-pill: 20px; /* For pill-shaped tags/buttons */
+  --border-radius-round: 50%; /* For circular elements */
+
+  --border-width-base: 1px;
+  --border-width-thick: 2px;
+}
+
+/* Global Resets and Base Styles */
+html {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-base);
+  color: var(--color-text-default);
+  background-color: var(--color-bg-body);
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  margin-bottom: var(--spacing-sm);
+  font-family: var(--font-family-headings);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-headings);
+  color: var(--color-text-default); /* Default heading color, can be overridden */
+}
+
+h1 { font-size: var(--font-size-h1); }
+h2 { font-size: var(--font-size-h2); }
+h3 { font-size: var(--font-size-h3); }
+h4 { font-size: var(--font-size-h4); }
+h5 { font-size: var(--font-size-h5); }
+h6 { font-size: var(--font-size-h6); }
+
+/* Paragraphs */
+p {
+  margin-top: 0;
+  margin-bottom: var(--spacing-md);
+}
+
+/* Links */
+a {
+  color: var(--color-text-link);
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+}
+
+/* Basic Button and Input Styling (minimal to avoid conflicts) */
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  margin: 0;
+}
+
+/* Basic form control styling */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
+input[type="number"],
+textarea,
+select {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border: var(--border-width-base) solid var(--color-border-input);
+  border-radius: var(--border-radius-base);
+  background-color: var(--color-bg-body);
+  color: var(--color-text-default);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 0.2rem rgba(var(--color-primary-rgb), 0.25); /* Inspired by Bootstrap focus */
+}
+
+
+/* Utility Classes (General and non-conflicting) */
+.container {
+  width: 100%;
+  padding-right: var(--spacing-md);
+  padding-left: var(--spacing-md);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 576px) {
+  .container { max-width: 540px; }
+}
+@media (min-width: 768px) {
+  .container { max-width: 720px; }
+}
+@media (min-width: 992px) {
+  .container { max-width: 960px; }
+}
+@media (min-width: 1200px) {
+  .container { max-width: 1140px; }
+}
+
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-left { text-align: left; }
+
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}
+
+.rounded-circle {
+  border-radius: var(--border-radius-round);
+}
+
+.shadow-sm { box-shadow: 0 .125rem .25rem rgba(0,0,0,.075); }
+.shadow { box-shadow: 0 .5rem 1rem rgba(0,0,0,.15); }
+.shadow-lg { box-shadow: 0 1rem 3rem rgba(0,0,0,.175); }
+
+/* Custom global styles can be added below */
+body {
+    background-color: var(--color-bg-alt); /* Example: Set a default light grey background for the app */
+}
 
 /* You can add global styles to this file, and also import other style files */
 @import '../node_modules/@syncfusion/ej2-base/styles/material.css';

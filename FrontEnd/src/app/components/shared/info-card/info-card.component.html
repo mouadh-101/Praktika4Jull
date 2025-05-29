@@ -1,0 +1,11 @@
+<div class="info-card {{ customClass }}">
+  <div class="info-card-actions">
+    <ng-content select="[slot='actions']"></ng-content> <!-- Slot for action buttons -->
+  </div>
+  <div *ngIf="cardTitle" class="info-card-header">
+    <h3 class="info-card-title">{{ cardTitle }}</h3>
+  </div>
+  <div class="info-card-body">
+    <ng-content></ng-content> <!-- Main content projection -->
+  </div>
+</div>

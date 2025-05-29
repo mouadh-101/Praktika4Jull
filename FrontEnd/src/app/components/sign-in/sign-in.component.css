@@ -1,74 +1,101 @@
-/* auth.component.css */
+/* Styles for SignInComponent */
 
-.auth-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(to bottom right, #f0fbfc, #ffffff); /* Soft gradient */
-  }
-  
-  .auth-card {
-    background: white;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
-  }
-  
-  .auth-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #333;
-  }
-  
-  .auth-subtitle {
-    font-size: 16px;
-    color: #666;
-    margin-bottom: 30px;
-  }
-  
-  .auth-form .form-group {
-    margin-bottom: 20px;
-  }
-  
-  .form-label {
-    font-size: 14px;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 5px;
-  }
-  
-  .form-control {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    transition: border-color 0.3s ease;
-  }
-  
-  .form-control:focus {
-    border-color: #06bbcc; /* Accent color */
-    box-shadow: 0 0 5px rgba(6, 187, 204, 0.3);
-  }
-  
-  .error-text {
-    font-size: 12px;
-    color: red;
-    margin-top: 5px;
-  }
-  
-  .forgot-password-link,
-  .signup-link {
-    color: #06bbcc; /* Accent color */
-    text-decoration: none;
-    font-weight: 600;
-  }
-  
-  .forgot-password-link:hover,
-  .signup-link:hover {
-    text-decoration: underline;
-  }
+.sign-in-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - var(--navbar-height, 60px) - var(--footer-height, 60px)); /* Adjust if navbar/footer heights are known */
+  background-color: var(--color-bg-alt); /* Consistent page background */
+  padding: var(--spacing-lg);
+}
+
+.sign-in-container {
+  width: 100%;
+  max-width: 450px; /* Max width for the sign-in card */
+}
+
+/* app-info-card with customClass="sign-in-card" will handle card styling */
+/* We can add specific overrides for sign-in-card if app-info-card defaults are not perfect */
+:host ::ng-deep .sign-in-card .info-card-title {
+  text-align: center;
+  font-size: var(--font-size-h2); /* Welcome Back! title */
+  margin-bottom: var(--spacing-xs); /* Reduce space after title for subtitle */
+}
+
+.auth-subtitle {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-lg); /* Space before form */
+  text-align: center;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md); /* Space between form fields */
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary); /* Softer label color */
+  margin-bottom: var(--spacing-xs); /* Space between label and input */
+  text-align: left;
+}
+
+.form-label .required-asterisk {
+  color: var(--color-danger);
+  margin-left: var(--spacing-xxs);
+}
+
+/*
+  Input fields (input[type="email"], input[type="password"]) are styled globally
+  by rules in styles.css. This includes padding, border, border-radius, focus states.
+  Ensure they take full width if not already default.
+*/
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+}
+
+.error-text {
+  font-size: var(--font-size-small); /* 13px */
+  color: var(--color-danger);
+  margin-top: var(--spacing-xs); /* Space above error message */
+  text-align: left;
+}
+
+/* Styling for the main action button, if specific overrides are needed beyond app-custom-button defaults */
+.auth-form app-custom-button[type="primary"] {
+  margin-top: var(--spacing-sm); /* Add some space above the main submit button */
+}
+
+/* Ensure w-100 class works as expected for app-custom-button if not globally defined */
+:host ::ng-deep .w-100 .custom-button {
+  width: 100%;
+}
+
+.form-links {
+  margin-top: var(--spacing-md);
+  text-align: center; /* Or right, depending on design */
+}
+
+.auth-footer {
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--color-border-light);
+  text-align: center;
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+}
+
+.auth-footer app-custom-button[type="link"] {
+  /* Adjust if default link button style needs tweaking for this context */
+  /* For example, to make it slightly more prominent or change alignment */
+  margin-left: var(--spacing-xxs);
+}

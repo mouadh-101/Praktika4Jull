@@ -12,7 +12,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class SignUpComponent implements OnInit {
   signupForm!: FormGroup;
-  errorMessage: string = '';
+  // errorMessage: string = ''; // Not currently used, could be used for server errors
 
   constructor(
     private fb: FormBuilder,
@@ -27,25 +27,35 @@ export class SignUpComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
       phone: ['', Validators.required],
       address: ['', Validators.required],
-      role: ['Student', Validators.required]
+      role: ['Student', Validators.required] // Default role to 'Student'
     });
   }
 
-  
-  onSignUp(){
-    if (this.signupForm.valid) {
-      console.log(this.signupForm.value);
+  onSignUp(): void {
+    if (this.signupForm.invalid) {
+      this.signupForm.markAllAsTouched(); // Ensure validation messages are shown
+      // alert('Please fill out all required fields correctly.'); // Optional: general alert
+      return;
+    }
+
+    if (this.signupForm.valid) { // Redundant check, but safe
+      console.log('Attempting to register with data:', this.signupForm.value);
       this.authService.register(this.signupForm.value).subscribe({
-        
         next: () => {
-          alert('Registred Sucessfuly');
+          alert('Registered Successfully!'); // Consider replacing with a more integrated notification
           this.router.navigate(['/sign-in']); // Redirect after successful registration
         },
         error: err => {
-          alert('Registration failed. Please try again.');
-          console.error(err);
+          alert('Registration failed. Please try again. Error: ' + (err.error?.message || err.message));
+          console.error('Registration error:', err);
+          // Potentially set an error message to display in the template via app-warning-banner
+          // this.errorMessage = err.error?.message || 'An unexpected error occurred.';
         }
       });
     }
+  }
+
+  navigateToSignIn(): void {
+    this.router.navigate(['/sign-in']);
   }
 }

@@ -1,25 +1,124 @@
-
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
-// Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
 @include mat.core();
 
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
-$praktika-primary: mat.define-palette(mat.$indigo-palette);
-$praktika-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+// Define custom color maps based on styles.css variables
+// --color-primary: #0066cc;
+// --color-secondary: #6c757d; (used as accent)
+// --color-warn: #dc3545; (from .btn-danger)
 
-// The warn palette is optional (defaults to red).
-$praktika-warn: mat.define-palette(mat.$red-palette);
+$custom-primary-map: (
+  50: #e0f0ff,
+  100: #b3d9ff,
+  200: #80c2ff,
+  300: #4daaff,
+  400: #1a90ff,
+  500: #0066CC, // Main Primary Color
+  600: #005cb8,
+  700: #0052a3,
+  800: #00478e,
+  900: #003569,
+  A100: #ccdeff,
+  A200: #99beff,
+  A400: #669eff,
+  A700: #4d8fff,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: white,
+    A400: white,
+    A700: white,
+  )
+);
 
-// Create the theme object. A theme consists of configurations for individual
-// theming systems such as "color" or "typography".
+// Using --color-secondary (#6c757d) as the base for accent
+$custom-accent-map: (
+  50: #f7f7f8,
+  100: #e9eaeb,
+  200: #d8dadd,
+  300: #c7c9ce,
+  400: #b9bac1,
+  500: #6C757D, // Main Accent Color (from --color-secondary)
+  600: #626b73,
+  700: #565f67,
+  800: #4b535c,
+  900: #383f45,
+  A100: #f0f0f0,
+  A200: #dcdcdc,
+  A400: #bababa,
+  A700: #a8a8a8,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: rgba(black, 0.87),
+    A400: white,
+    A700: white,
+  )
+);
+
+// Using --color-danger (#dc3545) as the base for warn
+$custom-warn-map: (
+  50: #ffeef0,
+  100: #ffd3d9,
+  200: #ffb8c2,
+  300: #ff9ca5,
+  400: #ff818a,
+  500: #DC3545, // Main Warn Color
+  600: #d62f3e,
+  700: #cf2836,
+  800: #c8212e,
+  900: #be1720,
+  A100: #ffffff, // Typically lighter shades for A series
+  A200: #ffe5e8,
+  A400: #ffb2bb,
+  A700: #ff99a3,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87), // Contrast for A100 if it's very light
+    A200: rgba(black, 0.87),
+    A400: rgba(black, 0.87),
+    A700: rgba(black, 0.87),
+  )
+);
+
+// Define the palettes for your theme using the custom maps.
+$praktika-primary: mat.define-palette($custom-primary-map, 500, 100, 700);
+$praktika-accent: mat.define-palette($custom-accent-map, 500, 100, 700);
+$praktika-warn: mat.define-palette($custom-warn-map, 500, 100, 700);
+
+// Create the theme object.
 $praktika-theme: mat.define-light-theme((
   color: (
     primary: $praktika-primary,
@@ -29,7 +128,11 @@ $praktika-theme: mat.define-light-theme((
 ));
 
 // Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
 @include mat.all-component-themes($praktika-theme);
 
+// You can also include typography adjustments here if needed, for example:
+// $custom-typography: mat.define-typography-config(
+//   $font-family: 'Inter, Roboto, "Helvetica Neue", sans-serif',
+// );
+// @include mat.all-component-typographies($custom-typography);
+// For now, focusing on colors.

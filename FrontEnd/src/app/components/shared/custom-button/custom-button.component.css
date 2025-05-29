@@ -1,0 +1,195 @@
+/* :host ensures styles are scoped to this component */
+:host {
+  display: inline-block; /* Or block, depending on default desired behavior */
+}
+
+.custom-button {
+  padding: var(--spacing-xs) var(--spacing-sm); /* Default padding: 8px 12px */
+  border-radius: var(--border-radius-base);    /* Default border-radius: 6px */
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);             /* Default font-size: 14px */
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  border: 1px solid transparent;
+  line-height: var(--line-height-base);
+  text-align: center;
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  -webkit-appearance: none; /* Remove default browser styles on buttons */
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* Default button style (subtle, can be overridden by specific types) */
+.custom-button.btn-default {
+  background-color: var(--color-bg-alt); /* Light grey, similar to secondary but less prominent */
+  color: var(--color-text-default);
+  border-color: var(--color-border-input);
+}
+
+.custom-button.btn-default:hover:not(:disabled) {
+  background-color: #e2e6ea; /* Slightly darker shade of --color-bg-alt */
+  border-color: #dae0e5;
+}
+
+.custom-button.btn-default:focus:not(:disabled) {
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(var(--color-secondary-rgb, 108, 117, 125), 0.25); /* Use secondary for focus on default */
+}
+
+
+/* Primary Button */
+.custom-button.btn-primary {
+  background-color: var(--color-primary);
+  color: var(--color-text-on-primary);
+  border-color: var(--color-primary);
+}
+
+.custom-button.btn-primary:hover:not(:disabled) {
+  background-color: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+}
+
+.custom-button.btn-primary:focus:not(:disabled) {
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(var(--color-primary-rgb, 0, 102, 204), 0.5);
+}
+
+/* Secondary Button */
+.custom-button.btn-secondary {
+  background-color: var(--color-secondary);
+  color: var(--color-text-on-secondary);
+  border-color: var(--color-secondary);
+}
+
+.custom-button.btn-secondary:hover:not(:disabled) {
+  background-color: #5a6268; /* Darker shade of --color-secondary */
+  border-color: #545b62;
+}
+
+.custom-button.btn-secondary:focus:not(:disabled) {
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(var(--color-secondary-rgb, 108, 117, 125), 0.5);
+}
+
+/* Danger Button */
+.custom-button.btn-danger {
+  background-color: var(--color-danger, #dc3545); /* Fallback if --color-danger not defined */
+  color: var(--color-text-on-primary); /* Assuming white text on danger */
+  border-color: var(--color-danger, #dc3545);
+}
+
+.custom-button.btn-danger:hover:not(:disabled) {
+  background-color: #c82333; /* Darker shade of danger */
+  border-color: #bd2130;
+}
+
+.custom-button.btn-danger:focus:not(:disabled) {
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(var(--color-danger-rgb, 220, 53, 69), 0.5);
+}
+
+/* Success Button */
+.custom-button.btn-success {
+  background-color: var(--color-success, #28a745); /* Fallback if --color-success not defined */
+  color: var(--color-text-on-primary); /* Assuming white text on success */
+  border-color: var(--color-success, #28a745);
+}
+
+.custom-button.btn-success:hover:not(:disabled) {
+  background-color: #218838; /* Darker shade of success */
+  border-color: #1e7e34;
+}
+
+.custom-button.btn-success:focus:not(:disabled) {
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(var(--color-success-rgb, 40, 167, 69), 0.5);
+}
+
+/* Link Button (inspired by .add-button) */
+.custom-button.btn-link,
+.custom-button.btn-add {
+  background-color: transparent;
+  color: var(--color-primary);
+  border-color: transparent;
+  padding: var(--spacing-xxs) 0; /* 4px top/bottom, 0 left/right */
+  text-decoration: none;
+  font-weight: var(--font-weight-medium);
+}
+
+.custom-button.btn-link:hover:not(:disabled),
+.custom-button.btn-add:hover:not(:disabled) {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+  background-color: transparent; /* Ensure no bg change on hover */
+}
+
+.custom-button.btn-link:focus:not(:disabled),
+.custom-button.btn-add:focus:not(:disabled) {
+  outline: none;
+  box-shadow: none; /* No box-shadow for link/add buttons */
+  text-decoration: underline;
+}
+
+/* Edit Button (inspired by .action-button) */
+.custom-button.btn-edit {
+  background: none;
+  border: none;
+  color: var(--color-text-secondary);
+  padding: var(--spacing-xxs); /* 4px */
+  font-size: var(--font-size-large); /* Adjust if icons are used via ng-content */
+}
+
+.custom-button.btn-edit:hover:not(:disabled) {
+  color: var(--color-primary);
+  background-color: transparent;
+}
+
+/* Delete Button (inspired by .action-button.delete) */
+.custom-button.btn-delete {
+  background: none;
+  border: none;
+  color: var(--color-text-secondary);
+  padding: var(--spacing-xxs); /* 4px */
+  font-size: var(--font-size-large); /* Adjust if icons are used via ng-content */
+}
+
+.custom-button.btn-delete:hover:not(:disabled) {
+  color: var(--color-danger, #dc3545);
+  background-color: transparent;
+}
+
+/* Disabled state */
+.custom-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+  background-color: var(--color-bg-alt);
+  border-color: var(--color-border-default);
+  color: var(--color-text-secondary);
+}
+
+/* Specific disabled states if needed for certain button types */
+.custom-button.btn-primary:disabled {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.custom-button.btn-secondary:disabled {
+  background-color: var(--color-secondary);
+  border-color: var(--color-secondary);
+}
+
+.custom-button.btn-link:disabled,
+.custom-button.btn-add:disabled,
+.custom-button.btn-edit:disabled,
+.custom-button.btn-delete:disabled {
+  background-color: transparent;
+  /* color will be from the general .custom-button:disabled */
+}
+
+/* Add flex for icon + text alignment if commonly used with ng-content */
+.custom-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs); /* Gap between icon and text if both are present */
+}

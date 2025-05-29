@@ -1,0 +1,68 @@
+:host {
+  display: block; /* Cards are typically block-level elements */
+  margin-bottom: var(--spacing-md); /* Consistent with .education-entry margin-bottom: 12px (spacing-sm or md) */
+}
+
+.info-card {
+  background-color: var(--color-bg-container, #ffffff);
+  border: var(--border-width-base) solid var(--color-border-light, #e0e0e0);
+  border-radius: var(--border-radius-base, 6px);
+  padding: var(--spacing-md); /* 16px, consistent with .education-entry */
+  position: relative;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.info-card:hover {
+  box-shadow: var(--shadow-sm, 0 .125rem .25rem rgba(0,0,0,.075)); /* Using predefined shadow or a custom one */
+  /* Original hover: box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
+}
+
+.info-card-actions {
+  position: absolute;
+  top: var(--spacing-md);   /* 16px */
+  right: var(--spacing-md);  /* 16px */
+  display: flex;
+  gap: var(--spacing-sm);    /* 12px, consistent with .education-actions */
+}
+
+/* Styling for the projected action buttons if needed, but prefer styling in the button component itself */
+/* ::ng-deep .info-card-actions app-custom-button { ... } */
+/* Better to ensure app-custom-button with type 'edit' or 'delete' already has correct minimal styling */
+
+.info-card-header {
+  /* Optional: add margin if title and actions are both present and might overlap or need spacing */
+  /* margin-right: calc(var(--spacing-md) * 3); Ensure title doesn't go under actions if actions are many */
+}
+
+.info-card-title {
+  font-size: var(--font-size-h3); /* 18px, or h4 (16px) as in .education-entry h3 */
+  color: var(--color-primary);
+  margin-top: 0; /* Reset margin */
+  margin-bottom: var(--spacing-xs); /* 4px in .education-entry h3, use 8px for a bit more space */
+  /* If actions are present and title is long, ensure it doesn't overlap */
+  /* Consider padding-right if actions are on the same line visually */
+}
+
+.info-card-body {
+  font-size: var(--font-size-base);
+  color: var(--color-text-default);
+}
+
+/* Example of how to style specific content within the card body if needed */
+.info-card-body h4 { /* Assuming h4 might be used inside the projected content for sub-sections */
+  font-size: var(--font-size-large); /* 16px */
+  color: var(--color-text-default);
+  margin-top: var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
+}
+
+.info-card-body p {
+  font-size: var(--font-size-base); /* 14px */
+  color: var(--color-text-secondary); /* Softer text for details, like .date or .description */
+  line-height: var(--line-height-base);
+  margin-bottom: var(--spacing-xs); /* Smaller margin for paragraphs within the card */
+}
+
+.info-card-body p:last-child {
+  margin-bottom: 0;
+}

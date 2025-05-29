@@ -1,92 +1,235 @@
-.container {
-    max-width: 800px;
-    margin: auto;
-    
-  }
-  .internship-title {
-    text-align: center;
-    font-size: 28px;
-    font-weight: 600;
-  }
-  
- 
-/* Style de la card */
-.card {
-    border: 1px solid #ddd; /* Bordure grise très fine */
-   
-  }
-  
-  /* Badge "Actively hiring" */
-  .badge-custom {
-    /* display: inline-block;
-    padding: 5px 10px;
-    font-size: 14px;
-    font-weight: bold;
-    color: #6c757d;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-bottom: 10px; */
-    /* border: 1px solid #ddd;
-    padding: 4px 8px;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    border-radius: 4px;
-    margin-bottom: 8px;
-    gap: 4px;
-    color: #495055; */
-    display: inline-flex;
-  align-items: center;
-  padding: 5px 10px;
-  font-size: 14px;
-  font-weight: bold;
-  color: #6c757d;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  margin-bottom: 10px;
-  background-color: transparent;
-  position: absolute;
-    top: 25px;
-    left: 15px;
-  }
-  
-  /* .badge-custom {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    background: transparent;
-    color: gray;
-    border: 1px solid gray;
-    padding: 5px 10px;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: bold;
-  } */
-  
-  h2 {
-    margin-top: 30px;
-  }
-  
-  p {
-    font-size: 16px;
-  }
-  
-  .gray-line {
-    border: none;
-    height: 1px;
-    background: lightgray;
-    margin: 10px 0;
-  }
-  
+/* Styles for InternshipDetailsComponent */
+.internship-details-page .container {
+  max-width: 900px; /* Allow slightly wider content for details */
+}
 
-  .custom-btn {
-    background-color: #388da8;
-    border-color: #388da8;
-    color: white;
-  }
-  
-  .custom-btn:hover {
-    background-color: #2a6f8f;
-    border-color: #2a6f8f;
-  }
-  
+.internship-details-page .page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Pushes title and back button apart */
+  margin-bottom: var(--spacing-lg);
+  gap: var(--spacing-md);
+}
+
+.internship-details-page .back-button.custom-button {
+  /* app-custom-button type="link" already has minimal styling */
+  font-weight: var(--font-weight-medium);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding-left: 0; /* Remove extra padding for back button */
+  padding-right: 0;
+}
+.internship-details-page .back-button.custom-button .bi {
+  font-size: var(--font-size-large);
+}
+
+
+.internship-details-page .details-page-title {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-default);
+  margin: 0; /* Remove default margin if any */
+  flex-grow: 1; /* Allow title to take space */
+  text-align: center; /* Center title if back button is on the left */
+}
+
+
+/* Main Internship Card styling */
+:host ::ng-deep .main-internship-card .info-card-body {
+  padding-top: var(--spacing-sm); /* Reduce top padding if title is outside */
+}
+
+.internship-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-sm);
+}
+
+.header-main-info .internship-main-title {
+  font-size: var(--font-size-h2); /* Larger title for the internship */
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-default);
+  margin: 0 0 var(--spacing-xxs) 0;
+}
+
+.header-main-info .company-name-title {
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--spacing-xs) 0;
+}
+
+.header-main-info .location-info {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+.location-info .bi {
+  color: var(--color-primary);
+}
+.remote-badge {
+  background-color: var(--color-success);
+  color: var(--color-text-on-primary);
+  font-size: var(--font-size-small);
+  padding: var(--spacing-xxs) var(--spacing-xs);
+  border-radius: var(--border-radius-pill);
+}
+
+.header-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-left: var(--spacing-md); /* Space from main info */
+}
+.header-actions .custom-button.btn-icon .bi {
+  font-size: var(--font-size-h3); /* Larger icons for favorite/share */
+}
+.favorite-button.is-favorited .bi-bookmark-fill {
+  color: var(--color-accent, var(--color-primary)); /* Use accent or primary for favorited state */
+}
+
+
+.actively-hiring-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xxs) var(--spacing-sm);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-success); /* Green for actively hiring */
+  background-color: var(--color-success-light, rgba(40, 167, 69, 0.1)); /* Light green background */
+  border: 1px solid var(--color-success-light-border, rgba(40, 167, 69, 0.2));
+  border-radius: var(--border-radius-base);
+  margin-bottom: var(--spacing-md);
+}
+.actively-hiring-badge .bi {
+  font-size: var(--font-size-large);
+}
+
+.section-divider {
+  border: 0;
+  border-top: 1px solid var(--color-border-light);
+  margin: var(--spacing-md) 0;
+}
+
+.key-facts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive columns */
+  gap: var(--spacing-md);
+  margin: var(--spacing-md) 0;
+  padding: var(--spacing-md);
+  background-color: var(--color-bg-alt);
+  border-radius: var(--border-radius-base);
+}
+
+.fact-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.fact-item .fact-label {
+  font-size: var(--font-size-small);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--spacing-xxs);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+.fact-item .fact-label .bi {
+  color: var(--color-primary);
+  font-size: var(--font-size-large);
+}
+
+.fact-item .fact-value {
+  font-size: var(--font-size-base);
+  color: var(--color-text-default);
+  font-weight: var(--font-weight-semibold);
+}
+
+.meta-info {
+  font-size: var(--font-size-small);
+  color: var(--color-text-secondary);
+  margin: var(--spacing-md) 0;
+  text-align: right;
+}
+
+.apply-action-bar {
+  margin-top: var(--spacing-lg);
+  text-align: center; /* Center the apply button */
+}
+
+.btn-apply-now.custom-button {
+  padding: var(--spacing-sm) var(--spacing-xl); /* Larger apply button */
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-bold);
+}
+
+/* Description Card */
+:host ::ng-deep .description-content {
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  color: var(--color-text-default);
+}
+:host ::ng-deep .description-content p { /* Assuming description is HTML with <p> tags */
+  margin-bottom: var(--spacing-sm);
+}
+:host ::ng-deep .description-content ul,
+:host ::ng-deep .description-content ol {
+  padding-left: var(--spacing-lg);
+  margin-bottom: var(--spacing-sm);
+}
+:host ::ng-deep .description-content li {
+  margin-bottom: var(--spacing-xs);
+}
+
+
+/* Styled List for potential future sections like Responsibilities/Requirements */
+.styled-list {
+  list-style: none;
+  padding-left: 0;
+}
+.styled-list li {
+  padding-left: var(--spacing-lg);
+  position: relative;
+  margin-bottom: var(--spacing-xs);
+}
+.styled-list li::before {
+  content: "\F28F"; /* Bootstrap Icon: bi-check-circle-fill or similar */
+  font-family: 'bootstrap-icons';
+  color: var(--color-primary);
+  position: absolute;
+  left: 0;
+  top: 2px; /* Adjust alignment */
+  font-size: var(--font-size-base);
+}
+
+/* Modal styling - ensure form elements inside modal use global styles */
+.modal-body .form-field label {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xs);
+}
+.modal-body .form-select { /* Bootstrap class, ensure it picks up global styles */
+  width: 100%;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border: var(--border-width-base) solid var(--color-border-input);
+  border-radius: var(--border-radius-base);
+  background-color: var(--color-bg-body);
+  color: var(--color-text-default);
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+.modal-body .form-select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 0.2rem rgba(var(--color-primary-rgb), 0.25);
+  outline: none;
+}
+.modal-footer { /* Ensure spacing for app-custom-buttons */
+  gap: var(--spacing-sm);
+}

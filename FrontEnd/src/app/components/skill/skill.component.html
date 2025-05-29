@@ -1,30 +1,23 @@
-<<<<<<< HEAD
-<form [formGroup]="skillForm" (ngSubmit)="submit()">
-  <mat-form-field appearance="outline">
-    <mat-label>Skill Name</mat-label>
-    <input matInput formControlName="name" required />
-  </mat-form-field>
+<div class="skill-dialog-container">
+  <h2 mat-dialog-title class="dialog-title">{{ editMode ? 'Edit' : 'Add' }} Skill</h2>
 
+  <mat-dialog-content>
+    <form [formGroup]="skillForm" class="skill-form">
+      <mat-form-field appearance="outline">
+        <mat-label>Skill Name</mat-label>
+        <input matInput formControlName="name" placeholder="e.g., JavaScript, Project Management" required>
+        <mat-error *ngIf="skillForm.get('name')?.hasError('required')">
+          Skill name is required.
+        </mat-error>
+      </mat-form-field>
+      <!-- If proficiency or other fields were to be added, they would go here -->
+    </form>
+  </mat-dialog-content>
 
-  <div class="dialog-actions">
-    <button mat-raised-button color="primary" type="submit">Save</button>
-    <button mat-raised-button color="warn" (click)="cancel()">Cancel</button>
-  </div>
-</form>
-=======
-<div class="form-container">
-  <h2 class="form-title">{{ editMode ? 'Edit' : 'Add' }} Skill</h2>
-
-  <form [formGroup]="skillForm" (ngSubmit)="submit()">
-    <div class="form-field">
-      <label for="name">Skill Name</label>
-      <input id="name" type="text" formControlName="name" required>
-    </div>
-
-    <div class="form-actions">
-      <button type="button" (click)="cancel()">Cancel</button>
-      <button type="submit">Save</button>
-    </div>
-  </form>
+  <mat-dialog-actions class="dialog-actions">
+    <app-custom-button type="default" (buttonClick)="cancel()">Cancel</app-custom-button>
+    <app-custom-button type="primary" (buttonClick)="submit()" [disabled]="skillForm.invalid">
+      {{ editMode ? 'Save Changes' : 'Add Skill' }}
+    </app-custom-button>
+  </mat-dialog-actions>
 </div>
->>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b

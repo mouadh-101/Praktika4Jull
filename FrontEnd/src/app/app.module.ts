@@ -66,7 +66,7 @@ import { WebsocketComponent } from './components/websocket/websocket.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { VideoCallComponent } from './components/video-call/video-call.component';
 import { CompanyProfileComponent } from './components/company-profile/company-profile.component';
-import { EditProfileDialogComponent } from './components/edit-profile-dialog/edit-profile-dialog.component';
+// import { EditProfileDialogComponent } from './components/edit-profile-dialog/edit-profile-dialog.component'; // Removed
 import { AddPlanComponent } from './components/add-plan/add-plan.component';
 import { ListPlanComponent } from './components/list-plan/list-plan.component';
 import { GanttComponent } from './components/gantt/gantt.component';
@@ -77,6 +77,10 @@ import { StudentApplicationsComponent } from './components/student-applications/
 import { ApplicationDetailsComponent } from './components/application-details/application-details.component';
 import { AppAnalyzeComponent } from './components/app-analyze/app-analyze.component';
 import { NgChartsModule } from 'ng2-charts';
+import { CustomButtonComponent } from './components/shared/custom-button/custom-button.component';
+import { InfoCardComponent } from './components/shared/info-card/info-card.component';
+import { WarningBannerComponent } from './components/shared/warning-banner/warning-banner.component';
+import { HomeComponent } from './components/home/home.component';
 
 
 @NgModule({
@@ -123,7 +127,7 @@ import { NgChartsModule } from 'ng2-charts';
       UpdateJournalComponent,
       InterviewComponent,
       CompanyProfileComponent,
-      EditProfileDialogComponent,
+      // EditProfileDialogComponent, // Removed
       AddPlanComponent,
       ListPlanComponent,
       GanttComponent,
@@ -134,7 +138,11 @@ import { NgChartsModule } from 'ng2-charts';
     WebsocketComponent,
     StudentApplicationsComponent,
     ApplicationDetailsComponent,
-    AppAnalyzeComponent
+    AppAnalyzeComponent,
+    CustomButtonComponent,
+    InfoCardComponent,
+    WarningBannerComponent,
+    HomeComponent
   ],
   imports: [
     ReactiveFormsModule,
