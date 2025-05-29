@@ -41,8 +41,10 @@ import { GanttComponent } from './components/gantt/gantt.component';
 import { ApplicationDetailsComponent } from './components/application-details/application-details.component';
 import { StudentApplicationsComponent } from './components/student-applications/student-applications.component';
 import { AppAnalyzeComponent } from './components/app-analyze/app-analyze.component';
+import { HomeComponent } from './components/home/home.component';
 
 const routes: Routes = [
+  { path: '', component: HomeComponent }, // Set HomeComponent as the default route
   { path: 'sign-in', component: SignInComponent },
   { path: 'sign-up', component: SignUpComponent },
 
@@ -100,10 +102,8 @@ const routes: Routes = [
 
   { path: 'applications/:id', component: ApplicationDetailsComponent },
   { path: 'applications', component: StudentApplicationsComponent },
-  { path: 'applicationsAnalyser/:id', component: AppAnalyzeComponent },
-
-
-  { path: '', redirectTo: '/', pathMatch: 'full' }
+  { path: 'applicationsAnalyser/:id', component: AppAnalyzeComponent }
+  // Removed old root path redirect: { path: '', redirectTo: '/', pathMatch: 'full' }
 ];
 
 @NgModule({

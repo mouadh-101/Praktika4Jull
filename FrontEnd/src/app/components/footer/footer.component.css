@@ -1,0 +1,138 @@
+/* Footer Component Styles */
+.footer {
+  background-color: var(--color-neutral-dark, #2c3e50); /* Dark background for footer */
+  color: var(--color-text-light-secondary, #bdc3c7);   /* Lighter text for readability on dark bg */
+  padding-top: var(--spacing-xl); /* 32px */
+  font-size: var(--font-size-base); /* 14px */
+}
+
+.footer .footer-main-content {
+  padding-bottom: var(--spacing-lg); /* 24px */
+}
+
+.footer .logo img {
+  max-height: 36px; /* Adjust as needed */
+  margin-right: var(--spacing-sm);
+}
+
+.footer .logo .sitename {
+  font-size: var(--font-size-h3); /* ~24px */
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-light, #e0efff); /* Lighter primary or white for sitename */
+  line-height: 1;
+}
+
+.footer .footer-tagline {
+  margin-top: var(--spacing-sm);
+  font-size: var(--font-size-small); /* 13px */
+  line-height: 1.7;
+}
+
+.footer h4 {
+  font-size: var(--font-size-large); /* 16px */
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-on-primary, #ffffff); /* White or very light text for headings */
+  margin-bottom: var(--spacing-md); /* 16px */
+  padding-bottom: var(--spacing-xs); /* 8px */
+  border-bottom: 2px solid var(--color-primary-dark); /* Subtle accent border */
+  display: inline-block;
+}
+
+.footer .footer-links ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer .footer-links ul li {
+  padding: var(--spacing-xxs) 0; /* 4px top/bottom padding for each link item */
+  display: flex;
+  align-items: center;
+}
+
+.footer .footer-links ul li i { /* For chevron icon */
+  padding-right: var(--spacing-xs); /* 8px */
+  font-size: var(--font-size-small); /* 13px */
+  color: var(--color-primary, #0066cc); /* Primary color for icons */
+}
+
+.footer .footer-links ul a {
+  color: var(--color-text-light-secondary, #bdc3c7);
+  text-decoration: none;
+  transition: color 0.3s ease, padding-left 0.3s ease;
+  display: inline-block;
+}
+
+.footer .footer-links ul a:hover {
+  color: var(--color-primary-light, #e0efff); /* Lighter primary or white on hover */
+  padding-left: var(--spacing-xxs); /* Slight indent on hover */
+}
+
+.footer .footer-contact p {
+  margin-bottom: var(--spacing-xs); /* 8px */
+  line-height: 1.6;
+}
+
+.footer .footer-contact strong {
+  color: var(--color-text-on-primary, #ffffff); /* White or very light for "Phone:", "Email:" */
+}
+
+.footer .social-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--border-radius-round); /* 50% */
+  border: 1px solid var(--color-border-light-alpha, rgba(222, 226, 230, 0.5)); /* Lighter border */
+  font-size: var(--font-size-large); /* 16px */
+  color: var(--color-text-light-secondary, #bdc3c7);
+  margin-right: var(--spacing-sm); /* 12px */
+  text-decoration: none;
+  transition: color 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.footer .social-links a:hover {
+  color: var(--color-primary-light, #e0efff);
+  border-color: var(--color-primary-light, #e0efff);
+  background-color: var(--color-primary-alpha, rgba(0, 102, 204, 0.1)); /* Subtle primary bg on hover */
+}
+
+/* Footer Bottom Bar */
+.footer .footer-bottom-bar {
+  background-color: rgba(0, 0, 0, 0.15); /* Slightly darker or different shade for separation */
+  padding: var(--spacing-md) 0; /* 16px */
+  margin-top: var(--spacing-lg); /* 24px */
+}
+
+.footer .copyright p {
+  margin: 0;
+  color: var(--color-text-light-secondary, #bdc3c7);
+}
+
+.footer .copyright .sitename {
+  color: var(--color-text-on-primary, #ffffff); /* Or --color-primary-light */
+  font-weight: var(--font-weight-semibold);
+}
+
+.footer .credits {
+  margin-top: var(--spacing-xs); /* 8px */
+  font-size: var(--font-size-small); /* 13px */
+  color: var(--color-text-light-muted, #95a5a6); /* Muted color for credits */
+}
+
+.footer .credits a {
+  color: var(--color-text-light-secondary, #bdc3c7);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer .credits a:hover {
+  color: var(--color-primary-light, #e0efff);
+}
+
+/* Ensure Bootstrap icons are sized correctly if needed */
+.footer .bi {
+  vertical-align: middle;
+  line-height: 1; /* Helps align icons if they have weird line-height */
+}

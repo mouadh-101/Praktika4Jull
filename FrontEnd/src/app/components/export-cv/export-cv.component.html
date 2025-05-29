@@ -1,24 +1,28 @@
-<!-- template-selection-dialog.component.html -->
-<div class="dialog-container">
-    <a class="close-btn" (click)="closeDialog()">X</a>
-    <h2>Select a Template</h2>
+<div class="export-cv-dialog-container">
+  <h2 mat-dialog-title class="dialog-title">Select a CV Template</h2>
+
+  <mat-dialog-content class="dialog-content">
+    <p class="dialog-subtitle">Choose a template below to export your CV.</p>
     <div class="template-options">
-      <!-- Template 1 -->
-      <div class="template-card" (click)="selectTemplate('index')">
-        <img src="../../../assets/img/template1.png" alt="Template 1 Preview" class="template-preview" />
-        <p>Praktika 1</p>
+      <div class="template-card" (click)="selectTemplate('index')" tabindex="0" (keydown.enter)="selectTemplate('index')" (keydown.space)="selectTemplate('index')">
+        <img src="assets/img/template1.png" alt="Template 1 Preview" class="template-preview" />
+        <p class="template-name">Praktika Classic</p>
       </div>
-  
-      <!-- Template 2 -->
-      <div class="template-card" (click)="selectTemplate('index1')">
-        <img src="../../../assets/img/template2.png" alt="Template 2 Preview" class="template-preview" />
-        <p>Praktika 2</p>
+
+      <div class="template-card" (click)="selectTemplate('index1')" tabindex="0" (keydown.enter)="selectTemplate('index1')" (keydown.space)="selectTemplate('index1')">
+        <img src="assets/img/template2.png" alt="Template 2 Preview" class="template-preview" />
+        <p class="template-name">Praktika Modern</p>
       </div>
-  
-      <!-- Template 3 -->
-      <div class="template-card" (click)="selectTemplate('index2')">
-        <img src="../../../assets/img/template3.png" alt="Template 3 Preview" class="template-preview" />
-        <p>Praktika 3</p>
+
+      <div class="template-card" (click)="selectTemplate('index2')" tabindex="0" (keydown.enter)="selectTemplate('index2')" (keydown.space)="selectTemplate('index2')">
+        <img src="assets/img/template3.png" alt="Template 3 Preview" class="template-preview" />
+        <p class="template-name">Praktika Creative</p>
       </div>
     </div>
-  </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="dialog-actions">
+    <app-custom-button type="default" (buttonClick)="cancel()">Cancel</app-custom-button>
+    <!-- No explicit "Export" button here, as clicking a template directly selects and closes -->
+  </mat-dialog-actions>
+</div>

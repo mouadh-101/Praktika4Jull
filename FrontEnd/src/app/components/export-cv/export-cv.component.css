@@ -1,44 +1,106 @@
-/* template-selection-dialog.component.css */
-.dialog-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-  }
-  
-  .template-options {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-  }
-  
+/* Styles for ExportCvComponent Dialog */
+
+.export-cv-dialog-container {
+  display: flex;
+  flex-direction: column;
+  /* Width/height controlled by MatDialogConfig - typically set when opening the dialog */
+  /* Example: dialog.open(ExportCvComponent, { width: '800px', maxHeight: '90vh' }); */
+}
+
+.dialog-title { /* h2 with mat-dialog-title */
+  font-family: var(--font-family-headings);
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-default);
+  padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-md);
+  border-bottom: 1px solid var(--color-border-light);
+  margin-bottom: 0; /* Remove default h2 margin */
+  text-align: center;
+}
+
+.dialog-content { /* mat-dialog-content */
+  padding: var(--spacing-lg);
+  text-align: center; /* Center subtitle */
+  overflow-y: auto; /* Allow content to scroll if many templates */
+}
+
+.dialog-subtitle {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-lg);
+}
+
+.template-options {
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+  justify-content: space-around; /* Distribute space */
+  gap: var(--spacing-lg); /* Gap between template cards */
+  width: 100%;
+}
+
+.template-card {
+  cursor: pointer;
+  border: 2px solid var(--color-border-default);
+  border-radius: var(--border-radius-large); /* 8px */
+  padding: var(--spacing-md); /* 16px */
+  text-align: center;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out;
+  width: calc(33.333% - var(--spacing-lg)); /* Adjust for 3 cards per row, considering gap. May need adjustment based on exact gap calculation desired. */
+  min-width: 200px; /* Minimum width for a card */
+  max-width: 250px; /* Maximum width for a card */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--color-bg-body);
+  box-sizing: border-box; /* Ensure padding and border are included in width calculation */
+}
+.template-card:hover,
+.template-card:focus { /* Added focus state for accessibility */
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-primary);
+  outline: 2px solid var(--color-primary-light); /* Custom focus indicator */
+}
+
+.template-preview {
+  width: 100%; /* Make preview image take full width of card padding */
+  height: 220px; /* Fixed height for previews for consistency */
+  object-fit: contain; /* Use contain for previews, 'cover' if images are meant to fill */
+  border-radius: var(--border-radius-base); /* 6px */
+  margin-bottom: var(--spacing-sm);
+  border: 1px solid var(--color-border-light);
+  background-color: var(--color-bg-alt); /* If images have transparency */
+}
+
+.template-name {
+  font-size: var(--font-size-base);
+  color: var(--color-text-default);
+  font-weight: var(--font-weight-medium);
+  margin-top: var(--spacing-xs);
+}
+
+.dialog-actions { /* mat-dialog-actions */
+  padding: var(--spacing-sm) var(--spacing-lg) var(--spacing-lg);
+  gap: var(--spacing-sm);
+  border-top: 1px solid var(--color-border-light);
+  justify-content: flex-end; /* Align cancel button to the right */
+}
+
+/* Responsive adjustments for template cards */
+@media (max-width: 992px) { /* Medium screens, adjust to 2 cards per row */
   .template-card {
-    cursor: pointer;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    padding: 10px;
-    text-align: center;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    width: calc(50% - var(--spacing-lg)); /* Adjust for 2 cards, considering gap */
   }
-  
-  .template-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) { /* Small screens, 1 card per row */
+  .template-card {
+    width: 100%;
+    max-width: 280px; /* Max width for single card layout */
+    margin-left: auto;
+    margin-right: auto;
   }
-  
-  .template-preview {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
+  .template-options {
+    justify-content: center; /* Center single card */
   }
-  .close-btn {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-size: 24px; /* Matches your icon font size */
-    color: #666;
-  }
+}

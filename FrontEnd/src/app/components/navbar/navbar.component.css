@@ -1,161 +1,283 @@
-.user-actions {
-  display: flex;
-  align-items: center;
-  gap: 15px;
+/* Navbar Component Styles - Themed with Global Variables */
+
+/* Main Navbar Container */
+.navbar-container {
+  background-color: var(--color-bg-container, #ffffff); /* Or a specific navbar color e.g. var(--color-primary) for dark navbar */
+  padding: var(--spacing-sm) 0; /* Vertical padding */
+  box-shadow: var(--shadow-sm);
+  transition: padding 0.3s ease;
+  z-index: 1000; /* Ensure navbar stays on top */
 }
 
-.notification-icon {
-  font-size: 22px;
-  cursor: pointer;
+/* Fixed top adjustment - typically body padding is added, but this can help if navbar height changes */
+.navbar-container.fixed-top {
+  /* position: fixed; width: 100%; top: 0; */ /* Already handled by Bootstrap 'fixed-top' */
 }
 
-.profile-container {
-  position: relative;
-  cursor: pointer;
+/* Logo */
+.logo img {
+  max-height: 40px; /* Adjust as needed */
+  margin-right: var(--spacing-sm);
 }
 
-.profile-circle {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #fff;
+.logo .sitename {
+  font-size: var(--font-size-h3); /* Example: 24px */
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary); /* Themed site name */
+  margin: 0;
+  line-height: 1;
 }
 
-.profile-dropdown {
-  position: absolute;
-  top: 45px;
-  right: 0;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 10px;
-  min-width: 150px;
-  text-align: center;
-  z-index: 100;
+/* Navigation Menu */
+.navmenu {
+  /* display: flex; align-items: center; */ /* Bootstrap d-flex align-items-center handles this */
 }
 
-.username {
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.logout-btn {
-  background: #dc3545;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 14px;
-}
-
-.logout-btn:hover {
-  background: #c82333;
-}
-
-.notification-icon button {
-  background-color: transparent;  /* Pour enlever la couleur de fond */
-  border: none;                    /* Pour enlever la bordure */
-  padding: 0;                       /* Pour enlever les marges autour de l'icône */
-  cursor: pointer;                 /* Pour avoir un curseur de type pointer sur le bouton */
-}
-
-
-
-.notification-icon button:hover i {
-  color: #555;                      /* Changez la couleur de l'icône au survol, par exemple un gris plus foncé */
-}
-
-
-.notification-icon {
-  position: relative; /* Cela permet de positionner le badge par rapport à l'icône */
-  display: inline-block;
-  
-}
-
-.notification-icon i {
-  color: gray;
-  font-size: 1.5rem;
-}
-
-.notification-icon .badge {
-  position: absolute;
-  top: 0;  /* Positionnez le badge en haut de l'icône */
-  right: 0; /* Positionnez-le sur le côté droit */
-  background-color: red;
-  color: white;
-  border-radius: 50%;
-  padding: 3px 7px; /* Réduit la taille du badge */
-  font-size: 12px; /* Réduit la taille du texte */
-  line-height: 1;  /* Cela aligne verticalement le texte */
-  transform: translate(25%, -25%);  
-}
-
-
-
-.notifications-container {
-  position: absolute;
-  top: 40px;
-  right: 0;
-  background: white;
-  border: 1px solid #ddd;
-  padding: 10px;
-  width: 300px;
-  max-height: 300px;
-  overflow-y: auto;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.notifications-container ul {
+.navmenu ul {
   list-style: none;
   padding: 0;
   margin: 0;
+  display: flex;
+  align-items: center;
 }
 
-.notifications-container li {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
+.navmenu li {
+  margin-left: var(--spacing-lg); /* Space between nav items */
 }
 
-.notifications-container li:last-child {
-  border-bottom: none;
+.navmenu a,
+.navmenu a:focus {
+  color: var(--color-text-secondary);
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-base); /* Default: 14px */
+  padding: var(--spacing-xs) 0; /* Vertical padding for click area, no horizontal for cleaner look */
+  text-decoration: none;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  position: relative;
+  background-color: transparent; /* Ensure no bg color by default */
 }
-.notifications-popup {
+
+/* Underline effect for hover/active - optional */
+.navmenu a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--color-primary);
+  transition: width 0.3s ease-in-out;
+}
+
+.navmenu a:hover::after,
+.navmenu a.active::after {
+  width: 100%;
+}
+
+.navmenu a:hover,
+.navmenu a.active {
+  color: var(--color-primary);
+}
+
+/* Profile Dropdown */
+.dropdown-profile {
+  position: relative;
+}
+
+.profile-trigger {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.profile-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--border-radius-round);
+  object-fit: cover;
+  border: 1px solid var(--color-border-light);
+  margin-right: var(--spacing-xs);
+}
+
+.toggle-dropdown-icon {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-small); /* Adjust icon size */
+  transition: transform 0.3s ease;
+}
+
+.dropdown-profile .profile-trigger.active .toggle-dropdown-icon, /* If we add 'active' class on open */
+.dropdown-profile .profile-trigger:hover .toggle-dropdown-icon {
+  transform: rotate(180deg);
+}
+
+.dropdown-menu {
+  display: none; /* Hidden by default */
+  position: absolute;
+  top: calc(100% + var(--spacing-xs)); /* Position below the trigger */
+  right: 0;
+  background-color: var(--color-bg-container);
+  border-radius: var(--border-radius-base);
+  box-shadow: var(--shadow-lg);
+  padding: var(--spacing-xs) 0; /* Padding for items */
+  z-index: 1001; /* Above navbar content */
+  min-width: 200px; /* Adjust as needed */
+  list-style: none;
+}
+
+.dropdown-menu.show {
+  display: block; /* Show when active */
+}
+
+.dropdown-menu li a,
+.dropdown-menu .dropdown-item { /* For app-custom-button with .dropdown-item */
+  display: block;
+  padding: var(--spacing-sm) var(--spacing-md);
+  color: var(--color-text-default);
+  font-size: var(--font-size-base);
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dropdown-menu li a:hover,
+.dropdown-menu .dropdown-item:hover {
+  background-color: var(--color-bg-alt);
+  color: var(--color-primary);
+}
+
+.dropdown-menu .dropdown-item.custom-button { /* Specific for app-custom-button */
+  text-align: left;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.dropdown-divider {
+  height: 1px;
+  margin: var(--spacing-xs) 0;
+  overflow: hidden;
+  background-color: var(--color-border-light);
+}
+
+/* Navbar Actions (Notifications, Join Us Button) */
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-left: var(--spacing-lg); /* Space from nav items */
+}
+
+.notification-area .notification-button.custom-button {
+  color: var(--color-text-secondary);
+  padding: var(--spacing-xs); /* Adjust padding for icon button */
+}
+.notification-area .notification-button.custom-button:hover {
+  color: var(--color-primary);
+}
+
+.notification-badge {
+  position: absolute;
+  top: -5px; /* Adjust for visual preference */
+  right: -5px; /* Adjust for visual preference */
+  background-color: var(--color-danger);
+  color: var(--color-text-on-primary);
+  border-radius: var(--border-radius-round);
+  padding: 2px 6px;
+  font-size: 10px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+}
+
+.btn-join-us.custom-button { /* For app-custom-button Join Us */
+  padding: var(--spacing-xs) var(--spacing-lg); /* Larger padding for primary CTA */
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Notifications Popup */
+.notifications-popup-container {
   position: fixed;
-  top: 10%;
-  right: 20px;
-  width: 300px;
-  max-height: 400px;
+  top: 70px; /* Adjust based on navbar height + offset */
+  right: var(--spacing-md);
+  width: 320px;
+  max-height: 450px;
+  background-color: var(--color-bg-container);
+  border-radius: var(--border-radius-base);
+  box-shadow: var(--shadow-lg);
+  z-index: 1010; /* Ensure it's above other content */
   overflow-y: auto;
-  background-color: white;
-  border: 1px solid #ccc;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  padding: 15px;
-  z-index: 1000; /* Assurez-vous qu'il soit au-dessus du contenu de la page */
-  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
 }
 
 .notifications-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-bottom: 1px solid var(--color-border-light);
 }
 
-.notifications-header button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
+.notifications-header h5 {
+  margin: 0;
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-default);
 }
 
-.notification-item {
-  border-bottom: 1px solid #ddd;
-  padding: 8px 0;
+.notifications-header .close-notifications.custom-button {
+  color: var(--color-text-secondary);
+}
+.notifications-header .close-notifications.custom-button:hover {
+  color: var(--color-danger);
 }
 
-.no-notifications {
+
+.notifications-body {
+  padding: var(--spacing-sm);
+  flex-grow: 1;
+}
+
+.no-notifications-message {
   text-align: center;
+  color: var(--color-text-secondary);
+  padding: var(--spacing-lg) 0;
   font-style: italic;
 }
 
+.notification-item {
+  padding: var(--spacing-sm);
+  border-bottom: 1px solid var(--color-border-light);
+  transition: background-color 0.2s ease;
+}
+.notification-item:last-child {
+  border-bottom: none;
+}
+.notification-item:hover {
+  background-color: var(--color-bg-alt);
+}
+
+.notification-item p {
+  margin: 0 0 var(--spacing-xxs) 0;
+  font-size: var(--font-size-base);
+  color: var(--color-text-default);
+  word-wrap: break-word;
+}
+
+.notification-item .notification-time {
+  font-size: var(--font-size-small);
+  color: var(--color-text-secondary);
+}
+
+/* Mobile Navigation Toggle - Basic Theming */
+.mobile-nav-toggle {
+  color: var(--color-text-default);
+  font-size: 28px; /* From original template */
+  cursor: pointer;
+  /* Further styling for mobile active state and dropdown menu would go here
+     or be handled by the original template's JS and more specific CSS selectors.
+     This refactor focuses on theming the visible parts. */
+}
+
+/* Ensure bi-list and bi-bell icons are themed if not by default */
+.bi-list, .bi-bell, .bi-x-lg, .bi-chevron-down {
+  color: inherit; /* Inherit color from parent, helps with button theming */
+}

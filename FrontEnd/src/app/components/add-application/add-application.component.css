@@ -1,56 +1,97 @@
-.form-container {
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    max-width: 600px;
-    margin: auto;
-  }
-  
-  .form-title {
-    margin-bottom: 20px;
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-  
-  .form-field {
-    margin-bottom: 15px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .form-field label {
-    margin-bottom: 5px;
-    font-weight: 500;
-  }
-  
-  .form-field input,
-  .form-field textarea,
-  .form-field select {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-  }
-  
-  .btn {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .btn-cancel {
-    background-color: #ccc;
-    color: #000;
-  }
-  
-  .btn-submit {
-    background-color: #007bff;
-    color: white;
-  }
-  
+/* Styles for AddApplicationDialogComponent */
+
+/*
+  Assuming this component is used within a MatDialog.
+  The .add-application-container will be the main content area.
+  Styling for the dialog panel itself (overall width, padding)
+  should ideally be configured when opening the dialog via MatDialogConfig.
+  However, we can set a max-width here for the content if needed.
+*/
+.add-application-container {
+  padding: var(--spacing-lg); /* 24px padding */
+  /* max-width: 600px; /* Or control width via dialog config */
+  /* background-color: var(--color-bg-container); /* Dialog usually has its own bg */
+}
+
+.form-title {
+  font-size: var(--font-size-h2); /* 24px */
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-default);
+  margin-bottom: var(--spacing-lg); /* 24px */
+  text-align: center; /* Or left, depending on preference */
+}
+
+/* Use app-warning-banner for warnings, no custom styling needed here for it */
+
+.form-section {
+  margin-bottom: var(--spacing-lg); /* Space between form field groups */
+}
+
+.form-field {
+  margin-bottom: var(--spacing-md); /* 16px between fields */
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field label {
+  margin-bottom: var(--spacing-xs); /* 8px */
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
+}
+
+.form-field label .required-asterisk {
+  color: var(--color-danger, #dc3545);
+  margin-left: var(--spacing-xxs); /* 4px */
+}
+
+/*
+  Base styling for input, textarea, select is handled by global styles in styles.css.
+  If specific adjustments are needed for this component, they can be added here.
+  For example, if textareas need a specific height beyond default rows.
+*/
+.form-field textarea {
+  min-height: 120px; /* Ensure a decent minimum height for cover letter */
+  resize: vertical; /* Allow vertical resizing */
+}
+
+.form-field input,
+.form-field textarea,
+.form-field select {
+  /* The global styles.css already defines:
+     padding: var(--spacing-xs) var(--spacing-sm);
+     border: var(--border-width-base) solid var(--color-border-input);
+     border-radius: var(--border-radius-base);
+     background-color: var(--color-bg-body);
+     color: var(--color-text-default);
+     font-family: inherit;
+     font-size: inherit;
+     line-height: inherit;
+  */
+  /* Add any overrides or additional styles if necessary */
+  width: 100%; /* Make form elements take full width of their container */
+}
+
+.form-field input:focus,
+.form-field textarea:focus,
+.form-field select:focus {
+  /* Global styles.css already defines:
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 0.2rem rgba(var(--color-primary-rgb), 0.25);
+  */
+  /* Add any overrides if necessary */
+}
+
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm); /* 12px gap between buttons */
+  margin-top: var(--spacing-xl); /* 32px margin above action buttons */
+  padding-top: var(--spacing-lg); /* 24px padding for separation if there's a border above */
+  border-top: var(--border-width-base) solid var(--color-border-light); /* Separator line */
+}
+
+/* app-custom-button styling is handled by its own component styles */
+/* No need for .btn, .btn-cancel, .btn-submit here anymore */

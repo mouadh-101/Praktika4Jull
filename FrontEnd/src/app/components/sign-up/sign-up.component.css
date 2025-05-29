@@ -1,72 +1,93 @@
-/* auth.component.css */
+/* Styles for SignUpComponent, similar to SignInComponent */
 
-.auth-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(to bottom right, #f0fbfc, #ffffff); /* Soft gradient */
-  }
-  
-  .auth-card {
-    background: white;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
-  }
-  
-  .auth-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #333;
-  }
-  
-  .auth-subtitle {
-    font-size: 16px;
-    color: #666;
-    margin-bottom: 30px;
-  }
-  
-  .auth-form .form-group {
-    margin-bottom: 20px;
-  }
-  
-  .form-label {
-    font-size: 14px;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 5px;
-  }
-  
-  .form-control {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    transition: border-color 0.3s ease;
-  }
-  
-  .form-control:focus {
-    border-color: #06bbcc; /* Accent color */
-    box-shadow: 0 0 5px rgba(6, 187, 204, 0.3);
-  }
-  
-  .error-text {
-    font-size: 12px;
-    color: red;
-    margin-top: 5px;
-  }
-  
-  .signin-link {
-    color: #06bbcc; /* Accent color */
-    text-decoration: none;
-    font-weight: 600;
-  }
-  
-  .signin-link:hover {
-    text-decoration: underline;
-  }
+.sign-up-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - var(--navbar-height, 60px) - var(--footer-height, 60px)); /* Adjust if navbar/footer heights are known */
+  background-color: var(--color-bg-alt); /* Consistent page background */
+  padding: var(--spacing-lg);
+}
+
+.sign-up-container {
+  width: 100%;
+  max-width: 480px; /* Max width for the sign-up card, slightly wider for more fields */
+}
+
+/* app-info-card with customClass="sign-up-card" will handle card styling */
+:host ::ng-deep .sign-up-card .info-card-title {
+  text-align: center;
+  font-size: var(--font-size-h2); /* "Create Your Account" title */
+  margin-bottom: var(--spacing-xs);
+}
+
+.auth-subtitle {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-lg);
+  text-align: center;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md); /* Adjusted gap for potentially more fields */
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label { /* Already in sign-in, but ensure consistency */
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xs);
+  text-align: left;
+}
+
+.form-label .required-asterisk {
+  color: var(--color-danger);
+  margin-left: var(--spacing-xxs);
+}
+
+/*
+  Input fields (input[type="text"], input[type="email"], etc.) and select
+  are styled globally by rules in styles.css.
+*/
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+select {
+  width: 100%; /* Ensure full width */
+}
+
+.error-text {
+  font-size: var(--font-size-small);
+  color: var(--color-danger);
+  margin-top: var(--spacing-xs);
+  text-align: left;
+}
+
+.auth-form app-custom-button[type="primary"] {
+  margin-top: var(--spacing-sm); /* Space above submit button */
+}
+
+:host ::ng-deep .w-100 .custom-button { /* From sign-in, ensure it works */
+  width: 100%;
+}
+
+.auth-footer {
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--color-border-light);
+  text-align: center;
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+}
+
+.auth-footer app-custom-button[type="link"] {
+  margin-left: var(--spacing-xxs);
+}

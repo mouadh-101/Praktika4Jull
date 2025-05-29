@@ -1,59 +1,49 @@
-<<<<<<< HEAD
-<form [formGroup]="educationForm" (ngSubmit)="submit()">
-    <mat-form-field appearance="outline">
-      <mat-label>Degree</mat-label>
-      <input matInput formControlName="degree" required />
-    </mat-form-field>
-  
-    <mat-form-field appearance="outline">
-      <mat-label>Institution</mat-label>
-      <input matInput formControlName="schoolName" required />
-    </mat-form-field>
-  
-    <mat-form-field appearance="outline">
-      <mat-label>Start Date</mat-label>
-      <input matInput formControlName="startDate" type="date" required />
-    </mat-form-field>
-  
-    <mat-form-field appearance="outline">
-      <mat-label>End Date</mat-label>
-      <input matInput formControlName="endDate" type="date" required />
-    </mat-form-field>
-  
-    <div class="dialog-actions">
-      <button mat-raised-button color="primary" type="submit">Save</button>
-      <button mat-raised-button color="warn" (click)="cancel()">Cancel</button>
-    </div>
-  </form>
-=======
-<div class="form-container">
-  <h2 class="form-title">{{ editMode ? 'Edit' : 'Add' }} Education</h2>
+<div class="education-dialog-container">
+  <h2 mat-dialog-title class="dialog-title">{{ editMode ? 'Edit' : 'Add' }} Education</h2>
 
-  <form [formGroup]="educationForm" (ngSubmit)="submit()">
-    <div class="form-field">
-      <label for="degree">Degree</label>
-      <input id="degree" type="text" formControlName="degree" required>
-    </div>
+  <mat-dialog-content>
+    <form [formGroup]="educationForm" class="education-form">
+      <mat-form-field appearance="outline">
+        <mat-label>Degree / Qualification</mat-label>
+        <input matInput formControlName="degree" placeholder="e.g., Bachelor of Science" required>
+        <mat-error *ngIf="educationForm.get('degree')?.hasError('required')">
+          Degree is required.
+        </mat-error>
+      </mat-form-field>
 
-    <div class="form-field">
-      <label for="schoolName">Institution</label>
-      <input id="schoolName" type="text" formControlName="schoolName" required>
-    </div>
+      <mat-form-field appearance="outline">
+        <mat-label>Institution / School Name</mat-label>
+        <input matInput formControlName="schoolName" placeholder="e.g., University of Example" required>
+        <mat-error *ngIf="educationForm.get('schoolName')?.hasError('required')">
+          Institution name is required.
+        </mat-error>
+      </mat-form-field>
 
-    <div class="form-field">
-      <label for="startDate">Start Date</label>
-      <input id="startDate" type="date" formControlName="startDate" required>
-    </div>
+      <div class="date-fields-row">
+        <mat-form-field appearance="outline" class="date-field">
+          <mat-label>Start Date</mat-label>
+          <input matInput formControlName="startDate" type="date" required>
+          <mat-error *ngIf="educationForm.get('startDate')?.hasError('required')">
+            Start date is required.
+          </mat-error>
+        </mat-form-field>
 
-    <div class="form-field">
-      <label for="endDate">End Date</label>
-      <input id="endDate" type="date" formControlName="endDate" required>
-    </div>
+        <mat-form-field appearance="outline" class="date-field">
+          <mat-label>End Date</mat-label>
+          <input matInput formControlName="endDate" type="date" required>
+          <!-- Add custom validator for endDate after startDate if needed -->
+          <mat-error *ngIf="educationForm.get('endDate')?.hasError('required')">
+            End date is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </form>
+  </mat-dialog-content>
 
-    <div class="form-actions">
-      <button type="button" (click)="cancel()">Cancel</button>
-      <button type="submit">Save</button>
-    </div>
-  </form>
+  <mat-dialog-actions class="dialog-actions">
+    <app-custom-button type="default" (buttonClick)="cancel()">Cancel</app-custom-button>
+    <app-custom-button type="primary" (buttonClick)="submit()" [disabled]="educationForm.invalid">
+      {{ editMode ? 'Save Changes' : 'Add Education' }}
+    </app-custom-button>
+  </mat-dialog-actions>
 </div>
->>>>>>> 364d59e95ab09b5de510e2f347ee51853e0eb61b

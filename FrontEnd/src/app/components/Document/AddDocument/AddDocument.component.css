@@ -1,0 +1,77 @@
+/* Styles for AddDocumentComponent */
+
+.add-document-page {
+  /* Similar to sign-in/sign-up pages for overall centering if needed */
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: flex-start; /* Align to top for forms that might grow */
+  /* min-height: calc(100vh - var(--navbar-height, 60px) - var(--footer-height, 60px)); */
+  background-color: var(--color-bg-alt);
+  padding: var(--spacing-xl) 0; /* Vertical padding for the page */
+}
+
+.add-document-page .container {
+  max-width: 700px; /* Max width for the form card container */
+}
+
+/* Styling for the app-info-card used as the form container */
+:host ::ng-deep .add-document-card .info-card-title {
+  text-align: center;
+  font-size: var(--font-size-h2); /* "Add New Document" title */
+}
+
+.add-document-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md); /* Space between form fields/rows */
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field label {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xs);
+  text-align: left;
+}
+
+.form-field label .required-asterisk {
+  color: var(--color-danger);
+  margin-left: var(--spacing-xxs);
+}
+
+/* Input and select elements are styled globally by styles.css */
+input[type="text"],
+input[type="date"],
+select {
+  width: 100%; /* Ensure form elements take full width within their container */
+}
+
+.form-row {
+  display: flex;
+  gap: var(--spacing-md); /* Space between fields in a row */
+}
+
+.form-row .form-field {
+  flex: 1; /* Allow fields in a row to share space equally */
+}
+
+.error-text {
+  font-size: var(--font-size-small);
+  color: var(--color-danger);
+  margin-top: var(--spacing-xs);
+  text-align: left;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-lg); /* Space above action buttons */
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-border-light);
+}

@@ -1,77 +1,259 @@
-/* Style pour le conteneur de la page */
-.container {
-    max-width: 1200px;
-    padding: 20px; /* Ajout de padding si nécessaire */
+/* Styles for InternshipComponent (Internship List Page) */
+
+.internship-list-page .page-title {
+  font-size: var(--font-size-h1); /* 28px */
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-default);
+  text-align: center;
+  margin-bottom: var(--spacing-lg); /* 24px */
 }
 
-/* Section de filtrage */
-.filter-section {
-    background-color: #f8f9fa;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: none; /* Supprimer l'ombre */
+.internship-list-page .actions-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--spacing-lg);
 }
 
-/* Cards de stage */
-/* Cards de stage */
-.internship-card {
-  
-    width: 100%;
-    max-width: 600px; /* Limite la largeur des cartes */
-    border: none; /* Supprimer la bordure */
-    box-shadow: none; /* Supprimer l'ombre */
-    border-radius: 12px;
-    background-color: #ffffff;
-    padding: 15px;
-    margin: 0px; /* Réduire l'espace entre les cartes */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* Filter Card Specifics */
+:host ::ng-deep .filter-card .info-card-title { /* Targeting title within app-info-card */
+  margin-bottom: var(--spacing-md); /* More space after title in filter card */
+  font-size: var(--font-size-h4);
 }
 
-.internship-card:hover {
-    transform: translateY(-5px);
-    box-shadow: none; /* Supprimer l'ombre au survol */
+.filter-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
 }
 
-
-/* Logos des entreprises */
-.company-logo {
-    max-width: 40px;
-    height: auto;
-    border-radius: 50%;
+.filter-form .form-field label,
+.filter-form .form-check-field label {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xs);
+  font-weight: var(--font-weight-medium);
 }
 
-/* Informations des stages */
-.internship-info {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    font-size: 12px;
-    color: #6c757d;
-    margin-bottom: 8px;
+.filter-form .form-check-field {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
 }
-
-.badges-container {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 8px;
-}
-
-/* Séparateur */
-.divider {
-    border-top: 1px solid #e0e0e0;
-    margin: 8px 0;
-}
-
-/* Card body */
-.card-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-    font-size: 14px;
-    line-height: 1.57142857;
-    font-weight: 400;
+.filter-form .form-check-field input[type="checkbox"] {
+ width: auto; /* Don't force checkbox to full width */
 }
 
 
-  
+/* Styling for input, select within this component will rely on global styles.css */
+/* Ensure they take full width if not default in global styles */
+.filter-form input[type="text"],
+.filter-form input[type="number"],
+.filter-form select {
+  width: 100%;
+}
+
+/* Internship Cards Container */
+.internship-cards-container {
+  /* Uses Bootstrap .row and .col-*, so direct flex/grid might not be needed here */
+}
+
+/* Styling for each internship card (app-info-card with .internship-display-card) */
+:host ::ng-deep .internship-display-card {
+  height: 100%; /* Make cards in a row equal height if using Bootstrap grid */
+}
+:host ::ng-deep .internship-display-card .info-card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
+.internship-display-card .card-header-flex {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.internship-display-card .company-logo-thumb {
+  width: 50px;
+  height: 50px;
+  object-fit: contain; /* Use contain to ensure logo is not cropped */
+  border-radius: var(--border-radius-base);
+  border: 1px solid var(--color-border-light);
+  flex-shrink: 0;
+}
+
+.internship-display-card .header-text {
+  flex-grow: 1;
+}
+
+.internship-display-card .internship-title {
+  font-size: var(--font-size-h5); /* Using h5 as cardTitle from app-info-card might be h3/h4 */
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  margin: 0 0 var(--spacing-xxs) 0;
+}
+
+.internship-display-card .company-name {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+  margin: 0;
+}
+
+.internship-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsive grid */
+  gap: var(--spacing-xs);
+  font-size: var(--font-size-small);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.internship-details-grid .detail-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xxs);
+}
+.internship-details-grid .detail-item .bi {
+  color: var(--color-primary); /* Icon color */
+  font-size: var(--font-size-base); /* Slightly larger icon */
+  margin-right: 2px; /* Tiny space after icon if gap isn't enough */
+}
+
+
+.badges-area {
+  margin-bottom: var(--spacing-sm);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+}
+
+.badges-area .badge {
+  padding: var(--spacing-xxs) var(--spacing-xs);
+  font-size: 11px; /* Smaller font for badges */
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--border-radius-pill);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xxs);
+}
+
+.badges-area .time-badge {
+  background-color: var(--color-bg-alt);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border-default);
+}
+.badges-area .time-badge .bi {
+  color: var(--color-success); /* Green clock */
+}
+
+/* No Internships Message */
+.no-internships-message {
+  text-align: center;
+  margin: var(--spacing-xl) 0;
+}
+:host ::ng-deep .no-internships-message .app-info-card .info-card-body {
+  padding: var(--spacing-xl); /* More padding for emphasis */
+}
+.no-internships-message p {
+  font-size: var(--font-size-large);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-md);
+}
+
+
+/* Card Actions */
+.internship-display-card .card-actions {
+  margin-top: auto; /* Push actions to the bottom of the card */
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid var(--color-border-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.internship-display-card .card-actions .admin-actions {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+/* Styling for app-custom-button btn-sm and btn-icon if not globally available */
+:host ::ng-deep .btn-sm.custom-button {
+  padding: var(--spacing-xxs) var(--spacing-sm);
+  font-size: var(--font-size-small);
+}
+
+:host ::ng-deep .btn-icon.custom-button {
+  padding: var(--spacing-xxs);
+  line-height: 1; /* For better icon centering */
+}
+:host ::ng-deep .btn-icon.custom-button .bi {
+  font-size: var(--font-size-large); /* Ensure icons in icon buttons are adequately sized */
+}
+
+
+/* Pagination Controls */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--spacing-lg);
+}
+
+/* Basic styling for ngx-pagination. More specific selectors might be needed. */
+:host ::ng-deep .ngx-pagination {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+:host ::ng-deep .ngx-pagination .current,
+:host ::ng-deep .ngx-pagination button {
+  background: var(--color-bg-container);
+  color: var(--color-primary);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--border-radius-base);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+:host ::ng-deep .ngx-pagination button:hover {
+  background: var(--color-bg-alt);
+  color: var(--color-primary-dark);
+}
+:host ::ng-deep .ngx-pagination .current {
+  background: var(--color-primary);
+  color: var(--color-text-on-primary);
+  border-color: var(--color-primary);
+  cursor: default;
+}
+:host ::ng-deep .ngx-pagination .disabled {
+  color: var(--color-text-secondary);
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: var(--color-bg-alt);
+}
+:host ::ng-deep .ngx-pagination .pagination-previous a::before,
+:host ::ng-deep .ngx-pagination .pagination-previous.disabled::before {
+    content: '«'; /* Chevron left */
+    margin-right: 0; /* Remove if using icons via template */
+}
+:host ::ng-deep .ngx-pagination .pagination-next a::after,
+:host ::ng-deep .ngx-pagination .pagination-next.disabled::after {
+    content: '»'; /* Chevron right */
+    margin-left: 0; /* Remove if using icons via template */
+}
+:host ::ng-deep .ngx-pagination .pagination-previous,
+:host ::ng-deep .ngx-pagination .pagination-next {
+    padding: var(--spacing-xs) var(--spacing-xs); /* Adjust padding for prev/next text only buttons */
+}
+
+/* Remove text labels if only icons are desired via template modification */
+:host ::ng-deep .ngx-pagination .pagination-previous span, /* Hides "Previous" text */
+:host ::ng-deep .ngx-pagination .pagination-next span { /* Hides "Next" text */
+  /* display: none; */ /* Uncomment if you added custom text spans and want to hide them */
+}
+/* If previousLabel="" and nextLabel="" are used in the component, this might not be needed */

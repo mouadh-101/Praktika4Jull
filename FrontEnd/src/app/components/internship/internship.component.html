@@ -1,108 +1,113 @@
+<div class="internship-list-page">
+  <div class="container mt-4">
+    <h2 class="page-title">Internship Listings</h2>
 
-<br>
-<br>
-<br>
-<br>
+    <div class="actions-header" *ngIf="userRole === 'Company'">
+      <app-custom-button type="primary" routerLink="/internships/add">
+        <i class="bi bi-plus-lg"></i> Add Internship
+      </app-custom-button>
+    </div>
 
-<div class="container mt-4">
-  <h2 class="text-center mb-4">Internship Listings</h2>
-  <div class="d-flex justify-content-end mb-3" *ngIf="userRole === 'Company'">
-    <button class="btn btn-primary" [routerLink]="['/internships/add']">
-      <i class="fas fa-plus"></i> Add Internship
-    </button>
-  </div>
-  
-  <div class="row justify-content-center">
-      <!-- Partie de filtrage à gauche -->
-      <div class="col-md-3">
-          <div class="filter-section">
-              <h5>Filter Internships</h5>
-              <!-- Ici vous mettez votre formulaire de filtrage -->
-              <form (ngSubmit)="applyFilters()">
-                <div class="mb-3">
-                    <label for="location" class="form-label">Location</label>
-                    <input type="text" id="location" class="form-control" [(ngModel)]="filters.location" name="location" placeholder="Location">
-                </div>
-                <div class="mb-3">
-                    <label for="duration" class="form-label">Duration (months)</label>
-                    <input type="number" id="duration" class="form-control" [(ngModel)]="filters.duration" name="duration" placeholder="Duration">
-                </div>
-                <div class="mb-3">
-                    <label for="compensation" class="form-label">Compensation</label>
-                    <input type="number" id="compensation" class="form-control" [(ngModel)]="filters.compensation" name="compensation" placeholder="Compensation">
-                </div>
-                <div class="mb-3">
-                    <label for="field" class="form-label">Field</label>
-                    <select id="field" class="form-select" [(ngModel)]="filters.field" name="sector">
-                        <option value="">All</option>
-                        <option value="IT">IT</option>
-                        <option value="Marketing">Marketing</option>
-                        <option value="Finance">Finance</option>
-                    </select>
-                </div>
-                <!-- Ajouter le checkbox pour Remote -->
-                <div class="mb-3">
-                    <input type="checkbox" id="workFromHome" class="form-check-input" [(ngModel)]="filters.remote" name="remote" (change)="applyFilters()" />
-                    <label for="workFromHome" class="form-check-label">Work From Home</label>
-                </div>
-                <button type="submit" class="btn btn-primary">Apply Filters</button>
-            </form>
-          </div>
+    <div class="row gy-4">
+      <!-- Filter Section -->
+      <div class="col-lg-3">
+        <app-info-card cardTitle="Filter Internships" customClass="filter-card">
+          <form (ngSubmit)="applyFilters()" class="filter-form">
+            <div class="form-field">
+              <label for="location">Location</label>
+              <input type="text" id="location" [(ngModel)]="filters.location" name="location" placeholder="e.g., City, Country">
+            </div>
+            <div class="form-field">
+              <label for="duration">Duration (months)</label>
+              <input type="number" id="duration" [(ngModel)]="filters.duration" name="duration" placeholder="e.g., 3">
+            </div>
+            <div class="form-field">
+              <label for="compensation">Min. Compensation (/month)</label>
+              <input type="number" id="compensation" [(ngModel)]="filters.compensation" name="compensation" placeholder="e.g., 500">
+            </div>
+            <div class="form-field">
+              <label for="field">Field</label>
+              <select id="field" [(ngModel)]="filters.field" name="sector">
+                <option value="">All Fields</option>
+                <option value="IT">IT</option>
+                <option value="Marketing">Marketing</option>
+                <option value="Finance">Finance</option>
+                <!-- Add more fields as necessary -->
+              </select>
+            </div>
+            <div class="form-check-field">
+              <input type="checkbox" id="workFromHome" class="form-check-input" [(ngModel)]="filters.remote" name="remote" (change)="applyFilters()">
+              <label for="workFromHome" class="form-check-label">Remote / Work From Home</label>
+            </div>
+            <app-custom-button type="primary" customClass="w-100 mt-3" (buttonClick)="applyFilters()">
+              Apply Filters
+            </app-custom-button>
+          </form>
+        </app-info-card>
       </div>
 
-      <!-- Partie des cartes à droite -->
-      <div class="col-md-8">
-        <div class="d-flex justify-content-center flex-wrap">
-            <div *ngFor="let internship of internships | paginate: { itemsPerPage: 5, currentPage: p }" class="internship-card">
-                <div class="card" (click)="goToDetails(internship.id)" style="cursor: pointer;">
-                  <div class="card-body">
-                        <div class="d-flex align-items-center mb-2">
-                            <div class="flex-grow-1">
-                                <h5 class="fw-bold mb-1">{{ internship.titre }}</h5>
-                                <div class="d-flex align-items-center">
-                                    <h6 class="text-muted mb-0 me-2">{{ internship.company?.description }}</h6>
-                                    <button class="btn btn-sm rounded-pill bg-white fs-7 fw-medium" 
-                                        style="border: 1px solid #388da8; color: #388da8; padding: 2px 8px;">
-                                        Actively hiring
-                                    </button>
-                                </div>
-                            </div>
-                            <img [src]="'assets/img/' + internship.company?.logo" 
-                            alt="Company Logo" 
-                            class="img-fluid" 
-                            style="max-width: 50px;">
-                        </div>
-    
-                        <div class="internship-info">
-                            <span><i class="fas fa-map-marker-alt me-1"></i> {{ internship.location }}</span>
-                            <span><i class="fas fa-calendar-alt ms-3 me-1"></i> {{ internship.duration }} months</span>
-                            <span><i class="fas fa-money-bill-wave ms-3 me-1"></i> {{ internship.compensation }} /month</span>
-                        </div>
-    
-                        <div class="badges-container">
-                            <span class="badge bg-light text-dark">
-                                <i class="fas fa-clock me-1 text-success"></i> {{ internship.relativeTime }}
-                            </span>
-                            <span class="badge bg-light text-dark ms-2">
-                                <i class="fas fa-bolt me-1 text-warning"></i> Be an early applicant
-                            </span>
-                        </div>
-    
-                        <div class="d-flex justify-content-end">
-                            <button *ngIf="userRole === 'Company'"class="btn btn-link text-muted" (click)="editInternship(internship.id, $event)">
-                                <i class="fas fa-pen"></i>
-                            </button>
-                            <button  *ngIf="userRole === 'Company'" class="btn btn-link text-muted" (click)="deleteInternship(internship.id, $event)">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <!-- Internship Cards Section -->
+      <div class="col-lg-9">
+        <div *ngIf="internships.length === 0" class="no-internships-message">
+          <app-info-card cardTitle="No Internships Found">
+            <p>No internships currently match your criteria. Try broadening your search!</p>
+            <!-- Optionally, suggest actions like clearing filters or viewing all -->
+          </app-info-card>
         </div>
+
+        <div class="internship-cards-container row gy-4">
+          <div *ngFor="let internship of internships | paginate: { itemsPerPage: 6, currentPage: p }" class="col-md-6 col-xl-4">
+            <app-info-card customClass="internship-display-card">
+              <div class="card-header-flex">
+                <img [src]="internship.company?.logo ? ('assets/img/' + internship.company?.logo) : 'assets/img/default-company-logo.png'"
+                     alt="{{ internship.company?.name || 'Company' }} Logo"
+                     class="company-logo-thumb">
+                <div class="header-text">
+                  <h5 class="internship-title">{{ internship.titre }}</h5>
+                  <h6 class="company-name">{{ internship.company?.name || 'A Company' }}</h6>
+                </div>
+              </div>
+
+              <div class="internship-details-grid">
+                <div class="detail-item"><i class="bi bi-geo-alt"></i> {{ internship.location || 'N/A' }}</div>
+                <div class="detail-item"><i class="bi bi-calendar3"></i> {{ internship.duration ? internship.duration + ' months' : 'N/A' }}</div>
+                <div class="detail-item"><i class="bi bi-cash-coin"></i> {{ internship.compensation ? internship.compensation + ' /month' : 'N/A' }}</div>
+                <div class="detail-item"><i class="bi bi-briefcase"></i> {{ internship.field || 'N/A' }}</div>
+                <div class="detail-item" *ngIf="internship.remote"><i class="bi bi-house-check"></i> Remote</div>
+              </div>
+
+              <div class="badges-area mt-2">
+                <span class="badge time-badge" *ngIf="internship.relativeTime">
+                  <i class="bi bi-clock-history"></i> {{ internship.relativeTime }}
+                </span>
+                <!-- <span class="badge early-applicant-badge">
+                  <i class="bi bi-lightning-charge"></i> Be an early applicant
+                </span> -->
+              </div>
+              
+              <div class="card-actions">
+                <app-custom-button type="primary" (buttonClick)="goToDetails(internship.id)" customClass="btn-sm">
+                  View Details
+                </app-custom-button>
+                <div class="admin-actions" *ngIf="userRole === 'Company'">
+                  <app-custom-button type="edit" (buttonClick)="editInternship(internship.id, $event)" customClass="btn-icon" title="Edit">
+                    <i class="bi bi-pencil-square"></i>
+                  </app-custom-button>
+                  <app-custom-button type="delete" (buttonClick)="deleteInternship(internship.id, $event)" customClass="btn-icon" title="Delete">
+                    <i class="bi bi-trash3"></i>
+                  </app-custom-button>
+                </div>
+              </div>
+            </app-info-card>
+          </div>
+        </div>
+        <div class="pagination-container mt-4" *ngIf="internships.length > 0">
+          <pagination-controls (pageChange)="p = $event"
+            previousLabel=""
+            nextLabel="">
+          </pagination-controls>
+        </div>
+      </div>
     </div>
-     <!-- Pagination -->
-    <pagination-controls (pageChange)="p = $event"></pagination-controls>
   </div>
 </div>

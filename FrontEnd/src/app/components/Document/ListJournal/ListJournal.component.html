@@ -1,45 +1,59 @@
-<div class="container mt-5">
-  <h2 class="text-center text-primary">📝 Liste des tâches</h2>
-  
-  <div class="text-end mb-4">
-    <button class="btn btn-secondary me-2" routerLink="/ListDocument">
-      <i class="bi bi-arrow-left-circle"></i> Retour
-    </button>
-  </div>
-
-  <div *ngIf="journals.length > 0; else noJournals">
-    <div class="row">
-      <div class="col-md-6 col-lg-4 mb-4 d-flex" *ngFor="let journal of journals | paginate: { itemsPerPage: itemsPerPage, currentPage: page }">
-        <div class="card bg-light border-start border-5 border-primary shadow-sm w-100 h-100 d-flex flex-column justify-content-between"
-             style="transition: transform 0.3s ease-in-out;">
-          <div class="card-body">
-            <h5 class="card-title text-dark fw-bold">
-              🛠️ <span>Tâche :</span> {{ journal.tache }}
-            </h5>
-            <p class="card-text mb-2">
-              📅 <strong class="text-secondary">Date :</strong> {{ journal.dateJournal | date: 'longDate' }}
-            </p>
-          </div>
-          <div class="card-footer bg-transparent border-0 text-end">
-            <button class="btn btn-outline-danger btn-sm" (click)="deleteJournal(journal.idJournal)" title="Supprimer">
-              <i class="bi bi-trash-fill"></i>
-            </button>
-            <!-- Bouton Modifier -->
-<button class="btn btn-outline-warning btn-sm ms-2" 
-[routerLink]="['/UpdateJournal', journal.idJournal]" 
-title="Modifier">
-<i class="bi bi-pencil-square"></i>
-</button>
-          </div>
-        </div>
+<div class="list-journal-page">
+  <div class="container mt-4">
+    <div class="page-header">
+      <h2 class="page-title">Journal Entries for Document #{{ stageId }}</h2>
+      <div class="header-actions">
+        <app-custom-button type="default" routerLink="/ListDocument" customClass="me-2">
+          <i class="bi bi-arrow-left"></i> Back to Documents
+        </app-custom-button>
+        <app-custom-button type="primary" [routerLink]="['/AddJournal', stageId]">
+          <i class="bi bi-plus-lg"></i> Add New Entry
+        </app-custom-button>
       </div>
     </div>
-  </div>
-  <pagination-controls (pageChange)="page = $event"></pagination-controls>
 
-  <ng-template #noJournals>
-    <div class="alert alert-info text-center">
-      Aucun journal trouvé pour ce stage.
+    <div *ngIf="journals && journals.length > 0; else noJournalsFound" class="journal-cards-container row gy-4">
+      <div *ngFor="let journal of journals | paginate: { itemsPerPage: itemsPerPage, currentPage: page }" class="col-md-6 col-lg-4">
+        <app-info-card customClass="journal-card h-100"> <!-- h-100 for equal height cards in a row -->
+          <div class="journal-card-header">
+            <h5 class="journal-task-title"><i class="bi bi-check2-square"></i> {{ journal.tache }}</h5>
+          </div>
+          
+          <div class="journal-card-body">
+            <p class="journal-date">
+              <i class="bi bi-calendar-event"></i> Date: {{ journal.dateJournal | date:'fullDate' }} <!-- Example: Monday, June 15, 2025 -->
+            </p>
+            <!-- Add more journal details here if available, e.g., a snippet of description -->
+          </div>
+
+          <div class="journal-card-actions">
+            <app-custom-button type="icon" customClass="edit-btn" [routerLink]="['/UpdateJournal', journal.idJournal]" title="Edit Entry">
+              <i class="bi bi-pencil-square"></i>
+            </app-custom-button>
+            <app-custom-button type="icon" customClass="delete-btn" (buttonClick)="deleteJournal(journal.idJournal)" title="Delete Entry">
+              <i class="bi bi-trash3"></i>
+            </app-custom-button>
+          </div>
+        </app-info-card>
+      </div>
     </div>
-  </ng-template>
+
+    <ng-template #noJournalsFound>
+      <div class="no-entries-message mt-4">
+        <app-info-card cardTitle="No Journal Entries Found">
+          <p>There are no journal entries for this document yet.</p>
+          <app-custom-button type="primary" [routerLink]="['/AddJournal', stageId]" customClass="mt-3">
+            Add First Entry
+          </app-custom-button>
+        </app-info-card>
+      </div>
+    </ng-template>
+
+    <div class="pagination-container mt-4" *ngIf="journals && journals.length > itemsPerPage">
+      <pagination-controls (pageChange)="page = $event"
+                           previousLabel=""
+                           nextLabel="">
+      </pagination-controls>
+    </div>
+  </div>
 </div>

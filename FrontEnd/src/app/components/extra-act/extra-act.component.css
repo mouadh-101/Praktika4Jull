@@ -1,67 +1,44 @@
-.form-container {
-  background: white;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  max-width: 500px;
-  margin: 0 auto;
-}
+/* Styles for ExtraActComponent Dialog */
 
-.form-title {
-  font-size: 24px;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-.form-field {
-  margin-bottom: 20px;
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: 600;
-  color: #555;
-}
-
-input, textarea {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 14px;
-}
-
-textarea {
-  resize: vertical;
-  min-height: 100px;
-}
-
-.form-actions {
+.extra-act-dialog-container {
   display: flex;
-  justify-content: flex-end;
-  gap: 10px;
+  flex-direction: column;
+  /* Width/height controlled by MatDialogConfig */
 }
 
-button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.2s;
+.dialog-title { /* This is an h2 with mat-dialog-title */
+  font-family: var(--font-family-headings);
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-default);
+  padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-md);
+  border-bottom: 1px solid var(--color-border-light);
+  margin-bottom: 0;
 }
 
-button[type="button"] {
-  background-color: #f0f0f0;
-  color: #333;
+.extra-act-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm); /* Space between form fields */
+  padding: var(--spacing-lg); /* Padding for the form content */
 }
 
-button[type="submit"] {
-  background-color: #0066cc;
-  color: white;
+.extra-act-form mat-form-field {
+  width: 100%; /* Make mat-form-fields take full width */
 }
 
-button:hover {
-  opacity: 0.9;
+.description-field { /* Specific class for the description textarea field if needed */
+  /* Adjust if necessary, e.g., for more margin */
 }
+
+.dialog-actions { /* This class is on mat-dialog-actions */
+  padding: var(--spacing-sm) var(--spacing-lg) var(--spacing-lg);
+  gap: var(--spacing-sm);
+  border-top: 1px solid var(--color-border-light);
+  /* justify-content: flex-end; /* Default for mat-dialog-actions */
+}
+
+/*
+  Angular Material components (mat-form-field, mat-input, mat-label, mat-error, cdkTextareaAutosize)
+  are themed by the global custom-theme.scss and styles.css settings for Material.
+*/

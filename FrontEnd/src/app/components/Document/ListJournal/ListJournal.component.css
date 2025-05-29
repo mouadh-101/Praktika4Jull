@@ -1,12 +1,145 @@
-.card-title {
-    font-size: 1.25rem;
-  }
-  
-  .card-body {
-    background-color: #f9f9f9;
-  }
-  
-  .btn-sm i {
-    margin-right: 5px;
-  }
-  
+/* Styles for ListJournalComponent */
+
+.list-journal-page .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.list-journal-page .page-title {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-default);
+  margin: 0;
+}
+
+.list-journal-page .header-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+/* Journal Cards Styling */
+.journal-cards-container {
+  /* Uses Bootstrap .row and .col-*, direct flex/grid might not be needed here */
+}
+
+/* Styling for each journal card (app-info-card with .journal-card) */
+:host ::ng-deep .journal-card .info-card-body {
+  padding: var(--spacing-md); /* Consistent padding for cards */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Pushes actions to bottom if card height is consistent */
+}
+/* If no explicit title is set via [cardTitle] on app-info-card, this won't apply.
+   The title is currently part of the .journal-card-header div. */
+/* :host ::ng-deep .journal-card .info-card-title { ... } */
+
+
+.journal-card-header {
+  margin-bottom: var(--spacing-sm);
+}
+
+.journal-task-title {
+  font-size: var(--font-size-h5);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+.journal-task-title .bi {
+  font-size: 1.2em; /* Make icon slightly larger than text */
+  color: var(--color-primary-dark);
+}
+
+.journal-card-body { /* Custom styling for the content area within the card */
+  flex-grow: 1; /* Allows this section to grow, pushing actions down */
+}
+
+.journal-date {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-md);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+.journal-date .bi {
+  color: var(--color-text-secondary);
+}
+
+.journal-card-actions {
+  margin-top: var(--spacing-md); /* Space above actions */
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid var(--color-border-light);
+  display: flex;
+  justify-content: flex-end; /* Align icon buttons to the right */
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+:host ::ng-deep .journal-card-actions .custom-button.btn-icon .bi {
+  font-size: var(--font-size-large); /* Ensure icons are visible */
+}
+:host ::ng-deep .journal-card-actions .delete-btn .bi {
+  color: var(--color-danger);
+}
+:host ::ng-deep .journal-card-actions .edit-btn .bi {
+  color: var(--color-accent); /* Or primary, or a specific edit color */
+}
+
+
+/* No Entries Message */
+.no-entries-message {
+  text-align: center;
+  margin: var(--spacing-xl) 0;
+}
+:host ::ng-deep .no-entries-message .app-info-card .info-card-body {
+  padding: var(--spacing-xl);
+}
+.no-entries-message p {
+  font-size: var(--font-size-large);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-md);
+}
+
+/* Pagination Controls - Copied from internship.component.css for consistency */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--spacing-lg);
+}
+:host ::ng-deep .ngx-pagination {
+  padding: 0; margin: 0; display: flex; gap: var(--spacing-xs);
+}
+:host ::ng-deep .ngx-pagination .current,
+:host ::ng-deep .ngx-pagination button {
+  background: var(--color-bg-container); color: var(--color-primary);
+  border: 1px solid var(--color-border-default); border-radius: var(--border-radius-base);
+  padding: var(--spacing-xs) var(--spacing-sm); text-decoration: none; cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+:host ::ng-deep .ngx-pagination button:hover {
+  background: var(--color-bg-alt); color: var(--color-primary-dark);
+}
+:host ::ng-deep .ngx-pagination .current {
+  background: var(--color-primary); color: var(--color-text-on-primary);
+  border-color: var(--color-primary); cursor: default;
+}
+:host ::ng-deep .ngx-pagination .disabled {
+  color: var(--color-text-secondary); opacity: 0.6; cursor: not-allowed; background: var(--color-bg-alt);
+}
+:host ::ng-deep .ngx-pagination .pagination-previous a::before,
+:host ::ng-deep .ngx-pagination .pagination-previous.disabled::before {
+  content: '«'; margin-right: 0;
+}
+:host ::ng-deep .ngx-pagination .pagination-next a::after,
+:host ::ng-deep .ngx-pagination .pagination-next.disabled::after {
+  content: '»'; margin-left: 0;
+}
+:host ::ng-deep .ngx-pagination .pagination-previous,
+:host ::ng-deep .ngx-pagination .pagination-next {
+  padding: var(--spacing-xs) var(--spacing-xs);
+}

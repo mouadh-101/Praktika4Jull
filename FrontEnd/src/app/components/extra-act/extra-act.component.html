@@ -1,19 +1,35 @@
-<div class="form-container">
-  <h2 class="form-title">{{ editMode ? 'Edit' : 'Add' }} Extra Activity</h2>
+<div class="extra-act-dialog-container">
+  <h2 mat-dialog-title class="dialog-title">{{ editMode ? 'Edit' : 'Add' }} Extra Curricular Activity</h2>
 
-  <form [formGroup]="extraActivityForm" (ngSubmit)="submit()">
-    <div class="form-field">
-      <label for="title">title</label>
-      <input id="title" type="text" formControlName="title" >
-    </div>
-    <div class="form-field">
-      <label for="description">Description</label>
-      <textarea id="description" formControlName="description" rows="4" required></textarea>
-    </div>
+  <mat-dialog-content>
+    <form [formGroup]="extraActivityForm" class="extra-act-form">
+      <mat-form-field appearance="outline">
+        <mat-label>Activity Title</mat-label>
+        <input matInput formControlName="title" placeholder="e.g., Debating Club President, Volunteer Tutor" required>
+        <mat-error *ngIf="extraActivityForm.get('title')?.hasError('required')">
+          Activity title is required.
+        </mat-error>
+      </mat-form-field>
 
-    <div class="form-actions">
-      <button type="button" (click)="cancel()">Cancel</button>
-      <button type="submit">Save</button>
-    </div>
-  </form>
+      <mat-form-field appearance="outline" class="description-field">
+        <mat-label>Description</mat-label> <!-- Changed from "Description (Optional)" to match validator -->
+        <textarea matInput formControlName="description"
+                  cdkTextareaAutosize
+                  #autosize="cdkTextareaAutosize"
+                  cdkAutosizeMinRows="3"
+                  cdkAutosizeMaxRows="6"
+                  placeholder="Briefly describe the activity and your role or achievements..." required></textarea>
+         <mat-error *ngIf="extraActivityForm.get('description')?.hasError('required')">
+          Description is required.
+        </mat-error>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="dialog-actions">
+    <app-custom-button type="default" (buttonClick)="cancel()">Cancel</app-custom-button>
+    <app-custom-button type="primary" (buttonClick)="submit()" [disabled]="extraActivityForm.invalid">
+      {{ editMode ? 'Save Changes' : 'Add Activity' }}
+    </app-custom-button>
+  </mat-dialog-actions>
 </div>

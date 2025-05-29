@@ -1,0 +1,35 @@
+:host {
+  display: block; /* Banners typically take full width available or are block elements */
+  margin-bottom: var(--spacing-lg); /* Consistent with .warning-banner margin-bottom: 20px */
+}
+
+.warning-banner {
+  background-color: var(--color-bg-warning, #fff3dc);
+  border: var(--border-width-base) solid var(--color-border-warning, #ffe5b4);
+  padding: var(--spacing-sm); /* 12px, original was 10px. var(--spacing-sm) is a good fit */
+  border-radius: var(--border-radius-base); /* original was 4px, var(--border-radius-base) is 6px, var(--border-radius-small) is 3px. Sticking to base. */
+  color: var(--color-text-warning, #856404);
+  font-size: var(--font-size-base); /* 14px */
+  display: flex;
+  align-items: flex-start; /* Align icon and text to the top */
+  gap: var(--spacing-sm); /* Space between icon and content */
+}
+
+.warning-icon {
+  font-size: var(--font-size-large); /* Make icon slightly larger than text */
+  line-height: var(--line-height-base); /* Align with text line height */
+  flex-shrink: 0; /* Prevent icon from shrinking */
+}
+
+.warning-content {
+  flex-grow: 1; /* Allow content to take remaining space */
+  line-height: var(--line-height-base);
+}
+
+/* If ng-content contains p tags, ensure they don't add extra margins */
+:host ::ng-deep .warning-content p {
+  margin-bottom: 0;
+}
+:host ::ng-deep .warning-content p:not(:last-child) {
+  margin-bottom: var(--spacing-xs); /* Add some space if multiple paragraphs are projected */
+}

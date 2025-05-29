@@ -1,67 +1,60 @@
-.form-container {
-    background: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    max-width: 500px;
-    margin: 0 auto;
-  }
-  
-  .form-title {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  .form-field {
-    margin-bottom: 20px;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 600;
-    color: #555;
-  }
-  
-  input, textarea {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-  }
-  
-  textarea {
-    resize: vertical;
-    min-height: 100px;
-  }
-  
-  .form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-  }
-  
-  button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.2s;
-  }
-  
-  button[type="button"] {
-    background-color: #f0f0f0;
-    color: #333;
-  }
-  
-  button[type="submit"] {
-    background-color: #0066cc;
-    color: white;
-  }
-  
-  button:hover {
-    opacity: 0.9;
-  }
+/* Styles for EducationComponent Dialog */
+
+.education-dialog-container {
+  display: flex;
+  flex-direction: column;
+  /* No specific width/height, let MatDialogConfig control that */
+}
+
+.dialog-title { /* This is an h2 with mat-dialog-title */
+  font-family: var(--font-family-headings);
+  font-size: var(--font-size-h3); /* Or h2, depending on desired prominence */
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-default);
+  padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-md); /* Standard dialog title padding */
+  border-bottom: 1px solid var(--color-border-light);
+  margin-bottom: 0; /* Override default h2 margin if any */
+}
+
+/* mat-dialog-content will have some default padding by Angular Material */
+/* Use :host ::ng-deep if you need to override Material's default padding for mat-dialog-content */
+/* Example:
+:host ::ng-deep .mat-mdc-dialog-content {
+  padding: var(--spacing-lg) !important;
+}
+*/
+
+.education-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm); /* Space between form fields */
+  padding: var(--spacing-lg); /* Add padding within the form area if mat-dialog-content padding is removed/insufficient */
+}
+
+/* Make mat-form-fields take full width */
+.education-form mat-form-field {
+  width: 100%;
+}
+
+.date-fields-row {
+  display: flex;
+  gap: var(--spacing-md); /* Space between date fields */
+}
+
+.date-fields-row .date-field {
+  flex: 1; /* Each date field takes equal space */
+}
+
+/* mat-dialog-actions has flex layout by default (row, flex-end) */
+.dialog-actions { /* This class is on mat-dialog-actions */
+  padding: var(--spacing-sm) var(--spacing-lg) var(--spacing-lg); /* Standard dialog actions padding */
+  gap: var(--spacing-sm); /* Ensure gap for app-custom-buttons if not default */
+  border-top: 1px solid var(--color-border-light);
+  /* justify-content: flex-end; /* Default for mat-dialog-actions */
+}
+
+/*
+  Angular Material components (mat-form-field, mat-input, mat-label, mat-error)
+  will be themed by the global custom-theme.scss and styles.css settings for Material.
+  No specific styling for these should be needed here unless overriding for this specific dialog.
+*/

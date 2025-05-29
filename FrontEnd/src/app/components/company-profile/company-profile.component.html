@@ -1,29 +1,70 @@
-<div class="container">
-    <!-- Warning Banner -->
-    <div class="warning-banner">
-      ⚠️ Keep the Profile up to date
-    </div>
+<div class="company-profile-container">
+  <app-warning-banner *ngIf="!isOwnProfile"> <!-- Assuming a way to determine if viewing own profile -->
+    You are viewing a public company profile.
+  </app-warning-banner>
+  <app-warning-banner *ngIf="isOwnProfile">
+    Keep your company profile up to date to attract the best talent.
+  </app-warning-banner>
 
-  
-    <!-- Profile Header -->
-    <div class="header">
+  <!-- Company Core Information Card -->
+  <app-info-card customClass="profile-header-card">
+    <ng-container slot="actions">
+      <app-custom-button *ngIf="isOwnProfile" type="edit" (buttonClick)="onUpdateProfile()" title="Edit Company Information">
+        ✎
+      </app-custom-button>
+    </ng-container>
+
+    <div class="company-header-content">
       <div class="profile-picture">
-        <img [src]="'./assets/'+studentData.logo" alt="Profile Picture" />
+        <img [src]="companyData?.logo ? ('./assets/' + companyData?.logo) : './assets/img/default-company-logo.png'" alt="{{ companyData?.name }} Logo" />
       </div>
       <div class="profile-info">
-        <h1>
-          {{ userData.name }}
-          <span class="edit-icon" (click)="onUpdateProfile()">✎</span>
-        </h1>
+        <h1>{{ companyData?.name || 'Company Name' }}</h1>
+        <p class="company-meta" *ngIf="companyData?.industry">
+          Industry: {{ companyData?.industry }}
+        </p>
+        <p class="company-meta" *ngIf="companyData?.website">
+          Website: <a [href]="companyData?.website" target="_blank">{{ companyData?.website }}</a>
+        </p>
         <div class="contact-info">
-          <p><strong>Email:</strong> {{ userData.email }}</p>
-          <p><strong>Phone:</strong> {{ userData.phone }}</p>
-          <p><strong>Field of study:</strong> {{ studentData.fieldOfStudy }}</p>
-          <p><strong>Date of birth:</strong> {{ studentData.dateOfBirth | date:'mediumDate' }}</p>
-          <p><strong>Address:</strong> {{ userData.address }}</p>
+          <p *ngIf="userData?.email"><strong>Email:</strong> {{ userData?.email }}</p>
+          <p *ngIf="userData?.phone"><strong>Phone:</strong> {{ userData?.phone }}</p>
+          <p *ngIf="userData?.address"><strong>Address:</strong> {{ userData?.address }}</p>
         </div>
       </div>
     </div>
-  
+  </app-info-card>
 
-  </div>
+  <!-- About Company Card -->
+  <app-info-card cardTitle="About {{ companyData?.name || 'Us' }}" *ngIf="companyData?.description">
+    <div class="company-description">
+      <p>{{ companyData?.description }}</p>
+    </div>
+  </app-info-card>
+
+  <!-- Offered Internships Card -->
+  <app-info-card cardTitle="Offered Internships" *ngIf="internships && internships.length > 0">
+    <div class="internship-list">
+      <div *ngFor="let internship of internships" class="internship-item">
+        <h4>{{ internship.title }}</h4>
+        <p class="internship-location">{{ internship.location }}</p>
+        <p class="internship-summary">{{ internship.summary | slice:0:150 }}{{ internship.summary.length > 150 ? '...' : '' }}</p>
+        <div class="internship-actions">
+          <app-custom-button type="primary" (buttonClick)="viewInternshipDetails(internship.id)">
+            View Details
+          </app-custom-button>
+        </div>
+      </div>
+    </div>
+  </app-info-card>
+
+  <app-info-card cardTitle="No Internships Posted" *ngIf="!internships || internships.length === 0">
+    <p>{{ companyData?.name || 'This company' }} has not posted any internships yet.</p>
+    <div *ngIf="isOwnProfile" style="margin-top: var(--spacing-md);">
+      <app-custom-button type="primary" (buttonClick)="onPostNewInternship()">
+        Post New Internship
+      </app-custom-button>
+    </div>
+  </app-info-card>
+
+</div>

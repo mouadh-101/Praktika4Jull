@@ -1,42 +1,77 @@
-<div class="card mx-auto my-5" style="max-width: 600px;">
-  <div class="card-body">
-    <h5 class="card-title text-center">{{ documentId ? 'Modifier un Document' : 'Ajouter un Document' }}</h5>
-    <form [formGroup]="documentForm" (ngSubmit)="updateDocument()">
-      <div class="form-group">
-        <label>Société:</label>
-        <input formControlName="societe" type="text" class="form-control" required>
-        
-      </div>
+<div class="update-document-page">
+  <div class="container my-5">
+    <app-info-card cardTitle="Update Document" customClass="update-document-card">
+      <form [formGroup]="documentForm" (ngSubmit)="updateDocument()" class="update-document-form">
 
-      <div class="form-group">
-        <label>Type:</label>
-        <select formControlName="type" class="form-control">
-          <option *ngFor="let type of types" [value]="type">{{ type }}</option>
-        </select>
-      </div>
+        <div class="form-field">
+          <label for="societe">Company / Organization <span class="required-asterisk">*</span></label>
+          <input id="societe" type="text" formControlName="societe" placeholder="Enter company name">
+          <div *ngIf="documentForm.get('societe')?.invalid && (documentForm.get('societe')?.touched || documentForm.get('societe')?.dirty)" class="error-text">
+            <span *ngIf="documentForm.get('societe')?.errors?.['required']">Company name is required.</span>
+            <span *ngIf="documentForm.get('societe')?.errors?.['minlength']">Must be at least 2 characters.</span>
+          </div>
+        </div>
 
-      <div class="form-group">
-        <label>Date de début:</label>
-        <input formControlName="dateDebut" type="date" class="form-control" required>
-      </div>
+        <div class="form-field">
+          <label for="type">Document Type <span class="required-asterisk">*</span></label>
+          <select id="type" formControlName="type">
+            <option value="" disabled>Select document type</option>
+            <option *ngFor="let type of types" [value]="type">{{ type }}</option>
+          </select>
+          <div *ngIf="documentForm.get('type')?.invalid && (documentForm.get('type')?.touched || documentForm.get('type')?.dirty)" class="error-text">
+            <span *ngIf="documentForm.get('type')?.errors?.['required']">Document type is required.</span>
+          </div>
+        </div>
 
-      <div class="form-group">
-        <label>Date de fin:</label>
-        <input formControlName="dateFin" type="date" class="form-control" required>
-      </div>
+        <div class="form-field">
+          <label for="duree">Duration <span class="required-asterisk">*</span></label>
+          <select id="duree" formControlName="duree" (change)="onDureeChange()">
+            <option value="" disabled>Select duration</option>
+            <option *ngFor="let duree of durees" [value]="duree">{{ duree }}</option>
+          </select>
+          <div *ngIf="documentForm.get('duree')?.invalid && (documentForm.get('duree')?.touched || documentForm.get('duree')?.dirty)" class="error-text">
+            <span *ngIf="documentForm.get('duree')?.errors?.['required']">Duration is required.</span>
+          </div>
+        </div>
 
-      <div class="form-group">
-        <label>Durée:</label>
-        <select formControlName="duree" class="form-control">
-          <option *ngFor="let duree of durees" [value]="duree">{{ duree }}</option>
-        </select>
-      </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="dateDebut">Start Date <span class="required-asterisk">*</span></label>
+            <input id="dateDebut" type="date" formControlName="dateDebut" (change)="onDureeChange()">
+            <div *ngIf="documentForm.get('dateDebut')?.invalid && (documentForm.get('dateDebut')?.touched || documentForm.get('dateDebut')?.dirty)" class="error-text">
+              <span *ngIf="documentForm.get('dateDebut')?.errors?.['required']">Start date is required.</span>
+            </div>
+          </div>
 
-    
+          <div class="form-field">
+            <label for="dateFin">End Date <span class="required-asterisk">*</span></label>
+            <input id="dateFin" type="date" formControlName="dateFin" readonly>
+            <div *ngIf="documentForm.get('dateFin')?.invalid && (documentForm.get('dateFin')?.touched || documentForm.get('dateFin')?.dirty)" class="error-text">
+              <span *ngIf="documentForm.get('dateFin')?.errors?.['required']">End date is required (auto-calculated).</span>
+            </div>
+          </div>
+        </div>
 
-      <button type="submit" class="btn btn-primary mt-3" [disabled]="documentForm.invalid">
-        {{ documentId ? 'Mettre à jour' : 'Ajouter' }}
-      </button>
-    </form>
+        <div class="form-field">
+          <label for="statusDoc">Document Status <span class="required-asterisk">*</span></label>
+          <select id="statusDoc" formControlName="statusDoc">
+            <option value="" disabled>Select status</option>
+            <option *ngFor="let status of statusList" [value]="status">{{ status }}</option>
+          </select>
+          <div *ngIf="documentForm.get('statusDoc')?.invalid && (documentForm.get('statusDoc')?.touched || documentForm.get('statusDoc')?.dirty)" class="error-text">
+            <span *ngIf="documentForm.get('statusDoc')?.errors?.['required']">Status is required.</span>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <app-custom-button type="default" (buttonClick)="goBackToList()">
+            Cancel
+          </app-custom-button>
+          <app-custom-button type="primary" (buttonClick)="updateDocument()" [disabled]="documentForm.invalid">
+            Update Document
+          </app-custom-button>
+        </div>
+      </form>
+    </app-info-card>
   </div>
 </div>

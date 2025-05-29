@@ -1,53 +1,89 @@
-<div class="form-container">
-    <h2 class="form-title">{{ editMode ? 'Edit' : 'Add' }} Profile</h2>
-  
-    <form [formGroup]="profileForm" (ngSubmit)="submit()">
-      <div class="form-field">
-        <label for="profilePic">Profile Picture</label>
-        <input id="profilePic" type="file" (change)="onFileSelected($event)">
+<div class="profile-update-dialog-container">
+  <h2 mat-dialog-title class="dialog-title">{{ data?.isCompanyProfile ? 'Edit Company Profile' : 'Edit Student Profile' }}</h2>
+
+  <mat-dialog-content>
+    <form [formGroup]="profileForm" class="profile-update-form">
+
+      <div class="profile-picture-section">
+        <img [src]="profilePicUrl ? (profilePicUrl.startsWith('http') || profilePicUrl.startsWith('data:') ? profilePicUrl : './assets/' + profilePicUrl) : (data?.isCompanyProfile ? 'assets/img/default-company-logo.png' : 'assets/img/pdp.jpg')"
+             class="profile-preview" alt="Profile Preview">
+        <input type="file" #fileInput hidden (change)="onFileSelected($event)" accept="image/*">
+        <app-custom-button type="secondary" (buttonClick)="fileInput.click()" customClass="btn-upload-pic">
+          <i class="bi bi-upload"></i> {{ profilePicUrl || profileForm.get('profilePic')?.value ? 'Change Picture' : 'Upload Picture' }}
+        </app-custom-button>
+        <mat-error *ngIf="profileForm.get('profilePic')?.hasError('required') && profileForm.get('profilePic')?.touched" class="file-error">
+          Profile picture is required.
+        </mat-error>
       </div>
-      
-      <!-- Display uploaded image preview -->
-      <img *ngIf="profilePicUrl" [src]="'./assets/'+profilePicUrl" class="profile-preview" alt="Profile Preview">
-  
-      <div class="form-field">
-        <label for="name">Full Name</label>
-        <input id="name" type="text" formControlName="name" required>
-      </div>
-  
-      <div class="form-field">
-        <label for="email">Email</label>
-        <input id="email" type="email" formControlName="email" required [disabled]=true>
-      </div>
-  
-      <div class="form-field">
-        <label for="phone">Phone</label>
-        <input id="phone" type="text" formControlName="phone" required>
-      </div>
-  
-      <div class="form-field">
-        <label for="address">Address</label>
-        <input id="address" type="text" formControlName="address" required>
-      </div>
-  
-      <div class="form-field">
-        <label for="fieldOfStudy">Field of Study</label>
-        <input id="fieldOfStudy" type="text" formControlName="fieldOfStudy" required>
-      </div>
-  
-      <div class="form-field">
-        <label for="dateOfBirth">Date of Birth</label>
-        <input id="dateOfBirth" type="date" formControlName="dateOfBirth" required>
-      </div>
-  
-      <div class="form-field">
-        <label for="bio">Bio</label>
-        <textarea id="bio" formControlName="bio" maxlength="500"></textarea>
-      </div>
-  
-      <div class="form-actions">
-        <button type="button" (click)="cancel()">Cancel</button>
-        <button type="submit">Save</button>
-      </div>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ data?.isCompanyProfile ? 'Company Name' : 'Full Name' }}</mat-label>
+        <input matInput formControlName="name" required>
+        <mat-error *ngIf="profileForm.get('name')?.hasError('required')">Name is required.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" required [disabled]="true">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Phone</mat-label>
+        <input matInput formControlName="phone" required>
+        <mat-error *ngIf="profileForm.get('phone')?.hasError('required')">Phone is required.</mat-error>
+        <mat-error *ngIf="profileForm.get('phone')?.hasError('pattern')">Invalid phone number.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="address" required>
+        <mat-error *ngIf="profileForm.get('address')?.hasError('required')">Address is required.</mat-error>
+      </mat-form-field>
+
+      <!-- Conditional fields based on profile type (Student vs Company) -->
+      <ng-container *ngIf="!data?.isCompanyProfile"> <!-- Student specific fields -->
+        <mat-form-field appearance="outline">
+          <mat-label>Field of Study</mat-label>
+          <input matInput formControlName="fieldOfStudy"> <!-- Was required in old form, now optional based on TS -->
+           <mat-error *ngIf="profileForm.get('fieldOfStudy')?.hasError('required')">Field of study is required.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Date of Birth</mat-label>
+          <input matInput formControlName="dateOfBirth" type="date"> <!-- Was required, now optional based on TS -->
+          <mat-error *ngIf="profileForm.get('dateOfBirth')?.hasError('required')">Date of birth is required.</mat-error>
+        </mat-form-field>
+      </ng-container>
+
+      <ng-container *ngIf="data?.isCompanyProfile"> <!-- Company specific fields -->
+        <mat-form-field appearance="outline">
+          <mat-label>Industry</mat-label>
+          <input matInput formControlName="industry">
+        </mat-form-field>
+         <mat-form-field appearance="outline">
+          <mat-label>Website</mat-label>
+          <input matInput formControlName="website" placeholder="https://example.com">
+        </mat-form-field>
+      </ng-container>
+
+      <mat-form-field appearance="outline" class="description-field">
+        <mat-label>{{ data?.isCompanyProfile ? 'Company Description' : 'Bio' }}</mat-label>
+        <textarea matInput formControlName="bio" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+                  cdkAutosizeMinRows="3" cdkAutosizeMaxRows="6" [maxLength]="data?.isCompanyProfile ? 1000 : 500"
+                  placeholder="Tell us about yourself or your company..."></textarea>
+        <mat-hint align="end">{{profileForm.get('bio')?.value?.length || 0}} / {{data?.isCompanyProfile ? 1000 : 500}}</mat-hint>
+         <mat-error *ngIf="profileForm.get('bio')?.hasError('maxlength')">
+           {{ data?.isCompanyProfile ? 'Company Description' : 'Bio' }} is too long.
+        </mat-error>
+      </mat-form-field>
+
     </form>
-  </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="dialog-actions">
+    <app-custom-button type="default" (buttonClick)="cancel()">Cancel</app-custom-button>
+    <app-custom-button type="primary" (buttonClick)="submit()" [disabled]="profileForm.invalid">
+      Save Changes
+    </app-custom-button>
+  </mat-dialog-actions>
+</div>
