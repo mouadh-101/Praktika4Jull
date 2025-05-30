@@ -1,53 +1,74 @@
-<div class="container my-5">
-    <div class="card shadow-sm border-0 rounded-4 p-4">
-  
-      <h2 class="mb-4 text-primary fw-semibold">
-        <i class="bi bi-bar-chart-fill me-2"></i> AI Application Analysis
+<div class="app-analyze-page">
+  <div class="container my-5">
+    <div class="page-header">
+      <h2 class="page-title">
+        <i class="bi bi-bar-chart-line-fill"></i> AI Application Analysis
       </h2>
-  
-      <!-- Student Rating -->
-      <div class="mb-4">
-        <h5 class="text-muted"><i class="bi bi-star-fill me-2 text-warning"></i>Student Rating</h5>
-        <p class="fs-5">{{ analysisResult.studentRating }}</p>
-      </div>
-  
-      <!-- Hiring Probability -->
-      <div class="mb-4">
-        <h5 class="text-muted"><i class="bi bi-graph-up-arrow me-2 text-success"></i>Hiring Probability</h5>
-        <p class="fs-5">{{ analysisResult.hiringProbability }}</p>
-      </div>
-  
-      <!-- Profile Strength Score -->
-      <div class="mb-4">
-        <h5 class="text-muted"><i class="bi bi-speedometer2 me-2 text-info"></i>Profile Strength Score</h5>
-          <p *ngFor="let score of analysisResult.profileStrengthScore" class="list-group-item">
-            {{ score }}
-          </p>
-      </div>
-  
-      <!-- Advice to Improve Chances -->
-      <div class="mb-4">
-        <h5 class="text-muted"><i class="bi bi-lightbulb me-2 text-warning"></i>Advice to Improve Chances</h5>
-        <div class="bg-light rounded p-3 border">
-          <p class="mb-0 text-dark">{{ analysisResult.adviceToImproveChances }}</p>
-        </div>
-      </div>
-  
-      <!-- Cover Letter Feedback -->
-      <div class="mb-4">
-        <h5 class="text-muted"><i class="bi bi-envelope-open me-2 text-secondary"></i>Cover Letter Feedback</h5>
-        <div class="bg-light rounded p-3 border">
-          <p class="mb-0 text-dark">{{ analysisResult.coverLetterFeedback }}</p>
-        </div>
-      </div>
-  
-      <!-- Back Button -->
-      <div class="text-end">
-        <button class="btn btn-outline-secondary" (click)="goBack()">
-            <i class="bi bi-arrow-left-circle me-1"></i> Back
-        </button>
-      </div>
-  
+      <app-custom-button type="default" (buttonClick)="goBack()">
+        <i class="bi bi-arrow-left"></i> Back
+      </app-custom-button>
     </div>
+
+    <div *ngIf="loadingAnalysis" class="loading-indicator text-center">
+      <p>Loading AI analysis results...</p>
+      <!-- Or use a spinner component -->
+    </div>
+
+    <app-warning-banner *ngIf="error && !loadingAnalysis" type="danger">
+      {{ error }}
+    </app-warning-banner>
+
+    <app-info-card *ngIf="analysisResult && !loadingAnalysis && !error" customClass="analysis-results-card">
+      <div class="analysis-section">
+        <h5 class="section-item-title"><i class="bi bi-star-fill text-warning"></i> Student Rating</h5>
+        <p class="analysis-value rating-value">{{ analysisResult.studentRating || 'N/A' }}</p>
+      </div>
+
+      <hr class="section-divider">
+
+      <div class="analysis-section">
+        <h5 class="section-item-title"><i class="bi bi-graph-up-arrow text-success"></i> Hiring Probability</h5>
+        <p class="analysis-value probability-value">{{ analysisResult.hiringProbability || 'N/A' }}</p>
+      </div>
+
+      <hr class="section-divider">
+
+      <div class="analysis-section">
+        <h5 class="section-item-title"><i class="bi bi-speedometer2 text-info"></i> Profile Strength Score</h5>
+        <div *ngIf="analysisResult.profileStrengthScore && analysisResult.profileStrengthScore.length > 0" class="profile-strength-list">
+          <ul class="styled-list">
+            <li *ngFor="let score of analysisResult.profileStrengthScore"><i class="bi bi-check-circle-fill"></i> {{ score }}</li>
+          </ul>
+        </div>
+        <p *ngIf="!analysisResult.profileStrengthScore || analysisResult.profileStrengthScore.length === 0" class="text-muted">
+          No specific profile strength scores provided.
+        </p>
+      </div>
+
+      <hr class="section-divider">
+
+      <div class="analysis-section">
+        <h5 class="section-item-title"><i class="bi bi-lightbulb-fill text-warning"></i> Advice to Improve Chances</h5>
+        <div class="highlighted-feedback">
+          <p>{{ analysisResult.adviceToImproveChances || 'No specific advice provided.' }}</p>
+        </div>
+      </div>
+
+      <hr class="section-divider">
+
+      <div class="analysis-section">
+        <h5 class="section-item-title"><i class="bi bi-envelope-open-fill text-secondary"></i> Cover Letter Feedback</h5>
+        <div class="highlighted-feedback">
+          <p>{{ analysisResult.coverLetterFeedback || 'No specific cover letter feedback provided.' }}</p>
+        </div>
+      </div>
+      
+    </app-info-card>
+
+    <div *ngIf="!analysisResult && !loadingAnalysis && !error" class="no-results-message mt-4">
+        <app-info-card cardTitle="Analysis Not Available">
+          <p>The AI analysis for this application could not be retrieved or is not available.</p>
+        </app-info-card>
+      </div>
   </div>
-  
+</div>

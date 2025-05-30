@@ -1,39 +1,101 @@
-<div class="container mt-4">
-  <h2>Work Plans</h2>
-  <div *ngIf="plans.length === 0" class="alert alert-warning">
-    No work plans found.
-  </div>
-  <div *ngFor="let plan of plans" class="card mb-3">
-    <div class="card-body">
-      <h5 class="card-title">{{ plan.description }}</h5>
-      <p><strong>Description:</strong> {{ plan.description }}</p>
-      <p><strong>Problem:</strong> {{ plan.problematique }}</p>
-      <p><strong>Features:</strong> {{ plan.fonctionnalites }}</p>
-      <p><strong>Technologies:</strong> {{ plan.technologies }}</p>
-      <p><strong>Status:</strong> {{ plan.statut }}</p>
-      <p><strong>File Submitted:</strong> <a href="{{ plan.fichierRemis }}" target="_blank">Download</a></p>
-      <p><strong>Internal Supervisor:</strong> {{ plan.encadrantInterne }}</p>
-      <p><strong>External Supervisor:</strong> {{ plan.encadrantExterne }}</p>
-
-      <div *ngIf="plan.planning && plan.planning.length > 0">
-        <h6>Task Planning:</h6>
-        <ul>
-          <li *ngFor="let tache of plan.planning">
-            <strong>{{ tache.nomTache }}</strong><br />
-            Start Date: {{ tache.dateDebut }}<br />
-            End Date: {{ tache.dateFin }}
-          </li>
-        </ul>
-      </div>
-
-      <div *ngIf="plan.company">
-        <p><strong>Company:</strong> {{ plan.company }} </p>
-      </div>
-
-      <button class="btn btn-primary" (click)="downloadPlan(plan.id!)">
-        Download Work Plan
-      </button>
+<div class="list-plan-page">
+  <div class="container mt-4">
+    <div class="page-header">
+      <h2 class="page-title">Work Plans</h2>
+      <app-custom-button type="primary" routerLink="/AddPlan"> <!-- Assuming '/AddPlan' is the route -->
+        <i class="bi bi-plus-lg"></i> Add New Work Plan
+      </app-custom-button>
     </div>
-    <app-gantt [planDeTravail]="plan"></app-gantt>
+
+    <div *ngIf="plans && plans.length > 0; else noPlansFound" class="plan-cards-container">
+      <div *ngFor="let plan of plans" class="mb-4"> <!-- Each plan gets its own row essentially, or use Bootstrap row/col for multi-column -->
+        <app-info-card [cardTitle]="plan.description || 'Work Plan'" customClass="plan-card">
+          <div class="plan-card-content">
+            <div class="plan-details-grid">
+              <div class="detail-item">
+                <strong class="detail-label"><i class="bi bi-lightbulb"></i> Problem:</strong>
+                <p>{{ plan.problematique || 'N/A' }}</p>
+              </div>
+              <div class="detail-item">
+                <strong class="detail-label"><i class="bi bi-tools"></i> Technologies:</strong>
+                <p>{{ plan.technologies || 'N/A' }}</p>
+              </div>
+              <div class="detail-item full-width"> <!-- Spans full width in grid -->
+                <strong class="detail-label"><i class="bi bi-list-check"></i> Features:</strong>
+                <p>{{ plan.fonctionnalites || 'N/A' }}</p>
+              </div>
+              <div class="detail-item">
+                <strong class="detail-label"><i class="bi bi-building"></i> Company:</strong>
+                <p>{{ plan.company?.name || plan.company || 'N/A' }}</p> <!-- Assuming plan.company might be string or object -->
+              </div>
+              <div class="detail-item">
+                <strong class="detail-label"><i class="bi bi-person-badge"></i> Internal Supervisor:</strong>
+                <p>{{ plan.encadrantInterne || 'N/A' }}</p>
+              </div>
+              <div class="detail-item">
+                <strong class="detail-label"><i class="bi bi-person-badge-fill"></i> External Supervisor:</strong>
+                <p>{{ plan.encadrantExterne || 'N/A' }}</p>
+              </div>
+              <div class="detail-item">
+                <strong class="detail-label"><i class="bi bi-info-circle"></i> Status:</strong>
+                <span class="status-badge {{plan.statut}}">{{ plan.statut || 'N/A' }}</span>
+              </div>
+              <div class="detail-item" *ngIf="plan.fichierRemis">
+                <strong class="detail-label"><i class="bi bi-file-earmark-arrow-down"></i> Submitted File:</strong>
+                <a [href]="plan.fichierRemis" target="_blank" class="file-download-link">Download Submitted File</a>
+              </div>
+            </div>
+            
+            <hr class="section-divider" *ngIf="plan.planning && plan.planning.length > 0">
+
+            <div *ngIf="plan.planning && plan.planning.length > 0" class="task-planning-section">
+              <h6 class="task-planning-title"><i class="bi bi-calendar3-week"></i> Task Planning:</h6>
+              <ul class="task-list">
+                <li *ngFor="let tache of plan.planning" class="task-item">
+                  <strong>{{ tache.nomTache }}</strong>
+                  <small>(<i class="bi bi-calendar-event"></i> {{ tache.dateDebut | date:'shortDate' }} - <i class="bi bi-calendar-event-fill"></i> {{ tache.dateFin | date:'shortDate' }})</small>
+                </li>
+              </ul>
+            </div>
+            
+            <hr class="section-divider">
+
+            <div class="gantt-chart-section">
+               <h6 class="gantt-chart-title"><i class="bi bi-bar-chart-steps"></i> Gantt Chart Overview</h6>
+              <app-gantt [planDeTravail]="plan"></app-gantt>
+            </div>
+            
+            <div class="plan-actions">
+              <app-custom-button type="secondary" (buttonClick)="downloadPlan(plan.id!)">
+                <i class="bi bi-download"></i> Download Work Plan PDF
+              </app-custom-button>
+              <!-- Add Edit/Delete buttons if applicable for this view -->
+              <!-- 
+              <app-custom-button type="icon" title="Edit Plan"><i class="bi bi-pencil-square"></i></app-custom-button>
+              <app-custom-button type="icon" title="Delete Plan"><i class="bi bi-trash3"></i></app-custom-button>
+              -->
+            </div>
+          </div>
+        </app-info-card>
+      </div>
+    </div>
+
+    <ng-template #noPlansFound>
+      <div class="no-entries-message mt-4">
+        <app-info-card cardTitle="No Work Plans Found">
+          <p>There are no work plans available at the moment.</p>
+          <app-custom-button type="primary" routerLink="/AddPlan" customClass="mt-3">
+             <i class="bi bi-plus-lg"></i> Create Your First Work Plan
+          </app-custom-button>
+        </app-info-card>
+      </div>
+    </ng-template>
+
+    <!-- Add pagination if this.plans can be very long -->
+    <!-- 
+    <div class="pagination-container mt-4" *ngIf="plans && plans.length > itemsPerPage">
+      <pagination-controls (pageChange)="page = $event" ...></pagination-controls>
+    </div>
+    -->
   </div>
 </div>

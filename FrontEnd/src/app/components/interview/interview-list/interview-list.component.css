@@ -1,109 +1,211 @@
-.table th, .table td {
-  text-align: center;
-  vertical-align: middle;
-}
+/* Styles for InterviewListComponent */
 
-.btn-sm {
-  min-width: 90px;
-}
-
-span.status-scheduled {
-  background-color: #ffc107;
-  color: #000;
-  padding: 5px 10px;
-  border-radius: 5px;
-}
-
-span.status-completed {
-  background-color: #28a745;
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 5px;
-}
-
-span.status-canceled {
-  background-color: #dc3545;
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 5px;
-}
-
-
-
-pagination-controls {
-  margin-top: 20px;
+.interview-list-page .page-header {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
 }
 
-.pagination {
-  display: flex;
-  gap: 5px;
-}
-
-.pagination a {
-  background-color: #007bff;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 4px;
-  text-decoration: none;
-}
-
-.pagination a:hover {
-  background-color: #0056b3;
-}
-
-
-/* 🔲 Encadrement du bouton Ajouter sans couleur de fond */
-.add-container {
-  border: 2px solid rgba(0, 0, 0, 0.2); /* Bordure légère */
-  border-radius: 8px;
-  padding: 10px;
-  display: inline-block;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre subtile */
-}
-
-/* Style du bouton Ajouter */
-.btn-add {
-  background-color: transparent; /* Pas de fond */
-  color: black; /* Texte noir */
-  border: 2px solid rgba(0, 0, 0, 0.2); /* Bordure légère */
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-weight: bold;
-}
-
-.btn-add:hover {
-  background-color: rgba(0, 0, 0, 0.05); /* Léger fond gris au survol */
-}
-
-/* 🔲 Encadrement des boutons Modifier et Supprimer */
-.btn-container {
-  border: 2px solid rgba(0, 0, 0, 0.2); /* Bordure fine */
-  padding: 10px;
-  border-radius: 8px;
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  background-color: transparent; /* Pas de fond */
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Légère ombre */
-}
-
-/* Style des boutons Modifier et Supprimer */
-.btn-edit, .btn-delete {
-  border: 2px solid rgba(0, 0, 0, 0.2); /* Bordure légère */
-  background-color: transparent; /* Pas de fond */
-  color: black; /* Texte noir */
-  border-radius: 8px;
-  padding: 6px 12px;
-  font-weight: bold;
-  transition: 0.3s ease-in-out;
+.interview-list-page .page-title {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-default);
+  margin: 0;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: var(--spacing-sm);
+}
+.interview-list-page .page-title .bi {
+  color: var(--color-primary);
 }
 
-.btn-edit:hover, .btn-delete:hover {
-  background-color: rgba(0, 0, 0, 0.05); /* Léger fond gris au survol */
+.interview-list-page .header-actions {
+  display: flex;
+  gap: var(--spacing-sm);
 }
 
+.controls-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+  gap: var(--spacing-md);
+  flex-wrap: wrap; /* Allow controls to wrap on smaller screens */
+}
+
+.search-bar.form-field {
+  flex-grow: 1; /* Search bar takes available space */
+  min-width: 250px; /* Minimum width for search bar */
+  margin-bottom: 0; /* Remove default form-field margin if inside flex container */
+}
+.search-bar input.form-control { /* Ensure search input uses global styling */
+  width: 100%;
+}
+
+.export-buttons {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+.export-buttons .custom-button.btn-sm .bi {
+  margin-right: var(--spacing-xs);
+}
+
+
+/* Interview Card Styling */
+:host ::ng-deep .interview-card .info-card-body {
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.interview-card-header {
+  margin-bottom: var(--spacing-sm);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1px dashed var(--color-border-light);
+}
+.interview-title {
+  font-size: var(--font-size-h5);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-default);
+  margin: 0 0 var(--spacing-xxs) 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+.interview-title .bi {
+  color: var(--color-primary);
+}
+.interview-time {
+  font-size: var(--font-size-small);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+.interview-time .bi {
+  font-size: 1.1em;
+}
+
+
+.interview-card-body .detail-item { /* Re-using .detail-item for consistency */
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xs);
+  display: flex;
+  align-items: flex-start; /* Align icon with first line of text */
+  gap: var(--spacing-xs);
+}
+.interview-card-body .detail-item .bi {
+  color: var(--color-text-secondary);
+  margin-top: 2px; /* Align icon slightly */
+  flex-shrink: 0;
+}
+.interview-card-body .detail-item strong {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-default);
+}
+
+.status-badge { /* Copied from student-applications for consistency */
+  padding: var(--spacing-xxs) var(--spacing-xs);
+  border-radius: var(--border-radius-pill);
+  font-weight: var(--font-weight-semibold);
+  font-size: 10px; /* Smaller for this context */
+  text-transform: uppercase;
+  color: var(--color-text-on-primary);
+  white-space: nowrap;
+}
+.status-badge.scheduled { background-color: var(--color-info, #17a2b8); }
+.status-badge.completed { background-color: var(--color-success, #28a745); }
+.status-badge.canceled { background-color: var(--color-danger, #dc3545); }
+/* Add other statuses like PENDING if applicable from InterviewStatus enum */
+.status-badge.pending { background-color: var(--color-warning-bg, #ffc107); color: var(--color-warning-text, #383d41); }
+
+
+.interview-card-actions {
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid var(--color-border-light);
+  display: flex;
+  justify-content: space-between; /* Distribute buttons */
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+.interview-card-actions .custom-button.btn-sm .bi {
+  margin-right: var(--spacing-xxs);
+}
+.interview-card-actions .custom-button.btn-join {
+  /* Specific style for Join button if needed */
+}
+:host ::ng-deep .interview-card-actions .custom-button.btn-icon .bi {
+  font-size: var(--font-size-large);
+}
+:host ::ng-deep .interview-card-actions .delete-btn .bi {
+  color: var(--color-danger);
+}
+:host ::ng-deep .interview-card-actions .edit-btn .bi { /* Assuming edit-btn class is used for edit icon button */
+  color: var(--color-accent); /* Or primary */
+}
+
+/* No Entries Message & Loading */
+.no-entries-message,
+.loading-indicator {
+  text-align: center;
+  margin: var(--spacing-xl) 0;
+  padding: var(--spacing-xl); /* Added padding directly for standalone message */
+}
+.no-entries-message p,
+.loading-indicator p {
+  font-size: var(--font-size-large);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-md);
+}
+:host ::ng-deep .no-entries-message .app-info-card .info-card-body { /* If wrapped in app-info-card */
+  padding: var(--spacing-xl);
+}
+:host ::ng-deep .no-entries-message .app-info-card .info-card-title {
+   font-size: var(--font-size-h4);
+}
+.no-entries-message .custom-button .bi {
+    margin-right: var(--spacing-xs);
+}
+
+
+/* Pagination Controls - Copied for consistency */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--spacing-lg);
+}
+:host ::ng-deep .ngx-pagination {
+  padding: 0; margin: 0; display: flex; gap: var(--spacing-xs);
+}
+:host ::ng-deep .ngx-pagination .current,
+:host ::ng-deep .ngx-pagination button {
+  background: var(--color-bg-container); color: var(--color-primary);
+  border: 1px solid var(--color-border-default); border-radius: var(--border-radius-base);
+  padding: var(--spacing-xs) var(--spacing-sm); text-decoration: none; cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+:host ::ng-deep .ngx-pagination button:hover {
+  background: var(--color-bg-alt); color: var(--color-primary-dark);
+}
+:host ::ng-deep .ngx-pagination .current {
+  background: var(--color-primary); color: var(--color-text-on-primary);
+  border-color: var(--color-primary); cursor: default;
+}
+:host ::ng-deep .ngx-pagination .disabled {
+  color: var(--color-text-secondary); opacity: 0.6; cursor: not-allowed; background: var(--color-bg-alt);
+}
+:host ::ng-deep .ngx-pagination .pagination-previous a::before,
+:host ::ng-deep .ngx-pagination .pagination-previous.disabled::before {
+  content: '«'; margin-right: 0;
+}
+:host ::ng-deep .ngx-pagination .pagination-next a::after,
+:host ::ng-deep .ngx-pagination .pagination-next.disabled::after {
+  content: '»'; margin-left: 0;
+}
+:host ::ng-deep .ngx-pagination .pagination-previous,
+:host ::ng-deep .ngx-pagination .pagination-next {
+  padding: var(--spacing-xs) var(--spacing-xs);
+}

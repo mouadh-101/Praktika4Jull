@@ -1,47 +1,141 @@
-<form [formGroup]="planForm" (ngSubmit)="onSubmit()" class="wide-form">
-  <label for="description">Description</label>
-  <textarea formControlName="description" placeholder="Description" id="description" rows="4" class="wide-input"></textarea><br>
-  
-  <label for="problematique">Problem</label>
-  <textarea formControlName="problematique" placeholder="Problem" id="problematique" rows="4" class="wide-input"></textarea><br>
+<div class="add-plan-page">
+  <div class="container my-5">
+    <app-info-card cardTitle="Create New Work Plan" customClass="add-plan-card">
+      <form [formGroup]="planForm" (ngSubmit)="onSubmit()" class="add-plan-form">
 
-  <label for="fonctionnalites">Features</label>
-  <textarea formControlName="fonctionnalites" placeholder="Features" id="fonctionnalites" rows="4" class="wide-input"></textarea><br>
+        <!-- General Plan Information Section -->
+        <div class="form-section">
+          <h3 class="section-subtitle">General Information</h3>
+          <div class="form-field">
+            <label for="description">Plan Description / Title <span class="required-asterisk">*</span></label>
+            <textarea id="description" formControlName="description" placeholder="Enter a general description or title for the work plan" rows="3"></textarea>
+            <div *ngIf="planForm.get('description')?.invalid && (planForm.get('description')?.touched || planForm.get('description')?.dirty)" class="error-text">
+              <span *ngIf="planForm.get('description')?.errors?.['required']">Description is required.</span>
+            </div>
+          </div>
 
-  <label for="technologies">Technologies</label>
-  <textarea formControlName="technologies" placeholder="Technologies" id="technologies" rows="4" class="wide-input"></textarea><br>
+          <div class="form-field">
+            <label for="problematique">Problem Statement <span class="required-asterisk">*</span></label>
+            <textarea id="problematique" formControlName="problematique" placeholder="Describe the problem this plan addresses" rows="3"></textarea>
+            <div *ngIf="planForm.get('problematique')?.invalid && (planForm.get('problematique')?.touched || planForm.get('problematique')?.dirty)" class="error-text">
+              <span *ngIf="planForm.get('problematique')?.errors?.['required']">Problem statement is required.</span>
+            </div>
+          </div>
+        </div>
 
-  <label for="fichierRemis">File Name</label>
-  <input formControlName="fichierRemis" placeholder="File Name" id="fichierRemis" class="wide-input"><br>
+        <!-- Details Section -->
+        <div class="form-section">
+          <h3 class="section-subtitle">Plan Details</h3>
+          <div class="form-field">
+            <label for="fonctionnalites">Key Features / Objectives <span class="required-asterisk">*</span></label>
+            <textarea id="fonctionnalites" formControlName="fonctionnalites" placeholder="List main features or objectives" rows="4"></textarea>
+            <div *ngIf="planForm.get('fonctionnalites')?.invalid && (planForm.get('fonctionnalites')?.touched || planForm.get('fonctionnalites')?.dirty)" class="error-text">
+              <span *ngIf="planForm.get('fonctionnalites')?.errors?.['required']">Features/Objectives are required.</span>
+            </div>
+          </div>
 
-  <label for="encadrantInterne">Internal Supervisor</label>
-  <input formControlName="encadrantInterne" placeholder="Internal Supervisor" id="encadrantInterne" class="wide-input"><br>
+          <div class="form-field">
+            <label for="technologies">Technologies to be Used <span class="required-asterisk">*</span></label>
+            <textarea id="technologies" formControlName="technologies" placeholder="List key technologies, tools, or methodologies" rows="3"></textarea>
+            <div *ngIf="planForm.get('technologies')?.invalid && (planForm.get('technologies')?.touched || planForm.get('technologies')?.dirty)" class="error-text">
+              <span *ngIf="planForm.get('technologies')?.errors?.['required']">Technologies are required.</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Company & Supervisors Section -->
+        <div class="form-section">
+          <h3 class="section-subtitle">Stakeholders</h3>
+          <div class="form-row">
+            <div class="form-field" formGroupName="company"> <!-- Assuming company is an object with a 'name' field -->
+              <label for="companyName">Company Name (if applicable)</label> <!-- Changed label for clarity -->
+              <input id="companyName" formControlName="company" placeholder="Enter company name">
+               <!-- Add validation if company name becomes required or has specific format -->
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label for="encadrantInterne">Internal Supervisor <span class="required-asterisk">*</span></label>
+              <input id="encadrantInterne" formControlName="encadrantInterne" placeholder="Name of internal supervisor">
+              <div *ngIf="planForm.get('encadrantInterne')?.invalid && (planForm.get('encadrantInterne')?.touched || planForm.get('encadrantInterne')?.dirty)" class="error-text">
+                <span *ngIf="planForm.get('encadrantInterne')?.errors?.['required']">Internal supervisor is required.</span>
+              </div>
+            </div>
+            <div class="form-field">
+              <label for="encadrantExterne">External Supervisor <span class="required-asterisk">*</span></label>
+              <input id="encadrantExterne" formControlName="encadrantExterne" placeholder="Name of external supervisor">
+              <div *ngIf="planForm.get('encadrantExterne')?.invalid && (planForm.get('encadrantExterne')?.touched || planForm.get('encadrantExterne')?.dirty)" class="error-text">
+                <span *ngIf="planForm.get('encadrantExterne')?.errors?.['required']">External supervisor is required.</span>
+              </div>
+            </div>
+          </div>
+        </div>
 
-  <label for="encadrantExterne">External Supervisor</label>
-  <input formControlName="encadrantExterne" placeholder="External Supervisor" id="encadrantExterne" class="wide-input"><br>
+        <!-- File Submission Section -->
+        <div class="form-section">
+          <h3 class="section-subtitle">File Submission</h3>
+          <div class="form-field">
+            <label for="fichierRemis">Submitted File Name / Link <span class="required-asterisk">*</span></label>
+            <input id="fichierRemis" formControlName="fichierRemis" placeholder="Enter file name or link to the document">
+            <!-- Consider changing to actual file input if direct upload is desired -->
+            <div *ngIf="planForm.get('fichierRemis')?.invalid && (planForm.get('fichierRemis')?.touched || planForm.get('fichierRemis')?.dirty)" class="error-text">
+              <span *ngIf="planForm.get('fichierRemis')?.errors?.['required']">File reference is required.</span>
+            </div>
+          </div>
+        </div>
 
-  <div formGroupName="company">
-    <label for="company">Company</label>
-    <input formControlName="company" placeholder="Company" id="company" class="wide-input">
+        <!-- Task Planning Section -->
+        <div class="form-section">
+          <h3 class="section-subtitle">Task Planning</h3>
+          <div formArrayName="planning" class="task-list-container">
+            <div *ngFor="let tache of planning.controls; let i = index" [formGroupName]="i" class="task-item-form-group">
+              <h4 class="task-item-title">Task #{{ i + 1 }}</h4>
+              <div class="form-field">
+                <label for="nomTache-{{i}}">Task Name <span class="required-asterisk">*</span></label>
+                <input id="nomTache-{{i}}" formControlName="nomTache" placeholder="Enter task name">
+                 <div *ngIf="tache.get('nomTache')?.invalid && (tache.get('nomTache')?.touched || tache.get('nomTache')?.dirty)" class="error-text">
+                  <span *ngIf="tache.get('nomTache')?.errors?.['required']">Task name is required.</span>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="dateDebut-{{i}}">Start Date <span class="required-asterisk">*</span></label>
+                  <input id="dateDebut-{{i}}" formControlName="dateDebut" type="date">
+                   <div *ngIf="tache.get('dateDebut')?.invalid && (tache.get('dateDebut')?.touched || tache.get('dateDebut')?.dirty)" class="error-text">
+                    <span *ngIf="tache.get('dateDebut')?.errors?.['required']">Start date is required.</span>
+                  </div>
+                </div>
+                <div class="form-field">
+                  <label for="dateFin-{{i}}">End Date <span class="required-asterisk">*</span></label>
+                  <input id="dateFin-{{i}}" formControlName="dateFin" type="date">
+                   <div *ngIf="tache.get('dateFin')?.invalid && (tache.get('dateFin')?.touched || tache.get('dateFin')?.dirty)" class="error-text">
+                    <span *ngIf="tache.get('dateFin')?.errors?.['required']">End date is required.</span>
+                    <!-- Add validator for dateFin after dateDebut if needed -->
+                  </div>
+                </div>
+              </div>
+              <app-custom-button type="danger" customClass="btn-sm btn-remove-task" (buttonClick)="removeTache(i)">
+                <i class="bi bi-trash3"></i> Remove Task {{i + 1}}
+              </app-custom-button>
+            </div>
+            <div *ngIf="planning.controls.length === 0" class="no-tasks-message">
+              <p>No tasks added yet. Click below to add the first task.</p>
+            </div>
+          </div>
+          <app-custom-button type="secondary" (buttonClick)="addTache()" customClass="btn-add-task mt-3">
+            <i class="bi bi-plus-circle-dotted"></i> Add Task to Plan
+          </app-custom-button>
+        </div>
+        
+        <!-- Status is set by default in TS, not shown in form unless it needs to be editable -->
+
+        <div class="form-actions">
+          <app-custom-button type="default" (buttonClick)="goBack()">Cancel</app-custom-button>
+          <app-custom-button type="primary" (buttonClick)="onSubmit()" [disabled]="planForm.invalid">
+            Create Work Plan
+          </app-custom-button>
+        </div>
+      </form>
+    </app-info-card>
   </div>
-
-  <div formArrayName="planning">
-    <div *ngFor="let tache of planning.controls; let i = index" [formGroupName]="i">
-      <label for="nomTache">Task Name</label>
-      <input formControlName="nomTache" placeholder="Task Name" id="nomTache" class="wide-input">
-
-      <label for="dateDebut">Start Date</label>
-      <input formControlName="dateDebut" type="date" id="dateDebut" class="wide-input">
-
-      <label for="dateFin">End Date</label>
-      <input formControlName="dateFin" type="date" id="dateFin" class="wide-input">
-      
-      <button type="button" (click)="removeTache(i)">Remove</button>
-    </div>
-  </div>
-
-  <button type="button" (click)="addTache()">Add a Task</button>
-  <br><br>
-
-  <button type="submit">Submit</button>
-</form>
+</div>

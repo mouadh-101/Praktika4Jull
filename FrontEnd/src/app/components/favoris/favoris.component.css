@@ -1,74 +1,205 @@
-/* Style pour le conteneur de la page */
-.container {
-    max-width: 1200px;
-    padding: 20px; /* Ajout de padding si nécessaire */
+/* Styles for FavorisComponent - Adapted from InternshipComponent for consistency */
+
+.favoris-list-page .page-header { /* Changed from .internship-list-page */
+  display: flex;
+  justify-content: space-between; /* Or center if only title */
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
 }
 
-/* Section de filtrage */
-.filter-section {
-    background-color: #f8f9fa;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: none; /* Supprimer l'ombre */
+.favoris-list-page .page-title { /* Changed from .internship-list-page */
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-default);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
 }
-
-/* Cards de stage */
-/* Cards de stage */
-.internship-card {
-  
-    width: 100%;
-    max-width: 600px; /* Limite la largeur des cartes */
-    border: none; /* Supprimer la bordure */
-    box-shadow: none; /* Supprimer l'ombre */
-    border-radius: 12px;
-    background-color: #ffffff;
-    padding: 15px;
-    margin: 0px; /* Réduire l'espace entre les cartes */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.internship-card:hover {
-    transform: translateY(-5px);
-    box-shadow: none; /* Supprimer l'ombre au survol */
+.favoris-list-page .page-title .bi { /* Changed from .internship-list-page */
+  color: var(--color-danger); /* Heart icon color for favorites */
 }
 
 
-/* Logos des entreprises */
-.company-logo {
-    max-width: 40px;
-    height: auto;
-    border-radius: 50%;
+/* Favoris Cards Container - Renamed from .internship-cards-container */
+.favoris-cards-container {
+  /* Uses Bootstrap .row and .col-*, so direct flex/grid might not be needed here */
 }
 
-/* Informations des stages */
-.internship-info {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    font-size: 12px;
-    color: #6c757d;
-    margin-bottom: 8px;
+/* Styling for each internship card (app-info-card with .internship-display-card) */
+/* These styles are intended to be identical to those in internship.component.css for consistency */
+:host ::ng-deep .internship-display-card { /* Re-used class name */
+  height: 100%; 
+}
+:host ::ng-deep .internship-display-card .info-card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--spacing-md);
 }
 
-.badges-container {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 8px;
+
+.internship-display-card .card-header-flex {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
 }
 
-/* Séparateur */
-.divider {
-    border-top: 1px solid #e0e0e0;
-    margin: 8px 0;
+.internship-display-card .company-logo-thumb {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  border-radius: var(--border-radius-base);
+  border: 1px solid var(--color-border-light);
+  flex-shrink: 0;
 }
 
-/* Card body */
-.card-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-    font-size: 14px;
-    line-height: 1.57142857;
-    font-weight: 400;
+.internship-display-card .header-text {
+  flex-grow: 1;
+}
+
+.internship-display-card .internship-title {
+  font-size: var(--font-size-h5);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  margin: 0 0 var(--spacing-xxs) 0;
+}
+
+.internship-display-card .company-name {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+  margin: 0;
+}
+
+.internship-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--spacing-xs);
+  font-size: var(--font-size-small);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.internship-details-grid .detail-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xxs);
+}
+.internship-details-grid .detail-item .bi {
+  color: var(--color-primary);
+  font-size: var(--font-size-base);
+  margin-right: 2px;
+}
+
+
+.badges-area {
+  margin-bottom: var(--spacing-sm);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+}
+
+.badges-area .badge {
+  padding: var(--spacing-xxs) var(--spacing-xs);
+  font-size: 11px;
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--border-radius-pill);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xxs);
+}
+
+.badges-area .time-badge {
+  background-color: var(--color-bg-alt);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border-default);
+}
+.badges-area .time-badge .bi {
+  color: var(--color-success);
+}
+
+/* Card Actions */
+.internship-display-card .card-actions {
+  margin-top: auto; 
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid var(--color-border-light);
+  display: flex;
+  justify-content: space-between; /* Space out View Details and Remove buttons */
+  align-items: center;
+}
+/* Ensure icon buttons in actions are styled correctly */
+:host ::ng-deep .internship-display-card .card-actions .custom-button.btn-icon .bi {
+  font-size: var(--font-size-large);
+}
+:host ::ng-deep .internship-display-card .card-actions .custom-button.btn-sm .bi {
+  margin-right: var(--spacing-xxs);
+}
+
+
+/* No Entries Message (re-using class from other list components) */
+.no-entries-message {
+  text-align: center;
+  margin: var(--spacing-xl) 0;
+}
+:host ::ng-deep .no-entries-message .app-info-card .info-card-body {
+  padding: var(--spacing-xl);
+}
+.no-entries-message p {
+  font-size: var(--font-size-large);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-md);
+}
+.no-entries-message .custom-button .bi { /* For icon in CTA button */
+    margin-right: var(--spacing-xs);
+}
+
+/* Loading Indicator */
+.loading-indicator {
+  text-align: center;
+  padding: var(--spacing-xl);
+}
+.loading-indicator p {
+  font-size: var(--font-size-large);
+  color: var(--color-text-secondary);
+}
+
+/* Pagination Controls - Copied for consistency */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--spacing-lg);
+}
+:host ::ng-deep .ngx-pagination {
+  padding: 0; margin: 0; display: flex; gap: var(--spacing-xs);
+}
+:host ::ng-deep .ngx-pagination .current,
+:host ::ng-deep .ngx-pagination button {
+  background: var(--color-bg-container); color: var(--color-primary);
+  border: 1px solid var(--color-border-default); border-radius: var(--border-radius-base);
+  padding: var(--spacing-xs) var(--spacing-sm); text-decoration: none; cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+:host ::ng-deep .ngx-pagination button:hover {
+  background: var(--color-bg-alt); color: var(--color-primary-dark);
+}
+:host ::ng-deep .ngx-pagination .current {
+  background: var(--color-primary); color: var(--color-text-on-primary);
+  border-color: var(--color-primary); cursor: default;
+}
+:host ::ng-deep .ngx-pagination .disabled {
+  color: var(--color-text-secondary); opacity: 0.6; cursor: not-allowed; background: var(--color-bg-alt);
+}
+:host ::ng-deep .ngx-pagination .pagination-previous a::before,
+:host ::ng-deep .ngx-pagination .pagination-previous.disabled::before {
+  content: '«'; margin-right: 0;
+}
+:host ::ng-deep .ngx-pagination .pagination-next a::after,
+:host ::ng-deep .ngx-pagination .pagination-next.disabled::after {
+  content: '»'; margin-left: 0;
+}
+:host ::ng-deep .ngx-pagination .pagination-previous,
+:host ::ng-deep .ngx-pagination .pagination-next {
+  padding: var(--spacing-xs) var(--spacing-xs);
 }

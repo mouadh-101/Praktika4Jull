@@ -1,73 +1,91 @@
-<div class="container mt-4 gradient-bg shadow-lg p-4 rounded">
-  <h2 class="text-center mb-4 text-dark">Interviews</h2>
-
-  <!-- Barre de recherche -->
-  <div class="mb-3">
-    <input type="text" class="form-control" [(ngModel)]="searchTerm" placeholder="🔍 Rechercher une interview..." />
-  </div>
-
-  <!-- Bouton Ajouter -->
-  <div class="container d-flex justify-content-start mt-4 p-3 rounded add-container">
-    <button class="btn btn-add btn-lg shadow-sm d-flex align-items-center gap-2" (click)="navigateToAdd()">
-      <i class="bi bi-plus-circle"></i> Ajouter Interview
-    </button>
-
-    <button class="btn btn-outline-dark btn-lg shadow-sm d-flex align-items-center gap-2" (click)="navigateToCalendar()">
-      <i class="bi bi-calendar"></i> Voir le Calendrier
-    </button>
-
-  </div>
-
-
-
-  <!-- Liste des Interviews sous forme de Cards -->
-  <div class="row">
-    <div class="col-lg-6 mb-4" *ngFor="let interview of interviews | filter: searchTerm | paginate: { itemsPerPage: 4, currentPage: p }" data-aos="fade-up" data-aos-delay="100">
-      <div class="service-item item-cyan position-relative shadow p-4 rounded card-bg">
-        <i class="bi bi-calendar-check icon text-primary"></i>
-        <div>
-          <h3 class="text-primary">{{ interview.dateInterview | date }}</h3>
-          <p><strong>Lieu :</strong> {{ interview.location }}</p>
-          <p><strong>Notes :</strong> {{ interview.notes }}</p>
-          
-          <p><strong>Statut :</strong> <span [ngClass]="getStatusClass(interview.status)">{{ interview.status }}</span></p>
-          <a class="btn btn-success btn-sm me-2" [href]="interview.interviewLink" target="_blank">
-            <i class="bi bi-calendar-check"></i> Join Meeting
-          </a>
-          
-
-
-          <div class="d-flex justify-content-between mt-3">
-            <!-- Bouton Modifier -->
-            <button class="btn btn-edit btn-sm me-2" (click)="navigateToEdit(interview.interviewId)">
-              <i class="bi bi-pencil-square"></i> Modifier Interview
-            </button>
-            
-            <!-- Bouton Supprimer -->
-            <button class="btn btn-delete btn-sm" (click)="deleteInterview(interview.interviewId)">
-              <i class="bi bi-trash"></i> Supprimer Interview
-            </button>
-          </div>
-        </div>
+<div class="interview-list-page">
+  <div class="container mt-4">
+    <div class="page-header">
+      <h2 class="page-title"><i class="bi bi-calendar-event-fill"></i> Scheduled Interviews</h2>
+      <div class="header-actions">
+        <app-custom-button type="primary" (buttonClick)="navigateToAdd()">
+          <i class="bi bi-plus-lg"></i> Schedule New Interview
+        </app-custom-button>
+        <app-custom-button type="secondary" (buttonClick)="navigateToCalendar()">
+          <i class="bi bi-calendar3"></i> View Calendar
+        </app-custom-button>
       </div>
     </div>
-  </div>
 
-  <!-- Pagination -->
-  <div class="d-flex justify-content-center mt-4">
-    <pagination-controls (pageChange)="p = $event"></pagination-controls>
-  </div>
+    <div class="controls-section">
+      <div class="search-bar form-field">
+        <label for="searchTerm" class="visually-hidden">Search Interviews</label>
+        <input type="text" id="searchTerm" class="form-control" [(ngModel)]="searchTerm" (ngModelChange)="filterInterviews()" placeholder="🔍 Search by title, location, or notes..." />
+      </div>
+      <div class="export-buttons">
+        <app-custom-button type="default" (buttonClick)="exportToPDF()" customClass="btn-sm">
+          <i class="bi bi-file-earmark-pdf"></i> Export PDF
+        </app-custom-button>
+        <app-custom-button type="default" (buttonClick)="exportToExcel()" customClass="btn-sm">
+          <i class="bi bi-file-earmark-excel"></i> Export Excel
+        </app-custom-button>
+      </div>
+    </div>
+    
+    <div *ngIf="isLoading" class="loading-indicator text-center">
+      <p>Loading interviews...</p>
+    </div>
 
-  <div class="d-flex gap-2">
-    <!-- Bouton Exporter PDF sans coloration -->
-<button class="btn btn-outline-dark" (click)="exportToPDF()">
-<i class="bi bi-file-earmark-pdf"></i> Exporter en PDF
-</button>
+    <app-warning-banner *ngIf="errorMessage && !isLoading" type="danger">
+      {{ errorMessage }}
+    </app-warning-banner>
 
+    <div *ngIf="getFilteredInterviews().length > 0 && !isLoading && !errorMessage" class="interview-cards-container row gy-4">
+      <div *ngFor="let interview of getFilteredInterviews() | paginate: { itemsPerPage: itemsPerPage, currentPage: p }" class="col-md-6 col-lg-4">
+        <app-info-card customClass="interview-card h-100">
+          <div class="interview-card-header">
+            <!-- Display participant info based on role, or a generic title -->
+            <h5 class="interview-title">
+              <i class="bi bi-person-video3"></i> 
+              Interview on {{ interview.dateInterview | date:'longDate' }}
+            </h5>
+            <p class="interview-time text-muted">
+              <i class="bi bi-clock"></i> {{ interview.dateInterview | date:'shortTime' }}
+            </p>
+          </div>
+          
+          <div class="interview-card-body">
+            <p class="detail-item"><i class="bi bi-geo-alt"></i> <strong>Location:</strong> {{ interview.location }}</p>
+            <p class="detail-item"><i class="bi bi-card-text"></i> <strong>Notes:</strong> {{ interview.notes | slice:0:100 }}{{ (interview.notes?.length || 0) > 100 ? '...' : '' }}</p>
+            <p class="detail-item"><i class="bi bi-info-circle"></i> <strong>Status:</strong> 
+              <span class="status-badge {{interview.status | lowercase}}">{{ interview.status }}</span>
+            </p>
+          </div>
 
-<button class="btn btn-outline-dark" (click)="exportToExcel()">
-<i class="bi bi-file-earmark-excel"></i> Exporter en Excel
-</button>
+          <div class="interview-card-actions">
+            <app-custom-button *ngIf="interview.interviewLink" type="success" customClass="btn-sm btn-join" [href]="interview.interviewLink" target="_blank">
+              <i class="bi bi-camera-video"></i> Join Meeting
+            </app-custom-button>
+             <app-custom-button type="default" customClass="btn-sm" (click)="navigateToEdit(interview.interviewId)">
+              <i class="bi bi-pencil-square"></i> Edit
+            </app-custom-button>
+            <app-custom-button type="danger" customClass="btn-sm btn-icon" (buttonClick)="deleteInterview(interview.interviewId)" title="Delete Interview">
+              <i class="bi bi-trash3"></i>
+            </app-custom-button>
+          </div>
+        </app-info-card>
+      </div>
+    </div>
 
+    <div *ngIf="getFilteredInterviews().length === 0 && !isLoading && !errorMessage" class="no-entries-message mt-4">
+      <app-info-card cardTitle="No Interviews Found">
+        <p>There are no interviews matching your criteria, or no interviews have been scheduled yet.</p>
+        <app-custom-button type="primary" (buttonClick)="navigateToAdd()" customClass="mt-3">
+          <i class="bi bi-plus-lg"></i> Schedule First Interview
+        </app-custom-button>
+      </app-info-card>
+    </div>
+    
+    <div class="pagination-container mt-4" *ngIf="getFilteredInterviews().length > itemsPerPage">
+      <pagination-controls (pageChange)="p = $event"
+                           previousLabel=""
+                           nextLabel="">
+      </pagination-controls>
+    </div>
   </div>
 </div>

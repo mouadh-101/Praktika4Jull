@@ -12,11 +12,11 @@ export class DocumentBackComponent implements OnInit {
   documents: Document[] = [];
   filteredDocuments: Document[] = [];
   selectedDuree: Duree | '' = '';
-  selectedStatus: StatusDoc | '' = ''; // Ajout pour le filtrage par statut
-  public Duree = Duree;
-  public StatusDoc = StatusDoc; // Ajouter la référence à StatusDoc
+  selectedStatus: StatusDoc | '' = '';
+  public Duree = Duree; // Used in template
+  public StatusDoc = StatusDoc; // Used in template
   page: number = 1;
-  itemsPerPage: number = 6;
+  itemsPerPage: number = 10; // Increased items per page for admin view
 
   constructor(private documentService: DocumentService) {}
 
@@ -24,59 +24,52 @@ export class DocumentBackComponent implements OnInit {
     this.chargerDocuments();
   }
 
-  // Fonction de filtrage par durée et statut
   filterDocuments(): void {
     let filtered = this.documents;
-
-    // Filtrage par durée
     if (this.selectedDuree) {
       filtered = filtered.filter(doc => doc.duree === this.selectedDuree);
     }
-
-    // Filtrage par statut
     if (this.selectedStatus) {
       filtered = filtered.filter(doc => doc.statusDoc === this.selectedStatus);
     }
-
     this.filteredDocuments = filtered;
+    this.page = 1; // Reset to first page after filtering
   }
 
-  filterDocumentsByType(): void {
-    this.filterDocuments(); // Appel de la méthode commune
-  }
-
-
-  // Charger les documents
   chargerDocuments(): void {
-    this.documentService.getDocuments().subscribe(data => {
-      this.documents = data.map((doc: any) => {
-        if (doc.DateDebut) {
-          doc.DateDebut = new Date(doc.DateDebut);
-        }
-        if (doc.DateFin) {
-          doc.DateFin = new Date(doc.DateFin);
-        }
-        return doc;
-      });
-      this.filteredDocuments = [...this.documents]; // Initialisation des documents filtrés
-    }, error => {
-      console.error('Erreur lors du chargement des documents', error);
+    this.documentService.getDocuments().subscribe({
+      next: data => {
+        this.documents = data.map((doc: any) => {
+          // Assuming dates are already handled or are strings; if conversion needed, do it here.
+          // Example: doc.dateDebut = new Date(doc.dateDebut);
+          return doc;
+        });
+        this.filterDocuments(); // Apply initial empty filters to populate filteredDocuments
+      },
+      error: error => {
+        console.error('Erreur lors du chargement des documents', error);
+        alert('Error loading documents: ' + (error.message || 'Unknown error'));
+      }
     });
   }
 
   telechargerDemandeStage(id: number): void {
-    this.documentService.telechargerDemandeStage(id).subscribe(response => {
-      this.telechargerFichier(response, 'demande_stage.pdf');
-    }, error => {
-      console.error('Erreur lors du téléchargement', error);
+    this.documentService.telechargerDemandeStage(id).subscribe({
+      next: response => this.telechargerFichier(response, `demande_stage_${id}.pdf`),
+      error: error => {
+        console.error('Erreur lors du téléchargement de la demande', error);
+        alert('Error downloading request document: ' + (error.message || 'Unknown error'));
+      }
     });
   }
 
   telechargerLettreAffectation(id: number): void {
-    this.documentService.telechargerLettreAffectation(id).subscribe(response => {
-      this.telechargerFichier(response, 'lettre_affectation.pdf');
-    }, error => {
-      console.error('Erreur lors du téléchargement', error);
+    this.documentService.telechargerLettreAffectation(id).subscribe({
+      next: response => this.telechargerFichier(response, `lettre_affectation_${id}.pdf`),
+      error: error => {
+        console.error('Erreur lors du téléchargement de la lettre', error);
+        alert('Error downloading assignment letter: ' + (error.message || 'Unknown error'));
+      }
     });
   }
 
@@ -89,51 +82,58 @@ export class DocumentBackComponent implements OnInit {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
   }
 
+  // Simplified disabling logic for view/download links (disabled if ENATTEND or REFUSER)
   estDesactive(status: StatusDoc): boolean {
     return status === StatusDoc.ENATTEND || status === StatusDoc.REFUSER;
   }
 
-  estDesactivee(status: StatusDoc): boolean {
-    return status === StatusDoc.ENATTEND;
-  }
-
-  estDesactiveee(status: StatusDoc): boolean {
-    return status === StatusDoc.REFUSER || status === StatusDoc.VALIDE;
-  }
+  // The logic for estDesactiveee (disabling validate/reject if already VALIDE or REFUSER)
+  // is now directly in the template: [disabled]="document.statusDoc === StatusDoc.VALIDE || document.statusDoc === StatusDoc.REFUSER"
+  // So, estDesactivee and estDesactiveee can be removed if not used elsewhere.
 
   validerDocument(id: number): void {
-    if (confirm('Êtes-vous sûr de vouloir valider ce document ?')) {
+    if (confirm('Are you sure you want to approve this document?')) {
       this.documentService.validerDocument(id).subscribe({
         next: () => {
-          const document = this.documents.find(doc => doc.docid === id);
+          const document = this.filteredDocuments.find(doc => doc.docid === id);
           if (document) {
             document.statusDoc = StatusDoc.VALIDE;
           }
-          alert('Document validé avec succès');
+          // Also update the main documents array if it's used for re-filtering
+          const mainDoc = this.documents.find(doc => doc.docid === id);
+          if (mainDoc) {
+            mainDoc.statusDoc = StatusDoc.VALIDE;
+          }
+          alert('Document approved successfully.');
         },
         error: (err) => {
-          console.error('Erreur lors de la validation', err);
-          alert('Erreur lors de la validation du document');
+          console.error('Error approving document:', err);
+          alert('Error approving document: ' + (err.error?.message || err.message));
         }
       });
     }
   }
 
   refuserDocument(id: number): void {
-    if (confirm('Êtes-vous sûr de vouloir refuser ce document ?')) {
+    if (confirm('Are you sure you want to reject this document?')) {
       this.documentService.refuserDocument(id).subscribe({
         next: () => {
-          const document = this.documents.find(doc => doc.docid === id);
+          const document = this.filteredDocuments.find(doc => doc.docid === id);
           if (document) {
             document.statusDoc = StatusDoc.REFUSER;
           }
-          alert('Document refusé avec succès');
+           const mainDoc = this.documents.find(doc => doc.docid === id);
+          if (mainDoc) {
+            mainDoc.statusDoc = StatusDoc.REFUSER;
+          }
+          alert('Document rejected successfully.');
         },
         error: (err) => {
-          console.error('Erreur lors du refus', err);
-          alert('Erreur lors du refus du document');
+          console.error('Error rejecting document:', err);
+          alert('Error rejecting document: ' + (err.error?.message || err.message));
         }
       });
     }

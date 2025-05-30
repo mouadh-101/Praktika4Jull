@@ -1,127 +1,145 @@
-/* Form container */
-form {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Spacing between inputs */
-  input {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-  
-  /* Placeholder styling */
-  input::placeholder {
-    color: #888;
-  }
-  
-  /* Label styling */
-  label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 6px;
-    color: rgb(56, 141, 168); /* Use theme color for labels */
-  }
-  
-  /* Styling for the buttons */
-  button {
-    background-color: rgb(56, 141, 168); /* Primary theme color for buttons */
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-    margin-top: 10px;
-  }
-  
-  /* Button hover effect */
-  button:hover {
-    background-color: #428b97; /* Slightly darker shade for hover effect */
-  }
-  
-  /* Style for the "Supprimer" button (red color for delete action) */
-  button[type="button"] {
-    background-color: #dc3545;
-    margin-left: 10px;
-  }
-  
-  button[type="button"]:hover {
-    background-color: #c82333;
-  }
-  
-  /* Spacing between form sections */
-  form > div {
-    margin-bottom: 15px;
-  }
-  
-  /* Form array (Taches) section styling */
-  formArrayName {
-    margin-top: 20px;
-  }
-  
-  formArrayName div {
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-  }
-  
-  /* Form submit button */
-  button[type="submit"] {
-    background-color: rgb(56, 141, 168); /* Use theme color for submit button */
-    margin-top: 20px;
-  }
-  
-  button[type="submit"]:hover {
-    background-color: #428b97;
-  }
-  textarea {
-    width: 100%; /* Makes it take up the full width of the container */
-    max-width: 500px; /* Optional: sets a maximum width */
-    height: 150px; /* You can adjust the height as needed */
-    resize: vertical; /* Allows resizing of the height */
-  }
-  
-  input[type="text"], input[type="date"] {
-    width: 100%;
-    max-width: 500px;
-  }
-/* Make the form container wide */
-.wide-form {
-  width: 80%; /* Adjust width as needed */
-  margin: 0 auto; /* Center the form */
+/* Styles for AddPlanComponent */
+
+.add-plan-page {
+  background-color: var(--color-bg-alt);
+  padding: var(--spacing-xl) 0;
+  min-height: calc(100vh - var(--navbar-height, 60px) - var(--footer-height, 60px));
 }
 
-/* Style input fields and textareas to be wide */
-.wide-input {
-  width: 100%; /* Full width of the parent container */
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+.add-plan-page .container {
+  max-width: 900px; /* Wider card for this complex form */
 }
 
-/* Optional: Adjust button styling */
-button {
-  padding: 10px 15px;
-  background-color: rgb(56, 141, 168); /* Adjust button color as per your theme */
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
+:host ::ng-deep .add-plan-card .info-card-title {
+  text-align: center;
+  font-size: var(--font-size-h2);
+}
+:host ::ng-deep .add-plan-card .info-card-body {
+  padding-top: var(--spacing-lg);
 }
 
-button:hover {
-  background-color: #4d8fa3;
+.add-plan-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg); /* Gap between form sections */
 }
-  
+
+.form-section {
+  padding: var(--spacing-md);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--border-radius-base);
+  background-color: var(--color-bg-body);
+}
+
+.section-subtitle {
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-xs);
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: var(--spacing-md);
+}
+.form-field:last-child {
+  margin-bottom: 0;
+}
+
+.form-field label {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xs);
+  text-align: left;
+}
+
+.form-field label .required-asterisk {
+  color: var(--color-danger);
+  margin-left: var(--spacing-xxs);
+}
+
+/* Inputs, textareas are styled globally by styles.css */
+input[type="text"],
+input[type="date"],
+textarea {
+  width: 100%;
+}
+textarea {
+  min-height: 80px; /* Default min-height for textareas in this form */
+}
+
+
+.form-row {
+  display: flex;
+  gap: var(--spacing-md);
+}
+.form-row .form-field {
+  flex: 1;
+}
+
+.error-text {
+  font-size: var(--font-size-small);
+  color: var(--color-danger);
+  margin-top: var(--spacing-xs);
+  text-align: left;
+}
+
+/* Task Planning Section */
+.task-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.task-item-form-group {
+  padding: var(--spacing-md);
+  border: 1px dashed var(--color-border-default);
+  border-radius: var(--border-radius-base);
+  background-color: var(--color-bg-alt);
+}
+
+.task-item-title {
+  font-size: var(--font-size-large); /* 16px */
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-default);
+  margin-bottom: var(--spacing-sm);
+}
+
+.btn-remove-task.custom-button {
+  margin-top: var(--spacing-sm);
+  align-self: flex-end; /* Align remove button to the right within task group */
+  /* Uses app-custom-button type="danger" and btn-sm for styling */
+}
+.btn-remove-task.custom-button .bi {
+  margin-right: var(--spacing-xs);
+}
+
+.no-tasks-message p {
+  font-style: italic;
+  color: var(--color-text-secondary);
+  text-align: center;
+  padding: var(--spacing-md) 0;
+}
+
+.btn-add-task.custom-button {
+  /* Uses app-custom-button type="secondary" */
+  display: inline-flex; /* To not take full width */
+  align-self: flex-start; /* Align to left */
+}
+.btn-add-task.custom-button .bi {
+  margin-right: var(--spacing-xs);
+}
+
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-border-light);
+}

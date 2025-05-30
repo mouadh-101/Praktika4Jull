@@ -1,12 +1,158 @@
-.card-title {
-    font-size: 1.25rem;
-  }
-  
-  .card-body {
-    background-color: #f9f9f9;
-  }
-  
-  .btn-sm i {
-    margin-right: 5px;
-  }
-  
+/* Styles for JournalbackComponent */
+
+.journal-back-page .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.journal-back-page .page-title {
+  font-size: var(--font-size-h1); /* Or h2 if preferred for sub-section admin views */
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-default);
+  margin: 0;
+}
+
+.journal-back-page .header-actions { /* In case an Add button is added later */
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+/* Journal Entry Cards Styling */
+.journal-entries-container {
+  /* Uses Bootstrap .row and .col-*, direct flex/grid might not be needed here */
+}
+
+/* Styling for each journal card (app-info-card with .journal-entry-card) */
+:host ::ng-deep .journal-entry-card {
+  /* Ensure cards have a consistent height if desired, e.g. using .h-100 from Bootstrap in HTML */
+}
+
+:host ::ng-deep .journal-entry-card .info-card-body {
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.journal-card-header {
+  margin-bottom: var(--spacing-sm);
+}
+
+.journal-task-title {
+  font-size: var(--font-size-h5); /* Or h4 if more prominence needed */
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  word-break: break-word; /* Prevent long task titles from breaking layout */
+}
+.journal-task-title .bi {
+  font-size: 1.2em;
+  color: var(--color-primary-dark);
+  flex-shrink: 0;
+}
+
+.journal-card-body-content { /* The div wrapping content other than actions */
+  flex-grow: 1;
+}
+
+.journal-date {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-md);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+.journal-date .bi {
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+.journal-card-actions {
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid var(--color-border-light);
+  display: flex;
+  justify-content: flex-end; /* Align icon buttons to the right */
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+:host ::ng-deep .journal-card-actions .custom-button.btn-icon .bi {
+  font-size: var(--font-size-large);
+}
+:host ::ng-deep .journal-card-actions .delete-btn .bi {
+  color: var(--color-danger);
+}
+/* Example for edit button if added:
+:host ::ng-deep .journal-card-actions .edit-btn .bi {
+  color: var(--color-accent);
+}
+*/
+
+/* No Entries Message */
+.no-entries-message {
+  text-align: center;
+  margin: var(--spacing-xl) 0;
+}
+:host ::ng-deep .no-entries-message .app-info-card .info-card-body {
+  padding: var(--spacing-xl);
+}
+.no-entries-message p {
+  font-size: var(--font-size-large);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-md);
+}
+
+/* Loading Indicator (optional, if isLoading flag is used to show a message/spinner) */
+.loading-indicator {
+  text-align: center;
+  padding: var(--spacing-xl);
+  font-size: var(--font-size-large);
+  color: var(--color-text-secondary);
+}
+
+/* Pagination Controls - if pagination is re-added */
+/* Styles copied from ListDocument.component.css for consistency */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--spacing-lg);
+}
+:host ::ng-deep .ngx-pagination {
+  padding: 0; margin: 0; display: flex; gap: var(--spacing-xs);
+}
+:host ::ng-deep .ngx-pagination .current,
+:host ::ng-deep .ngx-pagination button {
+  background: var(--color-bg-container); color: var(--color-primary);
+  border: 1px solid var(--color-border-default); border-radius: var(--border-radius-base);
+  padding: var(--spacing-xs) var(--spacing-sm); text-decoration: none; cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+:host ::ng-deep .ngx-pagination button:hover {
+  background: var(--color-bg-alt); color: var(--color-primary-dark);
+}
+:host ::ng-deep .ngx-pagination .current {
+  background: var(--color-primary); color: var(--color-text-on-primary);
+  border-color: var(--color-primary); cursor: default;
+}
+:host ::ng-deep .ngx-pagination .disabled {
+  color: var(--color-text-secondary); opacity: 0.6; cursor: not-allowed; background: var(--color-bg-alt);
+}
+:host ::ng-deep .ngx-pagination .pagination-previous a::before,
+:host ::ng-deep .ngx-pagination .pagination-previous.disabled::before {
+  content: '«'; margin-right: 0;
+}
+:host ::ng-deep .ngx-pagination .pagination-next a::after,
+:host ::ng-deep .ngx-pagination .pagination-next.disabled::after {
+  content: '»'; margin-left: 0;
+}
+:host ::ng-deep .ngx-pagination .pagination-previous,
+:host ::ng-deep .ngx-pagination .pagination-next {
+  padding: var(--spacing-xs) var(--spacing-xs);
+}

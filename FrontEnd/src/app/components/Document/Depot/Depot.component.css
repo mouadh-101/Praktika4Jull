@@ -1,4 +1,159 @@
-.custom-image {
-    width: 120px;
+/* Styles for DepotComponent */
+
+.depot-page {
+  background-color: var(--color-bg-alt);
+  padding: var(--spacing-xl) 0;
+  min-height: calc(100vh - var(--navbar-height, 60px) - var(--footer-height, 60px));
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.depot-page .container {
+  max-width: 800px; /* Max width for the content card */
+  width: 100%;
+}
+
+:host ::ng-deep .depot-card .info-card-title {
+  text-align: center;
+  font-size: var(--font-size-h2);
+}
+:host ::ng-deep .depot-card .info-card-body {
+  padding-top: var(--spacing-sm); /* Less padding if title is prominent */
+}
+
+
+.depot-form .form-description {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-lg);
+  text-align: center;
+}
+
+.file-upload-section {
+  display: grid;
+  grid-template-columns: 1fr; /* Stack by default */
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+/* On wider screens, maybe side-by-side if desired, but stacked is often clearer for file inputs */
+/* @media (min-width: 768px) {
+  .file-upload-section {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   }
-  
+} */
+
+.form-field.file-field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align label and button to the start */
+  padding: var(--spacing-md);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--border-radius-base);
+  background-color: var(--color-bg-body);
+}
+
+.form-field.file-field label {
+  font-size: var(--font-size-large); /* Slightly larger label for file sections */
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-default);
+  margin-bottom: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+.form-field.file-field label .bi {
+  color: var(--color-primary);
+  font-size: 1.3em;
+}
+.file-status {
+  font-size: var(--font-size-small);
+  color: var(--color-success);
+  margin-left: var(--spacing-xs);
+}
+.file-status .bi {
+  font-size: 1em; /* Match text size */
+  color: var(--color-success);
+}
+
+
+.form-field.file-field input[type="file"] {
+  display: none; /* Hide the actual file input */
+}
+
+.btn-upload.custom-button { /* For the app-custom-button triggering the file input */
+  width: auto; /* Don't make it full width */
+  padding: var(--spacing-xs) var(--spacing-md);
+  margin-bottom: var(--spacing-xs); /* Space before file name */
+}
+.btn-upload.custom-button .bi {
+  margin-right: var(--spacing-xs);
+}
+
+.file-name-display {
+  font-size: var(--font-size-small);
+  color: var(--color-text-secondary);
+  font-style: italic;
+  word-break: break-all; /* Prevent long file names from breaking layout */
+}
+
+.error-text { /* For the "at least one file" message */
+  font-size: var(--font-size-base); /* More prominent than field errors */
+  color: var(--color-danger);
+}
+
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end; /* Default for cancel/save */
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-border-light);
+}
+.form-actions.main-actions { /* For the main submit button */
+  justify-content: center;
+  border-top: none; /* No border if it's the primary action section */
+  padding-top: 0;
+}
+.form-actions.main-actions .custom-button {
+  padding: var(--spacing-sm) var(--spacing-xl); /* Larger primary button */
+  font-size: var(--font-size-large);
+}
+.form-actions.main-actions .custom-button .bi {
+  margin-right: var(--spacing-sm);
+}
+
+
+/* Existing Depot Section */
+.existing-depot-section {
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-lg);
+}
+
+.section-divider {
+  border-color: var(--color-border-default);
+  margin: 0 0 var(--spacing-lg) 0;
+}
+
+.existing-depot-title {
+  font-size: var(--font-size-h4);
+  color: var(--color-text-default);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--spacing-md);
+  text-align: center;
+}
+
+.existing-depot-section p {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-md);
+  text-align: center;
+}
+.existing-depot-section p .bi {
+  margin-right: var(--spacing-xs);
+  color: var(--color-primary);
+}
+
+/* app-warning-banner styling is handled by its own component and global styles */
