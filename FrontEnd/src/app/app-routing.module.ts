@@ -21,7 +21,7 @@ import { InterviewAddComponent } from './components/interview/interview-add/inte
 import { InterviewListComponent } from './components/interview/interview-list/interview-list.component';
 
 import { CalenderComponent } from './components/calender/calender.component';
-import { WebsocketComponent } from './components/websocket/websocket.component';
+// import { WebsocketComponent } from './components/websocket/websocket.component'; // Removed
 import { ChatComponent } from './components/chat/chat.component';
 import { VideoCallComponent } from './components/video-call/video-call.component';
 import { ListDocumentComponent } from './components/Document/ListDocument/ListDocument.component';
@@ -64,7 +64,7 @@ const routes: Routes = [
   { path: 'internships/edit/:id', component: UpdateInternshipComponent,canActivate: [AuthGuard]  },
   { path: 'internships/details/:id', component: InternshipDetailsComponent,canActivate: [AuthGuard]  },
   { path: 'favoris', component: FavorisComponent },
-  { path: 'chat', component: WebsocketComponent},
+  // { path: 'chat', component: WebsocketComponent}, // Removed
   { path: 'chatapp', component: ChatComponent},
   {
     path: 'video-call',

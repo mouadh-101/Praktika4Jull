@@ -1,140 +1,98 @@
-<div class="container text-center mt-5">
-  <!-- Bouton Ajouter une Convention -->
-  <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addTermModal">
-    <i class="bi bi-plus-circle"></i> Ajouter un Terme
-  </button>
-</div>
-<div class="container text-center mt-5">
-  <h3>Liste des Termes</h3>
+<div class="terms-list-page">
+  <div class="container mt-4">
+    <div class="page-header">
+      <h2 class="page-title"><i class="bi bi-file-text-fill"></i> Terms & Policies</h2>
+      <app-custom-button type="primary" (click)="prepareAddTerm()">
+        <i class="bi bi-plus-lg"></i> Add New Term
+      </app-custom-button>
+    </div>
 
+    <div *ngIf="isLoading" class="loading-indicator text-center">
+      <p>Loading terms...</p>
+    </div>
 
-</div>
+    <app-warning-banner *ngIf="errorMessage && !isLoading" type="danger">
+      {{ errorMessage }}
+    </app-warning-banner>
 
-<div class="container">
-  <div class="table-responsive">
-    <table class="table table-striped table-hover table-bordered mt-3 text-start">
-      <thead class="table-dark">
-      <tr>
+    <div *ngIf="termsList && termsList.length > 0 && !isLoading && !errorMessage" class="table-responsive-container mt-4">
+      <table class="table app-table"> <!-- Added app-table for global styling -->
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Description (Snippet)</th>
+            <th class="text-end">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let term of termsList">
+            <td>{{ term.title }}</td>
+            <td>{{ term.description | slice:0:100 }}{{ (term.description?.length || 0) > 100 ? '...' : '' }}</td>
+            <td class="actions-cell text-end">
+              <app-custom-button type="icon" (click)="viewTerm(term.termId)" title="View Details">
+                <i class="bi bi-eye-fill"></i>
+              </app-custom-button>
+              <app-custom-button type="icon" (click)="prepareEditTerm(term)" customClass="ms-2" title="Edit Term">
+                <i class="bi bi-pencil-square"></i>
+              </app-custom-button>
+              <app-custom-button type="icon" (click)="deleteTerm(term.termId)" customClass="ms-2 delete-btn" title="Delete Term">
+                <i class="bi bi-trash3-fill"></i>
+              </app-custom-button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-        <th class="col-3">Titre</th>
-        <th class="col-5">Description</th> <!-- Colonne élargie -->
-        <th class="col-3 text-end">Actions</th> <!-- Alignement à droite -->
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let term of termsList">
-
-        <td class="col-3">{{ term.title }}</td>
-        <td class="col-5">{{ term.description }}</td>
-        <td class="col-3">
-          <div class="d-flex gap-2 justify-content-end"> <!-- Ajout de justify-content-end -->
-            <button class="btn btn-info btn-sm" (click)="viewTerm(term.termId)">
-              <i class="bi bi-eye"></i> Voir
-            </button>
-            <button class="btn btn-warning btn-sm"
-                    data-bs-toggle="modal"
-                    data-bs-target="#editTermModal"
-                    (click)="editTerm(term)">
-              <i class="bi bi-pencil-square"></i> Modifier
-            </button>
-            <button *ngIf="term.termId"
-                    class="btn btn-danger btn-sm"
-                    (click)="deleteTerm(term.termId)">
-              <i class="bi bi-trash"></i> Supprimer
-            </button>
-          </div>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- Modals (contenu inchangé) -->
-
-<!-- Modal Formulaire d'ajout de Term -->
-<!-- Modal Formulaire d'ajout de Term -->
-<div class="modal fade" id="addTermModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalLabel">Ajouter un Term</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form #termForm="ngForm" (ngSubmit)="onSubmit(termForm)">
-          <div class="mb-3">
-            <label for="title" class="form-label">Titre</label>
-            <input
-              type="text"
-              class="form-control"
-              id="title"
-              name="title"
-              [(ngModel)]="newTerm.title"
-              required
-              minlength="3"
-              #title="ngModel"
-            />
-            <div *ngIf="title.invalid && (title.dirty || title.touched)" class="text-danger">
-              <div *ngIf="title.errors?.['required']">Le titre est requis.</div>
-              <div *ngIf="title.errors?.['minlength']">Le titre doit comporter au moins 3 caractères.</div>
-            </div>
-          </div>
-
-          <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <input
-              type="text"
-              class="form-control"
-              id="description"
-              name="description"
-              [(ngModel)]="newTerm.description"
-              required
-              minlength="5"
-              #description="ngModel"
-            />
-            <div *ngIf="description.invalid && (description.dirty || description.touched)" class="text-danger">
-              <div *ngIf="description.errors?.['required']">La description est requise.</div>
-              <div *ngIf="description.errors?.['minlength']">La description doit comporter au moins 5 caractères.</div>
-            </div>
-          </div>
-
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-            <button type="submit" class="btn btn-primary" [disabled]="termForm.invalid">Enregistrer</button>
-          </div>
-        </form>
-      </div>
+    <div *ngIf="termsList && termsList.length === 0 && !isLoading && !errorMessage" class="no-entries-message mt-4">
+      <app-info-card cardTitle="No Terms Found">
+        <p>There are no terms or policies defined yet.</p>
+        <app-custom-button type="primary" (click)="prepareAddTerm()" customClass="mt-3">
+          <i class="bi bi-plus-lg"></i> Add First Term
+        </app-custom-button>
+      </app-info-card>
     </div>
   </div>
 </div>
 
-<!-- Modal Bootstrap géré avec Angular -->
-<!-- Modal Bootstrap -->
-<div class="modal fade" id="editTermModal" tabindex="-1" aria-labelledby="editTermModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+<!-- Add/Edit Term Modal (Bootstrap) -->
+<div class="modal fade" id="termModal" tabindex="-1" aria-labelledby="termModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="editTermModalLabel">Modifier le terme</h4>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h5 class="modal-title" id="termModalLabel">{{ editMode ? 'Edit Term' : 'Add New Term' }}</h5>
+        <app-custom-button type="icon" customClass="btn-close-modal" (click)="closeTermModal()">
+            <i class="bi bi-x-lg"></i>
+        </app-custom-button>
       </div>
       <div class="modal-body">
-        <form #editForm="ngForm" (ngSubmit)="updateTerm()">
-          <div class="form-group">
-            <label for="title">Titre</label>
-            <input id="title" name="title" class="form-control" [(ngModel)]="selectedTerm.title" required>
+        <form #termFormInstance="ngForm" (ngSubmit)="onSubmitModalForm(termFormInstance)" class="term-modal-form">
+          <div class="form-field">
+            <label for="modalTitle">Title <span class="required-asterisk">*</span></label>
+            <input type="text" id="modalTitle" name="title" class="form-control" 
+                   [(ngModel)]="currentTerm.title" required minlength="3" #modalTitleInput="ngModel">
+            <div *ngIf="modalTitleInput.invalid && (modalTitleInput.dirty || modalTitleInput.touched)" class="error-text">
+              <span *ngIf="modalTitleInput.errors?.['required']">Title is required.</span>
+              <span *ngIf="modalTitleInput.errors?.['minlength']">Title must be at least 3 characters.</span>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label for="description">Description</label>
-            <textarea id="description" name="description" class="form-control" [(ngModel)]="selectedTerm.description" required></textarea>
-          </div>
-
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-            <button type="submit" class="btn btn-success">Sauvegarder</button>
+          <div class="form-field">
+            <label for="modalDescription">Description <span class="required-asterisk">*</span></label>
+            <textarea id="modalDescription" name="description" class="form-control" rows="5"
+                      [(ngModel)]="currentTerm.description" required minlength="5" #modalDescriptionInput="ngModel"></textarea>
+            <div *ngIf="modalDescriptionInput.invalid && (modalDescriptionInput.dirty || modalDescriptionInput.touched)" class="error-text">
+              <span *ngIf="modalDescriptionInput.errors?.['required']">Description is required.</span>
+              <span *ngIf="modalDescriptionInput.errors?.['minlength']">Description must be at least 5 characters.</span>
+            </div>
           </div>
         </form>
+      </div>
+      <div class="modal-footer">
+        <app-custom-button type="default" (buttonClick)="closeTermModal()">Cancel</app-custom-button>
+        <app-custom-button type="primary" (buttonClick)="onSubmitModalForm(termFormInstance)" [disabled]="termFormInstance.invalid">
+          {{ editMode ? 'Save Changes' : 'Add Term' }}
+        </app-custom-button>
       </div>
     </div>
   </div>

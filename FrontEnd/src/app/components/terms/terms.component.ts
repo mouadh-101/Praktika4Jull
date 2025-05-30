@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import {Convention, Terms} from 'src/app/core/model/db';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core'; // Added ViewChild, ElementRef
+import { Terms } from 'src/app/core/model/db'; // Convention removed as unused
 import { TermsService } from "../../services/terms.service";
 import { Router } from '@angular/router';
-import { NgForm } from "@angular/forms"; // Import pour la gestion des formulaires
-// Assurez-vous que le modèle Convention est bien importé
+import { NgForm } from "@angular/forms";
+import * as bootstrap from 'bootstrap'; // Import bootstrap for modal control
 
 @Component({
   selector: 'app-terms',
@@ -11,96 +11,135 @@ import { NgForm } from "@angular/forms"; // Import pour la gestion des formulair
   styleUrls: ['./terms.component.css']
 })
 export class TermsComponent implements OnInit {
+  @ViewChild('termModal') termModalElement!: ElementRef; // For Bootstrap modal instance
+
   termsList: Terms[] = [];
-  conventionsList: Convention[] = []; // Liste des conventions à afficher dans le formulaire
+  
+  currentTerm: Terms = this.resetCurrentTerm(); // For add/edit form
+  editMode: boolean = false;
+  termModalInstance: any; // Bootstrap modal instance
 
-  newTerm: Terms = {
-    title: '',
-    description: '',
+  isLoading: boolean = true;
+  errorMessage: string | null = null;
 
-  };
-  selectedTerm: Terms = { termId: 0, title: '', description: '' };
   constructor(private termsService: TermsService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadTerms();
-    this.loadConventions(); // Charger les conventions disponibles
+  }
+
+  ngAfterViewInit(): void { // Initialize modal instance after view is ready
+    if (this.termModalElement) {
+      this.termModalInstance = new bootstrap.Modal(this.termModalElement.nativeElement);
+    }
+  }
+
+  resetCurrentTerm(): Terms {
+    return { termId: undefined, title: '', description: '' }; // termId undefined for new term
   }
 
   loadTerms(): void {
-    this.termsService.getAllTerms().subscribe((data) => {
-      this.termsList = data;
+    this.isLoading = true;
+    this.errorMessage = null;
+    this.termsService.getAllTerms().subscribe({
+      next: (data) => {
+        this.termsList = data;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Error loading terms:', err);
+        this.errorMessage = 'Failed to load terms. ' + (err.error?.message || err.message);
+        this.isLoading = false;
+      }
     });
   }
 
-  loadConventions(): void {
-    this.termsService.getAllConventions().subscribe((data) => {
-      this.conventionsList = data;
-    });
-  }
-  // Méthode pour supprimer un terme
-  deleteTerm(termId: number | undefined) {
+  deleteTerm(termId: number | undefined): void {
     if (termId === undefined) {
-      console.error('Term ID is undefined');
+      console.error('Term ID is undefined for delete.');
+      alert('Cannot delete: Term ID is missing.');
       return;
     }
 
-    if (confirm('Êtes-vous sûr de vouloir supprimer ce terme ?')) {
-      this.termsService.deleteTerm(termId).subscribe(() => {
-        this.loadTerms();  // Recharger la liste après suppression
+    if (confirm('Are you sure you want to delete this term?')) {
+      this.termsService.deleteTerm(termId).subscribe({
+        next: () => {
+          this.loadTerms();  // Recharger la liste après suppression
+          alert('Term deleted successfully.');
+        },
+        error: (err) => {
+          console.error('Error deleting term:', err);
+          alert('Failed to delete term. ' + (err.error?.message || err.message));
+        }
       });
     }
   }
 
-
-  addTerm(): void {
-    this.termsService.addTerms(this.newTerm).subscribe((data) => {
-      this.termsList.push(data);
-      // Fermer la modal après ajout
-      const modal = document.getElementById('addTermModal') as any;
-      modal?.modal('hide');
-    });
+  prepareAddTerm(): void {
+    this.editMode = false;
+    this.currentTerm = this.resetCurrentTerm();
+    this.termModalInstance?.show();
   }
 
-  onSubmit(termForm: NgForm): void {
-    if (termForm.valid) {
-      this.addTerm();
-      termForm.resetForm(); // Réinitialiser le formulaire après soumission
-    } else {
-      // Optionnel : Vous pouvez aussi afficher un message pour informer l'utilisateur si le formulaire est invalide
-      alert('Veuillez corriger les erreurs dans le formulaire.');
+  prepareEditTerm(term: Terms): void {
+    this.editMode = true;
+    this.currentTerm = { ...term }; // Create a copy to avoid modifying list directly
+    this.termModalInstance?.show();
+  }
+  
+  closeTermModal(): void {
+    this.termModalInstance?.hide();
+  }
+
+  onSubmitModalForm(termForm: NgForm): void {
+    if (termForm.invalid) {
+      alert('Please correct the errors in the form.');
+      // Mark all as touched if using Reactive Forms, for template-driven, Angular does it on submit attempt
+      Object.values(termForm.controls).forEach(control => {
+        control.markAsTouched();
+      });
+      return;
     }
-  }
 
-
-
-  // Fonction pour mettre à jour le terme
-  updateTerm() {
-    if (this.selectedTerm && this.selectedTerm.termId) {
-      this.termsService.updateTerm(this.selectedTerm).subscribe(
-        (response: Terms) => {
-          alert('Terme mis à jour avec succès !');
-          this.loadTerms(); // Recharger la liste après mise à jour
+    if (this.editMode) { // Update existing term
+      if (this.currentTerm.termId === undefined) {
+        console.error("Cannot update term: ID is undefined.");
+        alert("Error: Cannot update term without a valid ID.");
+        return;
+      }
+      this.termsService.updateTerm(this.currentTerm).subscribe({
+        next: (response: Terms) => {
+          alert('Term updated successfully!');
+          this.loadTerms();
+          this.closeTermModal();
         },
-        (error: any) => {
-          alert('Erreur lors de la mise à jour du terme');
-          console.error(error);
+        error: (error: any) => {
+          alert('Error updating term. ' + (error.error?.message || error.message));
+          console.error('Error updating term:', error);
         }
-      );
+      });
+    } else { // Add new term
+      this.termsService.addTerms(this.currentTerm).subscribe({
+        next: (data) => {
+          // this.termsList.push(data); // Optimistic update, better to reload
+          this.loadTerms();
+          alert('Term added successfully!');
+          this.closeTermModal();
+        },
+        error: (error: any) => {
+          alert('Error adding term. ' + (error.error?.message || error.message));
+          console.error('Error adding term:', error);
+        }
+      });
     }
   }
-  editTerm(term: Terms) {
-    this.selectedTerm = { ...term }; // Copie de l'objet pour éviter la liaison directe
-  }
 
-  // 🔹 Naviguer vers la page de détails d'un terme
   viewTerm(id: number | undefined): void {
     if (id !== undefined) {
-      this.router.navigate(['/terms', id]);
+      this.router.navigate(['/terms', id]); // Navigate to term detail page
     } else {
-      console.error('ID du terme non défini');
+      console.error('Term ID is undefined for view.');
+      alert('Cannot view details: Term ID is missing.');
     }
   }
-
-
 }

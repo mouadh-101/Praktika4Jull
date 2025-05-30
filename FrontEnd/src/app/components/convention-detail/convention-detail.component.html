@@ -1,114 +1,109 @@
-<div class="container mt-5">
-  <!-- Affichage pendant le chargement -->
-  <div *ngIf="loading" class="text-center">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Chargement...</span>
-    </div>
-    <p class="mt-3 text-muted">Chargement des détails de la convention...</p>
-  </div>
-
-  <!-- Affichage des données -->
-  <div *ngIf="convention && !loading" class="document-container shadow-lg p-5 bg-white rounded position-relative blue-frame">
-    <!-- Fond "Esprit" en rouge transparent -->
-    <div class="watermark">
-      <span class="watermark-text">Esprit</span>
+<div class="convention-detail-page">
+  <div class="container my-5">
+    <div *ngIf="!loading && convention" class="page-header">
+      <h2 class="page-title">
+        <i class="bi bi-file-earmark-richtext-fill"></i> 
+        Convention: {{ convention.description || convention.internship?.titre || 'Details' }}
+      </h2>
+      <app-custom-button type="default" (buttonClick)="returnToList()">
+        <i class="bi bi-arrow-left"></i> Back to List
+      </app-custom-button>
     </div>
 
-    <!-- En-tête avec deux logos et titre au centre -->
-    <div class="document-header d-flex justify-content-between align-items-center border-bottom pb-4 mb-4">
-      <!-- Logo gauche -->
-      <img src="/assets/img/images.png" alt="Logo Gauche" class="logo img-fluid" style="height: 60px;">
+    <div *ngIf="loading" class="loading-indicator text-center">
+      <p>Loading convention details...</p>
+      <!-- Or use a spinner component -->
+    </div>
 
-      <!-- Titre au centre -->
-      <div class="text-center">
-        <h1 class="fw-bold text-primary mb-1 display-4">Convention de Stage</h1>
-        <p class="text-muted fs-5">Document Officiel</p>
+    <app-warning-banner *ngIf="errorMessage && !loading" type="danger">
+      {{ errorMessage }}
+      <div class="mt-2">
+        <app-custom-button type="secondary" (buttonClick)="returnToList()">
+          Go Back to List
+        </app-custom-button>
+      </div>
+    </app-warning-banner>
+
+    <app-info-card *ngIf="convention && !loading && !errorMessage" customClass="convention-document-card">
+      <!-- Document Header -->
+      <div class="document-header-themed">
+        <img src="assets/img/logo.png" alt="Platform Logo" class="header-logo"> <!-- Assuming Praktika logo -->
+        <div class="header-title-group">
+          <h1>Convention de Stage</h1>
+          <p>Official Internship Agreement</p>
+        </div>
+        <!-- Placeholder for a second logo if needed, e.g., university or generic document icon -->
+        <i class="bi bi-file-text-fill header-icon-placeholder"></i>
       </div>
 
-      <!-- Logo droit -->
-      <img src="/assets/img/logo.png" alt="Logo Droit" class="logo img-fluid" style="height: 60px;">
-    </div>
-
-    <!-- Informations de base -->
-    <div class="document-section mb-5">
-      <h2 class="section-title text-uppercase fw-bold text-blue bg-info p-2 rounded">Informations de Base</h2>
-      <div class="section-content mt-3">
-        <div class="row">
-          <div class="col-md-6">
-            <p class="mb-1"><strong><i class="bi bi-file-text"></i> Description:</strong></p>
-            <p class="text-muted bg-light p-3 rounded">{{ convention.description }}</p>
+      <!-- Basic Information Section -->
+      <div class="content-section">
+        <h3 class="section-title-themed"><i class="bi bi-info-circle-fill"></i> Basic Information</h3>
+        <div class="details-grid">
+          <div class="detail-pair">
+            <span class="detail-label">Description:</span>
+            <span class="detail-value">{{ convention.description || 'N/A' }}</span>
           </div>
-          <div class="col-md-6">
-            <p class="mb-1"><strong><i class="bi bi-calendar-check"></i> Date de Signature:</strong></p>
-            <p class="text-muted bg-light p-3 rounded">{{ convention.dateConv | date: 'dd/MM/yyyy HH:mm:ss' }}</p>
+          <div class="detail-pair">
+            <span class="detail-label">Signature Date:</span>
+            <span class="detail-value">{{ convention.dateConv | date:'fullDate' }} at {{ convention.dateConv | date:'shortTime' }}</span>
           </div>
-        </div>
-        <div class="row mt-3">
-          <div class="col-md-6">
-            <p class="mb-1"><strong><i class="bi bi-check-circle"></i> Statut:</strong></p>
-            <span class="badge fs-6 px-3 py-2" [ngClass]="convention.signed ? 'bg-success' : 'bg-danger'">
-              {{ convention.signed ? 'Signée' : 'Non signée' }}
+          <div class="detail-pair">
+            <span class="detail-label">Status:</span>
+            <span class="status-badge {{ convention.signed ? 'signed' : 'not-signed' }}">
+              {{ convention.signed ? 'Signed' : 'Not Signed' }}
             </span>
           </div>
-          <div class="col-md-6">
-            <p class="mb-1"><strong><i class="bi bi-person-badge"></i> ID Stage:</strong></p>
-            <p class="text-muted bg-light p-3 rounded">{{ convention.internshipId }}</p>
+          <div class="detail-pair">
+            <span class="detail-label">Associated Internship ID:</span>
+            <span class="detail-value">{{ convention.internshipId || 'N/A' }}</span>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Termes associés -->
-    <div class="document-section mb-5">
-      <h2 class="section-title text-uppercase fw-bold text-black bg-warning p-2 rounded">Termes Associés</h2>
-      <div class="section-content mt-3">
-        <div *ngFor="let term of convention.terms; let i = index" class="term-item mb-4 p-3 shadow-sm rounded bg-light">
-          <h4 class="term-title fw-bold text-primary"><i class="bi bi-bookmark"></i> {{ term.title }}</h4>
-          <p class="term-description text-muted">{{ term.description }}</p>
+      <!-- Associated Terms Section -->
+      <div class="content-section" *ngIf="convention.terms && convention.terms.length > 0">
+        <h3 class="section-title-themed"><i class="bi bi-list-check"></i> Associated Terms</h3>
+        <div class="terms-list">
+          <div *ngFor="let term of convention.terms" class="term-item-themed">
+            <h4 class="term-title-themed"><i class="bi bi-bookmark-check"></i> {{ term.title }}</h4>
+            <p class="term-description-themed">{{ term.description }}</p>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Signature -->
-    <div class="document-section mb-5">
-      <h2 class="section-title text-uppercase fw-bold text-black bg-danger p-2 rounded">Signatures</h2>
-      <div class="section-content mt-3">
-        <div class="row">
-          <div class="col-md-6">
-            <p class="mb-1"><strong><i class="bi bi-person"></i> Signature de l'étudiant:</strong></p>
-            <div class="signature-placeholder bg-light p-3 rounded text-center">
-              <p class="text-muted mb-0">[Signature de l'étudiant]</p>
+      <!-- Signatures Section -->
+      <div class="content-section">
+        <h3 class="section-title-themed"><i class="bi bi-pen-fill"></i> Signatures</h3>
+        <div class="signatures-grid">
+          <div class="signature-area">
+            <p class="signature-label">Student Signature:</p>
+            <div class="signature-box">
+              <span>[ Digital Signature Placeholder ]</span>
             </div>
           </div>
-          <div class="col-md-6">
-            <p class="mb-1"><strong><i class="bi bi-building"></i> Signature de l'entreprise:</strong></p>
-            <div class="mb-3">
-              <div *ngIf="convention.signed && convention.encryptedSignature; else noSignature">
-                <img [src]="convention.encryptedSignature" alt="Signature" class="img-fluid" style="max-width: 200px; max-height: 100px;" />
-                <p class="text-muted small">Signée le {{ convention.dateConv | date: 'dd/MM/yyyy HH:mm:ss' }}</p>
-              </div>
-              <ng-template #noSignature>
-                <div class="signature-placeholder bg-light p-3 rounded text-center">
-                  <p class="text-muted mb-0">[Signature de l'entreprise]</p>
-                </div>
-              </ng-template>
+          <div class="signature-area">
+            <p class="signature-label">Company Representative Signature:</p>
+            <div class="signature-box">
+              <img *ngIf="convention.signed && convention.encryptedSignature" [src]="convention.encryptedSignature" alt="Company Signature" class="company-signature-image" />
+              <span *ngIf="!convention.signed || !convention.encryptedSignature">[ Digital Signature Placeholder ]</span>
             </div>
+            <small *ngIf="convention.signed && convention.encryptedSignature" class="text-muted">Signed on: {{ convention.dateConv | date:'shortDate' }}</small>
           </div>
         </div>
       </div>
-    </div>
+      
+    </app-info-card>
 
-    <!-- Pied de page -->
-    <div class="document-footer text-center mt-4 pt-3 border-top">
-      <button class="btn btn-outline-primary btn-lg px-4" (click)="returnToList()">
-        <i class="bi bi-arrow-left"></i> Retour à la liste
-      </button>
+    <div *ngIf="!convention && !loading && !errorMessage" class="no-results-message mt-4">
+      <app-info-card cardTitle="Convention Not Found">
+        <p>The requested convention could not be found.</p>
+         <div class="mt-3 text-center">
+          <app-custom-button type="primary" (buttonClick)="returnToList()">
+            Go to Conventions List
+          </app-custom-button>
+        </div>
+      </app-info-card>
     </div>
-  </div>
-
-  <!-- Message d'erreur -->
-  <div *ngIf="errorMessage" class="alert alert-danger mt-4">
-    {{ errorMessage }}
-    <button class="btn btn-link" (click)="returnToList()">Retour à la liste des conventions</button>
   </div>
 </div>

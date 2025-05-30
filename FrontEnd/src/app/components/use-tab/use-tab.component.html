@@ -1,30 +1,68 @@
-<div *ngIf="isLoading" class="text-center">
-    <div class="spinner-border" role="status">
-      <span class="visually-hidden">Loading...</span>
+<div class="user-list-page"> <!-- Renamed for clarity, was 'use-tab' which is confusing -->
+  <div class="container mt-4">
+    <div class="page-header">
+      <h2 class="page-title"><i class="bi bi-people-fill"></i> User Management</h2>
+      <!-- Add New User button could go here if functionality exists -->
+      <!-- 
+      <app-custom-button type="primary" routerLink="/admin/users/add"> 
+        <i class="bi bi-plus-lg"></i> Add New User
+      </app-custom-button>
+      -->
     </div>
+
+    <div *ngIf="isLoading" class="loading-indicator text-center">
+      <p>Loading user data...</p>
+      <!-- Or use a spinner component -->
+    </div>
+
+    <app-warning-banner *ngIf="errorMessage && !isLoading" type="danger">
+      {{ errorMessage }}
+    </app-warning-banner>
+
+    <app-info-card *ngIf="!isLoading && !errorMessage" customClass="user-list-card">
+      <div *ngIf="users.length > 0" class="table-responsive-container">
+        <table class="table app-table"> <!-- Added app-table for global styling -->
+          <thead>
+            <tr>
+              <th>User ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <!-- <th class="text-end">Actions</th> --> <!-- Placeholder for actions column -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users">
+              <td><span class="truncate-id">{{ user.userId }}</span></td>
+              <td>{{ user.name }}</td>
+              <td><a [href]="'mailto:' + user.email" class="table-email-link">{{ user.email }}</a></td>
+              <td><span class="role-badge {{user.role | lowercase}}">{{ user.role }}</span></td>
+              <!-- 
+              <td class="actions-cell text-end">
+                <app-custom-button type="icon" title="Edit User" customClass="me-1">
+                  <i class="bi bi-pencil-square"></i>
+                </app-custom-button>
+                <app-custom-button type="icon" title="Delete User" customClass="delete-btn">
+                  <i class="bi bi-trash3-fill"></i>
+                </app-custom-button>
+              </td>
+              -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div *ngIf="users.length === 0 && !isLoading" class="no-entries-message">
+          <p>No users found in the system.</p>
+          <!-- Optional: CTA to add user if admin -->
+      </div>
+    </app-info-card>
+    
+    <!-- No pagination in original, can be added if list becomes long -->
+    <!-- 
+    <div class="pagination-container mt-4" *ngIf="users.length > itemsPerPage">
+      <pagination-controls (pageChange)="page = $event" ... ></pagination-controls>
+    </div> 
+    -->
   </div>
-  
-  <div *ngIf="!isLoading && users.length > 0">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Role</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of users">
-          <td>{{ user.userId }}</td>
-          <td>{{ user.name }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.role }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  
-  <div *ngIf="!isLoading && users.length === 0" class="alert alert-info">
-    No users found.
-  </div>
+</div>

@@ -1,48 +1,79 @@
-<div class="chat-container">
-  <!-- Panneau des utilisateurs à gauche -->
-  <div class="user-list" [ngClass]="{ 'opened': isUserListOpen }">
-    <!-- Bouton pour ouvrir/fermer la liste -->
-    <button class="toggle-btn" (click)="toggleUserList()">
-      {{ isUserListOpen ? '-' : '+' }}
-    </button>
-
-    <!-- Affichage de la liste des utilisateurs lorsque le panneau est ouvert -->
-    <div *ngIf="isUserListOpen">
-      <div *ngFor="let user of users" (click)="selectReceiver(user.userId)">
-        <div class="user">
-          <p>{{ user.name }} - <span [ngClass]="user.isOnline ? 'text-success' : 'text-muted'">
-            {{ user.isOnline ? '🟢 En ligne' : '🔴 Dernière connexion' }}
-          </span></p>
-          <div *ngIf="usersLastSeen[user.userId] !== 'Online'" class="offline-status">
-            Last seen: {{ usersLastSeen[user.userId] }}
-          </div>
+<div class="chat-page-container">
+  <!-- User List Panel (Left Column) -->
+  <div class="user-list-panel">
+    <div class="panel-header">
+      <h3>Contacts</h3>
+      <!-- Optional: Add a search/filter for users -->
+    </div>
+    <div class="users-list">
+      <div *ngIf="users.length === 0 && !isLoadingUsers" class="no-users-message">
+        <p>No contacts available.</p>
+      </div>
+      <div *ngIf="isLoadingUsers" class="loading-indicator">
+        <p>Loading contacts...</p>
+      </div>
+      <div *ngFor="let user of users" class="user-item" (click)="selectReceiver(user)" [class.selected]="user.userId === receiverId">
+        <!-- Placeholder for avatar -->
+        <div class="user-avatar-placeholder">
+          <i class="bi bi-person-fill"></i>
         </div>
+        <div class="user-info">
+          <span class="user-name">{{ user.name }}</span>
+          <span class="user-status" [ngClass]="{'online': user.isOnline, 'offline': !user.isOnline}">
+            <i class="bi" [ngClass]="user.isOnline ? 'bi-circle-fill' : 'bi-circle'"></i>
+            {{ user.isOnline ? 'Online' : ('Last seen: ' + (usersLastSeen[user.userId] || 'N/A')) }}
+          </span>
+        </div>
+        <!-- Unread count placeholder -->
+        <!-- <span class="unread-count" *ngIf="user.unreadCount > 0">{{ user.unreadCount }}</span> -->
       </div>
     </div>
   </div>
 
-  <!-- Fenêtre de discussion à droite de la liste des utilisateurs -->
-  <div class="chat-box" *ngIf="receiverId">
-    <div class="chat-header">
-      <button class="close-btn" (click)="closeChat()">Close</button>
-      <div>{{ receiverName }}</div>
-    </div>
+  <!-- Chat Area Panel (Right Column) -->
+  <div class="chat-area-panel">
+    <ng-container *ngIf="receiverId; else noChatSelected">
+      <div class="chat-header-bar">
+        <div class="chatting-with-info" *ngIf="selectedReceiver">
+          <!-- Placeholder for avatar -->
+          <div class="user-avatar-placeholder small">
+            <i class="bi bi-person-fill"></i>
+          </div>
+          <span class="chatting-with-name">{{ selectedReceiver.name }}</span>
+          <span class="user-status small" [ngClass]="{'online': selectedReceiver.isOnline, 'offline': !selectedReceiver.isOnline}">
+            <i class="bi" [ngClass]="selectedReceiver.isOnline ? 'bi-circle-fill' : 'bi-circle'"></i>
+             {{ selectedReceiver.isOnline ? 'Online' : ('Last seen: ' + (usersLastSeen[selectedReceiver.userId!] || 'N/A')) }}
+          </span>
+        </div>
+        <!-- Add other chat actions here e.g., video call, info -->
+      </div>
 
-    <div class="messages">
-      <div *ngFor="let msg of messages">
-        <div [class]="msg.senderId === senderId ? 'sent' : 'received'">
-          <p [innerHTML]="msg.content"></p>
+      <div class="messages-display-area" #messagesArea>
+        <div *ngFor="let msg of messages" class="message-bubble-row" [class.sent-row]="msg.senderId === senderId" [class.received-row]="msg.senderId !== senderId">
+          <div class="message-bubble">
+            <!-- <div class="message-sender" *ngIf="msg.senderId !== senderId">{{ getSenderName(msg.senderId) }}</div> -->
+            <p class="message-content" [innerHTML]="sanitizeContent(msg.content)"></p>
+            <span class="message-timestamp">{{ msg.timestamp | date:'shortTime' }}</span> <!-- Assuming timestamp exists -->
+          </div>
+        </div>
+        <div class="typing-indicator-chat" *ngIf="isTyping && typingUser">
+          <i class="bi bi-three-dots"></i> {{ typingUser }} is typing...
         </div>
       </div>
-      <!-- Indicateur de "Typing" -->
-      <div class="typing-indicator" *ngIf="isTyping">
-        ✍️ {{ typingUser }} est en train d'écrire...
-      </div>
-    </div>
 
-    <div class="message-input">
-      <input [(ngModel)]="content" placeholder="Type a message..." (keydown)="onTyping()" />
-      <button (click)="send()">Send</button>
-    </div>
+      <div class="message-input-area">
+        <textarea [(ngModel)]="content" placeholder="Type your message here..." (keydown.enter)="send(); $event.preventDefault()" (input)="onTyping()" class="form-control"></textarea>
+        <app-custom-button type="primary" (buttonClick)="send()" [disabled]="!content?.trim()">
+          <i class="bi bi-send-fill"></i> Send
+        </app-custom-button>
+      </div>
+    </ng-container>
+
+    <ng-template #noChatSelected>
+      <div class="no-chat-selected-placeholder">
+        <i class="bi bi-chat-dots-fill"></i>
+        <p>Select a contact to start chatting.</p>
+      </div>
+    </ng-template>
   </div>
 </div>

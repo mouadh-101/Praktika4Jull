@@ -1,8 +1,108 @@
-:host ::ng-deep .e-gantt {
-  font-family: 'Segoe UI', sans-serif;
+/* Styles for GanttComponent, theming Syncfusion EJ2 Gantt */
+
+/* Ensure component takes up available space if not intrinsically sized by parent */
+:host {
+  display: block;
+  width: 100%;
 }
 
+/* General font and text color for the Gantt component, overriding Syncfusion defaults if needed */
+:host ::ng-deep .e-gantt {
+  font-family: var(--font-family-base) !important;
+  color: var(--color-text-default) !important;
+  border-radius: var(--border-radius-base); /* Apply global border radius */
+  border: 1px solid var(--color-border-default); /* Apply global border */
+  box-shadow: var(--shadow-sm); /* Apply global shadow */
+}
+
+/* Toolbar theming */
+:host ::ng-deep .e-gantt .e-toolbar {
+  background-color: var(--color-bg-alt) !important;
+  border-bottom: 1px solid var(--color-border-default) !important;
+  padding: var(--spacing-xs) !important;
+}
+:host ::ng-deep .e-gantt .e-toolbar .e-toolbar-items .e-toolbar-item .e-tbar-btn {
+  color: var(--color-text-default) !important;
+}
+:host ::ng-deep .e-gantt .e-toolbar .e-toolbar-items .e-toolbar-item .e-tbar-btn:hover {
+  background-color: var(--color-bg-alt-hover) !important;
+  color: var(--color-primary) !important;
+}
+:host ::ng-deep .e-gantt .e-toolbar .e-toolbar-items .e-toolbar-item .e-tbar-btn .e-tbar-btn-text,
+:host ::ng-deep .e-gantt .e-toolbar .e-toolbar-items .e-toolbar-item .e-tbar-btn .e-icon-Wrapper .e-icon-gantt-zoomin::before, /* Targeting specific icons */
+:host ::ng-deep .e-gantt .e-toolbar .e-toolbar-items .e-toolbar-item .e-tbar-btn .e-icon-Wrapper .e-icon-gantt-zoomout::before,
+:host ::ng-deep .e-gantt .e-toolbar .e-toolbar-items .e-toolbar-item .e-tbar-btn .e-icon-Wrapper .e-icon-gantt-zoomfit::before,
+:host ::ng-deep .e-gantt .e-toolbar .e-toolbar-items .e-toolbar-item .e-tbar-btn .e-icon-Wrapper .e-icon-gantt-excelexport::before,
+:host ::ng-deep .e-gantt .e-toolbar .e-toolbar-items .e-toolbar-item .e-tbar-btn .e-icon-Wrapper .e-icon-gantt-pdfexport::before {
+  color: var(--color-text-default) !important; 
+}
+:host ::ng-deep .e-gantt .e-toolbar .e-toolbar-items .e-toolbar-item .e-tbar-btn:hover .e-tbar-btn-text,
+:host ::ng-deep .e-gantt .e-toolbar .e-toolbar-items .e-toolbar-item .e-tbar-btn:hover .e-icon-Wrapper .e-icon-gantt-zoomin::before,
+:host ::ng-deep .e-gantt .e-toolbar .e-toolbar-items .e-toolbar-item .e-tbar-btn:hover .e-icon-Wrapper .e-icon-gantt-zoomout::before,
+:host ::ng-deep .e-gantt .e-toolbar .e-toolbar-items .e-toolbar-item .e-tbar-btn:hover .e-icon-Wrapper .e-icon-gantt-zoomfit::before,
+:host ::ng-deep .e-gantt .e-toolbar .e-toolbar-items .e-toolbar-item .e-tbar-btn:hover .e-icon-Wrapper .e-icon-gantt-excelexport::before,
+:host ::ng-deep .e-gantt .e-toolbar .e-toolbar-items .e-toolbar-item .e-tbar-btn:hover .e-icon-Wrapper .e-icon-gantt-pdfexport::before {
+  color: var(--color-primary) !important;
+}
+
+
+/* Grid Header (Task Name, Start Date, End Date columns) */
+:host ::ng-deep .e-gantt .e-gridheader .e-headercell {
+  background-color: var(--color-bg-alt) !important;
+  color: var(--color-text-default) !important;
+  border-color: var(--color-border-default) !important;
+  font-family: var(--font-family-headings) !important;
+  font-weight: var(--font-weight-semibold) !important;
+  font-size: var(--font-size-base) !important;
+}
+
+/* Grid Content Cells */
+:host ::ng-deep .e-gantt .e-gridcontent .e-rowcell {
+  color: var(--color-text-default) !important;
+  font-size: var(--font-size-base) !important;
+  border-color: var(--color-border-light) !important;
+  padding: var(--spacing-sm) var(--spacing-xs) !important;
+}
+:host ::ng-deep .e-gantt .e-gridcontent .e-row:hover .e-rowcell {
+  background-color: var(--color-bg-alt-hover) !important;
+}
+
+/* Chart side - Timeline Headers (e.g., dates, weeks) */
+:host ::ng-deep .e-gantt .e-chart-scroll-container .e-timeline-header-table .e-header-cell-label,
+:host ::ng-deep .e-gantt .e-chart-scroll-container .e-timeline-header-table .e-headercell {
+  color: var(--color-text-secondary) !important;
+  font-size: var(--font-size-small) !important;
+  background-color: var(--color-bg-alt) !important;
+  border-color: var(--color-border-default) !important;
+}
+
+/* Task Bars */
+:host ::ng-deep .e-gantt .e-gantt-chart .e-taskbar-main-div .e-taskbar {
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary-dark) !important;
+  border-radius: var(--border-radius-small) !important;
+  height: 20px !important; /* Example height adjustment */
+}
+:host ::ng-deep .e-gantt .e-gantt-chart .e-taskbar-main-div .e-task-label {
+  color: var(--color-text-on-primary) !important; /* Text on task bars */
+  font-size: var(--font-size-small) !important;
+}
+
+/* Progress within Task Bars (if applicable, assuming a class like e-taskbar-progress) */
+:host ::ng-deep .e-gantt .e-gantt-chart .e-taskbar-main-div .e-taskbar-progress {
+  background-color: var(--color-primary-dark) !important; /* Darker shade for progress */
+}
+
+/* Grid lines in the chart part */
+:host ::ng-deep .e-gantt .e-gantt-chart .e-chart-row {
+  border-bottom-color: var(--color-border-light) !important;
+}
+:host ::ng-deep .e-gantt .e-gantt-chart .e-vδροllbar-wrapper .e-line-container .e-gridline {
+   border-right-color: var(--color-border-light) !important; /* Vertical grid lines */
+}
+
+
+/* Remove default box shadow if global styles are applied via :host ::ng-deep .e-gantt */
 :host ::ng-deep .e-gantt-chart {
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  box-shadow: none !important; /* Remove Syncfusion's default if we add our own to e-gantt */
 }

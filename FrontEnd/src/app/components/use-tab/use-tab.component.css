@@ -1,0 +1,172 @@
+/* Styles for UseTabComponent (User List Page) */
+
+.user-list-page .page-header {
+  display: flex;
+  justify-content: space-between; /* For title and potential Add User button */
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.user-list-page .page-title {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-default);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+.user-list-page .page-title .bi { /* Icon for page title */
+  color: var(--color-primary);
+}
+
+/* Card container for the table */
+:host ::ng-deep .user-list-card .info-card-body {
+  padding: 0; /* Remove app-info-card padding if table has its own */
+}
+:host ::ng-deep .user-list-card .info-card-title { /* If card has a title */
+   /* text-align: center; */
+   /* font-size: var(--font-size-h3); */
+   /* margin-bottom: var(--spacing-md); */
+}
+
+
+/* Table Styling - similar to DocumentBackComponent */
+.table-responsive-container {
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--border-radius-base);
+  overflow-x: auto;
+  background-color: var(--color-bg-container);
+  box-shadow: var(--shadow-sm);
+}
+
+.app-table {
+  width: 100%;
+  margin-bottom: 0;
+  border-collapse: collapse;
+}
+
+.app-table th,
+.app-table td {
+  padding: var(--spacing-sm) var(--spacing-md);
+  vertical-align: middle;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border-default);
+}
+
+.app-table thead th {
+  font-family: var(--font-family-headings);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-default);
+  background-color: var(--color-bg-alt);
+  border-top: none;
+  border-bottom-width: 2px;
+  white-space: nowrap; /* Prevent headers from wrapping */
+}
+.app-table tbody tr:hover {
+  background-color: var(--color-bg-alt-hover);
+}
+.app-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.truncate-id {
+  display: inline-block;
+  max-width: 100px; /* Adjust as needed */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle; /* Align with text in other cells */
+}
+
+.table-email-link {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+.table-email-link:hover {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+}
+
+.role-badge {
+  padding: var(--spacing-xxs) var(--spacing-xs);
+  border-radius: var(--border-radius-pill);
+  font-weight: var(--font-weight-semibold);
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--color-text-on-primary);
+  white-space: nowrap;
+}
+/* Role-specific badge colors - define based on expected roles */
+.role-badge.student { background-color: var(--color-info, #17a2b8); }
+.role-badge.company { background-color: var(--color-success, #28a745); }
+.role-badge.admin { background-color: var(--color-primary-dark, #004181); }
+.role-badge.default, .role-badge.undefined { background-color: var(--color-secondary, #6c757d); }
+
+
+.actions-cell { /* For future action buttons */
+  white-space: nowrap;
+  text-align: right !important;
+}
+.actions-cell .custom-button {
+  margin: var(--spacing-xxs);
+}
+
+
+/* No Entries Message & Loading Indicator */
+.no-entries-message,
+.loading-indicator {
+  text-align: center;
+  padding: var(--spacing-xl) var(--spacing-md);
+}
+.no-entries-message p, /* If p tag is used inside .no-entries-message */
+.loading-indicator p {
+  font-size: var(--font-size-large);
+  color: var(--color-text-secondary);
+  margin-bottom: 0; /* If it's the only element */
+}
+/* If .no-entries-message is directly inside app-info-card body */
+:host ::ng-deep .user-list-card .no-entries-message {
+    padding: var(--spacing-xl); /* Ensure padding if card body padding was removed */
+}
+
+
+/* Pagination (if re-enabled) - Copied for consistency */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--spacing-lg);
+}
+:host ::ng-deep .ngx-pagination {
+  padding: 0; margin: 0; display: flex; gap: var(--spacing-xs);
+}
+:host ::ng-deep .ngx-pagination .current,
+:host ::ng-deep .ngx-pagination button {
+  background: var(--color-bg-container); color: var(--color-primary);
+  border: 1px solid var(--color-border-default); border-radius: var(--border-radius-base);
+  padding: var(--spacing-xs) var(--spacing-sm); text-decoration: none; cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+:host ::ng-deep .ngx-pagination button:hover {
+  background: var(--color-bg-alt); color: var(--color-primary-dark);
+}
+:host ::ng-deep .ngx-pagination .current {
+  background: var(--color-primary); color: var(--color-text-on-primary);
+  border-color: var(--color-primary); cursor: default;
+}
+:host ::ng-deep .ngx-pagination .disabled {
+  color: var(--color-text-secondary); opacity: 0.6; cursor: not-allowed; background: var(--color-bg-alt);
+}
+:host ::ng-deep .ngx-pagination .pagination-previous a::before,
+:host ::ng-deep .ngx-pagination .pagination-previous.disabled::before {
+  content: '«'; margin-right: 0;
+}
+:host ::ng-deep .ngx-pagination .pagination-next a::after,
+:host ::ng-deep .ngx-pagination .pagination-next.disabled::after {
+  content: '»'; margin-left: 0;
+}
+:host ::ng-deep .ngx-pagination .pagination-previous,
+:host ::ng-deep .ngx-pagination .pagination-next {
+  padding: var(--spacing-xs) var(--spacing-xs);
+}
