@@ -1,0 +1,65 @@
+/* Styles for VideoCallComponent */
+
+.video-call-page-container {
+  width: 100%;
+  height: calc(100vh - var(--navbar-height, 0px)); /* Adjust if navbar is visible. Assuming 0px if it's truly full screen */
+  /* If navbar is meant to be hidden on this page, then 100vh is fine.
+     Otherwise, subtract navbar height. For now, assume navbar might be hidden or not present. */
+  background-color: var(--color-neutral-dark, #2c3e50); /* Dark background, common for video calls */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Prevent scrollbars if Zego UI is slightly off */
+}
+
+/* 
+  The #root div inside the template has inline styles for 100% width/height.
+  This will make it fill the .video-call-page-container.
+  The ZegoUIKitPrebuilt SDK will then take over this #root div.
+*/
+
+/* 
+  Attempting to override Zego internal styles is generally not recommended
+  unless their documentation provides a clear API for it or specific class names
+  that are guaranteed to be stable. 
+  
+  If Zego UI uses CSS variables for theming internally, they could be set here, e.g.:
+  :host {
+    --zego-primary-color: var(--color-primary);
+    --zego-secondary-color: var(--color-secondary);
+    ...etc...
+  }
+  But this depends on Zego's implementation, which is unknown without docs.
+  The global Syncfusion Material theme we imported in styles.css will not affect Zego.
+*/
+
+/* 
+  If specific, stable Zego UI classes were known and needed minor tweaks:
+  Example (illustrative, actual classes will differ):
+  :host ::ng-deep .zegocloud-uikit-toolbar {
+    background-color: var(--color-bg-alt) !important;
+  }
+  :host ::ng-deep .zegocloud-uikit-button {
+    background-color: var(--color-primary) !important;
+    color: var(--color-text-on-primary) !important;
+  }
+*/
+
+/* 
+  The current ZegoUIKitPrebuilt configuration in the .ts file includes options like:
+  - turnOnMicrophoneWhenJoining
+  - turnOnCameraWhenJoining
+  - showMyCameraToggleButton
+  - showMyMicrophoneToggleButton
+  - showAudioVideoSettingsButton
+  - showScreenSharingButton
+  - showTextChat
+  - showUserList
+  - maxUsers
+  - layout
+  - showLayoutButton
+
+  These control the UI elements provided by the SDK. The visual appearance of these
+  elements is generally controlled by Zego's own CSS.
+  Without specific theming instructions from Zego, we are limited to styling the container.
+*/

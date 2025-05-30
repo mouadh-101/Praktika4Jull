@@ -45,7 +45,7 @@ import { AddInternshipComponent } from './components/add-internship/add-internsh
 import { InternshipDetailsComponent } from './components/internship-details/internship-details.component';
 import { InternshipComponent } from './components/internship/internship.component';
 import { FavorisComponent } from './components/favoris/favoris.component';
-import { InterviewComponent } from './components/interview/interview.component';
+// import { InterviewComponent } from './components/interview/interview.component'; // Removed
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FilterPipe } from './pipes/filter.pipe';
 import { InterviewAddComponent } from './components/interview/interview-add/interview-add.component';
@@ -61,7 +61,7 @@ import { WorkExpComponent } from './components/work-exp/work-exp.component';
 import { ProfileUpdateComponent } from './components/profile-update/profile-update.component';
 import { AuthGuard } from './guards/auth.guard';
 import { ExportCvComponent } from './components/export-cv/export-cv.component';
-import { WebsocketComponent } from './components/websocket/websocket.component';
+// import { WebsocketComponent } from './components/websocket/websocket.component'; // Removed
 
 import { ChatComponent } from './components/chat/chat.component';
 import { VideoCallComponent } from './components/video-call/video-call.component';
@@ -102,7 +102,7 @@ import { HomeComponent } from './components/home/home.component';
     InternshipDetailsComponent,
     InternshipComponent,
     FavorisComponent,
-    InterviewComponent,
+    // InterviewComponent, // Removed
     FilterPipe,
     InterviewAddComponent,
     InterviewListComponent,
@@ -118,14 +118,14 @@ import { HomeComponent } from './components/home/home.component';
     ExportCvComponent,
     ChatComponent,
     VideoCallComponent,
-    WebsocketComponent,
+    // WebsocketComponent, // Removed
     DepotComponent,
     DepotBackComponent,
     ListJournalComponent,
     AddJournalComponent,
       JournalbackComponent,
       UpdateJournalComponent,
-      InterviewComponent,
+      // InterviewComponent, // Removed
       CompanyProfileComponent,
       // EditProfileDialogComponent, // Removed
       AddPlanComponent,
@@ -133,9 +133,9 @@ import { HomeComponent } from './components/home/home.component';
       GanttComponent,
     JournalbackComponent,
     UpdateJournalComponent,
-    InterviewComponent,
+    // InterviewComponent, // Removed
     AddApplicationDialogComponent,
-    WebsocketComponent,
+    // WebsocketComponent, // Removed
     StudentApplicationsComponent,
     ApplicationDetailsComponent,
     AppAnalyzeComponent,

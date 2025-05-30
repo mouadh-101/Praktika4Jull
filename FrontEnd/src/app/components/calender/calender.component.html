@@ -1,39 +1,71 @@
-<div class="calendar-container">
-  <full-calendar [options]="calendarOptions"></full-calendar>
-</div>
+<div class="calender-page"> <!-- Changed from calendar-container for clarity -->
+  <div class="container mt-4">
+    <div class="page-header">
+      <h2 class="page-title"><i class="bi bi-calendar3"></i> Event Calendar</h2>
+      <app-custom-button type="primary" (click)="showForm = !showForm; selectedInterview = null; initializeFormForAdd();" *ngIf="!showForm">
+        <i class="bi bi-plus-lg"></i> Add Interview
+      </app-custom-button>
+    </div>
 
-<!-- Bouton pour afficher le formulaire -->
-<button (click)="showForm = !showForm" *ngIf="!showForm" class="btn btn-primary">
-  Ajouter une interview
-</button>
+    <app-info-card customClass="calendar-card">
+      <full-calendar [options]="calendarOptions"></full-calendar>
+    </app-info-card>
 
-<!-- Formulaire -->
-<div class="interview-form-container" *ngIf="showForm">
-  <h3>{{ selectedInterview ? 'Modifier l\'interview' : 'Ajouter une interview' }}</h3>
+    <div *ngIf="showForm" class="mt-4">
+      <app-info-card [cardTitle]="selectedInterview ? 'Edit Interview' : 'Add New Interview'" customClass="interview-form-card">
+        <form [formGroup]="interviewForm" (ngSubmit)="saveInterview()" class="interview-form">
+          <div class="form-field">
+            <label for="dateInterview">Date <span class="required-asterisk">*</span></label>
+            <input id="dateInterview" type="date" formControlName="dateInterview" [min]="minDate">
+            <div *ngIf="interviewForm.get('dateInterview')?.invalid && (interviewForm.get('dateInterview')?.touched || interviewForm.get('dateInterview')?.dirty)" class="error-text">
+              <span *ngIf="interviewForm.get('dateInterview')?.errors?.['required']">Date is required.</span>
+              <span *ngIf="interviewForm.get('dateInterview')?.errors?.['invalidDate']">Date must be in the future.</span>
+            </div>
+          </div>
 
-  <form [formGroup]="interviewForm" (ngSubmit)="saveInterview()">
-    <label>Date :</label>
-    <input type="date" formControlName="dateInterview" required />
+          <div class="form-field">
+            <label for="location">Location / Meeting Link <span class="required-asterisk">*</span></label>
+            <input id="location" type="text" formControlName="location" placeholder="e.g., Company Office, Zoom link">
+            <div *ngIf="interviewForm.get('location')?.invalid && (interviewForm.get('location')?.touched || interviewForm.get('location')?.dirty)" class="error-text">
+              <span *ngIf="interviewForm.get('location')?.errors?.['required']">Location/link is required.</span>
+              <span *ngIf="interviewForm.get('location')?.errors?.['minlength']">Must be at least 3 characters.</span>
+            </div>
+          </div>
+          
+          <div class="form-field">
+            <label for="notes">Notes / Details</label> <!-- Assuming notes are not strictly required -->
+            <textarea id="notes" formControlName="notes" rows="3" placeholder="e.g., Interview with Hiring Manager for Backend Role."></textarea>
+             <div *ngIf="interviewForm.get('notes')?.invalid && (interviewForm.get('notes')?.touched || interviewForm.get('notes')?.dirty)" class="error-text">
+              <span *ngIf="interviewForm.get('notes')?.errors?.['minlength']">Notes must be at least 5 characters if provided.</span>
+            </div>
+          </div>
 
-    <label>Lieu :</label>
-    <input type="text" formControlName="location" required />
+          <div class="form-field">
+            <label for="status">Status <span class="required-asterisk">*</span></label>
+            <select id="status" formControlName="status">
+              <option value="" disabled>Select status</option>
+              <option value="SCHEDULED">Scheduled</option>
+              <option value="COMPLETED">Completed</option>
+              <option value="CANCELED">Canceled</option>
+            </select>
+            <div *ngIf="interviewForm.get('status')?.invalid && (interviewForm.get('status')?.touched || interviewForm.get('status')?.dirty)" class="error-text">
+              <span *ngIf="interviewForm.get('status')?.errors?.['required']">Status is required.</span>
+            </div>
+          </div>
 
-    <label>Notes :</label>
-    <textarea formControlName="notes"></textarea>
-
-    <label>Statut :</label>
-    <select formControlName="status">
-      <option value="SCHEDULED">SCHEDULED</option>
-      <option value="COMPLETED">COMPLETED</option>
-      <option value="CANCELED">CANCELED</option>
-    </select>
-    
-    
-    <button type="submit">{{ selectedInterview ? 'Modifier' : 'Ajouter' }}</button>
-    <button type="button" (click)="closeForm()">Annuler</button>
-  </form>
-
-  <button *ngIf="selectedInterview" (click)="deleteInterview(selectedInterview.interviewId!)" class="delete-button">
-    Supprimer l'interview
-  </button>
+          <div class="form-actions">
+            <app-custom-button type="default" (buttonClick)="closeForm()">Cancel</app-custom-button>
+            <div> <!-- Group for save/delete -->
+              <app-custom-button type="danger" (buttonClick)="deleteInterview(selectedInterview?.interviewId!)" *ngIf="selectedInterview" customClass="me-2">
+                Delete
+              </app-custom-button>
+              <app-custom-button type="primary" (buttonClick)="saveInterview()" [disabled]="interviewForm.invalid">
+                {{ selectedInterview ? 'Update Interview' : 'Add Interview' }}
+              </app-custom-button>
+            </div>
+          </div>
+        </form>
+      </app-info-card>
+    </div>
+  </div>
 </div>

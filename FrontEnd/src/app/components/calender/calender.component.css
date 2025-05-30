@@ -1,61 +1,343 @@
-.full-calendar-container {
-  width: 80%; /* Ajuste la largeur du calendrier (80% de la largeur de la page) */
-  max-width: 1200px; /* Limiter la largeur maximale */
-  margin: 0 auto; /* Centrer horizontalement */
-  height: 600px; /* Définir la hauteur du calendrier */
-  display: flex;
-  justify-content: center; /* Centrer le calendrier dans la page */
-  align-items: center; /* Centrer verticalement si nécessaire */
+/* Styles for CalenderComponent */
+
+.calender-page { /* Changed from .calendar-container */
+  /* No specific page styles needed if relying on global .container and app-info-card */
 }
 
-
-/* Centrer le calendrier */
-.full-calendar-container {
+.calender-page .page-header {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  height: 80vh; /* Ajuste la hauteur */
+  margin-bottom: var(--spacing-lg);
 }
 
-/* Personnalisation des couleurs */
-.fc {
-  background-color: #f8f9fa; /* Couleur de fond du calendrier */
-  border-radius: 10px; /* Coins arrondis */
-  padding: 20px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Effet d’ombre */
+.calender-page .page-title {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-default);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+.calender-page .page-title .bi {
+  color: var(--color-primary);
 }
 
-/* Personnalisation des jours */
-.fc-daygrid-day {
-  background-color: white;
-  border: 1px solid #ddd;
+/* Card containing the FullCalendar component */
+:host ::ng-deep .calendar-card .info-card-body {
+  padding: var(--spacing-md); /* Adjust padding around calendar if needed */
 }
-
-/* Style pour les événements */
-.fc-event {
-  background-color: #007bff !important; /* Bleu */
-  color: white !important;
-  border-radius: 5px;
-  padding: 3px;
-}
-
-/* Personnalisation de la barre d’outils */
-.fc-toolbar {
-  background-color: #343a40; /* Gris foncé */
-  color: white;
-  border-radius: 5px;
-  padding: 10px;
-}
-
-/* Style des boutons */
-.fc-button {
-  background-color: #007bff !important; /* Bleu */
-  border: none;
-  color: white;
-}
-
-.fc-button:hover {
-  background-color: #0056b3 !important; /* Bleu foncé */
+:host ::ng-deep .calendar-card .info-card-title { /* If card has a title */
+  text-align: center;
 }
 
 
+/* Theming FullCalendar using its CSS variables */
+/* These should be scoped to affect only this component's calendar instance */
+:host ::ng-deep .fc { /* Target FullCalendar's root element */
+  /* General */
+  --fc-font-family: var(--font-family-base);
+  --fc-text-color: var(--color-text-default);
+  --fc-border-color: var(--color-border-default);
+  --fc-page-bg-color: var(--color-bg-body); /* Background of the calendar view area */
+  
+  /* Toolbar */
+  --fc-toolbar-bg-color: var(--color-bg-alt);
+  --fc-toolbar-title-font-size: var(--font-size-h4);
+  --fc-toolbar-active-button-bg-color: var(--color-primary);
+  --fc-toolbar-active-button-border-color: var(--color-primary);
+  --fc-toolbar-active-button-text-color: var(--color-text-on-primary);
+  --fc-toolbar-button-bg-color: var(--color-bg-container);
+  --fc-toolbar-button-border-color: var(--color-border-default);
+  --fc-toolbar-button-text-color: var(--color-text-default);
+  --fc-toolbar-button-hover-bg-color: var(--color-bg-alt-hover);
+
+  /* Day Headers (e.g., Mon, Tue) */
+  --fc-dayheader-bg-color: var(--color-bg-alt);
+  --fc-dayheader-font-size: var(--font-size-small);
+  --fc-dayheader-text-color: var(--color-text-secondary);
+
+  /* Day Cells */
+  --fc-daygrid-day-bg-color: var(--color-bg-body); /* Background of individual day cells */
+  --fc-daygrid-day-number-font-size: var(--font-size-base);
+  --fc-daygrid-day-top-text-color: var(--color-text-default); /* Day number color */
+  
+  /* Today's Date Highlighting */
+  --fc-day-today-bg-color: var(--color-primary-light); /* Background for today's date cell */
+  
+  /* Event Styling */
+  --fc-event-bg-color: var(--color-primary); /* Default event background */
+  --fc-event-border-color: var(--color-primary-dark);
+  --fc-event-text-color: var(--color-text-on-primary);
+  --fc-event-font-size: var(--font-size-small);
+  --fc-event-border-radius: var(--border-radius-small);
+  --fc-event-selected-bg-color: var(--color-primary-dark);
+  
+  /* More event popover, etc. can be themed too */
+  --fc-popover-bg-color: var(--color-bg-container);
+  --fc-popover-border-color: var(--color-border-default);
+  --fc-list-event-hover-bg-color: var(--color-bg-alt-hover);
+
+  /* Height and Aspect Ratio are controlled by calendarOptions in TS */
+  max-width: 100%; /* Ensure it fits within its container */
+  margin: 0 auto;
+}
+
+/* Specific overrides if FullCalendar variables are not enough */
+:host ::ng-deep .fc .fc-button { /* Ensure app-custom-button styles don't bleed if not specific enough */
+  /* FullCalendar buttons are not app-custom-button, so they need their own theming via FC variables or direct overrides */
+}
+:host ::ng-deep .fc .fc-event {
+  padding: 2px 4px; /* Small padding for events */
+  cursor: pointer;
+}
+
+
+/* Inline Interview Add/Edit Form Card */
+:host ::ng-deep .interview-form-card .info-card-title {
+  text-align: center;
+  font-size: var(--font-size-h4);
+}
+:host ::ng-deep .interview-form-card .info-card-body {
+  padding: var(--spacing-lg);
+}
+
+.interview-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+.interview-form .form-field {
+  display: flex;
+  flex-direction: column;
+}
+.interview-form .form-field label {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xs);
+}
+.interview-form .form-field label .required-asterisk {
+  color: var(--color-danger);
+  margin-left: var(--spacing-xxs);
+}
+.interview-form .error-text {
+  font-size: var(--font-size-small);
+  color: var(--color-danger);
+  margin-top: var(--spacing-xs);
+}
+/* Inputs, select, textarea are styled globally */
+.interview-form input[type="date"],
+.interview-form input[type="text"],
+.interview-form textarea,
+.interview-form select {
+  width: 100%;
+}
+.interview-form textarea {
+  min-height: 80px;
+}
+
+.interview-form .form-actions {
+  display: flex;
+  justify-content: space-between; /* For Cancel and Save/Delete group */
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-border-light);
+}
+.interview-form .form-actions > div { /* Group for save/delete */
+    display: flex;
+    gap: var(--spacing-sm);
+}
+```css
+/* Styles for CalenderComponent */
+
+.calender-page { /* Changed from .calendar-container for clarity */
+  /* No specific page styles needed if relying on global .container and app-info-card */
+}
+
+.calender-page .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.calender-page .page-title {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-default);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+.calender-page .page-title .bi {
+  color: var(--color-primary);
+}
+
+/* Card containing the FullCalendar component */
+:host ::ng-deep .calendar-card .info-card-body {
+  padding: var(--spacing-xs); /* Minimal padding as FullCalendar has its own */
+}
+/* No card title for the calendar card itself, page title is used */
+
+
+/* Theming FullCalendar using its CSS variables */
+/* These should be scoped to affect only this component's calendar instance */
+:host { /* Scoping variables to this component */
+  /* General */
+  --fc-font-family: var(--font-family-base, sans-serif);
+  --fc-text-color: var(--color-text-default, #333);
+  --fc-border-color: var(--color-border-default, #dee2e6);
+  --fc-page-bg-color: var(--color-bg-body, #fff);
+  --fc-neutral-bg-color: var(--color-bg-alt, #f8f9fa); /* For timegrid, etc. */
+  --fc-highlight-color: var(--color-primary-light, #e0efff); /* For date selections */
+
+  /* Toolbar */
+  --fc-button-bg-color: var(--color-primary, #0066cc);
+  --fc-button-text-color: var(--color-text-on-primary, #fff);
+  --fc-button-border-color: var(--color-primary, #0066cc);
+  --fc-button-hover-bg-color: var(--color-primary-dark, #004181);
+  --fc-button-hover-border-color: var(--color-primary-dark, #004181);
+  --fc-button-active-bg-color: var(--color-primary-dark, #004181);
+  --fc-button-active-border-color: var(--color-primary-dark, #004181);
+  
+  /* Today Button Theming (if different from other buttons) */
+  --fc-button-today-bg-color: var(--color-secondary, #6c757d);
+  --fc-button-today-border-color: var(--color-secondary, #6c757d);
+  --fc-button-today-hover-bg-color: #5a6268; /* Darker secondary */
+  --fc-button-today-hover-border-color: #545b62;
+
+
+  /* Title */
+  --fc-toolbar-title-font-size: var(--font-size-h4, 1.25rem); /* Ensure h4 is defined */
+
+  /* Day Headers (e.g., Mon, Tue) */
+  --fc-dayheader-bg-color: transparent; /* Keep it clean, or use --color-bg-alt */
+  --fc-dayheader-font-size: var(--font-size-small, 0.875rem);
+  --fc-dayheader-text-color: var(--color-text-secondary, #666);
+  --fc-col-header-cell-border-width: var(--border-width-base, 1px);
+
+
+  /* Day Cells */
+  --fc-daygrid-day-bg-color: var(--color-bg-body, #fff); 
+  --fc-daygrid-day-number-font-size: var(--font-size-base, 0.9rem);
+  --fc-day-top-text-color: var(--color-text-default, #333); /* Day number color */
+  --fc-daygrid-day-border-color: var(--color-border-light, #e0e0e0); /* Border for day cells */
+
+  /* Today's Date Highlighting */
+  --fc-day-today-bg-color: var(--color-primary-light, #e0efff); 
+  
+  /* Event Styling - using specific event colors from TS via getEventColor() */
+  /* These are fallbacks if event-specific colors aren't set */
+  --fc-event-bg-color: var(--color-primary, #0066cc); 
+  --fc-event-border-color: var(--color-primary-dark, #004181);
+  --fc-event-text-color: var(--color-text-on-primary, #fff);
+  --fc-event-font-size: var(--font-size-small, 0.875rem);
+  --fc-event-border-radius: var(--border-radius-small, 3px);
+  --fc-event-selected-bg-color: var(--color-primary-dark, #004181);
+  
+  --fc-popover-bg-color: var(--color-bg-container, #fff);
+  --fc-popover-border-color: var(--color-border-default, #dee2e6);
+  --fc-list-event-hover-bg-color: var(--color-bg-alt-hover, #f1f3f5);
+}
+
+/* Scoped FullCalendar overrides if variables are not enough */
+:host ::ng-deep .fc {
+  max-width: 100%; 
+  margin: 0 auto;
+}
+:host ::ng-deep .fc .fc-toolbar.fc-header-toolbar {
+  margin-bottom: var(--spacing-md) !important; /* Use var for spacing */
+  padding: var(--spacing-sm);
+  background-color: var(--fc-toolbar-bg-color); /* Ensure toolbar bg is applied */
+  border-radius: var(--border-radius-base);
+}
+:host ::ng-deep .fc .fc-toolbar-title {
+  color: var(--color-text-default); /* Ensure title color matches theme */
+}
+:host ::ng-deep .fc .fc-col-header-cell { /* Day headers like Mon, Tue */
+    background-color: var(--fc-dayheader-bg-color);
+    border-style: solid;
+    border-color: var(--fc-border-color);
+    border-width: 0 0 var(--fc-col-header-cell-border-width) 0; /* Bottom border for day headers */
+}
+:host ::ng-deep .fc .fc-daygrid-day-frame { /* Inner frame of day cell */
+  background-color: var(--fc-daygrid-day-bg-color);
+}
+:host ::ng-deep .fc .fc-daygrid-day.fc-day-today { /* Today's cell */
+  background-color: var(--fc-day-today-bg-color) !important; /* Ensure override if needed */
+}
+:host ::ng-deep .fc .fc-event {
+  padding: 2px 5px; 
+  cursor: pointer;
+  font-weight: var(--font-weight-medium);
+  border-width: var(--border-width-base);
+}
+:host ::ng-deep .fc .fc-event:hover {
+  opacity: 0.9;
+}
+
+
+/* Inline Interview Add/Edit Form Card */
+:host ::ng-deep .interview-form-card {
+  margin-top: var(--spacing-lg);
+}
+:host ::ng-deep .interview-form-card .info-card-title {
+  text-align: center;
+  font-size: var(--font-size-h4);
+}
+:host ::ng-deep .interview-form-card .info-card-body {
+  padding: var(--spacing-lg);
+}
+
+.interview-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+.interview-form .form-field {
+  display: flex;
+  flex-direction: column;
+}
+.interview-form .form-field label {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xs);
+}
+.interview-form .form-field label .required-asterisk {
+  color: var(--color-danger);
+  margin-left: var(--spacing-xxs);
+}
+.interview-form .error-text {
+  font-size: var(--font-size-small);
+  color: var(--color-danger);
+  margin-top: var(--spacing-xs);
+}
+.interview-form input[type="date"],
+.interview-form input[type="text"],
+.interview-form textarea,
+.interview-form select {
+  width: 100%;
+}
+.interview-form textarea {
+  min-height: 80px;
+}
+
+.interview-form .form-actions {
+  display: flex;
+  justify-content: space-between; 
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-border-light);
+}
+.interview-form .form-actions > div { 
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+```Sorry, I am not able to process the file. Please provide a valid file.

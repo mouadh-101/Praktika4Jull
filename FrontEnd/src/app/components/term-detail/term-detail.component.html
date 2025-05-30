@@ -1,62 +1,51 @@
-<div class="container mt-4">
-  <div class="card shadow-lg" *ngIf="term">
-    <div class="card-header" style="background: linear-gradient(45deg, #6a11cb, #2575fc); color: white;">
-      <h3 class="card-title">Titre : {{ term.title }}</h3>
+<div class="term-detail-page">
+  <div class="container my-5">
+    <div *ngIf="isLoading" class="loading-indicator text-center">
+      <p>Loading term details...</p>
+      <!-- Or use a spinner component -->
     </div>
-    <div class="card-body">
-      <p><strong>Description :</strong> {{ term.description }}</p>
-      <!-- Ajoute d'autres informations du terme si nécessaire -->
-    </div>
-    <div class="card-footer text-muted d-flex justify-content-between">
-      <!-- Bouton Modifier -->
-      <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editTermModal" (click)="editTerm(term)">
-        <i class="bi bi-pencil-square"></i> Modifier
-      </button>
 
-      <!-- Bouton Supprimer -->
-      <button class="btn btn-danger" (click)="deleteTerm(term.termId)">
-        <i class="bi bi-trash"></i> Supprimer
-      </button>
+    <app-warning-banner *ngIf="errorMessage && !isLoading" type="danger">
+      {{ errorMessage }}
+    </app-warning-banner>
 
-      <!-- Bouton Retour à la liste -->
-      <button class="btn btn-secondary" routerLink="/terms">
-        <i class="bi bi-arrow-left-circle"></i> Retour à la liste
-      </button>
-    </div>
-  </div>
-
-  <!-- Message d'erreur si le terme est introuvable -->
-  <div *ngIf="!term" class="alert alert-danger mt-4" role="alert">
-    Le terme demandé est introuvable.
-  </div>
-</div>
-
-<!-- Modal Bootstrap pour modifier le terme -->
-<div class="modal fade" id="editTermModal" tabindex="-1" aria-labelledby="editTermModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="editTermModalLabel">Modifier le terme</h4>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div *ngIf="term && !isLoading && !errorMessage">
+      <div class="page-header">
+        <h2 class="page-title">
+          <i class="bi bi-file-text-fill"></i> {{ term.title || 'Term Details' }}
+        </h2>
+        <app-custom-button type="default" (buttonClick)="goBack()">
+          <i class="bi bi-arrow-left"></i> Back to Terms List
+        </app-custom-button>
       </div>
-      <div class="modal-body">
-        <form #editForm="ngForm" (ngSubmit)="updateTerm()">
-          <div class="form-group">
-            <label for="title">Titre</label>
-            <input id="title" name="title" class="form-control" [(ngModel)]="selectedTerm.title" required>
-          </div>
 
-          <div class="form-group">
-            <label for="description">Description</label>
-            <textarea id="description" name="description" class="form-control" [(ngModel)]="selectedTerm.description" required></textarea>
-          </div>
+      <app-info-card customClass="term-content-card">
+        <div class="term-description">
+          <!-- Use [innerHTML] if description can contain HTML, otherwise {{ term.description }} -->
+          <!-- Ensure proper sanitization if using [innerHTML] with untrusted content -->
+          <p [innerHTML]="sanitizeHtml(term.description || 'No description provided.')"></p>
+        </div>
+        
+        <!-- Placeholder for other term metadata if available -->
+        <!-- 
+        <div class="term-metadata mt-4">
+          <hr>
+          <p><small><strong>Version:</strong> {{ term.version || 'N/A' }}</small></p>
+          <p><small><strong>Effective Date:</strong> {{ term.effectiveDate | date:'longDate' }}</small></p>
+        </div>
+        -->
+      </app-info-card>
+    </div>
 
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-            <button type="submit" class="btn btn-success">Sauvegarder</button>
-          </div>
-        </form>
-      </div>
+    <div *ngIf="!term && !isLoading && !errorMessage" class="no-results-message mt-4">
+      <app-info-card cardTitle="Term Not Found">
+        <p>The requested term or policy could not be found.</p>
+        <div class="mt-3 text-center">
+          <app-custom-button type="primary" (buttonClick)="goBack()">
+            Go to Terms List
+          </app-custom-button>
+        </div>
+      </app-info-card>
     </div>
   </div>
 </div>

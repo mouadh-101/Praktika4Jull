@@ -1,86 +1,67 @@
-import { Component } from '@angular/core';
-import {Terms} from "../../core/model/db";
-import {TermsService} from "../../services/terms.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import { Component, OnInit } from '@angular/core'; // Added OnInit
+import { Terms } from "../../core/model/db";
+import { TermsService } from "../../services/terms.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser'; // Added DomSanitizer
 
 @Component({
   selector: 'app-term-detail',
   templateUrl: './term-detail.component.html',
   styleUrls: ['./term-detail.component.css']
 })
-export class TermDetailComponent {
-  term: Terms | undefined; // Déclare un terme unique
-  selectedTerm: Terms = { termId: 0, title: '', description: '' }; // Terme sélectionné pour modification
+export class TermDetailComponent implements OnInit { // Implemented OnInit
+  term: Terms | undefined;
+  isLoading: boolean = true;
+  errorMessage: string | null = null;
 
   constructor(
     private termsService: TermsService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private sanitizer: DomSanitizer // Injected DomSanitizer
   ) {}
 
   ngOnInit(): void {
-    this.loadTerm(); // Charger le terme lors de l'initialisation du composant
+    this.loadTerm();
   }
 
   loadTerm(): void {
-    const termId = Number(this.route.snapshot.paramMap.get('id')); // Récupérer l'ID du terme depuis l'URL
-    if (termId) {
-      this.termsService.getTermById(termId).subscribe(
-        (data) => {
+    this.isLoading = true;
+    this.errorMessage = null;
+    const idParam = this.route.snapshot.paramMap.get('id');
+    if (idParam) {
+      const termId = +idParam;
+       if (isNaN(termId) || termId <= 0) {
+        console.error('Invalid Term ID provided.');
+        this.errorMessage = 'Invalid Term ID. Cannot load details.';
+        this.isLoading = false;
+        return;
+      }
+      this.termsService.getTermById(termId).subscribe({
+        next: (data) => {
           this.term = data;
+          this.isLoading = false;
+          if (!data) { // Handle case where service returns null/undefined for not found
+            this.errorMessage = 'The requested term or policy could not be found.';
+          }
         },
-        (error) => {
-          console.error('Erreur lors de la récupération du terme:', error);
+        error: (error) => {
+          console.error('Error fetching term details:', error);
+          this.errorMessage = 'Failed to load term details. ' + (error.error?.message || error.message);
+          this.isLoading = false;
         }
-      );
-    }
-  }
-
-  // Méthode pour supprimer un terme
-  deleteTerm(termId: number | undefined) {
-    if (termId === undefined) {
-      console.error('Term ID is undefined');
-      return;
-    }
-
-    if (confirm('Êtes-vous sûr de vouloir supprimer ce terme ?')) {
-      this.termsService.deleteTerm(termId).subscribe(
-        () => {
-          this.router.navigate(['/terms']); // Naviguer vers la liste des termes après suppression
-        },
-        (error) => {
-          console.error('Erreur lors de la suppression du terme:', error);
-        }
-      );
-    }
-  }
-
-  // Fonction pour mettre à jour un terme
-  updateTerm(): void {
-    if (this.selectedTerm && this.selectedTerm.termId) {
-      this.termsService.updateTerm(this.selectedTerm).subscribe(
-        (response: Terms) => {
-          alert('Terme mis à jour avec succès !');
-          this.loadTerm(); // Recharger le terme après mise à jour
-        },
-        (error: any) => {
-          alert('Erreur lors de la mise à jour du terme');
-          console.error(error);
-        }
-      );
-    }
-  }
-
-  editTerm(term: Terms) {
-    this.selectedTerm = { ...term }; // Copie du terme sélectionné pour modification
-  }
-
-  // Naviguer vers la liste des termes
-  viewTerm(id: number | undefined): void {
-    if (id !== undefined) {
-      this.router.navigate(['/terms', id]);
+      });
     } else {
-      console.error('ID du terme non défini');
+      this.errorMessage = 'No Term ID found in route.';
+      this.isLoading = false;
     }
+  }
+
+  goBack(): void {
+    this.router.navigate(['/terms']); // Navigate back to the terms list
+  }
+
+  sanitizeHtml(html: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 }

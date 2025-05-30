@@ -1,145 +1,467 @@
-/* Conteneur principal du document */
-.document-container {
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  padding: 2.5rem;
-  background-color: #f9f9f9;
-  max-width: 1200px;
-  margin: 0 auto;
-  position: relative;
-  overflow: hidden;
+/* Styles for ConventionDetailComponent */
+
+.convention-detail-page {
+  background-color: var(--color-bg-alt);
+  padding: var(--spacing-xl) 0;
+  min-height: calc(100vh - var(--navbar-height, 60px) - var(--footer-height, 60px));
 }
 
-/* Fond "Esprit" en rouge transparent */
-.watermark {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(-45deg);
-  opacity: 0.1; /* Opacité réduite pour le texte */
-  z-index: 1;
-  pointer-events: none; /* Permet de cliquer à travers le texte */
+.convention-detail-page .container {
+  max-width: 960px; /* Allow a bit more width for document-like content */
 }
 
-.watermark-text {
-  font-size: 120px;
-  font-weight: bold;
-  color: rgba(255, 0, 0, 0.3); /* Rouge transparent */
-  white-space: nowrap;
+.convention-detail-page .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
 }
 
-/* En-tête du document */
-.document-header {
-  border-bottom: 2px solid #ddd;
-  padding-bottom: 1.5rem;
-  margin-bottom: 2rem;
-  position: relative;
-  z-index: 2;
+.convention-detail-page .page-title {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-default);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+.convention-detail-page .page-title .bi {
+  color: var(--color-primary);
 }
 
-.document-header h1 {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #2c3e50;
+/* Styling for the main app-info-card */
+:host ::ng-deep .convention-document-card .info-card-body {
+  padding: var(--spacing-xl); /* More padding for a document feel */
+  background-color: var(--color-bg-body); /* Ensure white background for "paper" */
 }
 
-.document-header p {
-  font-size: 1.25rem;
-  color: #666;
+
+/* Document Header within the card */
+.document-header-themed {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  border-bottom: 2px solid var(--color-primary); /* Primary color accent */
+}
+.header-logo {
+  height: 50px; /* Adjust as needed */
+  width: auto;
+  object-fit: contain;
+}
+.header-icon-placeholder { /* For the right side icon */
+  font-size: 3rem;
+  color: var(--color-border-default);
+}
+.header-title-group {
+  text-align: center;
+}
+.header-title-group h1 {
+  font-family: var(--font-family-headings);
+  font-size: var(--font-size-h2); /* Slightly smaller than page title */
+  color: var(--color-primary-dark);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--spacing-xxs);
+}
+.header-title-group p {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin-bottom: 0;
 }
 
-/* Sections du document */
-.document-section {
-  margin-bottom: 2.5rem;
-  position: relative;
-  z-index: 2;
+
+/* Content Sections */
+.content-section {
+  margin-bottom: var(--spacing-xl);
+}
+.content-section:last-child {
+  margin-bottom: 0;
 }
 
-.section-title {
-  font-size: 1.75rem;
-  font-weight: bold;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
+.section-title-themed {
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-default);
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1px solid var(--color-border-light);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+.section-title-themed .bi {
+  color: var(--color-primary);
+  font-size: 1.2em;
 }
 
-/* Informations de base */
-.bg-info {
-  background-color: #17a2b8 !important; /* Bleu pour Informations de Base */
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive columns */
+  gap: var(--spacing-md);
+}
+.detail-pair {
+  margin-bottom: var(--spacing-sm);
+  background-color: var(--color-bg-alt);
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius-base);
+}
+.detail-label {
+  display: block;
+  font-size: var(--font-size-small);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--spacing-xxs);
+  text-transform: uppercase;
+}
+.detail-value {
+  font-size: var(--font-size-base);
+  color: var(--color-text-default);
+  word-break: break-word;
+}
+.status-badge { /* Copied from student-applications for consistency */
+  padding: var(--spacing-xxs) var(--spacing-sm);
+  border-radius: var(--border-radius-pill);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-base); /* Slightly larger for detail page */
+  text-transform: uppercase;
+  color: var(--color-text-on-primary);
+  display: inline-block; /* To allow padding and proper display */
+}
+.status-badge.signed { background-color: var(--color-success); }
+.status-badge.not-signed { background-color: var(--color-danger); }
+
+
+/* Associated Terms Section */
+.terms-list {
+  margin-top: var(--spacing-sm);
+}
+.term-item-themed {
+  background-color: var(--color-bg-alt);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-base);
+  margin-bottom: var(--spacing-md);
+  border-left: 4px solid var(--color-secondary); /* Accent for terms */
+}
+.term-item-themed:last-child {
+  margin-bottom: 0;
+}
+.term-title-themed {
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-secondary); /* Use secondary for term titles */
+  margin: 0 0 var(--spacing-xs) 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+.term-description-themed {
+  font-size: var(--font-size-base);
+  color: var(--color-text-default);
+  line-height: var(--line-height-base);
+  margin: 0;
 }
 
-/* Termes associés */
-.bg-warning {
-  background-color: #ffc107 !important; /* Jaune pour Termes Associés */
+/* Signatures Section */
+.signatures-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-sm);
 }
-
-/* Signatures */
-.bg-danger {
-  background-color: #dc3545 !important; /* Rouge pour Signatures */
+.signature-area {
+  /* Styles for each signature block */
 }
-
-/* Termes associés */
-.term-item {
-  padding: 1.5rem;
-  border-bottom: 1px solid #eee;
-  transition: transform 0.2s, box-shadow 0.2s;
+.signature-label {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-default);
+  margin-bottom: var(--spacing-xs);
 }
-
-.term-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.term-item:last-child {
-  border-bottom: none;
-}
-
-.term-title {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #2980b9;
-}
-
-.term-description {
-  font-size: 1.1rem;
-  color: #666;
-}
-
-/* Placeholder de signature */
-.signature-placeholder {
-  height: 120px;
+.signature-box {
+  border: 1px dashed var(--color-border-default);
+  border-radius: var(--border-radius-base);
+  padding: var(--spacing-lg);
+  min-height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
-  background-color: #f1f1f1;
-  border: 1px dashed #ccc;
+  background-color: var(--color-bg-alt);
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+.company-signature-image {
+  max-width: 200px;
+  max-height: 100px;
+  object-fit: contain;
 }
 
-/* Pied de page */
-.document-footer {
-  border-top: 2px solid #ddd;
-  padding-top: 1.5rem;
-  margin-top: 2.5rem;
-  position: relative;
-  z-index: 2;
+
+/* Loading and No Results States */
+.loading-indicator,
+.no-results-message {
+  text-align: center;
+  padding: var(--spacing-xl) var(--spacing-md);
+}
+.loading-indicator p,
+.no-results-message p {
+  font-size: var(--font-size-large);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-md);
+}
+:host ::ng-deep .no-results-message .app-info-card .info-card-body {
+  padding: var(--spacing-xl);
+}
+:host ::ng-deep .no-results-message .app-info-card .info-card-title {
+   font-size: var(--font-size-h4);
 }
 
-/* Bouton de retour */
-.btn-outline-primary {
-  border: 2px solid #2980b9;
-  color: #2980b9;
-  transition: background-color 0.3s, color 0.3s;
+/* Ensure Bootstrap icons are sized well within labels/titles */
+.detail-label .bi, .section-title-themed .bi, .term-title-themed .bi {
+    margin-right: var(--spacing-xs); /* Consistent spacing for icons next to text */
+    flex-shrink: 0;
+}
+```css
+/* Styles for ConventionDetailComponent */
+
+.convention-detail-page {
+  background-color: var(--color-bg-alt);
+  padding: var(--spacing-xl) 0;
+  min-height: calc(100vh - var(--navbar-height, 60px) - var(--footer-height, 60px));
 }
 
-.btn-outline-primary:hover {
-  background-color: #2980b9;
-  color: #fff;
+.convention-detail-page .container {
+  max-width: 960px; /* Allow a bit more width for document-like content */
+  width: 100%;
 }
-/* Cadre bleu autour de la page */
-/* Cadre bleu autour de la page */
-.blue-frame {
-  border: 10px solid #007bff; /* Bordure bleue de 10px */
-  border-radius: 15px; /* Coins arrondis */
-  padding: 20px; /* Espace intérieur */
-  background-color: #f9f9f9; /* Fond léger pour contraster avec le cadre */
+
+.convention-detail-page .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
 }
+
+.convention-detail-page .page-title {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-default);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+.convention-detail-page .page-title .bi {
+  color: var(--color-primary);
+  font-size: 1em; /* Match title font size */
+}
+
+/* Styling for the main app-info-card */
+:host ::ng-deep .convention-document-card .info-card-body {
+  padding: var(--spacing-xl); /* Generous padding for a document feel */
+  background-color: var(--color-bg-body); /* Ensure white background for "paper" */
+}
+/* No card title for convention-document-card as page title serves this role */
+
+
+/* Document Header within the card */
+.document-header-themed {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  border-bottom: 2px solid var(--color-primary); /* Primary color accent */
+}
+.header-logo {
+  height: 50px; /* Adjust as needed */
+  width: auto;
+  object-fit: contain;
+}
+.header-icon-placeholder { /* For the right side icon */
+  font-size: 3rem;
+  color: var(--color-border-default);
+}
+.header-title-group {
+  text-align: center;
+}
+.header-title-group h1 {
+  font-family: var(--font-family-headings);
+  font-size: var(--font-size-h2); /* Slightly smaller than page title */
+  color: var(--color-primary-dark);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--spacing-xxs);
+}
+.header-title-group p {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin-bottom: 0;
+}
+
+
+/* Content Sections */
+.content-section {
+  margin-bottom: var(--spacing-xl);
+}
+.content-section:last-child {
+  margin-bottom: 0;
+}
+
+.section-title-themed {
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-default);
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1px solid var(--color-border-light);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+.section-title-themed .bi {
+  color: var(--color-primary);
+  font-size: 1.2em;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive columns */
+  gap: var(--spacing-md);
+}
+.detail-pair {
+  margin-bottom: var(--spacing-sm);
+  background-color: var(--color-bg-alt);
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius-base);
+  border-left: 3px solid var(--color-primary-light);
+}
+.detail-label {
+  display: block; 
+  font-size: var(--font-size-small);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--spacing-xxs);
+  text-transform: uppercase;
+  /* display: flex; For icon alignment if needed */
+  /* align-items: center; */
+  /* gap: var(--spacing-xs); */
+}
+/* .detail-label .bi { ... } */ /* No icons in detail-label in current HTML */
+
+.detail-value {
+  font-size: var(--font-size-base);
+  color: var(--color-text-default);
+  word-break: break-word;
+}
+.status-badge { 
+  padding: var(--spacing-xxs) var(--spacing-sm);
+  border-radius: var(--border-radius-pill);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-base); 
+  text-transform: uppercase;
+  color: var(--color-text-on-primary);
+  display: inline-block; 
+}
+.status-badge.signed { background-color: var(--color-success); }
+.status-badge.not-signed { background-color: var(--color-danger); }
+
+
+/* Associated Terms Section */
+.terms-list {
+  margin-top: var(--spacing-sm);
+}
+.term-item-themed {
+  background-color: var(--color-bg-alt);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-base);
+  margin-bottom: var(--spacing-md);
+  border-left: 4px solid var(--color-secondary); /* Accent for terms */
+}
+.term-item-themed:last-child {
+  margin-bottom: 0;
+}
+.term-title-themed {
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-secondary); 
+  margin: 0 0 var(--spacing-xs) 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+.term-title-themed .bi { /* Icon for term title */
+    color: var(--color-secondary);
+    margin-right: var(--spacing-xs);
+    flex-shrink: 0;
+}
+.term-description-themed {
+  font-size: var(--font-size-base);
+  color: var(--color-text-default);
+  line-height: var(--line-height-base);
+  margin: 0;
+}
+
+/* Signatures Section */
+.signatures-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-sm);
+}
+.signature-area {
+  /* Styles for each signature block */
+}
+.signature-label {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-default);
+  margin-bottom: var(--spacing-xs);
+}
+.signature-box {
+  border: 1px dashed var(--color-border-default);
+  border-radius: var(--border-radius-base);
+  padding: var(--spacing-lg);
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-bg-alt);
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+.company-signature-image {
+  max-width: 200px;
+  max-height: 100px;
+  object-fit: contain;
+}
+
+
+/* Loading and No Results States */
+.loading-indicator,
+.no-results-message {
+  text-align: center;
+  padding: var(--spacing-xl) var(--spacing-md);
+}
+.loading-indicator p,
+.no-results-message p {
+  font-size: var(--font-size-large);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-md);
+}
+:host ::ng-deep .no-results-message .app-info-card .info-card-body {
+  padding: var(--spacing-xl);
+}
+:host ::ng-deep .no-results-message .app-info-card .info-card-title {
+   font-size: var(--font-size-h4);
+}
+
+/* Ensure Bootstrap icons are sized well within labels/titles */
+.detail-label .bi, .section-title-themed .bi {
+    margin-right: var(--spacing-xs); 
+    flex-shrink: 0;
+}
+
+```Sorry, I am not able to process the file. Please provide a valid file.
