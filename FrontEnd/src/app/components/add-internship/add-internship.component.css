@@ -1,60 +1,275 @@
-.requirements-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  
-  .requirement-circle {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 120px; /* Taille ajustée pour le texte */
-    height: 50px;
-    border-radius: 25px; /* Forme ovale */
-    background-color: white; /* Fond blanc */
-    color: #008BDC;
-    border: 1px solid #008BDC;
-    cursor: pointer;
-    text-align: center;
-    padding: 5px 10px;
-    transition: all 0.3s ease-in-out;
-    font-size: 14px;
-      line-height: 1.57142857;
-      font-weight: 400;
-  }
-  .selected-requirements-card {
-    border: 1px solid #ccc; /* Bordure grise fine */
-    padding: 10px;
-    border-radius: 5px;
-    background-color: white;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    min-height: 50px; /* Taille minimale pour éviter les sauts */
-    align-items: center;
-  }
-  
-  .selected-req-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  
-  .selected-req {
-    border: 1px solid #ccc;
-    padding: 5px 10px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-  
-  .delete-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: gray;
-    font-size: 16px;
-  }
-  
-  
+/* Styles for AddInternshipComponent */
+
+.add-internship-page {
+  background-color: var(--color-bg-alt);
+  padding: var(--spacing-xl) 0;
+  min-height: calc(100vh - var(--navbar-height, 60px) - var(--footer-height, 60px));
+}
+
+.add-internship-page .container {
+  max-width: 800px; /* Max width for the form card */
+}
+
+:host ::ng-deep .add-internship-card .info-card-title {
+  text-align: center;
+  font-size: var(--font-size-h2);
+}
+:host ::ng-deep .add-internship-card .info-card-body {
+  padding-top: var(--spacing-lg);
+}
+
+.add-internship-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg); /* Larger gap between sections */
+}
+
+.form-section {
+  padding: var(--spacing-md);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--border-radius-base);
+  background-color: var(--color-bg-body);
+}
+.form-section:first-of-type {
+  margin-top: 0; /* No top margin for the first section */
+}
+
+.section-subtitle {
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-xs);
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: var(--spacing-md); /* Default spacing between fields */
+}
+.form-field:last-child {
+  margin-bottom: 0;
+}
+
+
+.form-field label,
+.form-check-field label {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xs);
+  text-align: left;
+}
+
+.form-field label .required-asterisk {
+  color: var(--color-danger);
+  margin-left: var(--spacing-xxs);
+}
+
+/* Inputs, textareas, selects are styled globally */
+input[type="text"],
+input[type="number"],
+input[type="date"],
+textarea,
+select {
+  width: 100%;
+}
+
+.description-input-group {
+  display: flex;
+  align-items: flex-start; /* Align textarea and button */
+  gap: var(--spacing-sm);
+}
+.description-input-group textarea {
+  flex-grow: 1;
+}
+.description-input-group .btn-edit-desc.custom-button {
+  flex-shrink: 0; /* Prevent button from shrinking */
+  height: auto; /* Adjust height if needed or match textarea's first line */
+  align-self: flex-start; /* Align with top of textarea */
+}
+.description-input-group .btn-edit-desc.custom-button .bi {
+  margin-right: var(--spacing-xs);
+}
+
+
+.form-row {
+  display: flex;
+  gap: var(--spacing-md);
+}
+.form-row .form-field {
+  flex: 1;
+}
+
+.form-check-field {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-md);
+}
+.form-check-field input[type="checkbox"] {
+  width: auto; /* Checkboxes should not be full width */
+  height: auto;
+  margin-top: 2px; /* Align checkbox with label text */
+}
+
+.error-text {
+  font-size: var(--font-size-small);
+  color: var(--color-danger);
+  margin-top: var(--spacing-xs);
+  text-align: left;
+}
+
+.section-divider {
+  border-color: var(--color-border-default);
+  margin: var(--spacing-lg) 0;
+}
+
+/* Requirements/Skills Section */
+.form-text { /* Helper text for sections */
+  font-size: var(--font-size-small);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.requirements-suggestion-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-sm);
+  background-color: var(--color-bg-alt);
+  border-radius: var(--border-radius-base);
+}
+
+.skill-tag-suggestion {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-pill);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xxs);
+}
+.skill-tag-suggestion:hover {
+  background-color: var(--color-primary);
+  color: var(--color-text-on-primary);
+}
+.skill-tag-suggestion .bi {
+  font-size: 1.1em;
+}
+
+.btn-add-other-skill.custom-button {
+  font-size: var(--font-size-small);
+  padding: var(--spacing-xs) var(--spacing-sm);
+}
+.btn-add-other-skill.custom-button .bi {
+  margin-right: var(--spacing-xs);
+}
+
+.selected-skills-display {
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-md);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--border-radius-base);
+}
+.selected-skills-title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-default);
+  margin-bottom: var(--spacing-sm);
+}
+.selected-skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+.skill-tag-selected {
+  background-color: var(--color-primary);
+  color: var(--color-text-on-primary);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-pill);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  display: inline-flex;
+  align-items: center;
+}
+.btn-remove-skill {
+  background: none;
+  border: none;
+  color: var(--color-primary-light); /* Lighter for contrast on primary bg */
+  cursor: pointer;
+  padding: 0 0 0 var(--spacing-xs);
+  margin-left: var(--spacing-xs);
+  line-height: 1;
+  font-size: 1.2em; /* Make X slightly larger */
+}
+.btn-remove-skill:hover {
+  color: var(--color-text-on-primary); /* Full white on hover */
+}
+
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-border-light);
+}
+
+/* Modal Specific Styling */
+.modal-content {
+  border-radius: var(--border-radius-large);
+  border: none;
+  box-shadow: var(--shadow-lg);
+}
+.modal-header {
+  background-color: var(--color-bg-alt);
+  color: var(--color-text-default);
+  border-bottom: 1px solid var(--color-border-light);
+  padding: var(--spacing-md) var(--spacing-lg);
+}
+.modal-header .modal-title {
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-semibold);
+}
+.btn-close-modal.custom-button { /* For app-custom-button used as close */
+  padding: var(--spacing-xs); /* Adjust padding for icon button */
+  color: var(--color-text-secondary);
+}
+.btn-close-modal.custom-button:hover {
+  color: var(--color-text-default);
+}
+
+.modal-body {
+  padding: var(--spacing-lg);
+}
+.modal-body textarea.form-control,
+.modal-body input.form-control { /* Ensure modal inputs also use global styles */
+  /* Global styles should cover this, but can add overrides if needed */
+}
+.requirement-search-results .list-group-item {
+  cursor: pointer;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-color: var(--color-border-light);
+  transition: background-color 0.2s ease;
+}
+.requirement-search-results .list-group-item:hover {
+  background-color: var(--color-bg-alt-hover);
+  color: var(--color-primary);
+}
+
+.modal-footer {
+  background-color: var(--color-bg-alt);
+  border-top: 1px solid var(--color-border-light);
+  padding: var(--spacing-md) var(--spacing-lg);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+}

@@ -1,86 +1,104 @@
-<div class="container">
-  <h2 class="text-center">Liste des Documents</h2>
-  <br>
+<div class="document-back-page">
+  <div class="container mt-4">
+    <div class="page-header">
+      <h2 class="page-title">Manage Documents (Admin View)</h2>
+      <!-- Add New Document button could be here if admins can also add -->
+      <!-- <app-custom-button type="primary" routerLink="/AddDocument">
+        <i class="bi bi-plus-lg"></i> Add New Document
+      </app-custom-button> -->
+    </div>
 
-  <!-- Filtrer par durée -->
-  <div class="form-group d-flex align-items-center gap-3">
-    <label for="typeFilter" class="font-weight-bold mb-0">📅 Filtrer par durée :</label>
-    <select id="typeFilter" [(ngModel)]="selectedDuree" (change)="filterDocuments()" class="form-control w-auto px-3 py-2 rounded shadow-sm border-primary">
-      <option value="" class="fw-bold">📂 Toutes les Durées</option>
-      <option *ngFor="let Duree of Duree | keyvalue" [value]="Duree.value" class="text-dark">
-        🔹 {{ Duree.key }}
-      </option>
-    </select>
+    <div class="row gy-4">
+      <!-- Filter Section -->
+      <div class="col-12"> <!-- Filters can take full width above the table -->
+        <app-info-card cardTitle="Filter Documents" customClass="filter-card">
+          <form class="filter-form row gx-3 gy-2 align-items-center">
+            <div class="col-md-auto">
+              <label for="typeFilter" class="form-label">Filter by Duration:</label>
+              <select id="typeFilter" class="form-select" [(ngModel)]="selectedDuree" (change)="filterDocuments()" name="dureeFilter">
+                <option value="">All Durations</option>
+                <option *ngFor="let duree of Duree | keyvalue" [value]="duree.value">{{ duree.key }}</option>
+              </select>
+            </div>
+            <div class="col-md-auto">
+              <label for="statusFilter" class="form-label">Filter by Status:</label>
+              <select id="statusFilter" class="form-select" [(ngModel)]="selectedStatus" (change)="filterDocuments()" name="statusFilter">
+                <option value="">All Statuses</option>
+                <option *ngFor="let status of StatusDoc | keyvalue" [value]="status.value">{{ status.key }}</option>
+              </select>
+            </div>
+            <!-- Add a clear filters button if desired -->
+            <!-- <div class="col-md-auto">
+              <app-custom-button type="default" (buttonClick)="clearFilters()" customClass="mt-4">Clear Filters</app-custom-button>
+            </div> -->
+          </form>
+        </app-info-card>
+      </div>
+
+      <!-- Document Table Section -->
+      <div class="col-12">
+        <div *ngIf="filteredDocuments.length === 0" class="no-documents-message">
+          <app-info-card cardTitle="No Documents Found">
+            <p>No documents match your current filters, or no documents are available.</p>
+          </app-info-card>
+        </div>
+
+        <div class="table-responsive" *ngIf="filteredDocuments.length > 0">
+          <table class="table documents-table">
+            <thead>
+              <tr>
+                <th>Company</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Duration</th>
+                <th>Status</th>
+                <th>Downloads</th>
+                <th>Actions</th>
+                <th>Submissions & Tasks</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let document of filteredDocuments | paginate: { itemsPerPage: itemsPerPage, currentPage: page }">
+                <td>{{ document.societe }}</td>
+                <td>{{ document.dateDebut | date:'shortDate' }}</td>
+                <td>{{ document.dateFin | date:'shortDate' }}</td>
+                <td>{{ document.duree }}</td>
+                <td><span class="status-badge {{document.statusDoc}}">{{ document.statusDoc }}</span></td>
+                <td class="actions-cell downloads-cell">
+                  <app-custom-button type="icon" (buttonClick)="telechargerDemandeStage(document.docid)" [disabled]="estDesactive(document.statusDoc)" title="Download Request">
+                    <i class="bi bi-file-earmark-arrow-down"></i> <span class="action-text">Request</span>
+                  </app-custom-button>
+                  <app-custom-button type="icon" (buttonClick)="telechargerLettreAffectation(document.docid)" [disabled]="estDesactive(document.statusDoc)" title="Download Assignment">
+                    <i class="bi bi-file-earmark-arrow-down"></i> <span class="action-text">Assignment</span>
+                  </app-custom-button>
+                </td>
+                <td class="actions-cell review-actions-cell">
+                  <app-custom-button type="success" customClass="btn-sm" (buttonClick)="validerDocument(document.docid)" [disabled]="document.statusDoc === StatusDoc.VALIDE || document.statusDoc === StatusDoc.REFUSER" title="Approve">
+                    <i class="bi bi-check-circle"></i> <span class="action-text">Approve</span>
+                  </app-custom-button>
+                  <app-custom-button type="danger" customClass="btn-sm" (buttonClick)="refuserDocument(document.docid)" [disabled]="document.statusDoc === StatusDoc.VALIDE || document.statusDoc === StatusDoc.REFUSER" title="Reject">
+                    <i class="bi bi-x-circle"></i> <span class="action-text">Reject</span>
+                  </app-custom-button>
+                </td>
+                <td class="actions-cell links-cell">
+                  <app-custom-button type="default" customClass="btn-sm" [routerLink]="['/depotback', document.docid]" [disabled]="estDesactive(document.statusDoc)" title="View Submissions">
+                    <i class="bi bi-archive"></i> <span class="action-text">Submissions</span>
+                  </app-custom-button>
+                  <app-custom-button type="default" customClass="btn-sm" [routerLink]="['/JournalBack', document.docid]" [disabled]="estDesactive(document.statusDoc)" title="View Tasks">
+                    <i class="bi bi-journal-check"></i> <span class="action-text">Tasks</span>
+                  </app-custom-button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination-container mt-4" *ngIf="filteredDocuments.length > 0">
+          <pagination-controls (pageChange)="page = $event"
+                               previousLabel=""
+                               nextLabel="">
+          </pagination-controls>
+        </div>
+      </div>
+    </div>
   </div>
-<br>
-  <!-- Filtrer par statut -->
-  <div class="form-group d-flex align-items-center gap-3">
-    <label for="statusFilter" class="font-weight-bold mb-0">📑 Filtrer par statut :</label>
-    <select id="statusFilter" [(ngModel)]="selectedStatus" (change)="filterDocuments()" class="form-control w-auto px-3 py-2 rounded shadow-sm border-primary">
-      <option value="" class="fw-bold">📂 Tous les Statuts</option>
-      <option *ngFor="let status of StatusDoc | keyvalue" [value]="status.value" class="text-dark">
-        🔹 {{ status.key }}
-      </option>
-    </select>
-  </div>
-  <br>
-
-  <!-- Tableau des documents -->
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Société</th>
-        <th>Date Début</th>
-        <th>Date Fin</th>
-        <th>Durée</th>
-        <th>Status Document</th>
-        <th>Demande de stage</th>
-        <th>Lettre d'Affectation</th>
-        <th>Actions</th>
-        <th>Depot</th>
-        <th>Les taches</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let document of filteredDocuments | paginate: { itemsPerPage: itemsPerPage, currentPage: page }">
-        <td>{{ document.societe }}</td>
-        <td>{{ document.dateDebut | date: 'shortDate' }}</td>
-        <td>{{ document.dateFin | date: 'shortDate' }}</td>
-        <td>{{ document.duree }}</td>
-        <td>{{ document.statusDoc }}</td>
-        <td>
-          <button class="btn btn-primary" (click)="telechargerDemandeStage(document.docid)" [disabled]="estDesactive(document.statusDoc)">
-            Télécharger
-          </button>
-        </td>
-        <td>
-          <button class="btn btn-secondary" (click)="telechargerLettreAffectation(document.docid)" [disabled]="estDesactive(document.statusDoc)">
-            Télécharger
-          </button>
-        </td>
-        <td>
-          <button (click)="validerDocument(document.docid)" class="btn btn-secondary" [disabled]="estDesactiveee(document.statusDoc)">
-            Valider
-          </button>
-          <button (click)="refuserDocument(document.docid)" class="btn btn-secondary" [disabled]="estDesactiveee(document.statusDoc)">
-            Refuser
-          </button>
-        </td>
-        <td>
-          <button class="btn btn-primary" [routerLink]="['/depotback', document.docid]" [disabled]="estDesactive(document.statusDoc)">
-            <i class="bi bi-list"></i>
-          </button>
-        </td>
-        <td>
-          <button class="btn btn-primary" [routerLink]="['/JournalBack', document.docid]" [disabled]="estDesactive(document.statusDoc)">
-            <i class="bi bi-list"></i>
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <!-- Pagination Controls -->
-  <pagination-controls (pageChange)="page = $event"></pagination-controls>
-
 </div>

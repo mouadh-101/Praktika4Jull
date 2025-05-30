@@ -1,19 +1,208 @@
+/* Styles for StudentApplicationsComponent */
 
-  
-  .app-card {
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
-  }
-  
-  .app-card:hover {
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
-    transform: translateY(-3px);
-  }
-  
-  .app-card:hover .app-img {
-    transform: scale(1.05);
-  }
-  .stat-card:hover .app-img {
-    transform: scale(1.05);
-  }
-  
-  
+.student-applications-page .page-header {
+  display: flex;
+  justify-content: space-between; /* Or center if no actions on right */
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.student-applications-page .page-title {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-default);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+.student-applications-page .page-title .bi {
+  color: var(--color-primary);
+}
+
+/* Application Item Card Styling */
+:host ::ng-deep .application-item-card .info-card-body {
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+}
+
+.app-card-header {
+  margin-bottom: var(--spacing-sm);
+}
+.app-card-header .internship-title,
+.app-card-header .student-name {
+  font-size: var(--font-size-h5);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  margin: 0 0 var(--spacing-xxs) 0;
+}
+.app-card-header .company-name,
+.app-card-header .student-email {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin-bottom: 0;
+}
+.app-card-header .internship-title-company-view { /* Specific for company view card */
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-normal);
+  margin-top: var(--spacing-xxs);
+}
+
+
+.app-card-body {
+  flex-grow: 1; /* Ensure body takes space to push actions down if card height is fixed/equal */
+  margin-bottom: var(--spacing-sm);
+}
+.app-detail {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xs);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+.app-detail .bi {
+  color: var(--color-text-secondary); /* Subtle icon color */
+  font-size: 1.1em;
+}
+
+.status-badge {
+  padding: var(--spacing-xxs) var(--spacing-xs);
+  border-radius: var(--border-radius-pill);
+  font-weight: var(--font-weight-semibold);
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--color-text-on-primary);
+}
+.status-badge.pending { background-color: var(--color-warning-bg, #ffc107); color: var(--color-warning-text, #383d41); }
+.status-badge.accepted { background-color: var(--color-success, #28a745); }
+.status-badge.rejected { background-color: var(--color-danger, #dc3545); }
+/* Add more statuses if they exist, e.g., withdrawn, interviewing */
+.status-badge.withdrawn { background-color: var(--color-secondary, #6c757d); }
+
+
+.app-card-actions {
+  margin-top: auto; /* Push actions to the bottom of the card */
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid var(--color-border-light);
+  text-align: right; /* Align buttons to the right */
+}
+.app-card-actions .custom-button.btn-sm .bi {
+  margin-right: var(--spacing-xxs);
+}
+
+
+/* Student View - Sidebar for Stats and Chart */
+.student-stats-sidebar {
+  /* Styles for the sidebar column if needed, e.g., background, padding */
+}
+.student-stats-sidebar app-info-card {
+  /* Ensure consistent card styling if defaults are not enough */
+}
+:host ::ng-deep .student-stats-sidebar .info-card-title {
+  font-size: var(--font-size-h5);
+  margin-bottom: var(--spacing-md);
+}
+
+.chart-container {
+  position: relative;
+  height: 250px; /* Adjust as needed */
+  width: 100%;
+  margin-bottom: var(--spacing-md);
+}
+
+.stats-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.stats-list li {
+  font-size: var(--font-size-base);
+  color: var(--color-text-default);
+  margin-bottom: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+.stats-list li .bi {
+  font-size: var(--font-size-large); /* Prominent icons */
+}
+.stats-list li span:first-of-type { /* Text label like "Total Applications:" */
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
+.stats-list li span:last-of-type { /* The actual count */
+  font-weight: var(--font-weight-bold);
+  margin-left: auto; /* Push count to the right */
+  font-size: var(--font-size-large);
+}
+
+
+/* No Applications Message */
+.no-applications-message { /* Using this for both student and company */
+  text-align: center;
+  margin: var(--spacing-xl) 0;
+}
+:host ::ng-deep .no-applications-message .app-info-card .info-card-body {
+  padding: var(--spacing-xl);
+}
+:host ::ng-deep .no-applications-message .app-info-card .info-card-title {
+   font-size: var(--font-size-h4);
+}
+.no-applications-message p {
+  font-size: var(--font-size-large);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-md);
+}
+
+
+/* Loading Indicator */
+.loading-indicator {
+  text-align: center;
+  padding: var(--spacing-xl);
+}
+.loading-indicator p {
+  font-size: var(--font-size-large);
+  color: var(--color-text-secondary);
+}
+
+
+/* Pagination Controls - Copied for consistency */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--spacing-lg);
+}
+:host ::ng-deep .ngx-pagination {
+  padding: 0; margin: 0; display: flex; gap: var(--spacing-xs);
+}
+:host ::ng-deep .ngx-pagination .current,
+:host ::ng-deep .ngx-pagination button {
+  background: var(--color-bg-container); color: var(--color-primary);
+  border: 1px solid var(--color-border-default); border-radius: var(--border-radius-base);
+  padding: var(--spacing-xs) var(--spacing-sm); text-decoration: none; cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+:host ::ng-deep .ngx-pagination button:hover {
+  background: var(--color-bg-alt); color: var(--color-primary-dark);
+}
+:host ::ng-deep .ngx-pagination .current {
+  background: var(--color-primary); color: var(--color-text-on-primary);
+  border-color: var(--color-primary); cursor: default;
+}
+:host ::ng-deep .ngx-pagination .disabled {
+  color: var(--color-text-secondary); opacity: 0.6; cursor: not-allowed; background: var(--color-bg-alt);
+}
+:host ::ng-deep .ngx-pagination .pagination-previous a::before,
+:host ::ng-deep .ngx-pagination .pagination-previous.disabled::before {
+  content: '«'; margin-right: 0;
+}
+:host ::ng-deep .ngx-pagination .pagination-next a::after,
+:host ::ng-deep .ngx-pagination .pagination-next.disabled::after {
+  content: '»'; margin-left: 0;
+}
+:host ::ng-deep .ngx-pagination .pagination-previous,
+:host ::ng-deep .ngx-pagination .pagination-next {
+  padding: var(--spacing-xs) var(--spacing-xs);
+}

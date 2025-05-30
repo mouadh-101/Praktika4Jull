@@ -1,36 +1,56 @@
-<div class="container mt-5">
-  <h1 class="text-center text-primary mb-4">📋 Gestion des Tâches</h1>
+<div class="journal-back-page">
+  <div class="container mt-4">
+    <div class="page-header">
+      <h2 class="page-title">Manage Journal Entries for Document #{{ stageId }}</h2>
+      <app-custom-button type="default" routerLink="/DocumentBack">
+        <i class="bi bi-arrow-left"></i> Back to Document List
+      </app-custom-button>
+    </div>
 
-  <!-- Vérifie si on a des tâches -->
-  <div *ngIf="journals && journals.length > 0; else noJournals">
+    <div *ngIf="journals && journals.length > 0; else noJournalsFound" class="journal-entries-container row gy-4">
+      <div *ngFor="let journal of journals" class="col-md-6 col-lg-4">
+        <app-info-card customClass="journal-entry-card h-100">
+          <div class="journal-card-header">
+            <h5 class="journal-task-title"><i class="bi bi-check2-square"></i> {{ journal.tache }}</h5>
+          </div>
+          
+          <div class="journal-card-body-content"> <!-- Renamed to avoid conflict with app-info-card's body if ::ng-deep is used broadly -->
+            <p class="journal-date">
+              <i class="bi bi-calendar-event"></i> Date: {{ journal.dateJournal | date:'fullDate' }}
+            </p>
+            <!-- Additional details of the journal entry could be displayed here -->
+          </div>
 
-    <div *ngFor="let journal of journals" class="card bg-light shadow-sm p-3 mb-4 rounded border-0">
-      <div class="card-body">
-        <h5 class="card-title fw-bold text-dark">🛠️ Tâche : {{ journal.tache }}</h5>
-        <p class="card-text text-muted mb-1">
-          📅 <strong>Date :</strong> {{ journal.dateJournal | date: 'longDate' }}
-        </p>
-
-        <div class="text-end mt-3">
-          <button class="btn btn-danger btn-sm me-2" (click)="deleteJournal(journal.idJournal)">
-            <i class="bi bi-trash"></i> Supprimer
-          </button>
-        </div>
+          <div class="journal-card-actions">
+            <!-- Admins might not edit tasks directly here, but view/delete. If edit is needed, add it like ListJournalComponent -->
+            <!-- <app-custom-button type="icon" customClass="edit-btn" [routerLink]="['/UpdateJournal', journal.idJournal]" title="Edit Entry">
+              <i class="bi bi-pencil-square"></i>
+            </app-custom-button> -->
+            <app-custom-button type="icon" customClass="delete-btn" (buttonClick)="deleteJournal(journal.idJournal)" title="Delete Entry">
+              <i class="bi bi-trash3"></i>
+            </app-custom-button>
+          </div>
+        </app-info-card>
       </div>
     </div>
 
-  </div>
+    <ng-template #noJournalsFound>
+      <div class="no-entries-message mt-4">
+        <app-info-card cardTitle="No Journal Entries Found">
+          <p>No journal entries have been recorded for this document.</p>
+          <!-- No "Add" button here as it's context specific, usually added from ListJournal or similar -->
+        </app-info-card>
+      </div>
+    </ng-template>
 
-  <!-- Template si aucune tâche -->
-  <ng-template #noJournals>
-    <div class="alert alert-info text-center">
-      😕 Aucune tâche trouvée pour ce stage.
+    <!-- No pagination for now, assuming lists per document are not excessively long for an admin view. Can be added if needed. -->
+    <!-- 
+    <div class="pagination-container mt-4" *ngIf="journals && journals.length > itemsPerPage">
+      <pagination-controls (pageChange)="page = $event"
+                           previousLabel=""
+                           nextLabel="">
+      </pagination-controls>
     </div>
-  </ng-template>
-
-  <div class="text-center mt-4">
-    <button routerLink="/DocumentBack" class="btn btn-primary">
-      <i class="bi bi-arrow-left-circle"></i> Retour
-    </button>
+    -->
   </div>
 </div>

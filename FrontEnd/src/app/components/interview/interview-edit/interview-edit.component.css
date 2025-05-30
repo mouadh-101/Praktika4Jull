@@ -1,0 +1,87 @@
+/* Styles for InterviewEditComponent - very similar to InterviewAddComponent */
+
+.edit-interview-page { /* Changed from .add-interview-page */
+  background-color: var(--color-bg-alt);
+  padding: var(--spacing-xl) 0;
+  min-height: calc(100vh - var(--navbar-height, 60px) - var(--footer-height, 60px));
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.edit-interview-page .container { /* Changed from .add-interview-page */
+  max-width: 700px; /* Max width for the form card container */
+  width: 100%;
+}
+
+/* Styling for the app-info-card used as the form container */
+:host ::ng-deep .edit-interview-card .info-card-title { /* Changed from .add-interview-card */
+  text-align: center;
+  font-size: var(--font-size-h2); /* "Update Interview Details" title */
+}
+:host ::ng-deep .edit-interview-card .info-card-body { /* Changed from .add-interview-card */
+  padding-top: var(--spacing-lg);
+}
+
+.edit-interview-form { /* Changed from .add-interview-form */
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md); /* Space between form fields */
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field label {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xs);
+  text-align: left;
+}
+
+.form-field label .required-asterisk {
+  color: var(--color-danger);
+  margin-left: var(--spacing-xxs);
+}
+
+/* Input, select, and textarea elements are styled globally by styles.css */
+input[type="text"],
+input[type="date"],
+textarea,
+select {
+  width: 100%; /* Ensure form elements take full width within their container */
+}
+textarea {
+  min-height: 100px; /* Default min-height for textareas */
+}
+
+
+.error-text {
+  font-size: var(--font-size-small);
+  color: var(--color-danger);
+  margin-top: var(--spacing-xs);
+  text-align: left;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-lg); /* Space above action buttons */
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-border-light);
+}
+
+/* Loading Indicator (copied from app-analyze for consistency if used) */
+.loading-indicator {
+  text-align: center;
+  padding: var(--spacing-xl);
+}
+.loading-indicator p {
+  font-size: var(--font-size-large);
+  color: var(--color-text-secondary);
+}
+/* app-warning-banner styling is handled by its own component and global styles */

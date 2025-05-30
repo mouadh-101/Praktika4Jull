@@ -1,20 +1,60 @@
-<div class="container mt-5">
-  <h1 class="text-center mb-4">Gérer le Dépôt de Documents</h1>
-
-  <!-- Section de gestion du dépôt existant -->
-  <div *ngIf="depots" class="card bg-light p-4 mt-4 rounded">
-    <div class="card-body">
-      <h5 class="card-title">Dépôt effectué le {{ depots.uploadDate | date }}</h5>
-   
-      
+<div class="depot-back-page">
+  <div class="container my-5">
+    <div class="page-header">
+      <h2 class="page-title">Document Submission Details</h2>
+      <app-custom-button type="default" (buttonClick)="goBack()">
+        <i class="bi bi-arrow-left"></i> Back to Admin Document List
+      </app-custom-button>
     </div>
-    <button (click)="download(depots.idDepot)" class="btn btn-primary me-2">
-  <i class="bi bi-download" ></i> Télécharger les documents
-</button>
-  </div>
-  <br>
-  <button routerLink="/DocumentBack" class="btn btn-primary me-2">
-  <i class="bi bi-back"></i> Retour
-</button>
-</div>
 
+    <app-info-card *ngIf="!isLoading && depots" [cardTitle]="'Submission for Document ID: ' + depotId" customClass="depot-details-card">
+      <div class="submission-details">
+        <div class="detail-item">
+          <span class="detail-label"><i class="bi bi-calendar-check"></i> Submitted On:</span>
+          <span class="detail-value">{{ depots.uploadDate | date:'fullDate' }} at {{ depots.uploadDate | date:'shortTime' }}</span>
+        </div>
+        
+        <!-- Placeholder for more details if available in depots object -->
+        <!-- 
+        <div class="detail-item" *ngIf="depots.rapportFileName">
+          <span class="detail-label"><i class="bi bi-file-earmark-text"></i> Report File:</span>
+          <span class="detail-value">{{ depots.rapportFileName }}</span>
+        </div>
+        <div class="detail-item" *ngIf="depots.journalFileName">
+          <span class="detail-label"><i class="bi bi-journal-richtext"></i> Journal File:</span>
+          <span class="detail-value">{{ depots.journalFileName }}</span>
+        </div>
+        <div class="detail-item" *ngIf="depots.attestationFileName">
+          <span class="detail-label"><i class="bi bi-patch-check"></i> Certificate File:</span>
+          <span class="detail-value">{{ depots.attestationFileName }}</span>
+        </div>
+        -->
+      </div>
+
+      <div class="form-actions mt-4"> <!-- Re-using form-actions for consistent button layout -->
+        <app-custom-button type="primary" (buttonClick)="download(depots.idDepot)">
+          <i class="bi bi-download"></i> Download All Submitted Files (ZIP)
+        </app-custom-button>
+        <!-- Delete button was in DepotComponent, can be added here if admins should delete from this view too -->
+        <!-- 
+        <app-custom-button type="danger" (buttonClick)="onDelete(depots.idDepot)">
+          <i class="bi bi-trash3"></i> Delete Submission
+        </app-custom-button> 
+        -->
+      </div>
+    </app-info-card>
+
+    <app-warning-banner *ngIf="!isLoading && !depots" type="info" customClass="mt-4">
+      No submission details found for Document ID: {{ depotId }}. The student may not have submitted any files yet.
+    </app-warning-banner>
+    
+    <div *ngIf="isLoading" class="loading-indicator">
+      <p>Loading submission details...</p> <!-- Or use a spinner component -->
+    </div>
+
+    <app-warning-banner *ngIf="message" [type]="messageType" customClass="mt-3">
+      {{ message }}
+    </app-warning-banner>
+
+  </div>
+</div>

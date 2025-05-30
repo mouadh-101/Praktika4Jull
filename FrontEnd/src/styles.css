@@ -21,6 +21,7 @@
 
   --color-warning-bg: #ffc107; /* For warning badge backgrounds */
   --color-warning-text: #383d41; /* For text on warning badge backgrounds */
+  --color-info: #17a2b8; /* For informational messages or badges */
 
   --color-text-default: #333333;
   --color-text-secondary: #666666;
@@ -32,6 +33,7 @@
   --color-bg-body: #ffffff;
   --color-bg-container: #ffffff;
   --color-bg-alt: #f8f9fa; /* For alternate backgrounds like sidebars or sections */
+  --color-bg-alt-hover: #f1f3f5; /* Slightly darker hover for alternate backgrounds */
   --color-bg-skills-section: #f8fbff;
   --color-bg-warning: #fff3dc; /* For warning banner background */
 

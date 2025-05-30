@@ -1,40 +1,85 @@
-<div class="container mt-5">
-  <h1 class="text-center mb-4">Gérer le Dépôt de Documents</h1>
-  <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
-    <div class="row mb-3">
-      <label for="Rapport" class="col-sm-2 col-form-label">Rapport :</label>
-      <div class="col-sm-10">
-        <input type="file" id="Rapport" (change)="onFileChanged($event, 'Rapport')" accept=".pdf" class="form-control" />
-      </div>
-    </div>
-    <div class="row mb-3">
-      <label for="Journal" class="col-sm-2 col-form-label">Journal :</label>
-      <div class="col-sm-10">
-        <input type="file" id="Journal" (change)="onFileChanged($event, 'Journal')" accept=".pdf" class="form-control" />
-      </div>
-    </div>
-    <div class="row mb-3">
-      <label for="Attestation" class="col-sm-2 col-form-label">Attestation :</label>
-      <div class="col-sm-10">
-        <input type="file" id="Attestation" (change)="onFileChanged($event, 'Attestation')" accept=".pdf" class="form-control" />
-      </div>
-    </div>
-    <div class="text-center">
-      <button type="submit" class="btn btn-primary" [disabled]="!uploadForm.valid">
-        {{ depots ? 'Mettre à jour' : 'Enregistrer' }}
-      </button>
-    </div>
-  </form>
+<div class="depot-page">
+  <div class="container my-5">
+    <app-info-card [cardTitle]="depots ? 'Manage Document Submission' : 'New Document Submission'" customClass="depot-card">
+      <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()" class="depot-form">
+        <p class="form-description" *ngIf="!depots">
+          Upload your Rapport (Report), Journal, and Attestation (Certificate) files here. All files should be in PDF format.
+        </p>
+        <p class="form-description" *ngIf="depots">
+          You can update the submitted files below or download/delete the existing submission.
+        </p>
 
-  <!-- Message de retour -->
-  <div *ngIf="message" class="alert mt-3" [ngClass]="{'alert-success': messageType === 'success', 'alert-danger': messageType === 'danger'}">
-    {{ message }}
-  </div>
+        <div class="file-upload-section">
+          <div class="form-field file-field">
+            <label for="Rapport">
+              <i class="bi bi-file-earmark-text"></i> Rapport (Report) <span class="file-status" *ngIf="uploadForm.get('Rapport')?.value"> <i class="bi bi-check-circle-fill"></i> Selected</span>
+            </label>
+            <input type="file" id="Rapport" (change)="onFileChanged($event, 'Rapport')" accept=".pdf" #rapportInput>
+            <app-custom-button type="secondary" customClass="btn-sm btn-upload" (buttonClick)="rapportInput.click()">
+              <i class="bi bi-upload"></i> Choose Report PDF
+            </app-custom-button>
+            <span *ngIf="uploadForm.get('Rapport')?.value" class="file-name-display">
+              {{ getFileName('Rapport') }}
+            </span>
+          </div>
 
-  <!-- Section de gestion du dépôt existant -->
-  <div *ngIf="depots" class="bg-light p-3 mt-4 rounded">
-    <p>Date de dépôt : {{ depots.uploadDate | date }}</p>
-    <button (click)="download(depots.idDepot)" class="btn btn-secondary me-2">Télécharger les documents</button>
-    <button (click)="onDelete(depots.idDepot)" class="btn btn-danger">Supprimer le dépôt</button>
+          <div class="form-field file-field">
+            <label for="Journal">
+              <i class="bi bi-journal-richtext"></i> Journal <span class="file-status" *ngIf="uploadForm.get('Journal')?.value"> <i class="bi bi-check-circle-fill"></i> Selected</span>
+            </label>
+            <input type="file" id="Journal" (change)="onFileChanged($event, 'Journal')" accept=".pdf" #journalInput>
+            <app-custom-button type="secondary" customClass="btn-sm btn-upload" (buttonClick)="journalInput.click()">
+              <i class="bi bi-upload"></i> Choose Journal PDF
+            </app-custom-button>
+             <span *ngIf="uploadForm.get('Journal')?.value" class="file-name-display">
+              {{ getFileName('Journal') }}
+            </span>
+          </div>
+
+          <div class="form-field file-field">
+            <label for="Attestation">
+              <i class="bi bi-patch-check"></i> Attestation (Certificate) <span class="file-status" *ngIf="uploadForm.get('Attestation')?.value"> <i class="bi bi-check-circle-fill"></i> Selected</span>
+            </label>
+            <input type="file" id="Attestation" (change)="onFileChanged($event, 'Attestation')" accept=".pdf" #attestationInput>
+            <app-custom-button type="secondary" customClass="btn-sm btn-upload" (buttonClick)="attestationInput.click()">
+              <i class="bi bi-upload"></i> Choose Certificate PDF
+            </app-custom-button>
+             <span *ngIf="uploadForm.get('Attestation')?.value" class="file-name-display">
+              {{ getFileName('Attestation') }}
+            </span>
+          </div>
+        </div>
+        
+        <!-- At least one file is required to submit/update -->
+        <div *ngIf="!isAnyFileSelected() && !depots" class="error-text mt-2 mb-2 text-center">
+          Please select at least one file to upload.
+        </div>
+
+
+        <div class="form-actions main-actions">
+          <app-custom-button type="primary" (buttonClick)="onSubmit()" [disabled]="!isAnyFileSelected() && !depots">
+            <i class="bi bi-cloud-arrow-up-fill"></i> {{ depots ? 'Update Submission' : 'Save Submission' }}
+          </app-custom-button>
+        </div>
+      </form>
+
+      <app-warning-banner *ngIf="message" [type]="messageType === 'success' ? 'success' : 'danger'" customClass="mt-3">
+        {{ message }}
+      </app-warning-banner>
+
+      <div *ngIf="depots" class="existing-depot-section">
+        <hr class="section-divider">
+        <h4 class="existing-depot-title">Current Submission Details</h4>
+        <p><i class="bi bi-calendar-check"></i> Submitted on: {{ depots.uploadDate | date:'longDate' }} at {{ depots.uploadDate | date:'shortTime' }}</p>
+        <div class="form-actions">
+          <app-custom-button type="secondary" (buttonClick)="download(depots.idDepot)">
+            <i class="bi bi-download"></i> Download All Documents (ZIP)
+          </app-custom-button>
+          <app-custom-button type="danger" (buttonClick)="onDelete(depots.idDepot)">
+            <i class="bi bi-trash3"></i> Delete Submission
+          </app-custom-button>
+        </div>
+      </div>
+    </app-info-card>
   </div>
 </div>

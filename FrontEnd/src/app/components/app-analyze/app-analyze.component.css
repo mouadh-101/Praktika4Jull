@@ -1,0 +1,277 @@
+/* Styles for AppAnalyzeComponent */
+
+.app-analyze-page .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.app-analyze-page .page-title {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-default);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+.app-analyze-page .page-title .bi {
+  color: var(--color-primary);
+}
+
+/* Styling for the main analysis card */
+:host ::ng-deep .analysis-results-card .info-card-body {
+  padding: var(--spacing-lg);
+}
+/* No explicit card title for analysis-results-card, title is in page-header */
+
+
+.analysis-section {
+  margin-bottom: var(--spacing-lg);
+}
+.analysis-section:last-child {
+  margin-bottom: 0;
+}
+
+.section-item-title {
+  font-size: var(--font-size-h5); /* Using h5 for sub-titles within the card */
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-default);
+  margin-bottom: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+.section-item-title .bi {
+  font-size: 1.2em; /* Make icon slightly larger */
+  /* Colors are set by text-warning, text-success, text-info in HTML */
+}
+.section-item-title .text-secondary .bi { /* If icon color should match text-secondary */
+    color: var(--color-text-secondary) !important;
+}
+
+
+.analysis-value {
+  font-size: var(--font-size-large); /* Larger font for key values */
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-default);
+  padding-left: calc(1.2em + var(--spacing-xs)); /* Align with text after icon in title */
+}
+.rating-value {
+  color: var(--color-warning-text); /* Using warning text color for rating */
+  font-weight: var(--font-weight-bold);
+}
+.probability-value {
+  color: var(--color-success); /* Using success color for probability */
+  font-weight: var(--font-weight-bold);
+}
+
+.profile-strength-list {
+  padding-left: calc(1.2em + var(--spacing-xs)); /* Align with text after icon in title */
+}
+.styled-list { /* Copied from company-profile.component.css for consistency */
+  list-style: none;
+  padding-left: 0;
+}
+.styled-list li {
+  padding-left: var(--spacing-lg);
+  position: relative;
+  margin-bottom: var(--spacing-xs);
+  font-size: var(--font-size-base);
+  color: var(--color-text-default);
+}
+.styled-list li::before {
+  content: "\F28F"; /* Bootstrap Icon: bi-check-circle-fill or similar like bi-arrow-right-short */
+  font-family: 'bootstrap-icons'; /* Ensure this matches icon font */
+  color: var(--color-info); /* Using info color for these points */
+  position: absolute;
+  left: 0;
+  top: 2px; 
+  font-size: var(--font-size-base);
+}
+
+
+.highlighted-feedback {
+  background-color: var(--color-bg-alt);
+  border: 1px solid var(--color-border-light);
+  border-left: 4px solid var(--color-primary);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-base);
+  margin-top: var(--spacing-xs);
+}
+.highlighted-feedback p {
+  font-size: var(--font-size-base);
+  color: var(--color-text-default);
+  line-height: var(--line-height-base);
+  margin: 0;
+}
+
+.section-divider {
+  border-color: var(--color-border-light);
+  margin-top: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+/* Loading and No Results States */
+.loading-indicator,
+.no-results-message {
+  text-align: center;
+  padding: var(--spacing-xl) var(--spacing-md);
+}
+.loading-indicator p,
+.no-results-message p {
+  font-size: var(--font-size-large);
+  color: var(--color-text-secondary);
+}
+:host ::ng-deep .no-results-message .app-info-card .info-card-body {
+  padding: var(--spacing-xl);
+}
+:host ::ng-deep .no-results-message .app-info-card .info-card-title {
+   font-size: var(--font-size-h4);
+}
+
+/* Ensure icons in titles have their color from text-warning, text-success etc. */
+.text-warning .bi { color: var(--color-warning-text) !important; } /* Or a specific warning icon color */
+.text-success .bi { color: var(--color-success) !important; }
+.text-info .bi { color: var(--color-info) !important; }
+/* The text-secondary for icon in Cover Letter Feedback title is handled by default .section-item-title .bi if not overridden */
+
+```css
+/* Styles for AppAnalyzeComponent */
+
+.app-analyze-page .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.app-analyze-page .page-title {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-default);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+.app-analyze-page .page-title .bi {
+  color: var(--color-primary);
+}
+
+/* Styling for the main analysis card */
+:host ::ng-deep .analysis-results-card .info-card-body {
+  padding: var(--spacing-lg);
+}
+/* No explicit card title for analysis-results-card, title is in page-header */
+
+
+.analysis-section {
+  margin-bottom: var(--spacing-lg);
+}
+.analysis-section:last-child {
+  margin-bottom: 0;
+}
+
+.section-item-title {
+  font-size: var(--font-size-h5); /* Using h5 for sub-titles within the card */
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-default);
+  margin-bottom: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+.section-item-title .bi {
+  font-size: 1.2em; /* Make icon slightly larger */
+}
+/* Ensure icon colors from text-warning, text-success, text-info in HTML are applied */
+.section-item-title .text-warning .bi { color: var(--color-warning-bg); } /* Using warning bg for icon */
+.section-item-title .text-success .bi { color: var(--color-success); }
+.section-item-title .text-info .bi { color: var(--color-info); }
+.section-item-title .text-secondary .bi { color: var(--color-text-secondary); }
+
+
+.analysis-value {
+  font-size: var(--font-size-large); /* Larger font for key values */
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-default);
+  padding-left: calc(1.2em + var(--spacing-xs) + var(--spacing-xs)); /* Align with text after icon in title, plus a bit more */
+}
+.rating-value {
+  color: var(--color-warning-text); 
+  font-weight: var(--font-weight-bold);
+}
+.probability-value {
+  color: var(--color-success); 
+  font-weight: var(--font-weight-bold);
+}
+
+.profile-strength-list {
+  padding-left: calc(1.2em + var(--spacing-xs) + var(--spacing-xs)); 
+}
+.styled-list { 
+  list-style: none;
+  padding-left: 0;
+}
+.styled-list li {
+  /* padding-left: var(--spacing-lg); Remove padding as icon is inline */
+  position: relative;
+  margin-bottom: var(--spacing-xs);
+  font-size: var(--font-size-base);
+  color: var(--color-text-default);
+  display: flex; /* Align icon and text */
+  align-items: flex-start; /* Align items to the top if text wraps */
+  gap: var(--spacing-xs); /* Space between icon and text */
+}
+.styled-list li .bi { /* Style for the icon now in HTML */
+  color: var(--color-info); 
+  font-size: var(--font-size-base); /* Match text size or make slightly larger */
+  margin-right: var(--spacing-xxs); /* Consistent with other icon usages */
+  flex-shrink: 0; /* Prevent icon from shrinking */
+  margin-top: 2px; /* Fine-tune vertical alignment */
+}
+
+
+.highlighted-feedback {
+  background-color: var(--color-bg-alt);
+  border: 1px solid var(--color-border-light);
+  border-left: 4px solid var(--color-primary);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-base);
+  margin-top: var(--spacing-xs);
+  margin-left: calc(1.2em + var(--spacing-xs) + var(--spacing-xs)); /* Indent to align with analysis-value */
+}
+.highlighted-feedback p {
+  font-size: var(--font-size-base);
+  color: var(--color-text-default);
+  line-height: var(--line-height-base);
+  margin: 0;
+}
+
+.section-divider {
+  border-color: var(--color-border-light);
+  margin-top: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+/* Loading and No Results States */
+.loading-indicator,
+.no-results-message {
+  text-align: center;
+  padding: var(--spacing-xl) var(--spacing-md);
+}
+.loading-indicator p,
+.no-results-message p {
+  font-size: var(--font-size-large);
+  color: var(--color-text-secondary);
+}
+:host ::ng-deep .no-results-message .app-info-card .info-card-body {
+  padding: var(--spacing-xl);
+}
+:host ::ng-deep .no-results-message .app-info-card .info-card-title {
+   font-size: var(--font-size-h4);
+}
+
+```Sorry, I am not able to process the file. Please provide a valid file.

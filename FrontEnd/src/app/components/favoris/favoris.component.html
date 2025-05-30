@@ -1,56 +1,72 @@
+<div class="favoris-list-page">
+  <div class="container mt-4">
+    <div class="page-header">
+      <h2 class="page-title"><i class="bi bi-heart-fill"></i> My Favorite Internships</h2>
+      <!-- No "Add" button needed here -->
+    </div>
 
-<br>
-<br>
-<br>
-<br>
+    <div *ngIf="isLoading" class="loading-indicator text-center">
+      <p>Loading your favorite internships...</p>
+    </div>
 
-<div class="container mt-4">
-  <h2 class="text-center mb-4">Your Favorite Internships</h2>
+    <app-warning-banner *ngIf="errorMessage && !isLoading" type="danger">
+      {{ errorMessage }}
+    </app-warning-banner>
 
-  <div class="row justify-content-center">
-    <!-- Partie des cartes à droite -->
-    <div class="col-md-8">
-      <div class="d-flex justify-content-center flex-wrap">
-        <!-- Affichage des internships favoris -->
-        <div *ngFor="let internship of favoris" class="internship-card">
-          <div class="card" (click)="goToDetails(internship.id)" style="cursor: pointer;">
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-2">
-                <div class="flex-grow-1">
-                  <h5 class="fw-bold mb-1">{{ internship.titre }}</h5>
-                  <div class="d-flex align-items-center">
-                    <h6 class="text-muted mb-0 me-2">{{ internship.company?.description }}</h6>
-                    <button class="btn btn-sm rounded-pill bg-white fs-7 fw-medium" 
-                      style="border: 1px solid #388da8; color: #388da8; padding: 2px 8px;">
-                      Actively hiring
-                    </button>
-                  </div>
-                </div>
-                <img [src]="'assets/img/' + internship.company?.logo" 
-                  alt="Company Logo" 
-                  class="img-fluid" 
-                  style="max-width: 50px;">
-              </div>
-
-              <div class="internship-info">
-                <span><i class="fas fa-map-marker-alt me-1"></i> {{ internship.location }}</span>
-                <span><i class="fas fa-calendar-alt ms-3 me-1"></i> {{ internship.duration }} months</span>
-                <span><i class="fas fa-money-bill-wave ms-3 me-1"></i> {{ internship.compensation }} €/month</span>
-              </div>
-
-              <div class="badges-container">
-                <span class="badge bg-light text-dark">
-                  <i class="fas fa-clock me-1 text-success"></i> {{ internship.relativeTime }}
-                </span>
-                <span class="badge bg-light text-dark ms-2">
-                  <i class="fas fa-bolt me-1 text-warning"></i> Be an early applicant
-                </span>
-              </div>
+    <div *ngIf="favoris && favoris.length > 0 && !isLoading && !errorMessage" class="favoris-cards-container row gy-4">
+      <div *ngFor="let internship of favoris | paginate: { itemsPerPage: itemsPerPage, currentPage: p }" class="col-md-6 col-lg-4 col-xl-4"> <!-- Ensure consistent column classes with internship list -->
+        <app-info-card customClass="internship-display-card h-100"> <!-- Re-use class from internship list for consistency -->
+          <div class="card-header-flex">
+            <img [src]="internship.company?.logo ? ('assets/img/' + internship.company?.logo) : 'assets/img/default-company-logo.png'"
+                 alt="{{ internship.company?.name || 'Company' }} Logo"
+                 class="company-logo-thumb">
+            <div class="header-text">
+              <h5 class="internship-title">{{ internship.titre || 'N/A' }}</h5>
+              <h6 class="company-name">{{ internship.company?.name || 'A Company' }}</h6>
             </div>
           </div>
-        </div>
+
+          <div class="internship-details-grid">
+            <div class="detail-item"><i class="bi bi-geo-alt"></i> {{ internship.location || 'N/A' }}</div>
+            <div class="detail-item"><i class="bi bi-calendar3"></i> {{ internship.duration ? internship.duration + ' months' : 'N/A' }}</div>
+            <div class="detail-item"><i class="bi bi-cash-coin"></i> {{ internship.compensation ? internship.compensation + ' /month' : 'N/A' }}</div>
+            <div class="detail-item"><i class="bi bi-briefcase"></i> {{ internship.field || 'N/A' }}</div>
+            <div class="detail-item" *ngIf="internship.remote"><i class="bi bi-house-check"></i> Remote</div>
+          </div>
+
+          <div class="badges-area mt-2">
+            <span class="badge time-badge" *ngIf="internship.relativeTime"> <!-- Assuming relativeTime might not exist on favorited items if not refreshed -->
+              <i class="bi bi-clock-history"></i> {{ internship.relativeTime }}
+            </span>
+          </div>
+          
+          <div class="card-actions">
+            <app-custom-button type="primary" (buttonClick)="goToDetails(internship.id)" customClass="btn-sm">
+              <i class="bi bi-eye"></i> View Details
+            </app-custom-button>
+            <app-custom-button type="danger" customClass="btn-sm btn-icon" (buttonClick)="removeFavorite(internship.id)" title="Remove from Favorites">
+              <i class="bi bi-trash3-fill"></i> <!-- Using filled trash for remove -->
+            </app-custom-button>
+          </div>
+        </app-info-card>
       </div>
     </div>
+
+    <div *ngIf="favoris && favoris.length === 0 && !isLoading && !errorMessage" class="no-entries-message mt-4">
+      <app-info-card cardTitle="No Favorites Yet">
+        <p>You haven't added any internships to your favorites.</p>
+        <app-custom-button type="primary" routerLink="/internships" customClass="mt-3">
+          <i class="bi bi-search"></i> Find Internships
+        </app-custom-button>
+      </app-info-card>
+    </div>
     
+    <div class="pagination-container mt-4" *ngIf="favoris && favoris.length > itemsPerPage">
+      <pagination-controls (pageChange)="p = $event"
+                           previousLabel=""
+                           nextLabel="">
+      </pagination-controls>
+    </div>
+
   </div>
 </div>

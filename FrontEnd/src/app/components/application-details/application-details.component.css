@@ -1,0 +1,453 @@
+/* Styles for ApplicationDetailsComponent */
+
+.application-details-page .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.application-details-page .page-title {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-default);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+.application-details-page .page-title .bi {
+  color: var(--color-primary);
+}
+
+/* Main Content Card Styling */
+:host ::ng-deep .analysis-results-card .info-card-body, /* Re-using class from app-analyze, consider a more generic name or specific one here */
+:host ::ng-deep .application-details-card .info-card-body { /* Fallback if specific class is used */
+  padding: var(--spacing-lg);
+}
+
+.app-status-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--color-border-light);
+}
+.app-status-header .status-badge {
+  font-size: var(--font-size-large); /* More prominent status */
+  padding: var(--spacing-xs) var(--spacing-sm);
+}
+.status-badge { /* Duplicated from student-applications, ensure consistency or move to global if used identically */
+  padding: var(--spacing-xxs) var(--spacing-xs);
+  border-radius: var(--border-radius-pill);
+  font-weight: var(--font-weight-semibold);
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--color-text-on-primary);
+}
+.status-badge.pending { background-color: var(--color-warning-bg, #ffc107); color: var(--color-warning-text, #383d41); }
+.status-badge.accepted { background-color: var(--color-success, #28a745); }
+.status-badge.rejected { background-color: var(--color-danger, #dc3545); }
+.status-badge.withdrawn { background-color: var(--color-secondary, #6c757d); }
+
+
+.app-status-header .company-name {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+}
+
+.internship-quick-info p {
+  font-size: var(--font-size-base);
+  color: var(--color-text-default);
+  margin-bottom: var(--spacing-xs);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+.internship-quick-info p .bi {
+  color: var(--color-primary);
+}
+.remote-badge { /* Copied from internship-details for consistency */
+  background-color: var(--color-success);
+  color: var(--color-text-on-primary);
+  font-size: var(--font-size-small);
+  padding: var(--spacing-xxs) var(--spacing-xs);
+  border-radius: var(--border-radius-pill);
+}
+.description-snippet {
+    font-style: italic;
+}
+
+
+/* Applicant Info Card */
+.applicant-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+.applicant-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--border-radius-round);
+  object-fit: cover;
+  border: 2px solid var(--color-border-default);
+}
+.applicant-contact .applicant-name {
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-default);
+  margin-bottom: var(--spacing-xs);
+}
+.applicant-contact p {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xxs);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+.applicant-contact p .bi {
+  color: var(--color-text-secondary); /* Or primary */
+}
+
+/* Student Detailed Profile (collapsible part) */
+.student-detailed-profile {
+  margin-top: var(--spacing-md);
+}
+.profile-section {
+  margin-bottom: var(--spacing-lg);
+}
+.section-subheader {
+  font-size: var(--font-size-h5);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-default);
+  margin-bottom: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding-bottom: var(--spacing-xs);
+  border-bottom: 1px solid var(--color-border-light);
+}
+.section-subheader .bi {
+  color: var(--color-primary);
+  font-size: 1.2em;
+}
+.profile-section p,
+.profile-section .styled-list li {
+  font-size: var(--font-size-base);
+  color: var(--color-text-default);
+  line-height: var(--line-height-base);
+}
+.profile-section .styled-list.condensed li {
+  margin-bottom: var(--spacing-xxs);
+  padding-left: 0; /* Remove default list padding if icons are not used via ::before */
+}
+.profile-section .styled-list.condensed li strong { /* For degree/position */
+    font-weight: var(--font-weight-medium);
+}
+.profile-section .exp-description { /* For experience/activity description */
+    font-size: var(--font-size-small);
+    color: var(--color-text-secondary);
+    margin-top: var(--spacing-xxs);
+    padding-left: var(--spacing-md); /* Indent description under title */
+}
+
+
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+.skill-tag { /* Copied from studentProfile for consistency */
+  background: var(--color-primary-light);
+  border: 1px solid var(--color-primary-dark);
+  color: var(--color-primary-dark);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-pill);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Cover Letter Card */
+.cover-letter-content p {
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  color: var(--color-text-default);
+  white-space: pre-wrap; /* Preserve formatting */
+}
+
+/* Page Actions */
+.page-actions {
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-border-default);
+  display: flex;
+  justify-content: center; /* Or flex-end */
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+}
+.page-actions .custom-button .bi {
+  margin-right: var(--spacing-xs);
+}
+
+
+/* Loading and No Results States */
+.loading-indicator,
+.no-results-message {
+  text-align: center;
+  padding: var(--spacing-xl) var(--spacing-md);
+}
+.loading-indicator p,
+.no-results-message p {
+  font-size: var(--font-size-large);
+  color: var(--color-text-secondary);
+}
+:host ::ng-deep .no-results-message .app-info-card .info-card-body {
+  padding: var(--spacing-xl);
+}
+:host ::ng-deep .no-results-message .app-info-card .info-card-title {
+   font-size: var(--font-size-h4);
+}
+
+.section-divider { /* Copied from app-analyze */
+  border-color: var(--color-border-light);
+  margin-top: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+```css
+/* Styles for ApplicationDetailsComponent */
+
+.application-details-page .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.application-details-page .page-title {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-default);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+.application-details-page .page-title .bi {
+  color: var(--color-primary);
+}
+
+/* Main Content Card Styling */
+/* Using customClass on app-info-card, e.g., .main-app-card, .applicant-info-card */
+:host ::ng-deep .app-info-card .info-card-body { /* General padding for cards on this page */
+  padding: var(--spacing-lg);
+}
+:host ::ng-deep .app-info-card .info-card-title { /* Default title style for cards on this page */
+  font-size: var(--font-size-h4);
+   /* Other title styles are inherited from app-info-card or global */
+}
+
+
+.app-status-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--color-border-light);
+}
+.app-status-header .status-badge {
+  font-size: var(--font-size-large); /* More prominent status */
+  padding: var(--spacing-xs) var(--spacing-sm);
+}
+/* Status badge styling (copied from student-applications.component.css) */
+.status-badge {
+  padding: var(--spacing-xxs) var(--spacing-xs);
+  border-radius: var(--border-radius-pill);
+  font-weight: var(--font-weight-semibold);
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--color-text-on-primary);
+}
+.status-badge.pending { background-color: var(--color-warning-bg, #ffc107); color: var(--color-warning-text, #383d41); }
+.status-badge.accepted { background-color: var(--color-success, #28a745); }
+.status-badge.rejected { background-color: var(--color-danger, #dc3545); }
+.status-badge.withdrawn { background-color: var(--color-secondary, #6c757d); }
+
+
+.app-status-header .company-name {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+}
+
+.internship-quick-info p {
+  font-size: var(--font-size-base);
+  color: var(--color-text-default);
+  margin-bottom: var(--spacing-xs);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+.internship-quick-info p .bi {
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+.remote-badge {
+  background-color: var(--color-success);
+  color: var(--color-text-on-primary);
+  font-size: var(--font-size-small);
+  padding: var(--spacing-xxs) var(--spacing-xs);
+  border-radius: var(--border-radius-pill);
+}
+.description-snippet {
+    font-style: italic;
+    color: var(--color-text-secondary);
+}
+
+
+/* Applicant Info Card */
+.applicant-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+.applicant-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--border-radius-round);
+  object-fit: cover;
+  border: 2px solid var(--color-border-default);
+}
+.applicant-contact .applicant-name {
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-default);
+  margin-bottom: var(--spacing-xs);
+}
+.applicant-contact p {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xxs);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+.applicant-contact p .bi {
+  color: var(--color-text-secondary); 
+  flex-shrink: 0;
+}
+
+/* Student Detailed Profile (collapsible part) */
+.student-detailed-profile {
+  margin-top: var(--spacing-md);
+}
+.profile-section {
+  margin-bottom: var(--spacing-lg);
+}
+.section-subheader {
+  font-size: var(--font-size-h5);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-default);
+  margin-bottom: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding-bottom: var(--spacing-xs);
+  border-bottom: 1px solid var(--color-border-light);
+}
+.section-subheader .bi {
+  color: var(--color-primary);
+  font-size: 1.2em;
+  flex-shrink: 0;
+}
+.profile-section p,
+.profile-section .styled-list li {
+  font-size: var(--font-size-base);
+  color: var(--color-text-default);
+  line-height: var(--line-height-base);
+}
+
+.styled-list { /* Copied from app-analyze.component.css for consistency */
+  list-style: none;
+  padding-left: 0;
+}
+.styled-list.condensed li { /* More compact list for education/experience */
+  margin-bottom: var(--spacing-xs);
+  padding-left: 0; 
+}
+.styled-list.condensed li strong { 
+    font-weight: var(--font-weight-medium);
+}
+.exp-description { 
+    font-size: var(--font-size-small);
+    color: var(--color-text-secondary);
+    margin-top: var(--spacing-xxs);
+    padding-left: var(--spacing-md); /* Indent description */
+}
+
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+.skill-tag { 
+  background: var(--color-primary-light);
+  border: 1px solid var(--color-primary-dark);
+  color: var(--color-primary-dark);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-pill);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Cover Letter Card */
+.cover-letter-content p {
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  color: var(--color-text-default);
+  white-space: pre-wrap; /* Preserve formatting */
+}
+
+/* Page Actions */
+.page-actions {
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-border-default);
+  display: flex;
+  justify-content: center; 
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+}
+.page-actions .custom-button .bi {
+  margin-right: var(--spacing-xs);
+}
+
+
+/* Loading and No Results States */
+.loading-indicator,
+.no-results-message {
+  text-align: center;
+  padding: var(--spacing-xl) var(--spacing-md);
+}
+.loading-indicator p,
+.no-results-message p {
+  font-size: var(--font-size-large);
+  color: var(--color-text-secondary);
+}
+:host ::ng-deep .no-results-message .app-info-card .info-card-body {
+  padding: var(--spacing-xl);
+}
+:host ::ng-deep .no-results-message .app-info-card .info-card-title {
+   font-size: var(--font-size-h4);
+}
+
+.section-divider { 
+  border-color: var(--color-border-light);
+  margin-top: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+```Sorry, I am not able to process the file. Please provide a valid file.

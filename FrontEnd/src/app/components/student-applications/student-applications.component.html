@@ -1,105 +1,116 @@
-<div class="container my-5">
-  <h2 class="text-3xl font-bold text-center text-beige mb-8">My Applications</h2>
-
-  <!-- Student View -->
-  <div *ngIf="userRole === 'Student'" class="d-flex justify-content-between">
-    
-    <!-- Applications List -->
-    <div class="applications-list flex-grow-1">
-      <div *ngFor="let application of applications | paginate: { itemsPerPage: 5, currentPage: p }"
-           class="card app-card d-flex flex-row align-items-center bg-light text-dark shadow-sm p-4 mb-3 rounded-4 border-0 transition">
-        <div class="flex-grow-1">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h3 class="fw-semibold text-beige">Application for: {{ application.internship?.titre }}</h3>
-            <button class="btn btn-outline-primary" (click)="viewApplicationDetails(application.id); $event.stopPropagation()">
-              <i class="fas fa-eye"></i> View Details
-            </button>
-          </div>
-          <div class="text-sm text-muted">
-            <p><strong>Status:</strong> {{ application.status }}
-              <i class="bi bi-check-circle-fill text-success ms-2"></i></p>
-            <p><strong>Applied on:</strong> {{ application.appliedAt | date }}
-              <i class="bi bi-calendar-event text-info ms-2"></i></p>
-          </div>
-        </div>
-      </div>
-      <pagination-controls (pageChange)="p = $event" class="text-beige mt-4"></pagination-controls>
+<div class="student-applications-page">
+  <div class="container my-5">
+    <div class="page-header">
+      <h2 class="page-title">
+        <i class="bi bi-collection"></i> 
+        {{ userRole === 'Student' ? 'My Applications' : 'Received Applications' }}
+      </h2>
+      <!-- Add New button if applicable, e.g., for students to browse internships if this is their main app view -->
     </div>
 
-    <!-- Chart for Student Applications (on the right side) -->
-    <div class="ms-5" style="width: 35%; max-width: 400px;">
-      <!-- Chart Card -->
-      <div class="card app-card mb-3 border-0 rounded-4 p-4 bg-light text-dark animate__animated animate__fadeInUp">
-        <h5 class="fw-bold text-beige mb-3">
-          <i class="bi bi-bar-chart-fill text-primary me-2"></i>
-          Application Statistics
-        </h5>
-        <div class="chart-container">
-          <canvas baseChart
-                  [data]="chartData"
-                  [options]="chartOptions"
-                  [type]="chartType">
-          </canvas>
-        </div>
-      </div>
-    
-      <!-- Stats Card -->
-        <div class="card app-card mb-3 rounded-4 p-4 bg-light text-dark animate__animated animate__fadeInUp">
-          <h6 class="fw-semibold mb-3 text-muted">
-            <i class="bi bi-graph-up-arrow me-2 text-success"></i>
-            Quick Overview
-          </h6>
-          <ul class="list-unstyled mb-0">
-            <li class="mb-3 d-flex align-items-center">
-              <i class="bi bi-layers-fill text-beige me-2 fs-5"></i>
-              <span class="fw-bold text-beige me-2">Total Applications:</span>
-              <span class="text-dark">{{ stats.total }}</span>
-            </li>
-            <li class="mb-3 d-flex align-items-center">
-              <i class="bi bi-check-circle-fill text-success me-2 fs-5"></i>
-              <span class="fw-bold text-success me-2">Accepted:</span>
-              <span class="text-dark">{{ stats.accepted }}</span>
-            </li>
-            <li class="mb-3 d-flex align-items-center">
-              <i class="bi bi-x-circle-fill text-danger me-2 fs-5"></i>
-              <span class="fw-bold text-danger me-2">Rejected:</span>
-              <span class="text-dark">{{ stats.rejected }}</span>
-            </li>
-            <li class="d-flex align-items-center">
-              <i class="bi bi-hourglass-split text-warning me-2 fs-5"></i>
-              <span class="fw-bold text-warning me-2">Pending:</span>
-              <span class="text-dark">{{ stats.pending }}</span>
-            </li>
-          </ul>
-        </div>
-        
+    <div *ngIf="isLoading" class="loading-indicator text-center">
+      <p>Loading applications...</p> <!-- Or use a spinner component -->
     </div>
 
-  </div>
+    <app-warning-banner *ngIf="errorMessage && !isLoading" type="danger">
+      {{ errorMessage }}
+    </app-warning-banner>
 
-  <!-- Company View -->
-  <div *ngIf="userRole === 'Company'" class="space-y-6">
-    <div *ngFor="let application of applications | paginate: { itemsPerPage: 5, currentPage: p }"
-         class="card app-card d-flex flex-row align-items-center bg-light text-dark shadow-sm p-4 mb-3 rounded-4 border-0 transition">     
-      <div class="flex-grow-1">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <div>
-            <h3 class="fw-semibold text-beige">{{ application.student?.name }}</h3>
-            <p class="text-sm text-gray-400 italic">{{ application.student?.email }}</p>
+    <div *ngIf="!isLoading && !errorMessage">
+      <!-- Student View -->
+      <div *ngIf="userRole === 'Student'" class="row gy-4">
+        <div class="col-lg-8 applications-list-student">
+          <div *ngIf="applications.length > 0; else noApplicationsStudent">
+            <div *ngFor="let application of applications | paginate: { itemsPerPage: itemsPerPage, currentPage: p }" class="mb-3">
+              <app-info-card customClass="application-item-card">
+                <div class="app-card-header">
+                  <h5 class="internship-title">{{ application.internship?.titre || 'N/A' }}</h5>
+                  <p class="company-name text-muted">{{ application.internship?.company?.name || 'Company N/A' }}</p>
+                </div>
+                <div class="app-card-body">
+                  <p class="app-detail"><i class="bi bi-calendar-event"></i> Applied On: {{ application.appliedAt | date:'longDate' }}</p>
+                  <p class="app-detail"><i class="bi bi-info-circle"></i> Status: 
+                    <span class="status-badge {{application.status | lowercase}}">{{ application.status }}</span>
+                  </p>
+                </div>
+                <div class="app-card-actions">
+                  <app-custom-button type="primary" customClass="btn-sm" (buttonClick)="viewApplicationDetails(application.id)">
+                    <i class="bi bi-eye"></i> View Details
+                  </app-custom-button>
+                  <!-- Add Withdraw button if applicable -->
+                   <app-custom-button *ngIf="application.status === 'PENDING'" type="danger" customClass="btn-sm ms-2" (buttonClick)="withdrawApplication(application.id)">
+                    <i class="bi bi-trash3"></i> Withdraw
+                  </app-custom-button>
+                </div>
+              </app-info-card>
+            </div>
+            <div class="pagination-container mt-4" *ngIf="applications.length > itemsPerPage">
+              <pagination-controls (pageChange)="p = $event" previousLabel="" nextLabel=""></pagination-controls>
+            </div>
           </div>
-          <button class="btn btn-outline-primary" (click)="viewApplicationDetails(application.id); $event.stopPropagation()">
-            <i class="fas fa-eye"></i> View Details
-          </button>
+          <ng-template #noApplicationsStudent>
+            <app-info-card cardTitle="No Applications Found">
+              <p>You have not submitted any applications yet.</p>
+              <app-custom-button type="primary" routerLink="/internships" customClass="mt-3">
+                Browse Internships
+              </app-custom-button>
+            </app-info-card>
+          </ng-template>
         </div>
-        <div class="text-sm text-muted">
-          <p><strong>Status:</strong> {{ application.status }}
-            <i class="bi bi-check-circle-fill text-success ms-2"></i></p>
-          <p><strong>Applied on:</strong> {{ application.appliedAt | date }}
-            <i class="bi bi-calendar-event text-info ms-2"></i></p>
+
+        <div class="col-lg-4 student-stats-sidebar">
+          <app-info-card cardTitle="Application Statistics" customClass="mb-4">
+            <div class="chart-container">
+              <canvas baseChart [data]="chartData" [options]="chartOptions" [type]="chartType"></canvas>
+            </div>
+          </app-info-card>
+
+          <app-info-card cardTitle="Quick Overview">
+            <ul class="stats-list">
+              <li><i class="bi bi-layers-fill"></i> Total Applications: <span>{{ stats.total }}</span></li>
+              <li><i class="bi bi-check-circle-fill text-success"></i> Accepted: <span class="text-success">{{ stats.accepted }}</span></li>
+              <li><i class="bi bi-x-circle-fill text-danger"></i> Rejected: <span class="text-danger">{{ stats.rejected }}</span></li>
+              <li><i class="bi bi-hourglass-split text-warning"></i> Pending: <span class="text-warning">{{ stats.pending }}</span></li>
+            </ul>
+          </app-info-card>
         </div>
       </div>
-    </div>
 
-    <pagination-controls (pageChange)="p = $event" class="text-beige mt-4"></pagination-controls>
+      <!-- Company View -->
+      <div *ngIf="userRole === 'Company'">
+        <div *ngIf="applications.length > 0; else noApplicationsCompany">
+          <div class="row gy-4">
+            <div *ngFor="let application of applications | paginate: { itemsPerPage: itemsPerPage, currentPage: p }" class="col-md-6 col-lg-4">
+              <app-info-card customClass="application-item-card h-100">
+                <div class="app-card-header">
+                  <h5 class="student-name">{{ application.student?.name || 'N/A' }}</h5>
+                  <p class="student-email text-muted">{{ application.student?.email || 'Email N/A' }}</p>
+                  <p class="internship-title-company-view text-primary">{{application.internship?.titre}}</p>
+                </div>
+                <div class="app-card-body">
+                  <p class="app-detail"><i class="bi bi-calendar-event"></i> Applied On: {{ application.appliedAt | date:'longDate' }}</p>
+                  <p class="app-detail"><i class="bi bi-info-circle"></i> Status: 
+                    <span class="status-badge {{application.status | lowercase}}">{{ application.status }}</span>
+                  </p>
+                </div>
+                <div class="app-card-actions">
+                  <app-custom-button type="primary" customClass="btn-sm" (buttonClick)="viewApplicationDetails(application.id)">
+                    <i class="bi bi-eye"></i> View Application
+                  </app-custom-button>
+                </div>
+              </app-info-card>
+            </div>
+          </div>
+          <div class="pagination-container mt-4" *ngIf="applications.length > itemsPerPage">
+            <pagination-controls (pageChange)="p = $event" previousLabel="" nextLabel=""></pagination-controls>
+          </div>
+        </div>
+        <ng-template #noApplicationsCompany>
+          <app-info-card cardTitle="No Applications Received">
+            <p>There are currently no applications for your company's internships.</p>
+          </app-info-card>
+        </ng-template>
+      </div>
+    </div>
   </div>
 </div>

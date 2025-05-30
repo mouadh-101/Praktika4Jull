@@ -1,0 +1,173 @@
+/* Styles for DocumentBackComponent */
+
+.document-back-page .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.document-back-page .page-title {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-default);
+  margin: 0;
+}
+
+/* Filter Card Styling */
+:host ::ng-deep .filter-card .info-card-title {
+  margin-bottom: var(--spacing-md);
+  font-size: var(--font-size-h4);
+}
+
+.filter-form {
+  /* Uses Bootstrap .row and .col-*, so flex/grid might not be primary here */
+  /* But ensure form elements inside align well */
+}
+
+.filter-form .form-label {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xs);
+  font-weight: var(--font-weight-medium);
+  padding-top: var(--spacing-xs); /* Align with select if they have padding */
+}
+
+/* select elements will be styled by global styles.css */
+.filter-form .form-select {
+  /* width: 100%; /* Or auto, depending on .col-md-auto behavior */
+  /* Ensure it picks up global form styling */
+}
+
+
+/* Document Table Styling */
+.table-responsive {
+  margin-top: var(--spacing-lg);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--border-radius-base);
+  overflow-x: auto; /* Ensure horizontal scroll on small screens */
+}
+
+.documents-table {
+  width: 100%;
+  margin-bottom: 0; /* Remove default table margin if inside .table-responsive */
+  border-collapse: collapse; /* Or use Bootstrap's default */
+}
+
+.documents-table th,
+.documents-table td {
+  padding: var(--spacing-sm) var(--spacing-md);
+  vertical-align: middle;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border-default);
+}
+
+.documents-table thead th {
+  font-family: var(--font-family-headings);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-default);
+  background-color: var(--color-bg-alt);
+  border-top: none; /* Remove top border for cleaner look with card */
+  border-bottom-width: 2px; /* Thicker bottom border for header */
+}
+.documents-table tbody tr:hover {
+  background-color: var(--color-bg-alt-hover, #f1f3f5); /* Define if not in global */
+}
+
+.status-badge {
+  padding: var(--spacing-xxs) var(--spacing-xs);
+  border-radius: var(--border-radius-pill);
+  font-weight: var(--font-weight-semibold);
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--color-text-on-primary);
+  white-space: nowrap;
+}
+.status-badge.ENATTEND { background-color: var(--color-warning-bg, #ffc107); color: var(--color-warning-text, #383d41); }
+.status-badge.VALIDE { background-color: var(--color-success, #28a745); }
+.status-badge.REFUSER { background-color: var(--color-danger, #dc3545); }
+
+
+.actions-cell {
+  white-space: nowrap; /* Prevent buttons from wrapping mid-button */
+  text-align: center !important; /* Center actions */
+}
+.actions-cell .custom-button,
+.actions-cell .app-custom-button { /* Target both just in case */
+  margin: var(--spacing-xxs); /* Small margin around buttons */
+}
+.actions-cell .custom-button .bi {
+  margin-right: var(--spacing-xxs); /* Space between icon and text within button */
+}
+.actions-cell .custom-button .action-text {
+  /* Styles for text within buttons if needed, or hide on very small screens */
+}
+
+
+/* No Documents Message */
+.no-documents-message {
+  text-align: center;
+  margin: var(--spacing-xl) 0;
+}
+:host ::ng-deep .no-documents-message .app-info-card .info-card-body {
+  padding: var(--spacing-xl);
+}
+.no-documents-message p {
+  font-size: var(--font-size-large);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-md);
+}
+
+/* Pagination Controls - Copied from ListDocument.component.css for consistency */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--spacing-lg);
+}
+:host ::ng-deep .ngx-pagination {
+  padding: 0; margin: 0; display: flex; gap: var(--spacing-xs);
+}
+:host ::ng-deep .ngx-pagination .current,
+:host ::ng-deep .ngx-pagination button {
+  background: var(--color-bg-container); color: var(--color-primary);
+  border: 1px solid var(--color-border-default); border-radius: var(--border-radius-base);
+  padding: var(--spacing-xs) var(--spacing-sm); text-decoration: none; cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+:host ::ng-deep .ngx-pagination button:hover {
+  background: var(--color-bg-alt); color: var(--color-primary-dark);
+}
+:host ::ng-deep .ngx-pagination .current {
+  background: var(--color-primary); color: var(--color-text-on-primary);
+  border-color: var(--color-primary); cursor: default;
+}
+:host ::ng-deep .ngx-pagination .disabled {
+  color: var(--color-text-secondary); opacity: 0.6; cursor: not-allowed; background: var(--color-bg-alt);
+}
+:host ::ng-deep .ngx-pagination .pagination-previous a::before,
+:host ::ng-deep .ngx-pagination .pagination-previous.disabled::before {
+  content: '«'; margin-right: 0;
+}
+:host ::ng-deep .ngx-pagination .pagination-next a::after,
+:host ::ng-deep .ngx-pagination .pagination-next.disabled::after {
+  content: '»'; margin-left: 0;
+}
+:host ::ng-deep .ngx-pagination .pagination-previous,
+:host ::ng-deep .ngx-pagination .pagination-next {
+  padding: var(--spacing-xs) var(--spacing-xs);
+}
+
+/* For small screens, hide text in action buttons to save space if needed */
+@media (max-width: 768px) {
+  .actions-cell .action-text {
+    display: none;
+  }
+  .actions-cell .custom-button .bi {
+    margin-right: 0; /* Remove margin if text is hidden */
+  }
+  .documents-table th,
+  .documents-table td {
+    padding: var(--spacing-xs) var(--spacing-sm); /* Reduce padding on smaller screens */
+  }
+}

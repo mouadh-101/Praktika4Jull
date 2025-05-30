@@ -1,39 +1,105 @@
 import { Component, OnInit } from '@angular/core';
-import { Interview, InterviewService } from 'src/app/services/interview.service';
+import { Interview, InterviewService, InterviewStatus } from 'src/app/services/interview.service'; // Assuming InterviewStatus might be an enum
 import { Router } from '@angular/router';
 import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+import 'jspdf-autotable'; // For jsPDF plugin
+import autoTable from 'jspdf-autotable'; // Import for autoTable function
 import * as XLSX from 'xlsx';
-import autoTable from 'jspdf-autotable';
 
-
-
-@Component({ 
+@Component({
   selector: 'app-interview-list',
   templateUrl: './interview-list.component.html',
   styleUrls: ['./interview-list.component.css']
 })
 export class InterviewListComponent implements OnInit {
   interviews: Interview[] = [];
-  searchTerm: string = ''; 
-  p: number = 1; // Page actuelle pour la pagination
+  filteredInterviewsCache: Interview[] = []; // Cache for filtered results
+  searchTerm: string = '';
+  p: number = 1; // Current page for pagination
+  itemsPerPage: number = 6; // Number of items per page, adjust as needed
 
-  constructor(private interviewService: InterviewService, private router: Router) {}
+  isLoading: boolean = true;
+  errorMessage: string | null = null;
+
+  // Expose enum to template if needed for specific logic, though CSS classes handle styling now
+  // public InterviewStatus = InterviewStatus; 
+
+  constructor(
+    private interviewService: InterviewService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadInterviews();
   }
 
   loadInterviews(): void {
-    this.interviewService.getAllInterviews().subscribe(data => {
-      this.interviews = data;
+    this.isLoading = true;
+    this.errorMessage = null;
+    this.interviewService.getAllInterviews().subscribe({
+      next: data => {
+        this.interviews = data.map(interview => ({
+          ...interview,
+          // Ensure dateInterview is a Date object if needed by pipes or other logic
+          dateInterview: interview.dateInterview ? new Date(interview.dateInterview) : new Date()
+        }));
+        this.filterInterviews(); // Apply initial (empty) filter
+        this.isLoading = false;
+      },
+      error: err => {
+        console.error('Error loading interviews:', err);
+        this.errorMessage = 'Failed to load interviews. ' + (err.error?.message || err.message);
+        this.isLoading = false;
+      }
     });
   }
 
-  deleteInterview(id: number): void {
-    if (confirm('Voulez-vous vraiment supprimer cette interview ?')) {
-      this.interviewService.deleteInterview(id).subscribe(() => {
-        this.loadInterviews(); // Recharger la liste après suppression
+  filterInterviews(): void {
+    const term = this.searchTerm.toLowerCase().trim();
+    if (!term) {
+      this.filteredInterviewsCache = [...this.interviews];
+    } else {
+      this.filteredInterviewsCache = this.interviews.filter(interview =>
+        (interview.titre?.toLowerCase().includes(term) || // Assuming 'titre' might exist or be added
+         interview.location?.toLowerCase().includes(term) ||
+         interview.notes?.toLowerCase().includes(term) ||
+         interview.status?.toLowerCase().includes(term) ||
+         (interview.candidateName?.toLowerCase().includes(term)) || // If candidate/company info is on Interview object
+         (interview.companyName?.toLowerCase().includes(term))) 
+      );
+    }
+    this.p = 1; // Reset pagination to first page
+  }
+  
+  // This method is called by the template's *ngFor
+  getFilteredInterviews(): Interview[] {
+    // Call filterInterviews whenever searchTerm changes, directly in template or via (ngModelChange)
+    // For simplicity, if just using searchTerm in pipe, it's fine.
+    // If replacing pipe, ensure this method is efficient or memoized, or filter on demand.
+    // The current HTML uses `getFilteredInterviews() | paginate`, so this method should just return the filtered list.
+    // The actual filtering logic is now in `filterInterviews()`.
+    // To trigger filtering when searchTerm changes:
+    // In HTML: <input [(ngModel)]="searchTerm" (ngModelChange)="filterInterviews()" ... >
+    // Then this method just returns the cache:
+    return this.filteredInterviewsCache;
+  }
+
+
+  deleteInterview(id?: number): void { // id can be undefined if interviewId is optional
+    if (id === undefined) {
+      alert('Cannot delete: Interview ID is missing.');
+      return;
+    }
+    if (confirm('Are you sure you want to delete this interview?')) {
+      this.interviewService.deleteInterview(id).subscribe({
+        next: () => {
+          this.loadInterviews(); // Recharger la liste après suppression
+          alert('Interview deleted successfully.');
+        },
+        error: (err) => {
+          console.error('Error deleting interview:', err);
+          alert('Failed to delete interview. ' + (err.error?.message || err.message));
+        }
       });
     }
   }
@@ -42,79 +108,67 @@ export class InterviewListComponent implements OnInit {
     this.router.navigate(['/interviews/add']);
   }
 
-  navigateToEdit(id: number): void {
+  navigateToEdit(id?: number): void {
+    if (id === undefined) {
+      alert('Cannot edit: Interview ID is missing.');
+      return;
+    }
     this.router.navigate(['/interviews/edit', id]);
   }
 
-  navigateToCalendar() {
-    this.router.navigate(['/calendar']); // Assurez-vous que '/calendrier' est le bon chemin pour votre page du calendrier
+  navigateToCalendar(): void {
+    this.router.navigate(['/calendar']);
   }
 
-  getStatusClass(status: string): string {
-    switch (status) {
-      case 'SCHEDULED': return 'status-scheduled';
-      case 'COMPLETED': return 'status-completed';
-      case 'CANCELED': return 'status-canceled';
-      default: return '';
-    }
-  }
-
-
-
+  // getStatusClass is no longer needed as CSS classes handle status styling directly.
 
   exportToPDF(): void {
     const doc = new jsPDF();
+    const dataToExport = this.getFilteredInterviews(); // Export filtered data
 
-    // Ajouter un titre
     doc.setFontSize(18);
-    doc.text("Liste des Interviews", 10, 10);
+    doc.text("Scheduled Interviews", 14, 22);
+    doc.setFontSize(11);
+    doc.setTextColor(100);
+    doc.text(`Date: ${new Date().toLocaleDateString()}`, 14, 30);
 
-    // Ajouter la date de création
-    const date = new Date().toLocaleDateString();
-    doc.setFontSize(12);
-    doc.text("Date de création: " + date, 10, 20);
-
-    // Définir les colonnes et les lignes du tableau
-    const colHeaders = ["ID", "Date", "Lieu", "Notes", "Statut"];
-    const rowData = this.interviews.map(interview => [
-      interview.interviewId || "-", // Gérer le cas où l'ID est undefined
-      interview.dateInterview || "-",
-      interview.location || "-",
-      interview.notes || "-",
-      interview.status || "-",
-    ]);
-
-    // Générer le tableau
     autoTable(doc, {
-      head: [colHeaders],
-      body: rowData,
-      startY: 30, // Ajuster en fonction de la place pour la date
-      didDrawPage: (data) => {
-        // Ajouter le numéro de page à chaque page
-        const pageCount = doc.internal.pages.length;
-        const currentPage = data.pageNumber;
-        doc.setFontSize(10);
-        doc.text(`Page ${currentPage} sur ${pageCount}`, data.settings.margin.left, doc.internal.pageSize.height - 10);
-      }
+      startY: 35,
+      head: [['Date', 'Time', 'Location', 'Candidate/Company', 'Notes', 'Status', 'Link']],
+      body: dataToExport.map(interview => [
+        interview.dateInterview ? new Date(interview.dateInterview).toLocaleDateString() : 'N/A',
+        interview.dateInterview ? new Date(interview.dateInterview).toLocaleTimeString() : 'N/A',
+        interview.location || 'N/A',
+        interview.candidateName || interview.companyName || 'N/A', // Adjust based on actual data
+        interview.notes || 'N/A',
+        interview.status || 'N/A',
+        interview.interviewLink || 'N/A'
+      ]),
+      theme: 'striped',
+      headStyles: { fillColor: [0, 102, 204] } // Using primary color for header
     });
 
-    // Télécharger le fichier PDF
-    doc.save("Interviews.pdf");
+    doc.save("Interviews_Praktika.pdf");
+    alert('Interviews exported to PDF successfully!');
   }
-
-
-
-
-
 
   exportToExcel(): void {
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.interviews);
+    const dataToExport = this.getFilteredInterviews().map(interview => ({
+      ID: interview.interviewId,
+      Date: interview.dateInterview ? new Date(interview.dateInterview).toLocaleDateString() : 'N/A',
+      Time: interview.dateInterview ? new Date(interview.dateInterview).toLocaleTimeString() : 'N/A',
+      Location: interview.location,
+      Notes: interview.notes,
+      Status: interview.status,
+      MeetingLink: interview.interviewLink,
+      Candidate: interview.candidateName, // Add if available
+      Company: interview.companyName    // Add if available
+    }));
+
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(dataToExport);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Interviews");
-
-    XLSX.writeFile(wb, "Interviews.xlsx");
+    XLSX.writeFile(wb, "Interviews_Praktika.xlsx");
+    alert('Interviews exported to Excel successfully!');
   }
-
 }
-
-

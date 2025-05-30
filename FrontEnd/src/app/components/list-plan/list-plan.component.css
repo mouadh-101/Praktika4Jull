@@ -1,24 +1,202 @@
-.card {
-    border: 1px solid #ddd;
-    padding: 15px;
-  }
-  
-  .card-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-  
-  .card-body {
-    background-color: #f9f9f9;
-  }
-  
-  ul {
-    list-style-type: none;
-    padding-left: 0;
-  }
-  
-  strong {
-    color: #007bff;
-  }
+/* Styles for ListPlanComponent */
 
-  
+.list-plan-page .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.list-plan-page .page-title {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-default);
+  margin: 0;
+}
+
+.plan-cards-container {
+  /* No specific container styles if each card takes full width (mb-4 handles spacing) */
+  /* If using Bootstrap row/col for multiple columns, that will handle layout. */
+}
+
+/* Styling for each plan card (app-info-card with .plan-card) */
+:host ::ng-deep .plan-card .info-card-title { /* Card title is plan.description */
+  font-size: var(--font-size-h4); /* Or h3 if more prominent */
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-md);
+  line-height: 1.4; /* Allow description title to wrap nicely */
+}
+:host ::ng-deep .plan-card .info-card-body {
+  padding: var(--spacing-lg); /* Consistent padding for cards */
+}
+
+.plan-card-content {
+  /* Container for all content within the card body */
+}
+
+.plan-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.detail-item {
+  background-color: var(--color-bg-alt);
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius-base);
+  border-left: 3px solid var(--color-primary-light);
+}
+
+.detail-item .detail-label {
+  display: block; /* Or flex with icon */
+  font-size: var(--font-size-small);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--spacing-xxs);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+.detail-item .detail-label .bi {
+  color: var(--color-primary);
+  font-size: var(--font-size-base);
+}
+
+.detail-item p {
+  font-size: var(--font-size-base);
+  color: var(--color-text-default);
+  margin-bottom: 0;
+  word-break: break-word;
+}
+.detail-item.full-width {
+  grid-column: 1 / -1; /* Make item span full width */
+}
+
+.file-download-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: var(--font-weight-medium);
+}
+.file-download-link:hover {
+  text-decoration: underline;
+  color: var(--color-primary-dark);
+}
+
+.status-badge {
+  padding: var(--spacing-xxs) var(--spacing-xs);
+  border-radius: var(--border-radius-pill);
+  font-weight: var(--font-weight-semibold);
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--color-text-on-primary);
+  white-space: nowrap;
+}
+/* Define status colors - replace with actual status values from StatutPlan enum if available */
+.status-badge.PENDING, .status-badge.EN_ATTENTE, .status-badge.ENATTEND { background-color: var(--color-warning-bg, #ffc107); color: var(--color-warning-text, #383d41); }
+.status-badge.APPROVED, .status-badge.VALIDE { background-color: var(--color-success, #28a745); }
+.status-badge.REJECTED, .status-badge.REFUSER { background-color: var(--color-danger, #dc3545); }
+.status-badge.IN_PROGRESS, .status-badge.EN_COURS { background-color: var(--color-info, #17a2b8); } /* Define --color-info if needed */
+.status-badge.COMPLETED, .status-badge.TERMINE { background-color: var(--color-secondary, #6c757d); }
+
+
+.section-divider {
+  border-color: var(--color-border-light);
+  margin-top: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.task-planning-section,
+.gantt-chart-section {
+  margin-bottom: var(--spacing-lg);
+}
+
+.task-planning-title,
+.gantt-chart-title {
+  font-size: var(--font-size-h5);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-default);
+  margin-bottom: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+.task-planning-title .bi,
+.gantt-chart-title .bi {
+  color: var(--color-primary);
+  font-size: 1.1em;
+}
+
+.task-list {
+  list-style: none;
+  padding-left: var(--spacing-sm); /* Indent list items */
+}
+.task-item {
+  padding: var(--spacing-xs) 0;
+  border-bottom: 1px dashed var(--color-border-light);
+  font-size: var(--font-size-base);
+}
+.task-item:last-child {
+  border-bottom: none;
+}
+.task-item strong {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-default);
+}
+.task-item small {
+  display: block;
+  font-size: var(--font-size-small);
+  color: var(--color-text-secondary);
+  margin-top: var(--spacing-xxs);
+}
+.task-item small .bi {
+  margin-right: var(--spacing-xxs);
+}
+
+.plan-actions {
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--color-border-light);
+  display: flex;
+  justify-content: flex-end; /* Align buttons to the right */
+  gap: var(--spacing-sm);
+}
+.plan-actions .custom-button .bi {
+  margin-right: var(--spacing-xs);
+}
+
+/* No Entries Message */
+.no-entries-message { /* Re-using class from ListJournal for consistency */
+  text-align: center;
+  margin: var(--spacing-xl) 0;
+}
+:host ::ng-deep .no-entries-message .app-info-card .info-card-body {
+  padding: var(--spacing-xl);
+}
+.no-entries-message p {
+  font-size: var(--font-size-large);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-md);
+}
+.no-entries-message .custom-button .bi {
+  margin-right: var(--spacing-xs);
+}
+
+/* Loading Indicator */
+.loading-indicator {
+  text-align: center;
+  padding: var(--spacing-xl);
+}
+.loading-indicator p {
+  font-size: var(--font-size-large);
+  color: var(--color-text-secondary);
+}
+
+/* Pagination (if re-enabled) */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--spacing-lg);
+}
+/* (Styles for ngx-pagination would be here, similar to ListDocumentComponent) */

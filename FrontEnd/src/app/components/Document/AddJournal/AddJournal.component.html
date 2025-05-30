@@ -1,28 +1,27 @@
-<div class="container mt-5">
-  <div class="card shadow border-0 mx-auto" style="max-width: 600px;">
-    <div class="card-header bg-primary text-white text-center fw-bold">
-      ✍️ Ajouter une Tâche
-    </div>
-    <div class="card-body">
+<div class="add-journal-page">
+  <div class="container my-5">
+    <app-info-card cardTitle="Add New Journal Entry" customClass="add-journal-card">
+      <form (ngSubmit)="onSubmit()" #journalFormInstance="ngForm" class="add-journal-form">
 
-      <form (ngSubmit)="onSubmit()" #journalForm="ngForm">
-        <!-- Tâche -->
-        <div class="mb-3">
-          <label for="tache" class="form-label fw-semibold">🛠️ Nom de la tâche</label>
+        <div class="form-field">
+          <label for="tache">Task / Entry Title <span class="required-asterisk">*</span></label>
           <input
             type="text"
             id="tache"
             name="tache"
             [(ngModel)]="journal.tache"
-            class="form-control"
-            placeholder="Ex: Mise à jour base de données"
+            class="form-control" 
+            placeholder="e.g., Updated database schema, Met with client"
             required
+            #tacheInput="ngModel"
           />
+          <div *ngIf="tacheInput.invalid && (tacheInput.dirty || tacheInput.touched)" class="error-text">
+            <span *ngIf="tacheInput.errors?.['required']">Task title is required.</span>
+          </div>
         </div>
 
-        <!-- Date -->
-        <div class="mb-3">
-          <label for="dateJournal" class="form-label fw-semibold">📅 Date</label>
+        <div class="form-field">
+          <label for="dateJournal">Date <span class="required-asterisk">*</span></label>
           <input
             type="date"
             id="dateJournal"
@@ -30,20 +29,35 @@
             [(ngModel)]="journal.dateJournal"
             class="form-control"
             required
+            #dateJournalInput="ngModel"
           />
+          <div *ngIf="dateJournalInput.invalid && (dateJournalInput.dirty || dateJournalInput.touched)" class="error-text">
+            <span *ngIf="dateJournalInput.errors?.['required']">Date is required.</span>
+          </div>
         </div>
+        
+        <!-- If a longer description field is needed for the journal entry:
+        <div class="form-field">
+          <label for="description">Description / Notes</label>
+          <textarea 
+            id="description" 
+            name="description" 
+            [(ngModel)]="journal.description" 
+            class="form-control"
+            rows="4"
+            placeholder="Add any additional notes or details about this journal entry..."></textarea>
+        </div>
+        -->
 
-        <!-- Boutons -->
-        <div class="d-flex justify-content-between mt-4">
-          <button type="submit" class="btn btn-success" [disabled]="!journalForm.form.valid">
-            <i class="bi bi-check-circle"></i> Ajouter
-          </button>
-          <button class="btn btn-secondary" routerLink="/ListDocument">
-            <i class="bi bi-arrow-left-circle"></i> Annuler
-          </button>
+        <div class="form-actions">
+          <app-custom-button type="default" (buttonClick)="goBackToListJournals()">
+            Cancel
+          </app-custom-button>
+          <app-custom-button type="primary" (buttonClick)="onSubmit()" [disabled]="!journalFormInstance.form.valid">
+            Add Entry
+          </app-custom-button>
         </div>
       </form>
-
-    </div>
+    </app-info-card>
   </div>
 </div>

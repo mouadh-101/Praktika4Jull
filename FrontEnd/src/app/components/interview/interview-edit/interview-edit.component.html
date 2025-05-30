@@ -1,53 +1,64 @@
-<div class="container mt-4">
-  <div class="card shadow p-4">
-    <h2 class="text-center mb-4"> Modifier une Interview</h2>
+<div class="edit-interview-page"> <!-- Changed class name -->
+  <div class="container my-5">
+    <app-info-card cardTitle="Update Interview Details" customClass="edit-interview-card"> <!-- Changed title -->
+      <div *ngIf="isLoading" class="loading-indicator text-center"> <!-- Added isLoading -->
+        <p>Loading interview details...</p>
+      </div>
+      <form *ngIf="!isLoading && interviewForm" [formGroup]="interviewForm" (ngSubmit)="submitForm()" class="edit-interview-form">
 
-    <form [formGroup]="interviewForm" (ngSubmit)="updateInterview()">
-      <!-- Date -->
-      <div class="mb-3">
-        <label class="form-label">📅 Date :</label>
-        <input type="date" class="form-control" formControlName="dateInterview" [min]="minDate" required />
-        <div *ngIf="interviewForm.get('dateInterview')?.errors?.['invalidDate'] && interviewForm.get('dateInterview')?.touched" class="text-danger">
-          La date doit être strictement supérieure à aujourd'hui.
+        <div class="form-field">
+          <label for="dateInterview">Interview Date <span class="required-asterisk">*</span></label>
+          <input id="dateInterview" type="date" formControlName="dateInterview" [min]="minDate">
+          <div *ngIf="interviewForm.get('dateInterview')?.invalid && (interviewForm.get('dateInterview')?.touched || interviewForm.get('dateInterview')?.dirty)" class="error-text">
+            <span *ngIf="interviewForm.get('dateInterview')?.errors?.['required']">Date is required.</span>
+            <span *ngIf="interviewForm.get('dateInterview')?.errors?.['invalidDate']">Date must be in the future.</span>
+          </div>
         </div>
-      </div>
-      
-      <!-- Lieu -->
-      <div class="mb-3">
-        <label class="form-label">📍 Lieu :</label>
-        <input type="text" class="form-control" formControlName="location" required />
-        <div *ngIf="interviewForm.get('location')?.invalid && interviewForm.get('location')?.touched" class="text-danger">
-          Le lieu est obligatoire et doit contenir au moins 3 caractères.
+
+        <div class="form-field">
+          <label for="location">Location / Meeting Link <span class="required-asterisk">*</span></label>
+          <input id="location" type="text" formControlName="location" placeholder="e.g., Company Office, Google Meet link">
+          <div *ngIf="interviewForm.get('location')?.invalid && (interviewForm.get('location')?.touched || interviewForm.get('location')?.dirty)" class="error-text">
+            <span *ngIf="interviewForm.get('location')?.errors?.['required']">Location or link is required.</span>
+            <span *ngIf="interviewForm.get('location')?.errors?.['minlength']">Must be at least 3 characters.</span>
+          </div>
         </div>
-      </div>
-
-      <!-- Notes -->
-      <div class="mb-3">
-        <label class="form-label">📝 Notes :</label>
-        <textarea class="form-control" formControlName="notes" rows="3" required></textarea>
-        <div *ngIf="interviewForm.get('notes')?.invalid && interviewForm.get('notes')?.touched" class="text-danger">
-          Les notes sont obligatoires et doivent contenir au moins 5 caractères.
+        
+        <div class="form-field">
+          <label for="notes">Notes / Details <span class="required-asterisk">*</span></label>
+          <textarea id="notes" formControlName="notes" rows="4" placeholder="e.g., Panel interview with Hiring Manager and Team Lead. Focus on technical skills."></textarea>
+          <div *ngIf="interviewForm.get('notes')?.invalid && (interviewForm.get('notes')?.touched || interviewForm.get('notes')?.dirty)" class="error-text">
+            <span *ngIf="interviewForm.get('notes')?.errors?.['required']">Notes are required.</span>
+            <span *ngIf="interviewForm.get('notes')?.errors?.['minlength']">Must be at least 5 characters.</span>
+          </div>
         </div>
-      </div>
 
-      <!-- Statut -->
-      <div class="mb-3">
-        <label class="form-label">📌 Statut :</label>
-        <select class="form-select" formControlName="status">
-          <option value=""></option>
-          <option value="SCHEDULED">SCHEDULED</option>
-          <option value="COMPLETED">COMPLETED</option>
-          <option value="CANCELED">CANCELED</option>
-        </select>
-      </div>
-
-      <!-- Boutons -->
-      <div class="d-flex justify-content-end gap-2">
-        <button type="button" class="btn btn-secondary" (click)="cancel()">❌ Annuler</button>
-        <button type="submit" class="btn btn-success" [disabled]="interviewForm.invalid">
-          ✅ Modifier
-        </button>
-      </div>
-    </form>
+        <div class="form-field">
+          <label for="status">Status <span class="required-asterisk">*</span></label>
+          <select id="status" formControlName="status">
+            <option value="" disabled>Select interview status</option>
+            <option value="SCHEDULED">Scheduled</option>
+            <option value="COMPLETED">Completed</option>
+            <option value="CANCELED">Canceled</option>
+            <!-- Add other relevant statuses if applicable from InterviewStatus enum -->
+          </select>
+          <div *ngIf="interviewForm.get('status')?.invalid && (interviewForm.get('status')?.touched || interviewForm.get('status')?.dirty)" class="error-text">
+            <span *ngIf="interviewForm.get('status')?.errors?.['required']">Status is required.</span>
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <app-custom-button type="default" (buttonClick)="cancel()">
+            Cancel
+          </app-custom-button>
+          <app-custom-button type="primary" (buttonClick)="submitForm()" [disabled]="interviewForm.invalid">
+            Update Interview
+          </app-custom-button>
+        </div>
+      </form>
+       <app-warning-banner *ngIf="errorMessage && !isLoading" type="danger" customClass="mt-3">
+        {{ errorMessage }}
+      </app-warning-banner>
+    </app-info-card>
   </div>
 </div>

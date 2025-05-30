@@ -1,130 +1,151 @@
-<div class="container my-5">
-  <div class="card bg-light text-dark shadow-sm p-4 rounded-4 border-0">
-
-    <!-- ✅ Internship Application Overview -->
-    <div class="mb-4">
-      <span class="badge bg-primary-subtle text-primary-emphasis fs-6 mb-3">
-        <i class="bi bi-clipboard-check me-2"></i> {{ application.status | uppercase }}
-      </span>
-
-      <h2 class="fw-semibold">{{ application.internship.titre }}</h2>
-      <h6 class="text-muted fw-normal">{{ application.internship.description }}</h6>
-
-      <p class="text-muted">
-        <i class="bi bi-geo-alt-fill me-1"></i> {{ application.internship.location }}
-        <span *ngIf="application.internship.remote" class="badge bg-success-subtle text-success-emphasis ms-2">Remote</span>
-      </p>
+<div class="application-details-page">
+  <div class="container my-5">
+    <div class="page-header">
+      <h2 class="page-title">
+        <i class="bi bi-file-earmark-text-fill"></i> Application Details
+      </h2>
+      <app-custom-button type="default" (buttonClick)="goBack()">
+        <i class="bi bi-arrow-left"></i> Back to Applications
+      </app-custom-button>
     </div>
 
-    <!-- ✅ Student Basic Info -->
-    <div class="bg-white border rounded p-3 mb-4 d-flex align-items-start gap-3">
-      <img [src]="application.student.profilePic" class="rounded-circle shadow" width="90" height="90" alt="Profile" />
-
-      <div>
-        <h5 class="mb-0 fw-bold">{{ application.user.name }}</h5>
-        <p class="mb-1 text-muted">{{ application.user.email }}</p>
-        <p class="mb-0 text-muted"><i class="bi bi-telephone me-1"></i>{{ application.user.phone }}</p>
-        <p class="mb-0 text-muted"><i class="bi bi-geo me-1"></i>{{ application.user.address }}</p>
-      </div>
-    </div>
-    <button class="btn btn-sm btn-outline-primary mb-2"
-            (click)="showMore = !showMore">
-      {{ showMore ? 'Hide Details' : 'Show More Details' }}
-    </button>
-
-    <!-- ✅ Student Bio and Field -->
-    <div *ngIf="showMore">
-      <div class="mb-4 p-3 bg-white border rounded">
-        <h6 class="text-muted fw-bold mb-2"><i class="bi bi-person-lines-fill me-2"></i>Bio</h6>
-        <p class="mb-1">{{ application.student.bio }}</p>
-        <p class="text-muted mb-0"><i class="bi bi-journal-code me-2"></i>Field of Study: <strong>{{ application.student.fieldOfStudy }}</strong></p>
-        <p class="text-muted"><i class="bi bi-cake2 me-2"></i>Date of Birth: {{ application.student.dateOfBirth | date }}</p>
-      </div>
-
-      <!-- ✅ Skills -->
-      <div class="mb-4 p-3 bg-white border rounded">
-        <h6 class="text-muted fw-bold mb-2"><i class="bi bi-lightning-fill me-2"></i>Skills</h6>
-        <div class="d-flex flex-wrap gap-2">
-          <span *ngFor="let skill of application.student.skills" class="badge bg-info-subtle text-dark">{{ skill.name }}</span>
-        </div>
-      </div>
-
-      <!-- ✅ Education -->
-      <div class="mb-4 p-3 bg-white border rounded">
-        <h6 class="text-muted fw-bold mb-3"><i class="bi bi-mortarboard me-2"></i>Education</h6>
-        <div *ngFor="let edu of application.student.educations" class="mb-2">
-          <p class="mb-0 fw-semibold">{{ edu.degree }} - {{ edu.schoolName }}</p>
-          <small class="text-muted">{{ edu.startDate | date }} → {{ edu.endDate | date }}</small>
-        </div>
-      </div>
-
-      <!-- ✅ Work Experience -->
-      <div class="mb-4 p-3 bg-white border rounded">
-        <h6 class="text-muted fw-bold mb-3"><i class="bi bi-briefcase-fill me-2"></i>Work Experience</h6>
-        <div *ngFor="let exp of application.student.workExperiences" class="mb-3">
-          <p class="mb-0 fw-semibold">{{ exp.position }} at {{ exp.companyName }}</p>
-          <small class="text-muted">{{ exp.startDate | date }} → {{ exp.endDate | date }}</small>
-          <p class="mt-1 text-muted">{{ exp.description }}</p>
-        </div>
-      </div>
-
-      <!-- ✅ Extra Activities -->
-      <div class="mb-4 p-3 bg-white border rounded">
-        <h6 class="text-muted fw-bold mb-3"><i class="bi bi-stars me-2"></i>Extra Activities</h6>
-        <div *ngFor="let act of application.student.extraActivities" class="mb-3">
-          <p class="mb-0 fw-semibold">{{ act.title }}</p>
-          <p class="text-muted">{{ act.description }}</p>
-        </div>
-      </div>
+    <div *ngIf="loading" class="loading-indicator text-center">
+      <p>Loading application details...</p>
+      <!-- Or use a spinner component -->
     </div>
 
-    <!-- ✅ Cover Letter -->
-    <div class="mb-4 p-3 bg-white border rounded">
-      <h6 class="text-muted fw-bold mb-2"><i class="bi bi-chat-left-text me-2"></i>Cover Letter</h6>
-      <p>{{ application.coverLetter }}</p>
-    </div>
+    <app-warning-banner *ngIf="error && !loading" type="danger">
+      {{ error }}
+    </app-warning-banner>
 
-    <!-- ✅ Internship Info -->
-    <div class="mb-4 p-3 bg-white border rounded">
-      <div class="row">
-        <div class="col-md-4">
-          <p class="text-muted mb-1"><i class="bi bi-calendar me-2"></i>Start Date</p>
-          <p>{{ application.internship.startDate | date }}</p>
+    <div *ngIf="application && !loading && !error" class="details-content">
+
+      <!-- Main Application & Internship Info -->
+      <app-info-card [cardTitle]="application.internship?.titre || 'Internship Details'" customClass="mb-4">
+        <div class="app-status-header">
+          <span class="status-badge {{application.status | lowercase}}">Status: {{ application.status }}</span>
+          <p class="company-name">Applied at: {{ application.internship?.company?.name || 'N/A Company' }}</p>
         </div>
-        <div class="col-md-4">
-          <p class="text-muted mb-1"><i class="bi bi-clock me-2"></i>Duration</p>
-          <p>{{ application.internship.duration }} month</p>
+        
+        <div class="internship-quick-info">
+          <p><i class="bi bi-geo-alt-fill"></i> <strong>Location:</strong> {{ application.internship?.location }} 
+            <span *ngIf="application.internship?.remote" class="badge remote-badge ms-2">Remote</span></p>
+          <p><i class="bi bi-briefcase-fill"></i> <strong>Field:</strong> {{ application.internship?.field || 'N/A' }}</p>
+          <p><i class="bi bi-calendar-event"></i> <strong>Applied On:</strong> {{ application.appliedAt | date:'longDate' }}</p>
         </div>
-        <div class="col-md-4">
-          <p class="text-muted mb-1"><i class="bi bi-cash-coin me-2"></i>Compensation</p>
-          <p>{{ application.internship.compensation }} €</p>
+        
+        <div *ngIf="application.internship?.description" class="mt-3">
+            <h6 class="section-subheader">Internship Description Snippet:</h6>
+            <p class="text-muted description-snippet">{{ application.internship?.description | slice:0:200 }}{{ application.internship?.description.length > 200 ? '...' : '' }}</p>
         </div>
-      </div>
+      </app-info-card>
 
-      <p class="text-muted mb-1"><i class="bi bi-list-check me-2"></i>Requirements</p>
-      <div class="d-flex flex-wrap gap-2">
-        <span *ngFor="let req of application.internship.requirements" class="badge bg-secondary-subtle text-dark">{{ req.name }}</span>
-      </div>
-    </div>
+      <!-- Applicant Information -->
+      <app-info-card cardTitle="Applicant Information" customClass="mb-4">
+        <div class="applicant-header">
+          <img [src]="application.student?.profilePic ? ('./assets/' + application.student.profilePic) : 'assets/img/pdp.jpg'" 
+               class="applicant-avatar" alt="Applicant Profile Picture">
+          <div class="applicant-contact">
+            <h5 class="applicant-name">{{ application.user?.name || application.student?.name || 'Applicant Name N/A' }}</h5>
+            <p><i class="bi bi-envelope-fill"></i> {{ application.user?.email || application.student?.email || 'N/A' }}</p>
+            <p *ngIf="application.user?.phone || application.student?.phone"><i class="bi bi-telephone-fill"></i> {{ application.user?.phone || application.student?.phone }}</p>
+            <p *ngIf="application.user?.address || application.student?.address"><i class="bi bi-house-door-fill"></i> {{ application.user?.address || application.student?.address }}</p>
+          </div>
+        </div>
 
-    <!-- ✅ Footer and CTA -->
-    <div class="d-flex justify-content-between text-muted text-sm">
-      <span>Application ID: {{ application.id }}</span>
-      <span>Status: <strong class="text-success">{{ application.status }}</strong></span>
-    </div>
+        <div class="text-center mt-3 mb-2" *ngIf="application.student"> <!-- Only show toggle if student data exists -->
+            <app-custom-button type="link" (buttonClick)="showMore = !showMore" customClass="btn-sm">
+              <i class="bi" [ngClass]="showMore ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+              {{ showMore ? 'Hide Full Profile Details' : 'Show Full Profile Details' }}
+            </app-custom-button>
+        </div>
+        
+        <div *ngIf="showMore && application.student" class="student-detailed-profile">
+          <hr class="section-divider">
+          <div class="profile-section">
+            <h6 class="section-subheader"><i class="bi bi-person-lines-fill"></i> Bio</h6>
+            <p>{{ application.student.bio || 'N/A' }}</p>
+          </div>
+          <div class="profile-section">
+            <h6 class="section-subheader"><i class="bi bi-journal-code"></i> Field of Study</h6>
+            <p>{{ application.student.fieldOfStudy || 'N/A' }}</p>
+          </div>
+           <div class="profile-section">
+            <h6 class="section-subheader"><i class="bi bi-cake2"></i> Date of Birth</h6>
+            <p>{{ application.student.dateOfBirth | date:'longDate' }}</p>
+          </div>
 
-    <div class="mt-4 d-flex gap-3 justify-content-center flex-wrap">
-      <button class="btn btn-outline-danger px-4" (click)="onDeleteApplication(application.id)">
-        <i class="bi bi-trash me-2"></i> Delete Application
-      </button>
-      <button class="btn btn-outline-primary px-4" (click)="onAnalyze(application.id)">
-        <i class="bi bi-robot me-2" ></i> Ask AI for Analysis
-      </button>
-      <button class="btn btn-outline-warning px-4" (click)="onUpdateApplication(application.id)">
-        <i class="bi bi-pencil-square me-2"></i> Update Application
-      </button>
+          <div class="profile-section" *ngIf="application.student.skills?.length > 0">
+            <h6 class="section-subheader"><i class="bi bi-lightning-charge-fill"></i> Skills</h6>
+            <div class="skills-list">
+              <span *ngFor="let skill of application.student.skills" class="skill-tag">{{ skill.name }}</span>
+            </div>
+          </div>
 
+          <div class="profile-section" *ngIf="application.student.educations?.length > 0">
+            <h6 class="section-subheader"><i class="bi bi-mortarboard-fill"></i> Education</h6>
+            <ul class="styled-list condensed">
+              <li *ngFor="let edu of application.student.educations">
+                <strong>{{ edu.degree }}</strong> at {{ edu.schoolName }} 
+                ({{ edu.startDate | date:'yyyy' }} - {{ edu.endDate | date:'yyyy' }})
+              </li>
+            </ul>
+          </div>
+
+          <div class="profile-section" *ngIf="application.student.workExperiences?.length > 0">
+            <h6 class="section-subheader"><i class="bi bi-briefcase-fill"></i> Work Experience</h6>
+            <ul class="styled-list condensed">
+              <li *ngFor="let exp of application.student.workExperiences">
+                <strong>{{ exp.position }}</strong> at {{ exp.companyName }} 
+                ({{ exp.startDate | date:'MMM yyyy' }} - {{ exp.endDate ? (exp.endDate | date:'MMM yyyy') : 'Present' }})
+                <p class="exp-description">{{ exp.description }}</p>
+              </li>
+            </ul>
+          </div>
+
+          <div class="profile-section" *ngIf="application.student.extraActivities?.length > 0">
+            <h6 class="section-subheader"><i class="bi bi-stars"></i> Extra Curricular Activities</h6>
+            <ul class="styled-list condensed">
+              <li *ngFor="let act of application.student.extraActivities">
+                <strong>{{ act.title }}</strong>
+                <p class="exp-description">{{ act.description }}</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </app-info-card>
+
+      <app-info-card cardTitle="Cover Letter" customClass="mb-4" *ngIf="application.coverLetter">
+        <div class="cover-letter-content">
+          <p>{{ application.coverLetter }}</p>
+        </div>
+      </app-info-card>
       
+      <!-- Action Buttons Section -->
+      <div class="page-actions text-center">
+        <app-custom-button type="primary" (buttonClick)="onAnalyze(application.id)" customClass="me-2">
+          <i class="bi bi-robot"></i> Ask AI for Analysis
+        </app-custom-button>
+        <app-custom-button type="secondary" (buttonClick)="onUpdateApplication(application.id)" customClass="me-2" *ngIf="userRole === 'Student' && application.status === 'PENDING'"> <!-- Example condition -->
+          <i class="bi bi-pencil-square"></i> Update Application
+        </app-custom-button>
+         <app-custom-button type="danger" (buttonClick)="onDeleteApplication(application.id)" *ngIf="userRole === 'Student'"> <!-- Example condition -->
+          <i class="bi bi-trash3"></i> Delete Application
+        </app-custom-button>
+        <!-- Company specific actions -->
+        <app-custom-button type="success" (buttonClick)="updateApplicationStatus(application.id, 'ACCEPTED')" *ngIf="userRole === 'Company' && application.status === 'PENDING'" customClass="me-2">
+          <i class="bi bi-check-circle"></i> Accept
+        </app-custom-button>
+        <app-custom-button type="danger" (buttonClick)="updateApplicationStatus(application.id, 'REJECTED')" *ngIf="userRole === 'Company' && application.status === 'PENDING'">
+          <i class="bi bi-x-circle"></i> Reject
+        </app-custom-button>
+      </div>
+
     </div>
+    <div *ngIf="!application && !loading && !error" class="no-results-message mt-4">
+        <app-info-card cardTitle="Application Not Found">
+          <p>The requested application could not be found or is unavailable.</p>
+        </app-info-card>
+      </div>
   </div>
 </div>

@@ -1,0 +1,112 @@
+/* Styles for DepotBackComponent */
+
+.depot-back-page {
+  background-color: var(--color-bg-alt);
+  padding: var(--spacing-xl) 0;
+  min-height: calc(100vh - var(--navbar-height, 60px) - var(--footer-height, 60px));
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.depot-back-page .container {
+  max-width: 800px; /* Max width for the content card */
+  width: 100%;
+}
+
+.depot-back-page .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.depot-back-page .page-title {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-default);
+  margin: 0;
+}
+
+/* Styling for the app-info-card */
+:host ::ng-deep .depot-details-card .info-card-title {
+  text-align: center;
+  font-size: var(--font-size-h3); /* Slightly smaller than main page title */
+  margin-bottom: var(--spacing-lg);
+}
+
+.submission-details {
+  padding: var(--spacing-md) 0; /* Add some padding if card body padding is removed */
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column; /* Stack label and value */
+  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-sm);
+  border-left: 3px solid var(--color-primary);
+  background-color: var(--color-bg-body); /* White background for detail items */
+  border-radius: 0 var(--border-radius-base) var(--border-radius-base) 0;
+}
+.detail-item:last-child {
+  margin-bottom: 0;
+}
+
+.detail-item .detail-label {
+  font-size: var(--font-size-small);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--spacing-xxs);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+.detail-item .detail-label .bi {
+  color: var(--color-primary);
+  font-size: var(--font-size-base);
+}
+
+.detail-item .detail-value {
+  font-size: var(--font-size-base);
+  color: var(--color-text-default);
+  font-weight: var(--font-weight-normal);
+  word-break: break-word;
+}
+
+.form-actions { /* Used for centering buttons below details */
+  display: flex;
+  justify-content: center; /* Center single or multiple buttons */
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-border-light);
+}
+.form-actions .custom-button .bi {
+  margin-right: var(--spacing-xs);
+}
+
+/* Message Banners */
+:host ::ng-deep app-warning-banner { /* Target the component host */
+  margin-top: var(--spacing-lg); /* Add space above warning banners */
+}
+:host ::ng-deep app-warning-banner .warning-banner { /* Target inner class of banner */
+  text-align: center; /* Center text in banner */
+}
+
+
+/* Loading Indicator */
+.loading-indicator {
+  text-align: center;
+  padding: var(--spacing-xl);
+}
+.loading-indicator p {
+  font-size: var(--font-size-large);
+  color: var(--color-text-secondary);
+}
+/* If using a spinner component, style it here or globally */
+/* Example:
+.loading-indicator mat-spinner {
+  margin: 0 auto;
+}
+*/
